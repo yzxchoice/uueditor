@@ -1,0 +1,65 @@
+{
+	"groups": [
+		{
+			"keys": "button_down_png,button_up_png,fatcap_png,dunny_png,piggy_png,skeleton_json,skeleton_tex_json,skeleton_tex_png,gameEui_json,bg1_jpg,data_json",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/Button/button_down.png",
+			"type": "image",
+			"name": "button_down_png"
+		},
+		{
+			"url": "assets/Button/button_up.png",
+			"type": "image",
+			"name": "button_up_png"
+		},
+		{
+			"url": "assets/piggy.png",
+			"type": "image",
+			"name": "piggy_png"
+		},
+		{
+			"url": "assets/dunny.png",
+			"type": "image",
+			"name": "dunny_png"
+		},
+		{
+			"url": "assets/fatcap.png",
+			"type": "image",
+			"name": "fatcap_png"
+		},
+		{
+			"name": "skeleton_json",
+			"type": "json",
+			"url": "assets/armature/skeleton.json"
+		},
+		{
+			"name": "skeleton_tex_json",
+			"type": "json",
+			"url": "assets/armature/skeleton_tex.json"
+		},
+		{
+			"name": "skeleton_tex_png",
+			"type": "image",
+			"url": "assets/armature/skeleton_tex.png"
+		},
+		{
+			"name": "gameEui_json",
+			"type": "json",
+			"url": "gameEui.json"
+		},
+		{
+			"name": "bg1_jpg",
+			"type": "image",
+			"url": "assets/bg1.jpg"
+		},
+		{
+			"name": "data_json",
+			"type": "json",
+			"url": "data.json"
+		}
+	]
+}

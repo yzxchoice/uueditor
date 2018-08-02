@@ -1,0 +1,95 @@
+{
+    "code": 200,
+    "msg": "success",
+    "list": [
+        {
+            "id": 201807311008,
+            "elements": [
+                {
+                    "id": 8401,
+                    "name": "dunny_png",
+                    "pageId": 201807311008,
+                    "type": 2,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 200,
+                        "y": 200
+                    },
+                    "src": "resource/assets/dunny.png",
+                    "sceneId": 1001
+                },
+                {
+                    "id": 8402,
+                    "name": "fatcap_png",
+                    "pageId": 201807311008,
+                    "type": 2,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 400,
+                        "y": 300
+                    },
+                    "src": "resource/assets/fatcap.png",
+                    "sceneId": 1001
+                },
+                {
+                    "id": 8403,
+                    "name": "text1",
+                    "pageId": 201807311008,
+                    "type": 1,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 100,
+                        "y": 100
+                    },
+                    "content": "测试文本内容",
+                    "sceneId": 1001
+                },
+                {
+                    "id": 8404,
+                    "name": "dragonBones1",
+                    "pageId": 201807311008,
+                    "type": 1,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 300,
+                        "y": 400
+                    },
+                    "sceneId": 1001
+                }
+            ]
+        },
+        {
+            "id": 201807311014,
+            "elements": [
+                {
+                    "id": 8402,
+                    "name": "piggy_png",
+                    "pageId": 201807311014,
+                    "type": 2,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 200,
+                        "y": 400
+                    },
+                    "src": "resource/assets/piggy.png",
+                    "sceneId": 1001
+                }
+            ]
+        }
+    ]
+}

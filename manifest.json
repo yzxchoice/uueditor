@@ -1,0 +1,36 @@
+{
+	"initial": [
+		"libs/modules/egret/egret.js",
+		"libs/modules/egret/egret.web.js",
+		"libs/modules/eui/eui.js",
+		"libs/modules/assetsmanager/assetsmanager.js",
+		"libs/modules/tween/tween.js",
+		"libs/modules/dragonBones/dragonBones.js",
+		"libs/modules/promise/promise.js"
+	],
+	"game": [
+		"bin-debug/Control.js",
+		"bin-debug/Main.js",
+		"bin-debug/AssetAdapter.js",
+		"bin-debug/ControlSet.js",
+		"bin-debug/EditGroup.js",
+		"bin-debug/EgretControl.js",
+		"bin-debug/Game.js",
+		"bin-debug/Header.js",
+		"bin-debug/ImageBox.js",
+		"bin-debug/ImagesLoader.js",
+		"bin-debug/LoadingUI.js",
+		"bin-debug/BaseUI.js",
+		"bin-debug/Matrix.js",
+		"bin-debug/Mouse.js",
+		"bin-debug/Picture.js",
+		"bin-debug/Platform.js",
+		"bin-debug/Preview.js",
+		"bin-debug/ThemeAdapter.js",
+		"bin-debug/Transformable.js",
+		"bin-debug/TransformTool.js",
+		"bin-debug/TriggerPanel.js",
+		"bin-debug/UUImage.js",
+		"bin-debug/UULabel.js"
+	]
+}

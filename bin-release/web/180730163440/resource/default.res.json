@@ -1,0 +1,80 @@
+{
+	"groups": [
+		{
+			"keys": "fatcap_png,dunny_png,piggy_png,skeleton_json,skeleton_tex_json,skeleton_tex_png,dunny2_png,fatcap2_png,piggy2_png,skeleton2_json,skeleton_tex2_json,skeleton_tex2_png,gameEui_json,bg1_jpg",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/piggy.png",
+			"type": "image",
+			"name": "piggy_png"
+		},
+		{
+			"url": "assets/dunny.png",
+			"type": "image",
+			"name": "dunny_png"
+		},
+		{
+			"url": "assets/fatcap.png",
+			"type": "image",
+			"name": "fatcap_png"
+		},
+		{
+			"name": "skeleton_json",
+			"type": "json",
+			"url": "assets/armature/skeleton.json"
+		},
+		{
+			"name": "skeleton_tex_json",
+			"type": "json",
+			"url": "assets/armature/skeleton_tex.json"
+		},
+		{
+			"name": "skeleton_tex_png",
+			"type": "image",
+			"url": "assets/armature/skeleton_tex.png"
+		},
+		{
+			"name": "dunny2_png",
+			"type": "image",
+			"url": "assets/dunny.png"
+		},
+		{
+			"name": "fatcap2_png",
+			"type": "image",
+			"url": "assets/fatcap.png"
+		},
+		{
+			"name": "piggy2_png",
+			"type": "image",
+			"url": "assets/piggy.png"
+		},
+		{
+			"name": "skeleton2_json",
+			"type": "json",
+			"url": "assets/armature/skeleton.json"
+		},
+		{
+			"name": "skeleton_tex2_json",
+			"type": "json",
+			"url": "assets/armature/skeleton_tex.json"
+		},
+		{
+			"name": "skeleton_tex2_png",
+			"type": "image",
+			"url": "assets/armature/skeleton_tex.png"
+		},
+		{
+			"name": "gameEui_json",
+			"type": "json",
+			"url": "gameEui.json"
+		},
+		{
+			"name": "bg1_jpg",
+			"type": "image",
+			"url": "assets/bg1.jpg"
+		}
+	]
+}
