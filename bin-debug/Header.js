@@ -27,12 +27,24 @@ var Header = (function (_super) {
         hLayout.verticalAlign = egret.VerticalAlign.MIDDLE;
         hLayout.paddingRight = 30;
         this.layout = hLayout;
+        var btnAddSound = new eui.Button();
+        btnAddSound.width = 100;
+        btnAddSound.height = 40;
+        btnAddSound.label = "声音";
+        btnAddSound.addEventListener(Mouse.START, this.openSoundPanel, this);
+        this.addChild(btnAddSound);
         var btnAddImage = new eui.Button();
         btnAddImage.width = 100;
         btnAddImage.height = 40;
         btnAddImage.label = "图片";
         btnAddImage.addEventListener(Mouse.START, this.openImagePanel, this);
         this.addChild(btnAddImage);
+        var btnAddBg = new eui.Button();
+        btnAddBg.width = 100;
+        btnAddBg.height = 40;
+        btnAddBg.label = "背景";
+        btnAddBg.addEventListener(Mouse.START, this.openBgPanel, this);
+        this.addChild(btnAddBg);
         var btnPreview = new eui.Button();
         btnPreview.width = 100;
         btnPreview.height = 40;
@@ -49,9 +61,17 @@ var Header = (function (_super) {
     Header.prototype.preview = function (event) {
         this.parent.addChild(new Preview());
     };
-    Header.prototype.openImagePanel = function (vent) {
+    Header.prototype.openSoundPanel = function (event) {
+        var g = this.parent;
+        g.openSoundePanel();
+    };
+    Header.prototype.openImagePanel = function (event) {
         var g = this.parent;
         g.openImagePanel();
+    };
+    Header.prototype.openBgPanel = function (event) {
+        var g = this.parent;
+        g.openBgPanel();
     };
     return Header;
 }(eui.Group));

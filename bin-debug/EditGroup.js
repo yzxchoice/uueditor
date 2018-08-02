@@ -17,6 +17,7 @@ var EditGroup = (function (_super) {
         _this.pages = [];
         _this.pageIndex = 0;
         _this.borderColor = 0xcccccc;
+        _this.bg = new eui.Component;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -38,10 +39,16 @@ var EditGroup = (function (_super) {
         this.pages = RES.getRes("data_json").list;
     };
     EditGroup.prototype.init = function () {
+        this.addBg();
         this.renderResources(this.pageIndex);
         this.setupTool();
         this.stage.addEventListener(Mouse.START, this.down, this);
         this.render();
+    };
+    EditGroup.prototype.addBg = function () {
+        this.bg.width = this.width;
+        this.bg.height = this.height;
+        this.addChild(this.bg);
     };
     EditGroup.prototype.setupTool = function () {
         ControlSet.controlClass = EgretControl;
@@ -206,6 +213,17 @@ var EditGroup = (function (_super) {
                     result.name = elements[i].id;
                     this.displayList.push(new Picture(result, elements[i].matrix));
                     break;
+                case 18:
+                    var soundBtn = new SoundButton();
+                    soundBtn.label = elements[i].name;
+                    // var texture:egret.Texture = RES.getRes(elements[i].name);
+                    // result.source = texture;
+                    soundBtn.name = elements[i].id;
+                    soundBtn.data = elements[i];
+                    soundBtn.width = 100;
+                    soundBtn.height = 50;
+                    this.displayList.push(new Picture(soundBtn, elements[i].matrix));
+                    break;
                 case 8:
                     // this.createGameScene();
                     // this.displayList.push(new Picture(this.container, elements[i].matrix));
@@ -256,18 +274,18 @@ var EditGroup = (function (_super) {
             this.renderResources(this.pageIndex);
         }
     };
-    EditGroup.prototype.addSinglePicture = function (url) {
-        RES.getResByUrl(url, function (texture) {
+    EditGroup.prototype.addSinglePicture = function (data) {
+        RES.getResByUrl("resource/assets/" + data.url, function (texture) {
             var result = new egret.Bitmap();
             result.texture = texture;
             // this.addChild(result);
-            var n = url.substring(url.lastIndexOf("/") + 1);
+            // var n = url.substring(url.lastIndexOf("/")+1);
             var eles = this.pages[this.pageIndex].elements;
             var m = new Matrix(1, 0, 0, 1, 300, 500);
-            result.name = eles[eles.length - 1].id + 1;
+            result.name = data.id;
             eles.push({
-                "id": eles[eles.length - 1].id + 1,
-                "name": n.replace('.', '_'),
+                "id": data.id,
+                "name": data.name,
                 "pageId": 201807311008,
                 "type": 2,
                 "matrix": {
@@ -278,11 +296,62 @@ var EditGroup = (function (_super) {
                     "x": m.x,
                     "y": m.y
                 },
-                "src": "resource/assets/" + n,
+                "src": "resource/assets/" + data.url,
                 "sceneId": 1001
             });
             this.displayList.push(new Picture(result, m));
         }, this, RES.ResourceItem.TYPE_IMAGE);
+    };
+    EditGroup.prototype.changeBg = function (url) {
+        RES.getResByUrl(url, function (texture) {
+            var result = new egret.Bitmap();
+            result.texture = texture;
+            result.width = this.bg.width;
+            result.height = this.bg.height;
+            this.bg.removeChildren();
+            this.bg.addChild(result);
+        }, this, RES.ResourceItem.TYPE_IMAGE);
+    };
+    EditGroup.prototype.addSound = function (data) {
+        var m = new Matrix(1, 0, 0, 1, 300, 500);
+        var n = data.name;
+        var eles = this.pages[this.pageIndex].elements;
+        var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        eles.push({
+            "id": data.id,
+            "name": n,
+            "pageId": 201807311008,
+            "type": 18,
+            "matrix": {
+                "a": m.a,
+                "b": m.b,
+                "c": m.c,
+                "d": m.d,
+                "x": m.x,
+                "y": m.y
+            },
+            "sound": {
+                "id": data.id,
+                "name": n,
+                "src": "resource/assets/" + data.url
+            },
+            "sceneId": 1001
+        });
+        triggerGroup.push({
+            "delay": 0,
+            "eventType": 1,
+            "sourceId": data.id,
+            "sourceType": "e",
+            "targetId": data.id,
+            "targetState": 4,
+            "targetType": "e"
+        });
+        var soundBtn = new SoundButton();
+        soundBtn.label = data.name;
+        soundBtn.name = data.id;
+        soundBtn.width = 100;
+        soundBtn.height = 50;
+        this.displayList.push(new Picture(soundBtn, m));
     };
     return EditGroup;
 }(eui.Group));

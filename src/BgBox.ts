@@ -1,15 +1,13 @@
 // TypeScript file
-class ImageBox extends eui.Panel {
+class BgBox extends eui.Panel {
     private imgList = [
         {
-            id: "9001",
-            name: "fatcap_png",
-            url: "fatcap.png"
-        }, 
+            id: "9003",
+            name: "bg.jpg"
+        },
         {
-            id: "9002",
-            name: "piggy_png",
-            url: "piggy.png"
+            id: "9004",
+            name: "bg1.jpg"
         }
     ];
     static instance: ImageBox;
@@ -45,15 +43,16 @@ class ImageBox extends eui.Panel {
         // this.layout = hLayout;
 
         for(var i = 0; i<this.imgList.length;i++){
-            var image = new UUImage();
-            image.source = "resource/assets/" + this.imgList[i].url;
+            var image = new eui.Image();
+            image.source = "resource/assets/" + this.imgList[i].name;
             // image.scale9Grid = new egret.Rectangle(10,10,80,80);
             image.y = 50;
             image.x = 120 * i;
             image.width = 100;
             image.height = 100;
+            // image.horizontalCenter = 0;
             image.name = this.imgList[i].id;
-            image.data = this.imgList[i];
+            // image.id = this.imgList[i].id;
             image.addEventListener(Mouse.START, this.addImage, this);
             this.addChild(image);
         }
@@ -62,10 +61,10 @@ class ImageBox extends eui.Panel {
     private addImage (event: egret.TouchEvent) {
         var g: Game = this.parent as Game;
         // g.imgBox.close();
-        g.editGroup.addSinglePicture(event.currentTarget.data);
+        // g.editGroup.addSinglePicture(event.currentTarget.source);
 
         // g.closeImagePanel();
-        // g.editGroup.changeBg(event.currentTarget.source);
+        g.editGroup.changeBg(event.currentTarget.source);
     }
 
     open (container: eui.Component) {

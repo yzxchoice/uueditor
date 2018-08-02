@@ -9,35 +9,33 @@ for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
 // TypeScript file
-var ImageBox = (function (_super) {
-    __extends(ImageBox, _super);
-    function ImageBox() {
+var BgBox = (function (_super) {
+    __extends(BgBox, _super);
+    function BgBox() {
         var _this = _super.call(this) || this;
         _this.imgList = [
             {
-                id: "9001",
-                name: "fatcap_png",
-                url: "fatcap.png"
+                id: "9003",
+                name: "bg.jpg"
             },
             {
-                id: "9002",
-                name: "piggy_png",
-                url: "piggy.png"
+                id: "9004",
+                name: "bg1.jpg"
             }
         ];
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
-    ImageBox.getInstance = function (name) {
+    BgBox.getInstance = function (name) {
         if (!this.instance) {
             this.instance = new ImageBox();
         }
         return this.instance;
     };
-    ImageBox.prototype.onAddToStage = function (event) {
+    BgBox.prototype.onAddToStage = function (event) {
         this.init();
     };
-    ImageBox.prototype.init = function () {
+    BgBox.prototype.init = function () {
         this.horizontalCenter = 0;
         this.verticalCenter = 0;
         this.width = 1200;
@@ -51,30 +49,31 @@ var ImageBox = (function (_super) {
         // hLayout.paddingTop = 30;
         // this.layout = hLayout;
         for (var i = 0; i < this.imgList.length; i++) {
-            var image = new UUImage();
-            image.source = "resource/assets/" + this.imgList[i].url;
+            var image = new eui.Image();
+            image.source = "resource/assets/" + this.imgList[i].name;
             // image.scale9Grid = new egret.Rectangle(10,10,80,80);
             image.y = 50;
             image.x = 120 * i;
             image.width = 100;
             image.height = 100;
+            // image.horizontalCenter = 0;
             image.name = this.imgList[i].id;
-            image.data = this.imgList[i];
+            // image.id = this.imgList[i].id;
             image.addEventListener(Mouse.START, this.addImage, this);
             this.addChild(image);
         }
     };
-    ImageBox.prototype.addImage = function (event) {
+    BgBox.prototype.addImage = function (event) {
         var g = this.parent;
         // g.imgBox.close();
-        g.editGroup.addSinglePicture(event.currentTarget.data);
+        // g.editGroup.addSinglePicture(event.currentTarget.source);
         // g.closeImagePanel();
-        // g.editGroup.changeBg(event.currentTarget.source);
+        g.editGroup.changeBg(event.currentTarget.source);
     };
-    ImageBox.prototype.open = function (container) {
+    BgBox.prototype.open = function (container) {
         container.addChild(this);
     };
-    return ImageBox;
+    return BgBox;
 }(eui.Panel));
-__reflect(ImageBox.prototype, "ImageBox");
-//# sourceMappingURL=ImageBox.js.map
+__reflect(BgBox.prototype, "BgBox");
+//# sourceMappingURL=BgBox.js.map

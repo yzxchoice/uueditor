@@ -67,6 +67,26 @@
                         "y": 400
                     },
                     "sceneId": 1001
+                },
+                {
+                    "id": 8405,
+                    "name": "test_mp3",
+                    "pageId": 201807311008,
+                    "type": 18,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 100,
+                        "y": 200
+                    },
+                    "sound": {
+                        "id": "90001",
+                        "name": "打字声.mp3",
+                        "src": "resource/assets/test.mp3"
+                    },
+                    "sceneId": 1001
                 }
             ],
             "properties": {
@@ -79,6 +99,15 @@
                         "targetId": 8401,
                         "targetState": 2,
                         "targetType": "e"
+                    },
+                    {
+                        "delay": 0,
+                        "eventType": 1,
+                        "sourceId": 8405,
+                        "sourceType": "e",
+                        "targetId": 8405,
+                        "targetState": 4,
+                        "targetType": "e"
                     }
                 ]
             }
@@ -87,7 +116,7 @@
             "id": 201807311014,
             "elements": [
                 {
-                    "id": 8402,
+                    "id": 9401,
                     "name": "piggy_png",
                     "pageId": 201807311014,
                     "type": 2,

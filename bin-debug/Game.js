@@ -20,6 +20,8 @@ var Game = (function (_super) {
         _this.editGroup = new EditGroup();
         _this.header = new Header();
         _this.imgBox = new ImageBox();
+        _this.bgBox = new BgBox();
+        _this.soundBox = new SoundBox();
         _this.skinName = "resource/skins/GameSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
@@ -73,8 +75,14 @@ var Game = (function (_super) {
         button2.addEventListener(Mouse.START, this.editGroup.next, this.editGroup);
         bottomGroup.addChild(button2);
     };
+    Game.prototype.openSoundePanel = function () {
+        this.soundBox.open(this);
+    };
     Game.prototype.openImagePanel = function () {
         this.imgBox.open(this);
+    };
+    Game.prototype.openBgPanel = function () {
+        this.bgBox.open(this);
     };
     Game.prototype.closeImagePanel = function () {
         this.imgBox.close();

@@ -6,6 +6,7 @@ class EditGroup extends eui.Group {
     private pages = [];
     private pageIndex: number = 0;
     private borderColor = 0xcccccc;
+    private bg: eui.Component = new eui.Component;
     public constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -33,12 +34,19 @@ class EditGroup extends eui.Group {
     }
 
     private init (): void {
+        this.addBg();
         this.renderResources(this.pageIndex);
         this.setupTool();
 
         this.stage.addEventListener(Mouse.START, this.down, this);
 
         this.render();
+    }
+
+    private addBg () {
+        this.bg.width = this.width;
+        this.bg.height = this.height;
+        this.addChild(this.bg);
     }
 
     setupTool () {
@@ -224,6 +232,17 @@ class EditGroup extends eui.Group {
                     result.name = elements[i].id;
                     this.displayList.push(new Picture(result, elements[i].matrix));
                     break;
+                case 18:
+                    var soundBtn:SoundButton = new SoundButton();
+                    soundBtn.label = elements[i].name;
+                    // var texture:egret.Texture = RES.getRes(elements[i].name);
+                    // result.source = texture;
+                    soundBtn.name = elements[i].id;
+                    soundBtn.data = elements[i];
+                    soundBtn.width = 100;
+                    soundBtn.height = 50;
+                    this.displayList.push(new Picture(soundBtn, elements[i].matrix));
+                    break;
                 case 8:
                     // this.createGameScene();
                     // this.displayList.push(new Picture(this.container, elements[i].matrix));
@@ -283,18 +302,18 @@ class EditGroup extends eui.Group {
         }
     }
 
-    addSinglePicture (url: string) {
-        RES.getResByUrl(url, function(texture:egret.Texture):void {
+    addSinglePicture (data: uiData) {
+        RES.getResByUrl("resource/assets/"+data.url, function(texture:egret.Texture):void {
             var result:egret.Bitmap = new egret.Bitmap();
             result.texture = texture;
             // this.addChild(result);
-            var n = url.substring(url.lastIndexOf("/")+1);
+            // var n = url.substring(url.lastIndexOf("/")+1);
             var eles = this.pages[this.pageIndex].elements;
             var m = new Matrix(1,0,0,1,300,500);
-            result.name = eles[eles.length-1].id+1;
+            result.name = data.id;
             eles.push({
-                "id": eles[eles.length-1].id+1,
-                "name": n.replace('.','_'),
+                "id": data.id,
+                "name": data.name,
                 "pageId": 201807311008,
                 "type": 2,
                 "matrix": {
@@ -305,11 +324,66 @@ class EditGroup extends eui.Group {
                     "x": m.x,
                     "y": m.y
                 },
-                "src": "resource/assets/" + n,
+                "src": "resource/assets/" + data.url,
                 "sceneId": 1001
             })
             this.displayList.push(new Picture(result, m));
         }, this, RES.ResourceItem.TYPE_IMAGE);
 
+    }
+
+    changeBg (url: string) {
+        RES.getResByUrl(url, function(texture:egret.Texture):void {
+            var result:egret.Bitmap = new egret.Bitmap();
+            result.texture = texture;
+            result.width = this.bg.width;
+            result.height = this.bg.height;
+            this.bg.removeChildren();
+            this.bg.addChild(result);
+        }, this, RES.ResourceItem.TYPE_IMAGE);
+    }
+
+    addSound (data: uiData) {
+        var m = new Matrix(1,0,0,1,300,500);
+        var n = data.name;
+        var eles = this.pages[this.pageIndex].elements;
+        var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        
+        eles.push({
+            "id": data.id,
+            "name": n,
+            "pageId": 201807311008,
+            "type": 18,
+            "matrix": {
+                "a": m.a,
+                "b": m.b,
+                "c": m.c,
+                "d": m.d,
+                "x": m.x,
+                "y": m.y
+            },
+            "sound": {
+                "id": data.id,
+                "name": n,
+                "src": "resource/assets/" + data.url
+            },
+            "sceneId": 1001
+        })
+        triggerGroup.push({
+            "delay": 0,
+            "eventType": 1,
+            "sourceId": data.id,
+            "sourceType": "e",
+            "targetId": data.id,
+            "targetState": 4,
+            "targetType": "e"
+        })
+        var soundBtn: SoundButton = new SoundButton();
+        soundBtn.label = data.name;
+        soundBtn.name = data.id;
+        soundBtn.width = 100;
+        soundBtn.height = 50;
+        
+        this.displayList.push(new Picture(soundBtn, m));
     }
 }

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "button_down_png,button_up_png,border_png,header_png,fatcap_png,dunny_png,piggy_png,skeleton_json,skeleton_tex_json,skeleton_tex_png,gameEui_json,bg1_jpg,data_json,phonewhite_svg",
+			"keys": "button_down_png,button_up_png,border_png,header_png,fatcap_png,dunny_png,piggy_png,skeleton_json,skeleton_tex_json,skeleton_tex_png,gameEui_json,bg1_jpg,data_json,phonewhite_svg,test_mp3,test2_mp3",
 			"name": "preload"
 		}
 	],
@@ -75,6 +75,16 @@
 			"name": "phonewhite_svg",
 			"type": "image",
 			"url": "assets/phonewhite.svg"
+		},
+		{
+			"name": "test_mp3",
+			"type": "sound",
+			"url": "assets/test.mp3"
+		},
+		{
+			"name": "test2_mp3",
+			"type": "sound",
+			"url": "assets/test2.mp3"
 		}
 	]
 }

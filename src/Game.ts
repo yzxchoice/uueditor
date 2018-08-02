@@ -19,6 +19,8 @@ class Game extends eui.Component {
     public editGroup: EditGroup = new EditGroup();
     public header: eui.Group = new Header();
     public imgBox: ImageBox = new ImageBox();
+    public bgBox: BgBox = new BgBox();
+    public soundBox: SoundBox = new SoundBox();
 
     private initEui() {
 
@@ -70,8 +72,16 @@ class Game extends eui.Component {
         bottomGroup.addChild(button2);
     }
 
+    openSoundePanel () {
+        this.soundBox.open(this);
+    }
+
     openImagePanel () {
         this.imgBox.open(this);
+    }
+
+    openBgPanel () {
+        this.bgBox.open(this);
     }
 
     closeImagePanel () {

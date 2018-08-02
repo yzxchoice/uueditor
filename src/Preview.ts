@@ -113,8 +113,15 @@ class Preview extends eui.Component {
             var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
             triggerGroup.forEach( (item) => {
                 if(item.sourceId == event.target.name){
-                    egret.Tween.get( this.getDisplayByName(item.targetId)[0].image ).to( {alpha: 0}, 300, egret.Ease.sineIn );
-                    console.log(this.getDisplayByName(item.targetId));
+                    if(event.target.data.hasOwnProperty("sound")){
+                        console.log(event.target.data.name);
+                        var sound:egret.Sound = RES.getRes(event.target.data.name);
+                        sound.play(0, 1);
+                    }else {
+                        egret.Tween.get( this.getDisplayByName(item.targetId)[0].image ).to( {alpha: 0}, 300, egret.Ease.sineIn );
+                        console.log(this.getDisplayByName(item.targetId));
+                    }
+                    
                 }
             })
         }
@@ -144,6 +151,7 @@ class Preview extends eui.Component {
                     label.lineSpacing = 12;
                     label.textAlign = egret.HorizontalAlign.JUSTIFY;
                     label.name = elements[i].id;
+                    label.data = elements[i];
                     this.displayList.push(new Picture(label, elements[i].matrix));
                     break;
                 case 2:
@@ -152,7 +160,17 @@ class Preview extends eui.Component {
                     // result.texture = texture;
                     result.source = texture;
                     result.name = elements[i].id;
+                    result.data = elements[i];
                     this.displayList.push(new Picture(result, elements[i].matrix));
+                    break;
+                case 18:
+                    var soundBtn:SoundButton = new SoundButton();
+                    soundBtn.label = elements[i].name;
+                    // var texture:egret.Texture = RES.getRes(elements[i].name);
+                    // result.source = texture;
+                    soundBtn.name = elements[i].id;
+                    soundBtn.data = elements[i];
+                    this.displayList.push(new Picture(soundBtn, elements[i].matrix));
                     break;
                 case 8:
                     // this.createGameScene();
