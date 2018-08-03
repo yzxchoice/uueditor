@@ -167,6 +167,7 @@ var Main = (function (_super) {
      */
     Main.prototype.createGameScene = function () {
         var g = new Game();
+        // var g = new CircleSector();
         this.addChild(g);
     };
     /**

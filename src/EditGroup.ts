@@ -41,6 +41,12 @@ class EditGroup extends eui.Group {
         this.stage.addEventListener(Mouse.START, this.down, this);
 
         this.render();
+
+        var g = new CircleSector();
+        g.width = 400;
+        g.height = 400;
+        this.addChild(g);
+        this.displayList.push(new Picture(g, new Matrix(1,0,0,1,0,0)));
     }
 
     private addBg () {

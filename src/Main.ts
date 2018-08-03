@@ -101,6 +101,7 @@ class Main extends eui.UILayer {
      */
     protected createGameScene(): void {
         var g = new Game();
+        // var g = new CircleSector();
         this.addChild(g);
     }
 
