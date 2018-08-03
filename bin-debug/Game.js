@@ -22,6 +22,7 @@ var Game = (function (_super) {
         _this.imgBox = new ImageBox();
         _this.bgBox = new BgBox();
         _this.soundBox = new SoundBox();
+        _this.siderbarSkinBy = new SiderbarSkinBy();
         _this.skinName = "resource/skins/GameSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
@@ -48,6 +49,10 @@ var Game = (function (_super) {
         this.drawBg(this.header);
         this.addChild(this.header);
         // this.addChild(this.imgBox);
+        this.siderbarSkinBy = new SiderbarSkinBy();
+        this.siderbarSkinBy.x = 1920 - 500;
+        this.siderbarSkinBy.y = this.header.height + 10;
+        this.addChild(this.siderbarSkinBy);
         var hLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;
         hLayout.horizontalAlign = egret.HorizontalAlign.CENTER;
@@ -99,4 +104,3 @@ var Game = (function (_super) {
     return Game;
 }(eui.Component));
 __reflect(Game.prototype, "Game");
-//# sourceMappingURL=Game.js.map

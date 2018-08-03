@@ -77,4 +77,3 @@ var ImageBox = (function (_super) {
     return ImageBox;
 }(eui.Panel));
 __reflect(ImageBox.prototype, "ImageBox");
-//# sourceMappingURL=ImageBox.js.map

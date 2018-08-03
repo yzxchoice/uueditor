@@ -1,12 +1,12 @@
 {
 	"skins": {
 		"eui.Button": "resource/eui_skins/ButtonSkin.exml",
-		"eui.Panel": "resource/eui_skins/PanelSkin.exml"
+		"eui.Panel": "resource/eui_skins/PanelSkin.exml",
+		"eui.CheckBox": "resource/eui_skins/CheckBoxSkin.exml",
+		"eui.ToggleSwitch": "resource/eui_skins/ToggleSwitchSkin.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
-		"resource/skins/GameSkin.exml",
-		"resource/skins/StartSkin.exml",
 		"resource/eui_skins/ButtonSkin.exml",
 		"resource/eui_skins/CheckBoxSkin.exml",
 		"resource/eui_skins/HScrollBarSkin.exml",
@@ -19,7 +19,10 @@
 		"resource/eui_skins/TextInputSkin.exml",
 		"resource/eui_skins/ToggleSwitchSkin.exml",
 		"resource/eui_skins/VScrollBarSkin.exml",
-		"resource/eui_skins/VSliderSkin.exml"
+		"resource/eui_skins/VSliderSkin.exml",
+		"resource/skins/GameSkin.exml",
+		"resource/skins/SiderbarSkin.exml",
+		"resource/skins/StartSkin.exml"
 	],
 	"path": "resource/default.thm.json"
 }
