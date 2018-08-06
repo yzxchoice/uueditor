@@ -59,17 +59,20 @@ var Preview = (function (_super) {
         button3.label = "关闭";
         button3.addEventListener(Mouse.START, this.close, this);
         this.addChild(button3);
-        var img = new eui.Image("resource/assets/phonewhite.svg");
-        img.width = 328 * 1.5;
-        img.height = 560 * 1.5;
+        var editContaier = new eui.Group();
+        editContaier.horizontalCenter = 0;
+        editContaier.verticalCenter = 0;
+        this.addChild(editContaier);
+        var img = new eui.Image("resource/assets/phone16.png");
+        img.width = 393 * 1.5;
+        img.height = 796 * 1.5;
+        editContaier.addChild(img);
         this.displayGroup.horizontalCenter = 0;
-        this.displayGroup.verticalCenter = 0;
-        this.displayGroup.width = 328 * 1.5;
-        this.displayGroup.height = 560 * 1.5;
+        this.displayGroup.y = 190 * 1.5;
+        this.displayGroup.width = 340 * 1.5;
+        this.displayGroup.height = 506 * 1.5;
         this.displayGroup.scrollEnabled = true;
-        // this.drawBg(this.editGroup);
-        this.displayGroup.addChild(img);
-        this.addChild(this.displayGroup);
+        editContaier.addChild(this.displayGroup);
     };
     Preview.prototype.getPages = function () {
         console.log(RES.getRes("data_json"));
@@ -109,13 +112,11 @@ var Preview = (function (_super) {
             triggerGroup.forEach(function (item) {
                 if (item.sourceId == event.target.name) {
                     if (event.target.data.hasOwnProperty("sound")) {
-                        console.log(event.target.data.name);
                         var sound = RES.getRes(event.target.data.name);
                         sound.play(0, 1);
                     }
                     else {
                         egret.Tween.get(_this.getDisplayByName(item.targetId)[0].image).to({ alpha: 0 }, 300, egret.Ease.sineIn);
-                        console.log(_this.getDisplayByName(item.targetId));
                     }
                 }
             });

@@ -1,5 +1,5 @@
 // TypeScript file
-class ComponentBox extends eui.Panel {
+class ActionBox extends eui.Panel {
     private imgList = [
         {
             id: "10003",

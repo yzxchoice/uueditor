@@ -2,17 +2,23 @@
 class CircleSector extends eui.Group implements BaseUI {
     data: any;
     awards = [    
-            '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '土豪金项链', 'iphone 20'
+            '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '土豪金项链'
     ];
     private container: eui.Group = new eui.Group();
     constructor () {
         super();
+        this.touchEnabled = false;
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemoveFromStage, this);
     }
 
     private onAddToStage (event:egret.Event) {
         this.init();
         this.drawSector(); 
+    }
+
+    private onRemoveFromStage (event: egret.Event) {
+        this.dispose();
     }
     
     private init () {
@@ -20,11 +26,19 @@ class CircleSector extends eui.Group implements BaseUI {
         this.container.anchorOffsetY = 200;
         this.container.x = 200;
         this.container.y = 200;
+        var s: egret.Shape = new egret.Shape();
+        // s.graphics.beginFill(0x000000, 0.5);
+        // s.graphics.lineStyle(1, 0xf2f2f2);
+        // s.graphics.drawRect(0, 0, 456, 444);
+        // s.graphics.endFill();
+        this.container.touchEnabled = false;
+        this.container.addChild(s);
         this.addChild(this.container);
     }
 
     private drawSector () {
         var shape:egret.Shape = new egret.Shape();
+        shape.touchEnabled = true;
         this.container.addChild(shape);
         
         var arc = 360 / this.awards.length;
@@ -49,7 +63,7 @@ class CircleSector extends eui.Group implements BaseUI {
             g.height = r;
             g.x = 200 + Math.cos(lastAngle * Math.PI / 180 + arc* Math.PI / 180 / 2) * 200;
             g.y = 200 + Math.sin(lastAngle * Math.PI / 180 + arc* Math.PI / 180 / 2) * 200;
-            // g.rotation = 30 * i;//lastAngle * 2 * Math.PI / 360 + arc * 2 * Math.PI / 360 + Math.PI / 2;
+            g.touchEnabled = false;
             g.rotation = (lastAngle * Math.PI / 180 + arc * Math.PI / 180 / 2 + Math.PI /2 ) * 180 / Math.PI;
             // var s: egret.Shape = new egret.Shape();
             // s.graphics.beginFill(0x000000, 0);
@@ -105,6 +119,11 @@ class CircleSector extends eui.Group implements BaseUI {
         egret.Tween.pauseTweens(this.container);
 		egret.Tween.get( this.container ).to( {rotation: angles+1800}, 8000, egret.Ease.sineOut )
         .call(this.onComplete, this, [txt]);//设置回调函数及作用域，可用于侦听动画完成;
+    }
+
+    dispose () {
+        egret.Tween.pauseTweens(this.container);
+        // egret.Tween.removeTweens(this.container);
     }
 
     private onComplete(param1: string) {
