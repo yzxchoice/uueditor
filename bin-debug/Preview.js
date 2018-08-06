@@ -163,6 +163,13 @@ var Preview = (function (_super) {
                     soundBtn.data = elements[i];
                     this.displayList.push(new Picture(soundBtn, elements[i].matrix));
                     break;
+                case 101:
+                    var circle = new CircleSector();
+                    circle.data = elements[i];
+                    circle.width = 400;
+                    circle.height = 400;
+                    this.displayList.push(new Picture(circle, elements[i].matrix));
+                    break;
                 case 8:
                     // this.createGameScene();
                     this.displayList.push(new Picture(this, elements[i].matrix));

@@ -27,6 +27,12 @@ var Header = (function (_super) {
         hLayout.verticalAlign = egret.VerticalAlign.MIDDLE;
         hLayout.paddingRight = 30;
         this.layout = hLayout;
+        var btnAddComponent = new eui.Button();
+        btnAddComponent.width = 100;
+        btnAddComponent.height = 40;
+        btnAddComponent.label = "组件";
+        btnAddComponent.addEventListener(Mouse.START, this.openComponentPanel, this);
+        this.addChild(btnAddComponent);
         var btnAddSound = new eui.Button();
         btnAddSound.width = 100;
         btnAddSound.height = 40;
@@ -60,6 +66,10 @@ var Header = (function (_super) {
     };
     Header.prototype.preview = function (event) {
         this.parent.addChild(new Preview());
+    };
+    Header.prototype.openComponentPanel = function (event) {
+        var g = this.parent;
+        g.openComponentPanel();
     };
     Header.prototype.openSoundPanel = function (event) {
         var g = this.parent;

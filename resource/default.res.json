@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "button_down_png,button_up_png,border_png,header_png,fatcap_png,dunny_png,piggy_png,skeleton_json,skeleton_tex_json,skeleton_tex_png,gameEui_json,bg1_jpg,data_json,phonewhite_svg,test_mp3,test2_mp3,jt2_png,4_png,3_png,5_png,1_png,2_png",
+			"keys": "button_down_png,button_up_png,border_png,header_png,fatcap_png,dunny_png,piggy_png,skeleton_json,skeleton_tex_json,skeleton_tex_png,gameEui_json,bg1_jpg,data_json,phonewhite_svg,test_mp3,test2_mp3,jt2_png,4_png,3_png,5_png,1_png,2_png,circle_png",
 			"name": "preload"
 		}
 	],
@@ -115,6 +115,11 @@
 			"name": "2_png",
 			"type": "image",
 			"url": "assets/2.png"
+		},
+		{
+			"name": "circle_png",
+			"type": "image",
+			"url": "assets/circle.png"
 		}
 	]
 }

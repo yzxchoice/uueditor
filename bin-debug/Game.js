@@ -22,6 +22,7 @@ var Game = (function (_super) {
         _this.imgBox = new ImageBox();
         _this.bgBox = new BgBox();
         _this.soundBox = new SoundBox();
+        _this.comBox = new ComponentBox();
         _this.skinName = "resource/skins/GameSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
@@ -74,6 +75,9 @@ var Game = (function (_super) {
         button2.label = "下一页";
         button2.addEventListener(Mouse.START, this.editGroup.next, this.editGroup);
         bottomGroup.addChild(button2);
+    };
+    Game.prototype.openComponentPanel = function () {
+        this.comBox.open(this);
     };
     Game.prototype.openSoundePanel = function () {
         this.soundBox.open(this);
