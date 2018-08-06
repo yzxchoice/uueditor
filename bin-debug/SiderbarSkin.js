@@ -14,6 +14,13 @@ var SiderbarSkinBy = (function (_super) {
         var _this = _super.call(this) || this;
         _this.color_AEEEEE = 0xAEEEEE;
         _this.color_000000 = 0x000000;
+        _this.data = {
+            width: 30,
+            height: 30,
+            x: 30,
+            y: 30,
+            rotate: 10,
+        };
         _this.skinName = "resource/skins/SiderbarSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
@@ -35,7 +42,7 @@ var SiderbarSkinBy = (function (_super) {
     };
     SiderbarSkinBy.prototype.init = function () {
         this.listenEvent();
-        this.tabIndex = 2;
+        this.tabIndex = 0;
     };
     SiderbarSkinBy.prototype.listenEvent = function () {
         // 监听tabs click事件
@@ -43,6 +50,11 @@ var SiderbarSkinBy = (function (_super) {
         this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
         this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
         this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection, this);
+        for (var i = 0, len = this.gp_inputContainer.numChildren; i < len; i++) {
+            var groupInpput = this.gp_inputContainer.getChildAt(i);
+            var input = groupInpput.getChildAt(1);
+            input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
+        }
     };
     SiderbarSkinBy.prototype.touchTabsClick = function (evt) {
         var point = new egret.Point(evt.stageX - this.x - 0, evt.stageY - this.y - 60);
@@ -93,6 +105,13 @@ var SiderbarSkinBy = (function (_super) {
             }
         }
     };
+    SiderbarSkinBy.prototype.onFocusOut = function (evt) {
+        var textInput = evt.target.parent;
+        var name = textInput.name;
+        var propertyName = name.split('_')[1];
+        this.data[propertyName] = Number(evt.target.text);
+        console.log(this.data);
+    };
     SiderbarSkinBy.prototype.activetedTab = function (tab) {
         var label = tab.getChildByName('label');
         var rect_default = tab.getChildByName('rect_default');
@@ -132,4 +151,3 @@ var SiderbarSkinBy = (function (_super) {
     return SiderbarSkinBy;
 }(eui.Component));
 __reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy");
-//# sourceMappingURL=SiderbarSkin.js.map

@@ -104,6 +104,7 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
+            this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         requestAnimationFrame(this.render);
         event.preventDefault();
@@ -128,6 +129,29 @@ var EditGroup = (function (_super) {
         this.stage.removeEventListener(Mouse.END, this.up, this);
         requestAnimationFrame(this.render);
         event.preventDefault();
+    };
+    EditGroup.prototype.deliveryItemMessageToControlPanel = function (targetItem) {
+        var matrix = targetItem.matrix;
+        console.log(targetItem);
+        console.log(matrix);
+        var a = matrix.a, b = matrix.b, c = matrix.c, d = matrix.d, x = matrix.x, y = matrix.y;
+        var width = targetItem.width, height = targetItem.height;
+        var game = this.parent;
+        var siderbarSkinBy = game.siderbarSkinBy;
+        siderbarSkinBy.data['x'] = x;
+        siderbarSkinBy.data['y'] = y;
+        siderbarSkinBy.data['width'] = width;
+        siderbarSkinBy.data['height'] = height;
+    };
+    EditGroup.prototype.setProperty = function (x, y) {
+        var eles = this.pages[this.pageIndex].elements;
+        var currentMatrix = this.tool.target.matrix;
+        currentMatrix.translate(x, y);
+        for (var i = 0; i < eles.length; i++) {
+            if (eles[i].id === this.tool.target.owner.image.name) {
+                eles[i].matrix = currentMatrix;
+            }
+        }
     };
     EditGroup.prototype.applyDynamicControls = function (event) {
         // if dynamic, set controls based on 
@@ -403,4 +427,3 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
-//# sourceMappingURL=EditGroup.js.map
