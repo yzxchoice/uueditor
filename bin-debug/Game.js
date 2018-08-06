@@ -22,6 +22,7 @@ var Game = (function (_super) {
         _this.imgBox = new ImageBox();
         _this.bgBox = new BgBox();
         _this.soundBox = new SoundBox();
+        _this.comBox = new ComponentBox();
         _this.siderbarSkinBy = new SiderbarSkinBy();
         _this.skinName = "resource/skins/GameSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
@@ -31,17 +32,27 @@ var Game = (function (_super) {
         this.initEui();
     };
     Game.prototype.initEui = function () {
-        var img = new eui.Image("resource/assets/phonewhite.svg");
-        img.width = 328 * 1.5;
-        img.height = 560 * 1.5;
+        var editContaier = new eui.Group();
+        editContaier.horizontalCenter = 0;
+        editContaier.verticalCenter = 0;
+        this.addChild(editContaier);
+        var img = new eui.Image("resource/assets/phone16.png");
+        img.width = 393 * 1.5;
+        img.height = 796 * 1.5;
+        editContaier.addChild(img);
+        // var img = new eui.Image("resource/assets/phonewhite.svg");
+        // img.width = 328*1.5;
+        // img.height = 560*1.5;
+        // this.editGroup.horizontalCenter = 0;
+        // this.editGroup.verticalCenter = 0;
+        this.editGroup.width = 340 * 1.5;
+        this.editGroup.height = 506 * 1.5;
         this.editGroup.horizontalCenter = 0;
-        this.editGroup.verticalCenter = 0;
-        this.editGroup.width = 328 * 1.5;
-        this.editGroup.height = 560 * 1.5;
+        this.editGroup.y = 190 * 1.5;
         this.editGroup.scrollEnabled = true;
         // this.drawBg(this.editGroup);
-        this.editGroup.addChild(img);
-        this.addChild(this.editGroup);
+        // this.editGroup.addChild(img);
+        editContaier.addChild(this.editGroup);
         this.header.x = 0;
         this.header.y = 0;
         this.header.width = 1920;
@@ -80,6 +91,9 @@ var Game = (function (_super) {
         button2.label = "下一页";
         button2.addEventListener(Mouse.START, this.editGroup.next, this.editGroup);
         bottomGroup.addChild(button2);
+    };
+    Game.prototype.openComponentPanel = function () {
+        this.comBox.open(this);
     };
     Game.prototype.openSoundePanel = function () {
         this.soundBox.open(this);

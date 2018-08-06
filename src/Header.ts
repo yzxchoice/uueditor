@@ -19,6 +19,12 @@ class Header extends eui.Group {
         hLayout.paddingRight = 30;
         this.layout = hLayout;
 
+        var btnAddComponent = new eui.Button();
+        btnAddComponent.width = 100;
+        btnAddComponent.height = 40;
+        btnAddComponent.label = "组件";
+        btnAddComponent.addEventListener(Mouse.START, this.openComponentPanel, this);
+        this.addChild(btnAddComponent);
         var btnAddSound = new eui.Button();
         btnAddSound.width = 100;
         btnAddSound.height = 40;
@@ -54,6 +60,11 @@ class Header extends eui.Group {
     
     preview (event: egret.TouchEvent) {
         this.parent.addChild(new Preview());
+    }
+
+    openComponentPanel (event: egret.TouchEvent) {
+        var g: Game = this.parent as Game;
+        g.openComponentPanel();
     }
 
     openSoundPanel (event: egret.TouchEvent) {

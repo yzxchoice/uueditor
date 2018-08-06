@@ -87,6 +87,21 @@
                         "src": "resource/assets/test.mp3"
                     },
                     "sceneId": 1001
+                },
+                {
+                    "id": 8406,
+                    "name": "circle_sector",
+                    "pageId": 201807311008,
+                    "type": 101,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 20,
+                        "y": 400
+                    },
+                    "sceneId": 1001
                 }
             ],
             "properties": {

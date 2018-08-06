@@ -42,11 +42,12 @@ class EditGroup extends eui.Group {
 
         this.render();
 
-        var g = new CircleSector();
-        g.width = 400;
-        g.height = 400;
-        this.addChild(g);
-        this.displayList.push(new Picture(g, new Matrix(1,0,0,1,0,0)));
+        //添加转盘实例
+        // var g = new CircleSector();
+        // g.width = 400;
+        // g.height = 400;
+        // this.addChild(g);
+        // this.displayList.push(new Picture(g, new Matrix(1,0,0,1,0,0)));
     }
 
     private addBg () {
@@ -129,7 +130,7 @@ class EditGroup extends eui.Group {
         // console.log(this.tool.target);
         var eles = this.pages[this.pageIndex].elements;
         for(var i = 0; i<eles.length;i++){
-            if(eles[i].id === this.tool.target.owner.image.name){
+            if(eles[i].id === this.tool.target.owner.image.data.id){
                 eles[i].matrix = this.tool.target.matrix;
             }
         }
@@ -248,20 +249,22 @@ class EditGroup extends eui.Group {
         for (i=0; i<n; i++){
             switch (elements[i].type){
                 case 1:
-                    var label:eui.Label = new eui.Label();
+                    var label: UULabel = new UULabel();
                     label.text = elements[i].content;
                     label.textColor = 0xff0000;
                     label.size = 16;
                     label.lineSpacing = 12;
                     label.textAlign = egret.HorizontalAlign.JUSTIFY;
                     label.name = elements[i].id;
+                    label.data = elements[i];
                     this.displayList.push(new Picture(label, elements[i].matrix));
                     break;
                 case 2:
-                    var result:egret.Bitmap = new egret.Bitmap();
+                    var result: UUBitmap = new UUBitmap();
                     var texture:egret.Texture = RES.getRes(elements[i].name);
                     result.texture = texture;
                     result.name = elements[i].id;
+                    result.data = elements[i];
                     this.displayList.push(new Picture(result, elements[i].matrix));
                     break;
                 case 18:
@@ -274,6 +277,14 @@ class EditGroup extends eui.Group {
                     soundBtn.width = 100;
                     soundBtn.height = 50;
                     this.displayList.push(new Picture(soundBtn, elements[i].matrix));
+                    break;
+                case 101: 
+                    var circle:CircleSector = new CircleSector();
+                    circle.name = elements[i].id;
+                    circle.data = elements[i];
+                    circle.width = 400;
+                    circle.height = 400;
+                    this.displayList.push(new Picture(circle, elements[i].matrix));
                     break;
                 case 8:
                     // this.createGameScene();
@@ -336,13 +347,14 @@ class EditGroup extends eui.Group {
 
     addSinglePicture (data: uiData) {
         RES.getResByUrl("resource/assets/"+data.url, function(texture:egret.Texture):void {
-            var result:egret.Bitmap = new egret.Bitmap();
+            var m = new Matrix(1,0,0,1,300,500);
+            var result: UUBitmap = new UUBitmap();
             result.texture = texture;
             // this.addChild(result);
             // var n = url.substring(url.lastIndexOf("/")+1);
             var eles = this.pages[this.pageIndex].elements;
-            var m = new Matrix(1,0,0,1,300,500);
-            result.name = data.id;
+            
+            data.id = data.id + '-'+ this.displayList.length;
             eles.push({
                 "id": data.id,
                 "name": data.name,
@@ -359,6 +371,10 @@ class EditGroup extends eui.Group {
                 "src": "resource/assets/" + data.url,
                 "sceneId": 1001
             })
+            
+            
+            result.name = data.id;
+            result.data = data;
             this.displayList.push(new Picture(result, m));
         }, this, RES.ResourceItem.TYPE_IMAGE);
 
@@ -380,7 +396,7 @@ class EditGroup extends eui.Group {
         var n = data.name;
         var eles = this.pages[this.pageIndex].elements;
         var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-        
+        data.id = data.id + '-'+ this.displayList.length;
         eles.push({
             "id": data.id,
             "name": n,
@@ -410,12 +426,44 @@ class EditGroup extends eui.Group {
             "targetState": 4,
             "targetType": "e"
         })
+        
         var soundBtn: SoundButton = new SoundButton();
         soundBtn.label = data.name;
         soundBtn.name = data.id;
         soundBtn.width = 100;
         soundBtn.height = 50;
+        soundBtn.data = data;
         
         this.displayList.push(new Picture(soundBtn, m));
+
+    }
+
+    addComponent (data: uiData) {
+        var m = new Matrix(1,0,0,1,0,0);
+        var n = data.name;
+        var eles = this.pages[this.pageIndex].elements;
+        // var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        data.id = data.id + '-'+ this.displayList.length;
+        eles.push({
+            "id": data.id,
+            "name": n,
+            "pageId": 201807311008,
+            "type": 101,
+            "matrix": {
+                "a": m.a,
+                "b": m.b,
+                "c": m.c,
+                "d": m.d,
+                "x": m.x,
+                "y": m.y
+            },
+            "sceneId": 1001
+        })
+        
+        var circle:CircleSector = new CircleSector();
+        circle.data = data;
+        circle.width = 400;
+        circle.height = 400;
+        this.displayList.push(new Picture(circle, m));
     }
 }

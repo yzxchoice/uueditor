@@ -12,7 +12,7 @@ class TransformTool {
     
     // trnasforms to apply
 	private preMatrix: Matrix = new Matrix();
-	private postMatrix: Matrix = new Matrix();
+	public postMatrix: Matrix = new Matrix();
 	
 	// where interaction ends
 	private endMatrix: Matrix = new Matrix();
