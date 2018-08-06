@@ -30,6 +30,7 @@
 		"bin-debug/Picture.js",
 		"bin-debug/Platform.js",
 		"bin-debug/Preview.js",
+		"bin-debug/SiderbarSkin.js",
 		"bin-debug/SoundBox.js",
 		"bin-debug/SoundButton.js",
 		"bin-debug/ThemeAdapter.js",

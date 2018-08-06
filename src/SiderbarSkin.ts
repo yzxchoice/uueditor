@@ -1,0 +1,134 @@
+class SiderbarSkinBy extends eui.Component {
+	private gp_tabs:eui.Group;
+	private gp_tab_style:eui.Group;
+	private gp_tab_animation:eui.Group;
+	private gp_tab_event:eui.Group;
+	private gp_eventContainers:eui.Group;
+	private gp_eventContainer_style:eui.Group;
+	private gp_eventContainer_animation:eui.Group;
+	private gp_eventContainer_event:eui.Group;
+	private gp_container_addEvent:eui.Group;
+	private btn_add_event:eui.Button;
+	private gp_add_click_event:eui.Group;
+	private gp_eventContainer_event_click:eui.Group;
+	private gp_selection_rect:eui.Label;
+	private gp_selection_box:eui.Group;
+	private gp_selection:eui.Group;
+
+	private color_AEEEEE:number = 0xAEEEEE;
+	private color_000000:number = 0x000000;	
+	
+	private _tabIndex:number;
+	public get tabIndex():number {
+		return this._tabIndex;
+	}
+	public set tabIndex(v:number){
+		this._tabIndex = v;
+		this.changeTabIndex(v);
+		this.gp_container_addEvent.visible = false;
+	}
+
+	public constructor() {
+		super();
+		this.skinName = "resource/skins/SiderbarSkin.exml";
+		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStageInit, this);
+	}
+	private onAddToStageInit(event:egret.Event) {
+        this.init();
+    }
+	private init(){
+		this.listenEvent();
+		this.tabIndex = 2;
+	}
+	private listenEvent(){
+		// 监听tabs click事件
+		this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
+		this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
+		this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
+		this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection, this);
+	}
+	private touchTabsClick(evt:egret.TouchEvent){
+		var point = new egret.Point(evt.stageX - this.x - 0,evt.stageY - this.y - 60);
+		for(let i = 0, len = this.gp_tabs.numChildren; i < len; i++){
+			let tab = <eui.Group>this.gp_tabs.getChildAt(i);
+			let rect = new egret.Rectangle(tab.x,tab.y,tab.width,tab.height);
+			if(rect.containsPoint(point)){
+				console.log(tab);
+				console.log(i);
+				this.tabIndex = i;
+				break;
+			}
+		}
+	}
+	private touchAddEvent(evt:egret.TouchEvent){
+		this.gp_container_addEvent.visible = true;
+		this.gp_container_addEvent.anchorOffsetX = -this.width;
+		egret.Tween.get(this.gp_container_addEvent)
+		.to({"anchorOffsetX": 0}, 300);
+	}
+	private addClickEventItem(evt:egret.TouchEvent){
+		this.gp_eventContainer_event_click.visible = true;				
+		egret.Tween.get(this.gp_container_addEvent)
+		.to({"anchorOffsetX": -this.width}, 300)
+		.call(() => {
+			this.gp_container_addEvent.visible = false;	
+		});
+	}
+	private touchSelection(evt: egret.TouchEvent){
+		let isShow = this.gp_selection_box.visible = !this.gp_selection_box.visible;
+		if(isShow){
+			this.gp_selection.removeChildren();
+			let g: Game = this.parent as Game;
+			let disPlayList = g.editGroup.displayList;
+			for(let j = 0, num = disPlayList.length; j < num; j++){
+				let checkBox:eui.CheckBox = new eui.CheckBox();
+				checkBox.y = 30 * j;
+				checkBox.label = `元素${j + 1}`;
+				let displayItemData = disPlayList[j].image.data;
+				checkBox.selected = false;
+				checkBox.addEventListener(egret.Event.CHANGE, (displayItemData => {
+					return () => {
+						console.log(displayItemData);
+					}
+				})(displayItemData), this);
+				this.gp_selection.addChild(checkBox);
+			}
+		}
+	}
+	private activetedTab(tab:eui.Group){
+		let label = <eui.Label>tab.getChildByName('label');
+		let rect_default = <eui.Rect>tab.getChildByName('rect_default');
+		let rect_activeted = <eui.Rect>tab.getChildByName('rect_activeted');	
+		rect_default.visible = false;
+		rect_activeted.visible = true;			
+		label.textColor = this.color_AEEEEE;
+	}
+	private unActivetedTab(tab:eui.Group){
+		let label = <eui.Label>tab.getChildByName('label');
+		let rect_default = <eui.Rect>tab.getChildByName('rect_default');
+		let rect_activeted = <eui.Rect>tab.getChildByName('rect_activeted');	
+		rect_default.visible = true;
+		rect_activeted.visible = false;			
+		label.textColor = this.color_000000;
+	}
+	private cleanTab(){
+		for(let i = 0, len = this.gp_tabs.numChildren; i < len; i++){
+			let tab = <eui.Group>this.gp_tabs.getChildAt(i);
+			this.unActivetedTab(tab);
+		}
+	}
+	private cleanContainer(){
+		for(let i = 0, len = this.gp_eventContainers.numChildren; i < len; i++){
+			let eventContainer = <eui.Group>this.gp_eventContainers.getChildAt(i);
+			eventContainer.visible = false;
+		}
+	}
+	private changeTabIndex(index: number){
+		let tab = <eui.Group>this.gp_tabs.getChildAt(index);
+		let eventContainer = <eui.Group>this.gp_eventContainers.getChildAt(index);
+		this.cleanTab();
+		this.activetedTab(tab);		
+		this.cleanContainer();
+		eventContainer.visible = true;
+	}
+}

@@ -22,6 +22,7 @@ class Game extends eui.Component {
     public bgBox: BgBox = new BgBox();
     public soundBox: SoundBox = new SoundBox();
     public comBox: ComponentBox = new ComponentBox();
+    public siderbarSkinBy: SiderbarSkinBy = new SiderbarSkinBy();
 
     private initEui() {
 
@@ -43,6 +44,11 @@ class Game extends eui.Component {
         this.drawBg(this.header);
         this.addChild(this.header);
         // this.addChild(this.imgBox);
+
+        this.siderbarSkinBy = new SiderbarSkinBy();   
+        this.siderbarSkinBy.x = 1920 - 500;
+        this.siderbarSkinBy.y = this.header.height + 10;
+        this.addChild(this.siderbarSkinBy);
 
         var hLayout:eui.HorizontalLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;
