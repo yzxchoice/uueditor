@@ -53,6 +53,7 @@ var Game = (function (_super) {
         this.siderbarSkinBy.x = 1920 - 500;
         this.siderbarSkinBy.y = this.header.height + 10;
         this.addChild(this.siderbarSkinBy);
+        console.log(this.siderbarSkinBy.data);
         var hLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;
         hLayout.horizontalAlign = egret.HorizontalAlign.CENTER;

@@ -108,6 +108,7 @@ class EditGroup extends eui.Group {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
+            this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         
         requestAnimationFrame(this.render);
@@ -138,6 +139,31 @@ class EditGroup extends eui.Group {
         
         requestAnimationFrame(this.render);
         event.preventDefault();
+    }
+
+    private deliveryItemMessageToControlPanel(targetItem){
+        let matrix:Matrix = targetItem.matrix;
+        console.log(targetItem);
+        console.log(matrix);
+        let {a, b, c, d, x, y} = matrix;
+        let {width, height} = targetItem;
+        let game:Game = <Game>this.parent;
+        let siderbarSkinBy:SiderbarSkinBy = <SiderbarSkinBy>game.siderbarSkinBy;
+        siderbarSkinBy.data['x'] = x;
+        siderbarSkinBy.data['y'] = y; 
+        siderbarSkinBy.data['width'] = width; 
+        siderbarSkinBy.data['height'] = height;         
+    }
+
+    private setProperty(x?: number, y?: number) {
+        var eles = this.pages[this.pageIndex].elements;
+        var currentMatrix: Matrix = this.tool.target.matrix;
+        currentMatrix.translate(x, y);
+        for(var i = 0; i<eles.length;i++){
+            if(eles[i].id === this.tool.target.owner.image.name){
+                eles[i].matrix = currentMatrix;
+            }
+        }
     }
 
     applyDynamicControls (event: any) {

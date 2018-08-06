@@ -23,13 +23,34 @@
 		</e:Group>
 	</e:Group>
 	<e:Group id="gp_eventContainers" x="0" y="120">
-		<e:Group id="gp_eventContainer_style" width="500" height="680" x="0" y="0" locked="true" visible="false">
-			<e:Label text="样式" x="15" y="15" textColor="0x161111" locked="true"/>
+		<e:Group id="gp_eventContainer_style" width="500" height="680" x="0" y="0">
+			<e:Group id="gp_inputContainer" width="500" height="300" y="0" anchorOffsetX="0" anchorOffsetY="0" locked="true">
+				<e:Group width="250" height="70" x="0" y="0" anchorOffsetY="0">
+					<e:Label text="宽：" x="20" y="0" height="70" verticalAlign="middle" textColor="0x0a0000" size="24" locked="true"/>
+					<e:TextInput id="input_width" width="140" height="30" x="80" enabled="true" skinName="skins.TextInputSkin" textColor="0x000000" touchEnabled="true" verticalCenter="0" text="{data.width}" name="input_width" locked="true"/>
+				</e:Group>
+				<e:Group width="250" height="70" x="250" y="0" anchorOffsetY="0" locked="true">
+					<e:Label text="高：" x="20" y="0" height="70" verticalAlign="middle" textColor="0x0A0000" size="24"/>
+					<e:TextInput id="input_width0" width="140" height="30" x="80" enabled="true" skinName="skins.TextInputSkin" textColor="0x000000" touchEnabled="true" verticalCenter="0" text="{data.height}" name="input_height"/>
+				</e:Group>
+				<e:Group width="250" height="70" x="0" y="70" anchorOffsetY="0" locked="true">
+					<e:Label text="X：" x="20" y="0" height="70" verticalAlign="middle" textColor="0x0A0000" size="24"/>
+					<e:TextInput id="input_width2" width="140" height="30" x="80" enabled="true" skinName="skins.TextInputSkin" textColor="0x000000" touchEnabled="true" verticalCenter="0" text="{data.x}" name="input_x"/>
+				</e:Group>
+				<e:Group width="250" height="70" x="250" y="70" anchorOffsetY="0" scaleX="1" scaleY="1" locked="true">
+					<e:Label text="Y：" x="20" y="0" height="70" verticalAlign="middle" textColor="0x0A0000" size="24"/>
+					<e:TextInput id="input_width1" width="140" height="30" x="80" enabled="true" skinName="skins.TextInputSkin" textColor="0x000000" touchEnabled="true" verticalCenter="0" text="{data.y}" name="input_y"/>
+				</e:Group>
+				<e:Group width="250" height="70" x="0" y="140" anchorOffsetY="0" locked="true">
+					<e:Label text="旋转：" x="20" y="0" height="70" verticalAlign="middle" textColor="0x0A0000" size="24"/>
+					<e:TextInput id="input_width3" width="140" height="30" x="80" enabled="true" skinName="skins.TextInputSkin" textColor="0x000000" touchEnabled="true" verticalCenter="0" text="{data.rotate}" name="input_rotate"/>
+				</e:Group>
+			</e:Group>
 		</e:Group>
 		<e:Group id="gp_eventContainer_animation" width="500" height="680" x="0" y="0" visible="false" locked="true">
 			<e:Label text="动画" x="15" y="15" textColor="0x161111" locked="true"/>
 		</e:Group>
-		<e:Group id="gp_eventContainer_event" width="500" height="680" x="0" y="0">
+		<e:Group id="gp_eventContainer_event" width="500" height="680" x="0" y="0" visible="false">
 			<e:Group x="33" y="15" locked="true">
 				<e:Button id="btn_add_event" label="+ 添加触发" x="0" y="0" anchorOffsetX="0" width="213.33"/>
 				<e:ToggleSwitch label="ToggleButton" x="266.5" y="11.5"/>

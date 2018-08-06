@@ -1,12 +1,12 @@
 class SiderbarSkinBy extends eui.Component {
 	private gp_tabs:eui.Group;
-	private gp_tab_style:eui.Group;
-	private gp_tab_animation:eui.Group;
-	private gp_tab_event:eui.Group;
+	// private gp_tab_style:eui.Group;
+	// private gp_tab_animation:eui.Group;
+	// private gp_tab_event:eui.Group;
 	private gp_eventContainers:eui.Group;
-	private gp_eventContainer_style:eui.Group;
-	private gp_eventContainer_animation:eui.Group;
-	private gp_eventContainer_event:eui.Group;
+	// private gp_eventContainer_style:eui.Group;
+	// private gp_eventContainer_animation:eui.Group;
+	// private gp_eventContainer_event:eui.Group;
 	private gp_container_addEvent:eui.Group;
 	private btn_add_event:eui.Button;
 	private gp_add_click_event:eui.Group;
@@ -15,8 +15,19 @@ class SiderbarSkinBy extends eui.Component {
 	private gp_selection_box:eui.Group;
 	private gp_selection:eui.Group;
 
+	private gp_inputContainer:eui.Group;
+	private input_width:eui.TextInput;
+
 	private color_AEEEEE:number = 0xAEEEEE;
 	private color_000000:number = 0x000000;	
+
+	public data:Object = {
+		width: 30,
+		height: 30,
+		x: 30,
+		y: 30,
+		rotate: 10,
+	}
 	
 	private _tabIndex:number;
 	public get tabIndex():number {
@@ -38,7 +49,7 @@ class SiderbarSkinBy extends eui.Component {
     }
 	private init(){
 		this.listenEvent();
-		this.tabIndex = 2;
+		this.tabIndex = 0;
 	}
 	private listenEvent(){
 		// 监听tabs click事件
@@ -46,6 +57,12 @@ class SiderbarSkinBy extends eui.Component {
 		this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
 		this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
 		this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection, this);
+
+		for(let i = 0, len = this.gp_inputContainer.numChildren; i < len; i++){
+			let groupInpput = <eui.Group>this.gp_inputContainer.getChildAt(i);
+			let input = groupInpput.getChildAt(1);
+			input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);			
+		}
 	}
 	private touchTabsClick(evt:egret.TouchEvent){
 		var point = new egret.Point(evt.stageX - this.x - 0,evt.stageY - this.y - 60);
@@ -94,6 +111,13 @@ class SiderbarSkinBy extends eui.Component {
 				this.gp_selection.addChild(checkBox);
 			}
 		}
+	}
+	private onFocusOut(evt:egret.FocusEvent){
+		let textInput:eui.TextInput = evt.target.parent;
+		let name:string = textInput.name;
+		let propertyName:string = name.split('_')[1];
+		this.data[propertyName] = Number(evt.target.text); 
+		console.log(this.data);
 	}
 	private activetedTab(tab:eui.Group){
 		let label = <eui.Label>tab.getChildByName('label');
