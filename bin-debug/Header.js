@@ -92,4 +92,7 @@ var Header = (function (_super) {
     return Header;
 }(eui.Group));
 __reflect(Header.prototype, "Header", ["IUUContainer"]);
+<<<<<<< HEAD
 //# sourceMappingURL=Header.js.map
+=======
+>>>>>>> c543ab8f5fc8801501edf1c6dda8f0d36b629113

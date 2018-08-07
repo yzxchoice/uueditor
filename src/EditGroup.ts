@@ -109,6 +109,7 @@ class EditGroup extends eui.Group {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
+            console.log(this.tool);
             this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         
@@ -143,17 +144,23 @@ class EditGroup extends eui.Group {
     }
 
     private deliveryItemMessageToControlPanel(targetItem){
-        let matrix:Matrix = targetItem.matrix;
         console.log(targetItem);
-        console.log(matrix);
+        let matrix:Matrix = targetItem.matrix;
+        let item = targetItem.owner.image;
         let {a, b, c, d, x, y} = matrix;
         let {width, height} = targetItem;
-        let game:Game = <Game>this.parent;
+        let {scaleX, scaleY, rotation} = item;
+        // TODO: this.parent.parent 优化
+        let game:Game = <Game>this.parent.parent;
         let siderbarSkinBy:SiderbarSkinBy = <SiderbarSkinBy>game.siderbarSkinBy;
-        siderbarSkinBy.data['x'] = x;
-        siderbarSkinBy.data['y'] = y; 
-        siderbarSkinBy.data['width'] = width; 
-        siderbarSkinBy.data['height'] = height;         
+        let newData = {
+            x: Math.floor(x),
+            y: Math.floor(y),
+            width: Math.floor(width * scaleX),
+            height: Math.floor(height * scaleY),
+            rotate: Math.floor(rotation)
+        };
+        siderbarSkinBy.data = newData;       
     }
 
     private setProperty(x?: number, y?: number) {

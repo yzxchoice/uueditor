@@ -25,6 +25,13 @@ var SiderbarSkinBy = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
     }
+    SiderbarSkinBy.getInstance = function () {
+        if (SiderbarSkinBy._instance == null) {
+            SiderbarSkinBy._instance = new SiderbarSkinBy();
+        }
+        ;
+        return SiderbarSkinBy._instance;
+    };
     Object.defineProperty(SiderbarSkinBy.prototype, "tabIndex", {
         get: function () {
             return this._tabIndex;
@@ -110,6 +117,7 @@ var SiderbarSkinBy = (function (_super) {
         var name = textInput.name;
         var propertyName = name.split('_')[1];
         this.data[propertyName] = Number(evt.target.text);
+        this.parent.editGroup.tool.target.owner.image;
         console.log(this.data);
     };
     SiderbarSkinBy.prototype.activetedTab = function (tab) {
@@ -148,7 +156,7 @@ var SiderbarSkinBy = (function (_super) {
         this.cleanContainer();
         eventContainer.visible = true;
     };
+    SiderbarSkinBy._instance = null;
     return SiderbarSkinBy;
 }(eui.Component));
 __reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy");
-//# sourceMappingURL=SiderbarSkin.js.map

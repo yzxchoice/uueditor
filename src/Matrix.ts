@@ -62,6 +62,17 @@ class Matrix {
         );
     }
 
+    clone1 () {
+        return new egret.Matrix(
+            this.a,
+            this.b,
+            this.c,
+            this.d,
+            this.x,
+            this.y
+        );
+    }
+
     copyFrom (m: MatrixType) {
         this.a = m.a;
         this.b = m.b;

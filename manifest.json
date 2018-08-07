@@ -11,6 +11,7 @@
 	"game": [
 		"bin-debug/Control.js",
 		"bin-debug/AssetAdapter.js",
+		"bin-debug/Main.js",
 		"bin-debug/BaseUI.js",
 		"bin-debug/BgBox.js",
 		"bin-debug/CircleSector.js",
