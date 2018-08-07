@@ -104,7 +104,7 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
-            // this.deliveryItemMessageToControlPanel(this.tool.target);
+            this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         requestAnimationFrame(this.render);
         event.preventDefault();

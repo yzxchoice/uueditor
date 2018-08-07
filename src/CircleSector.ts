@@ -1,10 +1,14 @@
 // TypeScript file
-class CircleSector extends eui.Group implements BaseUI {
+class CircleSector extends eui.Group implements BaseUI, IUUContainer {
     data: any;
+    container: any;
+    draw (): void {
+        
+    }
     awards = [    
             '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '土豪金项链'
     ];
-    private container: eui.Group = new eui.Group();
+    private main: eui.Group = new eui.Group();
     constructor () {
         super();
         this.touchEnabled = false;
@@ -22,24 +26,24 @@ class CircleSector extends eui.Group implements BaseUI {
     }
     
     private init () {
-        this.container.anchorOffsetX = 200;
-        this.container.anchorOffsetY = 200;
-        this.container.x = 200;
-        this.container.y = 200;
+        this.main.anchorOffsetX = 200;
+        this.main.anchorOffsetY = 200;
+        this.main.x = 200;
+        this.main.y = 200;
         var s: egret.Shape = new egret.Shape();
         // s.graphics.beginFill(0x000000, 0.5);
         // s.graphics.lineStyle(1, 0xf2f2f2);
         // s.graphics.drawRect(0, 0, 456, 444);
         // s.graphics.endFill();
-        this.container.touchEnabled = false;
-        this.container.addChild(s);
-        this.addChild(this.container);
+        this.main.touchEnabled = false;
+        this.main.addChild(s);
+        this.addChild(this.main);
     }
 
     private drawSector () {
         var shape:egret.Shape = new egret.Shape();
         shape.touchEnabled = true;
-        this.container.addChild(shape);
+        this.main.addChild(shape);
         
         var arc = 360 / this.awards.length;
         var lastAngle = 0;
@@ -85,7 +89,7 @@ class CircleSector extends eui.Group implements BaseUI {
             img.y = label.height + 20;
             g.addChild(img);
             
-            this.container.addChild(g);
+            this.main.addChild(g);
         }
 
          var jt: eui.Image = new eui.Image();
@@ -116,14 +120,14 @@ class CircleSector extends eui.Group implements BaseUI {
 		}else{
 			angles = 360 - angles + 270;
 		}
-        egret.Tween.pauseTweens(this.container);
-		egret.Tween.get( this.container ).to( {rotation: angles+1800}, 8000, egret.Ease.sineOut )
+        egret.Tween.pauseTweens(this.main);
+		egret.Tween.get( this.main ).to( {rotation: angles+1800}, 8000, egret.Ease.sineOut )
         .call(this.onComplete, this, [txt]);//设置回调函数及作用域，可用于侦听动画完成;
     }
 
     dispose () {
-        egret.Tween.pauseTweens(this.container);
-        // egret.Tween.removeTweens(this.container);
+        egret.Tween.pauseTweens(this.main);
+        // egret.Tween.removeTweens(this.main);
     }
 
     private onComplete(param1: string) {
