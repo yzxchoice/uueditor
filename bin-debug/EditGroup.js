@@ -104,6 +104,7 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
+            console.log(this.tool);
             this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         requestAnimationFrame(this.render);
@@ -131,17 +132,23 @@ var EditGroup = (function (_super) {
         event.preventDefault();
     };
     EditGroup.prototype.deliveryItemMessageToControlPanel = function (targetItem) {
-        var matrix = targetItem.matrix;
         console.log(targetItem);
-        console.log(matrix);
+        var matrix = targetItem.matrix;
+        var item = targetItem.owner.image;
         var a = matrix.a, b = matrix.b, c = matrix.c, d = matrix.d, x = matrix.x, y = matrix.y;
         var width = targetItem.width, height = targetItem.height;
-        var game = this.parent;
+        var scaleX = item.scaleX, scaleY = item.scaleY, rotation = item.rotation;
+        // TODO: this.parent.parent 优化
+        var game = this.parent.parent;
         var siderbarSkinBy = game.siderbarSkinBy;
-        siderbarSkinBy.data['x'] = x;
-        siderbarSkinBy.data['y'] = y;
-        siderbarSkinBy.data['width'] = width;
-        siderbarSkinBy.data['height'] = height;
+        var newData = {
+            x: Math.floor(x),
+            y: Math.floor(y),
+            width: Math.floor(width * scaleX),
+            height: Math.floor(height * scaleY),
+            rotate: Math.floor(rotation)
+        };
+        siderbarSkinBy.data = newData;
     };
     EditGroup.prototype.setProperty = function (x, y) {
         var eles = this.pages[this.pageIndex].elements;

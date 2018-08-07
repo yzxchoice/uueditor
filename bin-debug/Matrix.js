@@ -36,6 +36,9 @@ var Matrix = (function () {
     Matrix.prototype.clone = function () {
         return new Matrix(this.a, this.b, this.c, this.d, this.x, this.y);
     };
+    Matrix.prototype.clone1 = function () {
+        return new egret.Matrix(this.a, this.b, this.c, this.d, this.x, this.y);
+    };
     Matrix.prototype.copyFrom = function (m) {
         this.a = m.a;
         this.b = m.b;

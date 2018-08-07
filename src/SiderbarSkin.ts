@@ -28,6 +28,14 @@ class SiderbarSkinBy extends eui.Component {
 		y: 30,
 		rotate: 10,
 	}
+
+	private static _instance:SiderbarSkinBy = null;
+	public static getInstance(){
+		if(SiderbarSkinBy._instance == null){
+			SiderbarSkinBy._instance = new SiderbarSkinBy();
+		};
+		return SiderbarSkinBy._instance;
+	}
 	
 	private _tabIndex:number;
 	public get tabIndex():number {
@@ -117,6 +125,7 @@ class SiderbarSkinBy extends eui.Component {
 		let name:string = textInput.name;
 		let propertyName:string = name.split('_')[1];
 		this.data[propertyName] = Number(evt.target.text); 
+		(this.parent as Game ).editGroup.tool.target.owner.image;
 		console.log(this.data);
 	}
 	private activetedTab(tab:eui.Group){
