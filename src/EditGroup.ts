@@ -96,7 +96,7 @@ class EditGroup extends eui.Group {
         Mouse.get(event, this);
         var controlled = this.tool.start(Mouse.x, Mouse.y);
 
-        if(!(event.target instanceof EditGroup)){
+        if(!this.containsPoint(Mouse.x, Mouse.y)){
             return false;
         }
         
@@ -221,6 +221,25 @@ class EditGroup extends eui.Group {
             }
         }
         return null;
+    }
+
+    containsPoint (x: number, y: number) {
+        var globalEdit: egret.Point = this.parent.localToGlobal(this.matrix.tx, this.matrix.ty);
+        var globalMouse: egret.Point = this.localToGlobal(Mouse.x, Mouse.y);
+
+        var m: Matrix = new Matrix(
+            this.matrix.a,
+            this.matrix.b,
+            this.matrix.c,
+            this.matrix.d,
+            globalEdit.x,
+            globalEdit.y
+        );
+
+        // console.log(globalMouse.x, globalMouse.y)
+        // console.log(m.containsPoint(globalMouse.x, globalMouse.y, this.width, this.height));
+
+        return m.containsPoint(globalMouse.x, globalMouse.y, this.width, this.height);
     }
 
     selectImage (x: number, y: number) {
