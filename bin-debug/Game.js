@@ -58,7 +58,7 @@ var Game = (function (_super) {
         this.header.width = 1920;
         this.header.height = 100;
         this.drawBg(this.header);
-        this.addChild(this.header);
+        this.header.draw(this);
         // this.addChild(this.imgBox);
         this.siderbarSkinBy.x = 1920 - 500;
         this.siderbarSkinBy.y = this.header.height + 10;

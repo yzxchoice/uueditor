@@ -16,6 +16,12 @@ var Header = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
+    Header.prototype.dispose = function () {
+    };
+    Header.prototype.draw = function (container) {
+        this.container = container;
+        this.container.addChild(this);
+    };
     Header.prototype.onAddToStage = function (event) {
         this.init();
     };
@@ -85,4 +91,4 @@ var Header = (function (_super) {
     };
     return Header;
 }(eui.Group));
-__reflect(Header.prototype, "Header");
+__reflect(Header.prototype, "Header", ["IUUContainer"]);

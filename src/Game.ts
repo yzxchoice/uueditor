@@ -17,7 +17,7 @@ class Game extends eui.Component {
     }
 
     public editGroup: EditGroup = new EditGroup();
-    public header: eui.Group = new Header();
+    public header: Header = new Header();
     public imgBox: ImageBox = new ImageBox();
     public bgBox: BgBox = new BgBox();
     public soundBox: SoundBox = new SoundBox();
@@ -54,7 +54,7 @@ class Game extends eui.Component {
         this.header.width = 1920;
         this.header.height = 100;
         this.drawBg(this.header);
-        this.addChild(this.header);
+        this.header.draw(this);
         // this.addChild(this.imgBox);
 
         this.siderbarSkinBy.x = 1920 - 500;
