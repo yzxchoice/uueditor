@@ -19,3 +19,4 @@ var Picture = (function () {
     return Picture;
 }());
 __reflect(Picture.prototype, "Picture");
+//# sourceMappingURL=Picture.js.map

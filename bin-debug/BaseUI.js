@@ -8,3 +8,4 @@ var BaseUI = (function () {
     return BaseUI;
 }());
 __reflect(BaseUI.prototype, "BaseUI");
+//# sourceMappingURL=BaseUI.js.map

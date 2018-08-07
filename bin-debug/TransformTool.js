@@ -358,3 +358,4 @@ var TransformTool = (function () {
     return TransformTool;
 }());
 __reflect(TransformTool.prototype, "TransformTool");
+//# sourceMappingURL=TransformTool.js.map

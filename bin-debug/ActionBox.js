@@ -64,9 +64,5 @@ var ActionBox = (function (_super) {
     };
     return ActionBox;
 }(eui.Panel));
-<<<<<<< HEAD
 __reflect(ActionBox.prototype, "ActionBox", ["IUUContainer"]);
 //# sourceMappingURL=ActionBox.js.map
-=======
-__reflect(ActionBox.prototype, "ActionBox");
->>>>>>> 1708809f742427bf89cebd4f370dab3ad76c0c57

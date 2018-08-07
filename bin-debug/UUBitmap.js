@@ -17,3 +17,4 @@ var UUBitmap = (function (_super) {
     return UUBitmap;
 }(egret.Bitmap));
 __reflect(UUBitmap.prototype, "UUBitmap");
+//# sourceMappingURL=UUBitmap.js.map
