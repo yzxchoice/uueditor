@@ -92,8 +92,7 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.down = function (event) {
         Mouse.get(event, this);
         var controlled = this.tool.start(Mouse.x, Mouse.y);
-        console.log(event.target instanceof EditGroup);
-        if (!(event.target instanceof EditGroup)) {
+        if (!this.containsPoint(Mouse.x, Mouse.y)) {
             return false;
         }
         // if tool wasnt selected and being controlled
@@ -205,6 +204,14 @@ var EditGroup = (function (_super) {
             }
         }
         return null;
+    };
+    EditGroup.prototype.containsPoint = function (x, y) {
+        var globalEdit = this.parent.localToGlobal(this.matrix.tx, this.matrix.ty);
+        var globalMouse = this.localToGlobal(Mouse.x, Mouse.y);
+        var m = new Matrix(this.matrix.a, this.matrix.b, this.matrix.c, this.matrix.d, globalEdit.x, globalEdit.y);
+        // console.log(globalMouse.x, globalMouse.y)
+        // console.log(m.containsPoint(globalMouse.x, globalMouse.y, this.width, this.height));
+        return m.containsPoint(globalMouse.x, globalMouse.y, this.width, this.height);
     };
     EditGroup.prototype.selectImage = function (x, y) {
         var pic = null;
