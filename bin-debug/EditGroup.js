@@ -145,8 +145,8 @@ var EditGroup = (function (_super) {
         var game = this.parent.parent;
         var siderbarSkinBy = game.siderbarSkinBy;
         var newData = {
-            x: Math.floor(x),
-            y: Math.floor(y),
+            x: Math.floor(this.tool.regX),
+            y: Math.floor(this.tool.regY),
             width: Math.floor(width * scaleX),
             height: Math.floor(height * scaleY),
             rotate: Math.floor(rotation)

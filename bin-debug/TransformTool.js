@@ -138,6 +138,33 @@ var TransformTool = (function () {
             this.updateControls();
         }
     };
+    TransformTool.prototype.scale = function (s) {
+        this.preMatrix.scale(s, s);
+        // if (this.control){
+        this.updateTransform();
+        this.updateTarget();
+        this.updateRegistration();
+        this.updateControls();
+        // }
+    };
+    TransformTool.prototype.translate = function (x, y) {
+        this.postMatrix.translate(x, y);
+        // if (this.control){
+        this.updateTransform();
+        this.updateTarget();
+        this.updateRegistration();
+        this.updateControls();
+        // }
+    };
+    TransformTool.prototype.rotate = function (r) {
+        this.postMatrix.rotate(r);
+        // if (this.control){
+        this.updateTransform();
+        this.updateTarget();
+        this.updateRegistration();
+        this.updateControls();
+        // }
+    };
     TransformTool.prototype.end = function () {
         this.commit();
         this.control = null;
@@ -284,6 +311,7 @@ var TransformTool = (function () {
         var m = this.endMatrix;
         this.regX = m.x + m.a * x + m.c * y;
         this.regY = m.y + m.d * y + m.b * x;
+        console.log(this.regX, this.regY);
     };
     TransformTool.prototype.updateTransform = function () {
         // apply transforms (pre, post)
