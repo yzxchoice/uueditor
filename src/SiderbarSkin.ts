@@ -125,8 +125,11 @@ class SiderbarSkinBy extends eui.Component {
 		let name:string = textInput.name;
 		let propertyName:string = name.split('_')[1];
 		this.data[propertyName] = Number(evt.target.text); 
-		(this.parent as Game ).editGroup.tool.target.owner.image;
-		console.log(this.data);
+		// TODO: 去修改对应的视图元素的信息
+		let game = <Game>this.parent;
+		let tool = game.editGroup.tool;
+		console.log(tool);
+		tool.move(400,400);
 	}
 	private activetedTab(tab:eui.Group){
 		let label = <eui.Label>tab.getChildByName('label');

@@ -117,8 +117,11 @@ var SiderbarSkinBy = (function (_super) {
         var name = textInput.name;
         var propertyName = name.split('_')[1];
         this.data[propertyName] = Number(evt.target.text);
-        this.parent.editGroup.tool.target.owner.image;
-        console.log(this.data);
+        // TODO: 去修改对应的视图元素的信息
+        var game = this.parent;
+        var tool = game.editGroup.tool;
+        console.log(tool);
+        tool.move(400, 400);
     };
     SiderbarSkinBy.prototype.activetedTab = function (tab) {
         var label = tab.getChildByName('label');
