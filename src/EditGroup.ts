@@ -113,7 +113,7 @@ class EditGroup extends eui.Group {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
-            console.log(this.tool);
+
             this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         
@@ -125,6 +125,8 @@ class EditGroup extends eui.Group {
         Mouse.get(event, this);
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
+
+        this.deliveryItemMessageToControlPanel(this.tool.target);        
         
         requestAnimationFrame(this.render);
         event.preventDefault();
@@ -142,13 +144,14 @@ class EditGroup extends eui.Group {
 	
         this.stage.removeEventListener(Mouse.MOVE, this.move, this);
         this.stage.removeEventListener(Mouse.END, this.up, this);
+
+        this.deliveryItemMessageToControlPanel(this.tool.target);
         
         requestAnimationFrame(this.render);
         event.preventDefault();
     }
 
     private deliveryItemMessageToControlPanel(targetItem){
-        console.log(targetItem);
         let matrix:Matrix = targetItem.matrix;
         let item = targetItem.owner.image;
         let {a, b, c, d, x, y} = matrix;
@@ -263,13 +266,15 @@ class EditGroup extends eui.Group {
                 return false;
             }
         }
-        
+
         // deselect
-        this.tool.setTarget(null);
-        return false;
+        let point = new egret.Point(x,y);
+        let rect = new egret.Rectangle(0,0,this.width,this.height);
+        if(rect.containsPoint(point)){
+            this.tool.setTarget(null);            
+            return false;
+        };
     }
-
-
 
     private renderResources (index: number): void {
         

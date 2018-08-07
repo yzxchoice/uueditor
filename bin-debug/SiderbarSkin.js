@@ -68,6 +68,7 @@ var SiderbarSkinBy = (function (_super) {
             var input = groupInpput.getChildAt(1);
             input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
         }
+        // this.btn_update.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onFocusOut, this)
     };
     SiderbarSkinBy.prototype.touchTabsClick = function (evt) {
         var point = new egret.Point(evt.stageX - this.x - 0, evt.stageY - this.y - 60);
@@ -123,12 +124,32 @@ var SiderbarSkinBy = (function (_super) {
         var name = textInput.name;
         var propertyName = name.split('_')[1];
         this.data[propertyName] = Number(evt.target.text);
-        console.log(this.container.editGroup.tool.target.owner.image);
-        this.container.editGroup.tool.target.owner.image.rotation = 45;
-        // this.container.editGroup.tool.target.owner.image.x = 0;
-        // this.container.editGroup.tool.target.owner.image.y = 0;
-        // (this.parent as Game ).editGroup.tool.target.owner.image;
-        // console.log(this.data);
+        // TODO: 去修改对应的视图元素的信息
+        var game = this.parent;
+        var tool = game.editGroup.tool;
+        var target = tool.target;
+        var element = tool.target.owner.image;
+        console.log('target');
+        console.log(target);
+        console.log('element');
+        console.log(element);
+        element.x = this.data['x'];
+        element.y = this.data['y'];
+        element.scaleX = this.data['width'] / target.width;
+        element.scaleY = this.data['height'] / target.height;
+        element.rotation = this.data['rotate'];
+        element.alpha = 0.5;
+        var elementMatrix = element.matrix;
+        console.log('elementMatrix');
+        console.log(elementMatrix);
+        var a = elementMatrix.a, b = elementMatrix.b, c = elementMatrix.c, d = elementMatrix.d, tx = elementMatrix.tx, ty = elementMatrix.ty;
+        var newMatrix = new Matrix(a, b, c, d, tx, ty);
+        console.log('newMatrix');
+        console.log(newMatrix);
+        tool.target.matrix = newMatrix;
+        tool.endMatrix = newMatrix;
+        // tool.updateRegistration();
+        tool.updateFromTarget();
     };
     SiderbarSkinBy.prototype.activetedTab = function (tab) {
         var label = tab.getChildByName('label');
@@ -170,4 +191,3 @@ var SiderbarSkinBy = (function (_super) {
     return SiderbarSkinBy;
 }(eui.Component));
 __reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy", ["IUUContainer"]);
-//# sourceMappingURL=SiderbarSkin.js.map

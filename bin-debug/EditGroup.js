@@ -107,7 +107,6 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
-            console.log(this.tool);
             this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         requestAnimationFrame(this.render);
@@ -117,6 +116,7 @@ var EditGroup = (function (_super) {
         Mouse.get(event, this);
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
+        this.deliveryItemMessageToControlPanel(this.tool.target);
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
@@ -131,11 +131,11 @@ var EditGroup = (function (_super) {
         }
         this.stage.removeEventListener(Mouse.MOVE, this.move, this);
         this.stage.removeEventListener(Mouse.END, this.up, this);
+        this.deliveryItemMessageToControlPanel(this.tool.target);
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
     EditGroup.prototype.deliveryItemMessageToControlPanel = function (targetItem) {
-        console.log(targetItem);
         var matrix = targetItem.matrix;
         var item = targetItem.owner.image;
         var a = matrix.a, b = matrix.b, c = matrix.c, d = matrix.d, x = matrix.x, y = matrix.y;
@@ -235,8 +235,13 @@ var EditGroup = (function (_super) {
             }
         }
         // deselect
-        this.tool.setTarget(null);
-        return false;
+        var point = new egret.Point(x, y);
+        var rect = new egret.Rectangle(0, 0, this.width, this.height);
+        if (rect.containsPoint(point)) {
+            this.tool.setTarget(null);
+            return false;
+        }
+        ;
     };
     EditGroup.prototype.renderResources = function (index) {
         var i = 0;
@@ -445,4 +450,3 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
-//# sourceMappingURL=EditGroup.js.map

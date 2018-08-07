@@ -17,4 +17,3 @@ var UULabel = (function (_super) {
     return UULabel;
 }(eui.Label));
 __reflect(UULabel.prototype, "UULabel");
-//# sourceMappingURL=UULabel.js.map

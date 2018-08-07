@@ -60,4 +60,3 @@ var ComponentBox = (function (_super) {
     return ComponentBox;
 }(eui.Panel));
 __reflect(ComponentBox.prototype, "ComponentBox");
-//# sourceMappingURL=ComponentBox.js.map

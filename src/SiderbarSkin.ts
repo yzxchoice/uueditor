@@ -26,6 +26,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 
 	private gp_inputContainer:eui.Group;
 	private input_width:eui.TextInput;
+	private btn_update:eui.Button;
 
 	private color_AEEEEE:number = 0xAEEEEE;
 	private color_000000:number = 0x000000;	
@@ -80,6 +81,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 			let input = groupInpput.getChildAt(1);
 			input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);			
 		}
+		// this.btn_update.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onFocusOut, this)
 	}
 	private touchTabsClick(evt:egret.TouchEvent){
 		var point = new egret.Point(evt.stageX - this.x - 0,evt.stageY - this.y - 60);
@@ -134,12 +136,32 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		let name:string = textInput.name;
 		let propertyName:string = name.split('_')[1];
 		this.data[propertyName] = Number(evt.target.text); 
-		console.log(this.container.editGroup.tool.target.owner.image)
-		this.container.editGroup.tool.target.owner.image.rotation = 45;
-		// this.container.editGroup.tool.target.owner.image.x = 0;
-		// this.container.editGroup.tool.target.owner.image.y = 0;
-		// (this.parent as Game ).editGroup.tool.target.owner.image;
-		// console.log(this.data);
+		// TODO: 去修改对应的视图元素的信息
+		let game = <Game>this.parent;
+		let tool: TransformTool = game.editGroup.tool;
+		let target = tool.target;
+		let element = tool.target.owner.image;
+		console.log('target');
+		console.log(target);
+		console.log('element');
+		console.log(element);
+		element.x = this.data['x'];
+		element.y = this.data['y'];
+		element.scaleX = this.data['width'] / target.width; 	
+		element.scaleY = this.data['height'] / target.height; 	
+		element.rotation = this.data['rotate'];		
+		element.alpha = 0.5;
+		let elementMatrix = element.matrix;		
+		console.log('elementMatrix');
+		console.log(elementMatrix);
+		let {a,b,c,d,tx,ty} = elementMatrix;
+		let newMatrix = new Matrix(a,b,c,d,tx,ty);
+		console.log('newMatrix');
+		console.log(newMatrix);
+		tool.target.matrix = newMatrix;		
+		tool.endMatrix = newMatrix;
+		// tool.updateRegistration();
+		tool.updateFromTarget();		
 	}
 	private activetedTab(tab:eui.Group){
 		let label = <eui.Label>tab.getChildByName('label');

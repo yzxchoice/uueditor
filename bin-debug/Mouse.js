@@ -38,4 +38,3 @@ var Mouse = (function () {
     return Mouse;
 }());
 __reflect(Mouse.prototype, "Mouse");
-//# sourceMappingURL=Mouse.js.map

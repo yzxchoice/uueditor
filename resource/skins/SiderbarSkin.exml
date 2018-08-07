@@ -46,6 +46,7 @@
 					<e:TextInput id="input_width3" width="140" height="30" x="80" enabled="true" skinName="skins.TextInputSkin" textColor="0x000000" touchEnabled="true" verticalCenter="0" text="{data.rotate}" name="input_rotate"/>
 				</e:Group>
 			</e:Group>
+			<e:Button id="btn_update" label="update" x="195.5" y="250"/>
 		</e:Group>
 		<e:Group id="gp_eventContainer_animation" width="500" height="680" x="0" y="0" visible="false" locked="true">
 			<e:Label text="动画" x="15" y="15" textColor="0x161111" locked="true"/>
