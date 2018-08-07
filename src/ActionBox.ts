@@ -1,9 +1,19 @@
 // TypeScript file
-class ActionBox extends eui.Panel {
+class ActionBox extends eui.Panel implements IUUContainer {
+    container: Game;
+
+    dispose (): void {
+
+    }
+
+    draw (container: any): void {
+        this.container = container;
+        this.container.addChild(this);
+    }
     private imgList = [
         {
             id: "10003",
-            name: "circle.png"
+            name: "timg.jpg"
         }
     ];
     static instance: ImageBox;
@@ -46,8 +56,7 @@ class ActionBox extends eui.Panel {
     }
 
     private addImage (event: egret.TouchEvent) {
-        var g: Game = this.parent as Game;
-        g.editGroup.addComponent(event.currentTarget.data);
+        this.container.editGroup.addComponent(event.currentTarget.data);
     }
 
     open (container: eui.Component) {
