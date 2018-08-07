@@ -16,12 +16,14 @@ var CircleSector = (function (_super) {
         _this.awards = [
             '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '土豪金项链'
         ];
-        _this.container = new eui.Group();
+        _this.main = new eui.Group();
         _this.touchEnabled = false;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.onRemoveFromStage, _this);
         return _this;
     }
+    CircleSector.prototype.draw = function () {
+    };
     CircleSector.prototype.onAddToStage = function (event) {
         this.init();
         this.drawSector();
@@ -30,23 +32,23 @@ var CircleSector = (function (_super) {
         this.dispose();
     };
     CircleSector.prototype.init = function () {
-        this.container.anchorOffsetX = 200;
-        this.container.anchorOffsetY = 200;
-        this.container.x = 200;
-        this.container.y = 200;
+        this.main.anchorOffsetX = 200;
+        this.main.anchorOffsetY = 200;
+        this.main.x = 200;
+        this.main.y = 200;
         var s = new egret.Shape();
         // s.graphics.beginFill(0x000000, 0.5);
         // s.graphics.lineStyle(1, 0xf2f2f2);
         // s.graphics.drawRect(0, 0, 456, 444);
         // s.graphics.endFill();
-        this.container.touchEnabled = false;
-        this.container.addChild(s);
-        this.addChild(this.container);
+        this.main.touchEnabled = false;
+        this.main.addChild(s);
+        this.addChild(this.main);
     };
     CircleSector.prototype.drawSector = function () {
         var shape = new egret.Shape();
         shape.touchEnabled = true;
-        this.container.addChild(shape);
+        this.main.addChild(shape);
         var arc = 360 / this.awards.length;
         var lastAngle = 0;
         var r = 200;
@@ -86,7 +88,7 @@ var CircleSector = (function (_super) {
             img.x = -img.width / 2;
             img.y = label.height + 20;
             g.addChild(img);
-            this.container.addChild(g);
+            this.main.addChild(g);
         }
         var jt = new eui.Image();
         var texture = RES.getRes("jt2_png");
@@ -112,13 +114,13 @@ var CircleSector = (function (_super) {
         else {
             angles = 360 - angles + 270;
         }
-        egret.Tween.pauseTweens(this.container);
-        egret.Tween.get(this.container).to({ rotation: angles + 1800 }, 8000, egret.Ease.sineOut)
+        egret.Tween.pauseTweens(this.main);
+        egret.Tween.get(this.main).to({ rotation: angles + 1800 }, 8000, egret.Ease.sineOut)
             .call(this.onComplete, this, [txt]); //设置回调函数及作用域，可用于侦听动画完成;
     };
     CircleSector.prototype.dispose = function () {
-        egret.Tween.pauseTweens(this.container);
-        // egret.Tween.removeTweens(this.container);
+        egret.Tween.pauseTweens(this.main);
+        // egret.Tween.removeTweens(this.main);
     };
     CircleSector.prototype.onComplete = function (param1) {
         alert(param1);
@@ -155,4 +157,4 @@ var CircleSector = (function (_super) {
     };
     return CircleSector;
 }(eui.Group));
-__reflect(CircleSector.prototype, "CircleSector");
+__reflect(CircleSector.prototype, "CircleSector", ["IUUContainer"]);

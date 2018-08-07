@@ -1,4 +1,13 @@
-class SiderbarSkinBy extends eui.Component {
+class SiderbarSkinBy extends eui.Component implements IUUContainer {
+	container: Game;
+	dispose (): void {
+
+	}
+
+	draw (container: any) {
+		this.container = container;
+		this.container.addChild(this);
+	}
 	private gp_tabs:eui.Group;
 	// private gp_tab_style:eui.Group;
 	// private gp_tab_animation:eui.Group;
@@ -127,6 +136,7 @@ class SiderbarSkinBy extends eui.Component {
 		let name:string = textInput.name;
 		let propertyName:string = name.split('_')[1];
 		this.data[propertyName] = Number(evt.target.text); 
+<<<<<<< HEAD
 		// TODO: 去修改对应的视图元素的信息
 		let game = <Game>this.parent;
 		let tool = game.editGroup.tool;
@@ -137,6 +147,14 @@ class SiderbarSkinBy extends eui.Component {
 		element.y = 100;
 		element.alpha = 0.5;
 		tool.updateFromTarget();		
+=======
+		console.log(this.container.editGroup.tool.target.owner.image)
+		this.container.editGroup.tool.target.owner.image.rotation = 45;
+		// this.container.editGroup.tool.target.owner.image.x = 0;
+		// this.container.editGroup.tool.target.owner.image.y = 0;
+		// (this.parent as Game ).editGroup.tool.target.owner.image;
+		// console.log(this.data);
+>>>>>>> 5cdd7c3f38084fe01ecac056894f3b403581005d
 	}
 	private activetedTab(tab:eui.Group){
 		let label = <eui.Label>tab.getChildByName('label');

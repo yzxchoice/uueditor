@@ -25,6 +25,12 @@ var SiderbarSkinBy = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
     }
+    SiderbarSkinBy.prototype.dispose = function () {
+    };
+    SiderbarSkinBy.prototype.draw = function (container) {
+        this.container = container;
+        this.container.addChild(this);
+    };
     SiderbarSkinBy.getInstance = function () {
         if (SiderbarSkinBy._instance == null) {
             SiderbarSkinBy._instance = new SiderbarSkinBy();
@@ -118,7 +124,6 @@ var SiderbarSkinBy = (function (_super) {
         var name = textInput.name;
         var propertyName = name.split('_')[1];
         this.data[propertyName] = Number(evt.target.text);
-        // TODO: 去修改对应的视图元素的信息
         var game = this.parent;
         var tool = game.editGroup.tool;
         var element = tool.target.owner.image;
@@ -168,4 +173,4 @@ var SiderbarSkinBy = (function (_super) {
     SiderbarSkinBy._instance = null;
     return SiderbarSkinBy;
 }(eui.Component));
-__reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy");
+__reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy", ["IUUContainer"]);
