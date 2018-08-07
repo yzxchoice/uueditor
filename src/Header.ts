@@ -1,5 +1,16 @@
 // TypeScript file
-class Header extends eui.Group {
+class Header extends eui.Group implements IUUContainer {
+
+    container: Game;
+
+    dispose (): void {
+
+    }
+
+    draw (container: any): void {
+        this.container = container;
+        this.container.addChild(this);
+    }
 
     public constructor () {
         super();

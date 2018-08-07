@@ -17,3 +17,4 @@ var UUImage = (function (_super) {
     return UUImage;
 }(eui.Image));
 __reflect(UUImage.prototype, "UUImage");
+//# sourceMappingURL=UUImage.js.map
