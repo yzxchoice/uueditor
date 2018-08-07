@@ -57,11 +57,12 @@ var SiderbarSkinBy = (function (_super) {
         this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
         this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
         this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection, this);
-        for (var i = 0, len = this.gp_inputContainer.numChildren; i < len; i++) {
-            var groupInpput = this.gp_inputContainer.getChildAt(i);
-            var input = groupInpput.getChildAt(1);
-            input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
-        }
+        // for(let i = 0, len = this.gp_inputContainer.numChildren; i < len; i++){
+        // 	let groupInpput = <eui.Group>this.gp_inputContainer.getChildAt(i);
+        // 	let input = groupInpput.getChildAt(1);
+        // 	input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);			
+        // }
+        this.btn_update.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onFocusOut, this);
     };
     SiderbarSkinBy.prototype.touchTabsClick = function (evt) {
         var point = new egret.Point(evt.stageX - this.x - 0, evt.stageY - this.y - 60);
@@ -120,8 +121,13 @@ var SiderbarSkinBy = (function (_super) {
         // TODO: 去修改对应的视图元素的信息
         var game = this.parent;
         var tool = game.editGroup.tool;
-        console.log(tool);
-        tool.move(400, 400);
+        var element = tool.target.owner.image;
+        console.log(tool.target.matrix);
+        console.log(tool.target.owner.image);
+        element.x = 100;
+        element.y = 100;
+        element.alpha = 0.5;
+        tool.updateFromTarget();
     };
     SiderbarSkinBy.prototype.activetedTab = function (tab) {
         var label = tab.getChildByName('label');

@@ -17,6 +17,7 @@ class SiderbarSkinBy extends eui.Component {
 
 	private gp_inputContainer:eui.Group;
 	private input_width:eui.TextInput;
+	private btn_update:eui.Button;
 
 	private color_AEEEEE:number = 0xAEEEEE;
 	private color_000000:number = 0x000000;	
@@ -66,11 +67,12 @@ class SiderbarSkinBy extends eui.Component {
 		this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
 		this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection, this);
 
-		for(let i = 0, len = this.gp_inputContainer.numChildren; i < len; i++){
-			let groupInpput = <eui.Group>this.gp_inputContainer.getChildAt(i);
-			let input = groupInpput.getChildAt(1);
-			input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);			
-		}
+		// for(let i = 0, len = this.gp_inputContainer.numChildren; i < len; i++){
+		// 	let groupInpput = <eui.Group>this.gp_inputContainer.getChildAt(i);
+		// 	let input = groupInpput.getChildAt(1);
+		// 	input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);			
+		// }
+		this.btn_update.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onFocusOut, this)
 	}
 	private touchTabsClick(evt:egret.TouchEvent){
 		var point = new egret.Point(evt.stageX - this.x - 0,evt.stageY - this.y - 60);
@@ -128,8 +130,13 @@ class SiderbarSkinBy extends eui.Component {
 		// TODO: 去修改对应的视图元素的信息
 		let game = <Game>this.parent;
 		let tool = game.editGroup.tool;
-		console.log(tool);
-		tool.move(400,400);
+		let element = tool.target.owner.image;
+		console.log(tool.target.matrix);
+		console.log(tool.target.owner.image);
+		element.x = 100;
+		element.y = 100;
+		element.alpha = 0.5;
+		tool.updateFromTarget();		
 	}
 	private activetedTab(tab:eui.Group){
 		let label = <eui.Label>tab.getChildByName('label');

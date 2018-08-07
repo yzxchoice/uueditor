@@ -43,6 +43,8 @@ var TransformTool = (function () {
     };
     TransformTool.prototype.updateFromTarget = function () {
         if (this.target && this.target.matrix) {
+            console.log('updateFromTarget...');
+            console.log(this.target.matrix);
             this.endMatrix.copyFrom(this.target.matrix);
             this.commit();
             this.updateRegistration();
