@@ -157,9 +157,5 @@ var CircleSector = (function (_super) {
     };
     return CircleSector;
 }(eui.Group));
-<<<<<<< HEAD
 __reflect(CircleSector.prototype, "CircleSector", ["IUUContainer"]);
 //# sourceMappingURL=CircleSector.js.map
-=======
-__reflect(CircleSector.prototype, "CircleSector");
->>>>>>> c543ab8f5fc8801501edf1c6dda8f0d36b629113

@@ -95,6 +95,10 @@ class EditGroup extends eui.Group {
     down (event: egret.TouchEvent) {
         Mouse.get(event, this);
         var controlled = this.tool.start(Mouse.x, Mouse.y);
+
+        if(!(event.target instanceof EditGroup)){
+            return false;
+        }
         
         // if tool wasnt selected and being controlled
         // attempt to make a new selection at this location

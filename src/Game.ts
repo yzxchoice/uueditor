@@ -59,7 +59,8 @@ class Game extends eui.Component {
 
         this.siderbarSkinBy.x = 1920 - 500;
         this.siderbarSkinBy.y = this.header.height + 10;
-        this.addChild(this.siderbarSkinBy);
+        this.siderbarSkinBy.draw(this);
+        // this.addChild(this.siderbarSkinBy);
         console.log(this.siderbarSkinBy.data);
 
         var hLayout:eui.HorizontalLayout = new eui.HorizontalLayout();

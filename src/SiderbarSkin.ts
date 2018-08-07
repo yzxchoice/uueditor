@@ -1,4 +1,13 @@
-class SiderbarSkinBy extends eui.Component {
+class SiderbarSkinBy extends eui.Component implements IUUContainer {
+	container: Game;
+	dispose (): void {
+
+	}
+
+	draw (container: any) {
+		this.container = container;
+		this.container.addChild(this);
+	}
 	private gp_tabs:eui.Group;
 	// private gp_tab_style:eui.Group;
 	// private gp_tab_animation:eui.Group;
@@ -125,8 +134,12 @@ class SiderbarSkinBy extends eui.Component {
 		let name:string = textInput.name;
 		let propertyName:string = name.split('_')[1];
 		this.data[propertyName] = Number(evt.target.text); 
-		(this.parent as Game ).editGroup.tool.target.owner.image;
-		console.log(this.data);
+		console.log(this.container.editGroup.tool.target.owner.image)
+		this.container.editGroup.tool.target.owner.image.rotation = 45;
+		// this.container.editGroup.tool.target.owner.image.x = 0;
+		// this.container.editGroup.tool.target.owner.image.y = 0;
+		// (this.parent as Game ).editGroup.tool.target.owner.image;
+		// console.log(this.data);
 	}
 	private activetedTab(tab:eui.Group){
 		let label = <eui.Label>tab.getChildByName('label');

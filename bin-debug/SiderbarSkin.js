@@ -25,6 +25,12 @@ var SiderbarSkinBy = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
     }
+    SiderbarSkinBy.prototype.dispose = function () {
+    };
+    SiderbarSkinBy.prototype.draw = function (container) {
+        this.container = container;
+        this.container.addChild(this);
+    };
     SiderbarSkinBy.getInstance = function () {
         if (SiderbarSkinBy._instance == null) {
             SiderbarSkinBy._instance = new SiderbarSkinBy();
@@ -117,8 +123,12 @@ var SiderbarSkinBy = (function (_super) {
         var name = textInput.name;
         var propertyName = name.split('_')[1];
         this.data[propertyName] = Number(evt.target.text);
-        this.parent.editGroup.tool.target.owner.image;
-        console.log(this.data);
+        console.log(this.container.editGroup.tool.target.owner.image);
+        this.container.editGroup.tool.target.owner.image.rotation = 45;
+        // this.container.editGroup.tool.target.owner.image.x = 0;
+        // this.container.editGroup.tool.target.owner.image.y = 0;
+        // (this.parent as Game ).editGroup.tool.target.owner.image;
+        // console.log(this.data);
     };
     SiderbarSkinBy.prototype.activetedTab = function (tab) {
         var label = tab.getChildByName('label');
@@ -159,4 +169,5 @@ var SiderbarSkinBy = (function (_super) {
     SiderbarSkinBy._instance = null;
     return SiderbarSkinBy;
 }(eui.Component));
-__reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy");
+__reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy", ["IUUContainer"]);
+//# sourceMappingURL=SiderbarSkin.js.map

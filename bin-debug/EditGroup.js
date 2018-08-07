@@ -92,6 +92,10 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.down = function (event) {
         Mouse.get(event, this);
         var controlled = this.tool.start(Mouse.x, Mouse.y);
+        console.log(event.target instanceof EditGroup);
+        if (!(event.target instanceof EditGroup)) {
+            return false;
+        }
         // if tool wasnt selected and being controlled
         // attempt to make a new selection at this location
         if (!controlled && this.selectImage(Mouse.x, Mouse.y)) {
@@ -104,10 +108,7 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
-<<<<<<< HEAD
-=======
             console.log(this.tool);
->>>>>>> c543ab8f5fc8801501edf1c6dda8f0d36b629113
             this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         requestAnimationFrame(this.render);
@@ -437,3 +438,4 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
+//# sourceMappingURL=EditGroup.js.map

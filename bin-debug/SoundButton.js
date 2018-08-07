@@ -25,3 +25,4 @@ var SoundButton = (function (_super) {
     return SoundButton;
 }(eui.Button));
 __reflect(SoundButton.prototype, "SoundButton");
+//# sourceMappingURL=SoundButton.js.map
