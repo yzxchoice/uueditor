@@ -147,6 +147,8 @@ var SiderbarSkinBy = (function (_super) {
         console.log('newMatrix');
         console.log(newMatrix);
         tool.target.matrix = newMatrix;
+        tool.endMatrix = newMatrix;
+        // tool.updateRegistration();
         tool.updateFromTarget();
     };
     SiderbarSkinBy.prototype.activetedTab = function (tab) {

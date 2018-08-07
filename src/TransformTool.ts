@@ -4,7 +4,7 @@ class TransformTool {
 
     // transform interaction
 	// where interaction starts
-    private startMatrix: Matrix = new Matrix();
+    public startMatrix: Matrix = new Matrix();
     private regStartU: number = 0.5;
 	private regStartV: number = 0.5;
 	private startX: number = 0;
@@ -15,7 +15,7 @@ class TransformTool {
 	public postMatrix: Matrix = new Matrix();
 	
 	// where interaction ends
-	private endMatrix: Matrix = new Matrix();
+	public endMatrix: Matrix = new Matrix();
 	private regEndU = 0.5;
 	private regEndV = 0.5;
 	private endX = 0;

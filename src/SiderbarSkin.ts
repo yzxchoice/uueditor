@@ -138,7 +138,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.data[propertyName] = Number(evt.target.text); 
 		// TODO: 去修改对应的视图元素的信息
 		let game = <Game>this.parent;
-		let tool = game.editGroup.tool;
+		let tool: TransformTool = game.editGroup.tool;
 		let target = tool.target;
 		let element = tool.target.owner.image;
 		console.log('target');
@@ -159,6 +159,8 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		console.log('newMatrix');
 		console.log(newMatrix);
 		tool.target.matrix = newMatrix;		
+		tool.endMatrix = newMatrix;
+		// tool.updateRegistration();
 		tool.updateFromTarget();		
 	}
 	private activetedTab(tab:eui.Group){
