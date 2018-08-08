@@ -123,6 +123,7 @@ var SiderbarSkinBy = (function (_super) {
         ;
     };
     SiderbarSkinBy.prototype.addEventSet = function () {
+        var _this = this;
         var eventSet1 = new EventSetDome('元素1');
         var height = eventSet1.height;
         console.log(height);
@@ -130,9 +131,16 @@ var SiderbarSkinBy = (function (_super) {
         var eventSet3 = new EventSetDome('元素3');
         eventSet2.y = (height + 1) * 1;
         eventSet3.y = (height + 1) * 2;
+        this.gp_eventSetContainer.height = 3 * height;
         this.gp_eventSetContainer.addChild(eventSet1);
         this.gp_eventSetContainer.addChild(eventSet2);
         this.gp_eventSetContainer.addChild(eventSet3);
+        var scrollerContainerHeight = this.scroller_eventSet.height;
+        setTimeout(function () {
+            // 是否自动隐藏，取决于属性visible
+            _this.scroller_eventSet.verticalScrollBar.autoVisibility = false;
+            _this.scroller_eventSet.verticalScrollBar.visible = _this.gp_eventSetContainer.height > scrollerContainerHeight;
+        }, 0);
     };
     SiderbarSkinBy.prototype.onFocusOut = function (evt) {
         console.log(evt.target.id);

@@ -28,6 +28,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	private gp_inputContainer:eui.Group;
 	private input_width:eui.TextInput;
 	private btn_update:eui.Button;
+	private scroller_eventSet:eui.Scroller;
 
 	private color_AEEEEE:number = 0xAEEEEE;
 	private color_000000:number = 0x000000;	
@@ -70,7 +71,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.listenEvent();
 		this.tabIndex = 2;
 		// TODO:测试用
-		this.addEventSet();		
+		this.addEventSet();
 	}
 	private listenEvent(){
 		// 监听tabs click事件
@@ -142,9 +143,16 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		let eventSet3:EventSetDome = new EventSetDome('元素3');
 		eventSet2.y = (height + 1) * 1;
 		eventSet3.y = (height + 1) * 2;
+		this.gp_eventSetContainer.height = 3 * height;
 		this.gp_eventSetContainer.addChild(eventSet1);
 		this.gp_eventSetContainer.addChild(eventSet2);
-		this.gp_eventSetContainer.addChild(eventSet3);		
+		this.gp_eventSetContainer.addChild(eventSet3);	
+		let scrollerContainerHeight = this.scroller_eventSet.height;
+		setTimeout(() => {
+			// 是否自动隐藏，取决于属性visible
+			this.scroller_eventSet.verticalScrollBar.autoVisibility = false;
+			this.scroller_eventSet.verticalScrollBar.visible = this.gp_eventSetContainer.height > scrollerContainerHeight;	
+		}, 0);
 	}
 	private onFocusOut(evt:egret.FocusEvent){
 		console.log(evt.target.id);

@@ -3,7 +3,8 @@
 		"eui.Button": "resource/eui_skins/ButtonSkin.exml",
 		"eui.Panel": "resource/eui_skins/PanelSkin.exml",
 		"eui.CheckBox": "resource/eui_skins/CheckBoxSkin.exml",
-		"eui.ToggleSwitch": "resource/eui_skins/ToggleSwitchSkin.exml"
+		"eui.ToggleSwitch": "resource/eui_skins/ToggleSwitchSkin.exml",
+		"eui.VScrollBar": "resource/eui_skins/VScrollBarSkin.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [

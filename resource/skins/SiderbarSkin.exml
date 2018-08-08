@@ -63,9 +63,10 @@
 					<e:Label text="点击触发" x="12" y="18" size="22" textColor="0x050000"/>
 					<e:Label id="label_delete_clickEvent" text="x" x="447" y="14" size="24" textColor="0x070000"/>
 				</e:Group>
-				<e:Scroller width="500" height="420" x="0" y="180" skinName="skins.ScrollerSkin" enabled="true">
+				<e:Scroller id="scroller_eventSet" width="500" height="420" x="0" y="180" skinName="skins.ScrollerSkin" enabled="true" visible="true">
 					<e:Group width="500" height="420">
-					<e:Group id="gp_eventSetContainer" width="500" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" maxHeight="400" scaleX="1" scaleY="1"/>
+					<e:Group id="gp_eventSetContainer" width="100%" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" maxHeight="400" scaleX="1" scaleY="1" height="800" visible="true">
+					</e:Group>
 					</e:Group>
 				</e:Scroller>
 				<e:Group width="500" height="100" x="0" y="80" anchorOffsetX="0" anchorOffsetY="0">
