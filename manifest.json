@@ -2,17 +2,20 @@
 	"initial": [
 		"libs/modules/egret/egret.js",
 		"libs/modules/egret/egret.web.js",
+		"libs/modules/game/game.js",
 		"libs/modules/eui/eui.js",
 		"libs/modules/assetsmanager/assetsmanager.js",
 		"libs/modules/tween/tween.js",
 		"libs/modules/dragonBones/dragonBones.js",
-		"libs/modules/promise/promise.js"
+		"libs/modules/promise/promise.js",
+		"libs/modules/mouse/mouse.js"
 	],
 	"game": [
 		"bin-debug/Control.js",
 		"bin-debug/UUMovieClip.js",
 		"bin-debug/BaseUI.js",
 		"bin-debug/BgBox.js",
+		"bin-debug/checkItem.js",
 		"bin-debug/CircleSector.js",
 		"bin-debug/ComponentBox.js",
 		"bin-debug/ActionBox.js",

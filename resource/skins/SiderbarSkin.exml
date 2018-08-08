@@ -52,19 +52,19 @@
 			<e:Label text="动画" x="15" y="15" textColor="0x161111" locked="true"/>
 		</e:Group>
 		<e:Group id="gp_eventContainer_event" width="500" height="680" x="0" y="0">
-			<e:Group x="33" y="15">
+			<e:Group x="33" y="15" visible="false">
 				<e:Button id="btn_add_event" label="+ 添加触发" x="0" y="0" anchorOffsetX="0" width="213.33"/>
 				<e:ToggleSwitch label="ToggleButton" x="266.5" y="11.5"/>
 				<e:Label text="隐藏" x="343" y="14" size="24" textColor="0x0f0d0d"/>
 			</e:Group>
-			<e:Group id="gp_eventContainer_event_click" width="500" height="180" y="80" anchorOffsetX="0" anchorOffsetY="0">
-				<e:Group width="500" height="60" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" locked="true">
+			<e:Group id="gp_eventContainer_event_click" width="500" height="180" y="0" anchorOffsetX="0" anchorOffsetY="0">
+				<e:Group width="500" height="60" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0">
 					<e:Rect width="500" height="60" x="0" y="0" fillColor="0x73ddd1"/>
 					<e:Label text="点击触发" x="12" y="18" size="22" textColor="0x050000"/>
-					<e:Label id="label_delete_clickEvent" text="x" x="447" y="14" size="24" textColor="0x070000"/>
+					<e:Label id="label_delete_clickEvent" text="x" x="447" y="14" size="24" textColor="0x070000" visible="false"/>
 				</e:Group>
-				<e:Scroller id="scroller_eventSet" width="500" height="420" x="0" y="180" skinName="skins.ScrollerSkin" enabled="true" visible="true">
-					<e:Group width="500" height="420">
+				<e:Scroller id="scroller_eventSet" width="500" height="500" x="0" y="180" skinName="skins.ScrollerSkin" enabled="true" visible="true">
+					<e:Group width="500" height="500">
 					<e:Group id="gp_eventSetContainer" width="100%" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" maxHeight="400" scaleX="1" scaleY="1" height="800" visible="true">
 					</e:Group>
 					</e:Group>
