@@ -5,8 +5,8 @@ class TransformTool {
     // transform interaction
 	// where interaction starts
     public startMatrix: Matrix = new Matrix();
-    private regStartU: number = 0.5;
-	private regStartV: number = 0.5;
+    public regStartU: number = 0.5;
+	public regStartV: number = 0.5;
 	private startX: number = 0;
     private startY: number = 0;
     
@@ -16,8 +16,8 @@ class TransformTool {
 	
 	// where interaction ends
 	public endMatrix: Matrix = new Matrix();
-	private regEndU = 0.5;
-	private regEndV = 0.5;
+	public regEndU = 0.5;
+	public regEndV = 0.5;
 	private endX = 0;
 	private endY = 0;
 	
@@ -26,8 +26,8 @@ class TransformTool {
 	private dV = 0;
 	
 	// registration point in px
-	private regX = 0;
-	private regY = 0;
+	public regX = 0;
+	public regY = 0;
 	
 	// inverted matrices
 	private inv = new Matrix();
@@ -169,6 +169,39 @@ class TransformTool {
             this.updateRegistration();
             this.updateControls();
         }
+    }
+
+    scale (s: number) {
+        this.preMatrix.scale(s, s);
+        // if (this.control){
+            this.updateTransform();
+            
+            this.updateTarget();
+            this.updateRegistration();
+            this.updateControls();
+        // }
+    }
+
+    translate (x: number, y: number) {
+        this.postMatrix.translate(x, y);
+        // if (this.control){
+            this.updateTransform();
+            
+            this.updateTarget();
+            this.updateRegistration();
+            this.updateControls();
+        // }
+    }
+
+    rotate (r: number) {
+        this.postMatrix.rotate(r);
+        // if (this.control){
+            this.updateTransform();
+            
+            this.updateTarget();
+            this.updateRegistration();
+            this.updateControls();
+        // }
     }
 
     end () {
@@ -340,6 +373,7 @@ class TransformTool {
         var m = this.endMatrix;
         this.regX = m.x + m.a * x + m.c * y;
         this.regY = m.y + m.d * y + m.b * x;
+        console.log(this.regX, this.regY);
     }
 
     updateTransform () {

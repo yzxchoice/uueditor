@@ -147,6 +147,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.gp_eventSetContainer.addChild(eventSet3);		
 	}
 	private onFocusOut(evt:egret.FocusEvent){
+		console.log(evt.target.id);
 		let textInput:eui.TextInput = evt.target.parent;
 		let name:string = textInput.name;
 		let propertyName:string = name.split('_')[1];
@@ -156,27 +157,22 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		let tool: TransformTool = game.editGroup.tool;
 		let target = tool.target;
 		let element = tool.target.owner.image;
-		console.log('target');
-		console.log(target);
-		console.log('element');
-		console.log(element);
-		element.x = this.data['x'];
-		element.y = this.data['y'];
-		element.scaleX = this.data['width'] / target.width; 	
-		element.scaleY = this.data['height'] / target.height; 	
-		element.rotation = this.data['rotate'];		
-		element.alpha = 0.5;
-		let elementMatrix = element.matrix;		
-		console.log('elementMatrix');
-		console.log(elementMatrix);
-		let {a,b,c,d,tx,ty} = elementMatrix;
-		let newMatrix = new Matrix(a,b,c,d,tx,ty);
-		console.log('newMatrix');
-		console.log(newMatrix);
-		tool.target.matrix = newMatrix;		
-		tool.endMatrix = newMatrix;
-		// tool.updateRegistration();
-		tool.updateFromTarget();		
+		if(name == "input_width"){
+			tool.scale(this.data['width'] / Math.round(target.width * tool.endMatrix.a));
+		}
+		if(name == "input_x" || name == "input_y"){
+			tool.translate(this.data['x']-tool.regX, this.data['y']-tool.regY);
+		}
+		if(name == "input_rotate"){
+			tool.rotate((this.data['rotate']) * Math.PI / 180 - tool.endMatrix.getRotationX());
+		}	
+
+
+		console.log(tool.endMatrix.getRotationX(),tool.endMatrix.getRotationY());
+		console.log(tool.regX, tool.regY);
+		this.container.editGroup.render();
+		// console.log(tool.regEndU, tool.regEndV);
+		// console.log(tool.regStartU, tool.regStartV);
 	}
 	private activetedTab(tab:eui.Group){
 		let label = <eui.Label>tab.getChildByName('label');

@@ -16,12 +16,18 @@ var ActionBox = (function (_super) {
         _this.imgList = [
             {
                 id: "10003",
-                name: "circle.png"
+                name: "timg.jpg"
             }
         ];
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
+    ActionBox.prototype.dispose = function () {
+    };
+    ActionBox.prototype.draw = function (container) {
+        this.container = container;
+        this.container.addChild(this);
+    };
     ActionBox.getInstance = function (name) {
         if (!this.instance) {
             this.instance = new ImageBox();
@@ -51,12 +57,11 @@ var ActionBox = (function (_super) {
         }
     };
     ActionBox.prototype.addImage = function (event) {
-        var g = this.parent;
-        g.editGroup.addComponent(event.currentTarget.data);
+        this.container.editGroup.addComponent(event.currentTarget.data);
     };
     ActionBox.prototype.open = function (container) {
         container.addChild(this);
     };
     return ActionBox;
 }(eui.Panel));
-__reflect(ActionBox.prototype, "ActionBox");
+__reflect(ActionBox.prototype, "ActionBox", ["IUUContainer"]);

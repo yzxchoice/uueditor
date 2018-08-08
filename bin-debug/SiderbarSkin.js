@@ -135,6 +135,7 @@ var SiderbarSkinBy = (function (_super) {
         this.gp_eventSetContainer.addChild(eventSet3);
     };
     SiderbarSkinBy.prototype.onFocusOut = function (evt) {
+        console.log(evt.target.id);
         var textInput = evt.target.parent;
         var name = textInput.name;
         var propertyName = name.split('_')[1];
@@ -144,27 +145,20 @@ var SiderbarSkinBy = (function (_super) {
         var tool = game.editGroup.tool;
         var target = tool.target;
         var element = tool.target.owner.image;
-        console.log('target');
-        console.log(target);
-        console.log('element');
-        console.log(element);
-        element.x = this.data['x'];
-        element.y = this.data['y'];
-        element.scaleX = this.data['width'] / target.width;
-        element.scaleY = this.data['height'] / target.height;
-        element.rotation = this.data['rotate'];
-        element.alpha = 0.5;
-        var elementMatrix = element.matrix;
-        console.log('elementMatrix');
-        console.log(elementMatrix);
-        var a = elementMatrix.a, b = elementMatrix.b, c = elementMatrix.c, d = elementMatrix.d, tx = elementMatrix.tx, ty = elementMatrix.ty;
-        var newMatrix = new Matrix(a, b, c, d, tx, ty);
-        console.log('newMatrix');
-        console.log(newMatrix);
-        tool.target.matrix = newMatrix;
-        tool.endMatrix = newMatrix;
-        // tool.updateRegistration();
-        tool.updateFromTarget();
+        if (name == "input_width") {
+            tool.scale(this.data['width'] / Math.round(target.width * tool.endMatrix.a));
+        }
+        if (name == "input_x" || name == "input_y") {
+            tool.translate(this.data['x'] - tool.regX, this.data['y'] - tool.regY);
+        }
+        if (name == "input_rotate") {
+            tool.rotate((this.data['rotate']) * Math.PI / 180 - tool.endMatrix.getRotationX());
+        }
+        console.log(tool.endMatrix.getRotationX(), tool.endMatrix.getRotationY());
+        console.log(tool.regX, tool.regY);
+        this.container.editGroup.render();
+        // console.log(tool.regEndU, tool.regEndV);
+        // console.log(tool.regStartU, tool.regStartV);
     };
     SiderbarSkinBy.prototype.activetedTab = function (tab) {
         var label = tab.getChildByName('label');

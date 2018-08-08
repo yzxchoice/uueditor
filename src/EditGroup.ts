@@ -161,8 +161,8 @@ class EditGroup extends eui.Group {
         let game:Game = <Game>this.parent.parent;
         let siderbarSkinBy:SiderbarSkinBy = <SiderbarSkinBy>game.siderbarSkinBy;
         let newData = {
-            x: Math.floor(x),
-            y: Math.floor(y),
+            x: Math.floor(this.tool.regX),
+            y: Math.floor(this.tool.regY),
             width: Math.floor(width * scaleX),
             height: Math.floor(height * scaleY),
             rotate: Math.floor(rotation)
