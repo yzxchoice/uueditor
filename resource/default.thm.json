@@ -7,10 +7,6 @@
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
-		"resource/skins/GameSkin.exml",
-		"resource/eui_skins/TextInputSkin.exml",
-		"resource/skins/SiderbarSkin.exml",
-		"resource/skins/StartSkin.exml",
 		"resource/eui_skins/ButtonSkin.exml",
 		"resource/eui_skins/CheckBoxSkin.exml",
 		"resource/eui_skins/HScrollBarSkin.exml",
@@ -20,9 +16,14 @@
 		"resource/eui_skins/ProgressBarSkin.exml",
 		"resource/eui_skins/RadioButtonSkin.exml",
 		"resource/eui_skins/ScrollerSkin.exml",
+		"resource/eui_skins/TextInputSkin.exml",
 		"resource/eui_skins/ToggleSwitchSkin.exml",
 		"resource/eui_skins/VScrollBarSkin.exml",
-		"resource/eui_skins/VSliderSkin.exml"
+		"resource/eui_skins/VSliderSkin.exml",
+		"resource/skins/EventSet.exml",
+		"resource/skins/GameSkin.exml",
+		"resource/skins/SiderbarSkin.exml",
+		"resource/skins/StartSkin.exml"
 	],
 	"path": "resource/default.thm.json"
 }

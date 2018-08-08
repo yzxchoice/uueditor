@@ -23,7 +23,7 @@
 		</e:Group>
 	</e:Group>
 	<e:Group id="gp_eventContainers" x="0" y="120">
-		<e:Group id="gp_eventContainer_style" width="500" height="680" x="0" y="0">
+		<e:Group id="gp_eventContainer_style" width="500" height="680" x="0" y="0" visible="false">
 			<e:Group id="gp_inputContainer" width="500" height="300" y="0" anchorOffsetX="0" anchorOffsetY="0" locked="true">
 				<e:Group width="250" height="70" x="0" y="0" anchorOffsetY="0">
 					<e:Label text="宽：" x="20" y="0" height="70" verticalAlign="middle" textColor="0x0a0000" size="24" locked="true"/>
@@ -51,8 +51,8 @@
 		<e:Group id="gp_eventContainer_animation" width="500" height="680" x="0" y="0" visible="false" locked="true">
 			<e:Label text="动画" x="15" y="15" textColor="0x161111" locked="true"/>
 		</e:Group>
-		<e:Group id="gp_eventContainer_event" width="500" height="680" x="0" y="0" visible="false">
-			<e:Group x="33" y="15" locked="true">
+		<e:Group id="gp_eventContainer_event" width="500" height="680" x="0" y="0">
+			<e:Group x="33" y="15">
 				<e:Button id="btn_add_event" label="+ 添加触发" x="0" y="0" anchorOffsetX="0" width="213.33"/>
 				<e:ToggleSwitch label="ToggleButton" x="266.5" y="11.5"/>
 				<e:Label text="隐藏" x="343" y="14" size="24" textColor="0x0f0d0d"/>
@@ -63,6 +63,11 @@
 					<e:Label text="点击触发" x="12" y="18" size="22" textColor="0x050000"/>
 					<e:Label id="label_delete_clickEvent" text="x" x="447" y="14" size="24" textColor="0x070000"/>
 				</e:Group>
+				<e:Scroller width="500" height="420" x="0" y="180" skinName="skins.ScrollerSkin" enabled="true">
+					<e:Group width="500" height="420">
+					<e:Group id="gp_eventSetContainer" width="500" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" maxHeight="400" scaleX="1" scaleY="1"/>
+					</e:Group>
+				</e:Scroller>
 				<e:Group width="500" height="100" x="0" y="80" anchorOffsetX="0" anchorOffsetY="0">
 					<e:Rect width="500" height="100" x="0" y="0" fillColor="0xffffff" locked="true"/>
 					<e:Label text="目标对象" x="36" y="38" size="24" textColor="0x050000"/>

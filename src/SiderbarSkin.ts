@@ -23,6 +23,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	private gp_selection_rect:eui.Label;
 	private gp_selection_box:eui.Group;
 	private gp_selection:eui.Group;
+	private gp_eventSetContainer:eui.Group;
 
 	private gp_inputContainer:eui.Group;
 	private input_width:eui.TextInput;
@@ -67,7 +68,9 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
     }
 	private init(){
 		this.listenEvent();
-		this.tabIndex = 0;
+		this.tabIndex = 2;
+		// TODO:测试用
+		this.addEventSet();		
 	}
 	private listenEvent(){
 		// 监听tabs click事件
@@ -129,7 +132,19 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 				})(displayItemData), this);
 				this.gp_selection.addChild(checkBox);
 			}
-		}
+		};
+	}
+	private addEventSet(){
+		let eventSet1:EventSetDome = new EventSetDome('元素1');
+		let height = eventSet1.height;
+		console.log(height);
+		let eventSet2:EventSetDome = new EventSetDome('元素2');
+		let eventSet3:EventSetDome = new EventSetDome('元素3');
+		eventSet2.y = (height + 1) * 1;
+		eventSet3.y = (height + 1) * 2;
+		this.gp_eventSetContainer.addChild(eventSet1);
+		this.gp_eventSetContainer.addChild(eventSet2);
+		this.gp_eventSetContainer.addChild(eventSet3);		
 	}
 	private onFocusOut(evt:egret.FocusEvent){
 		let textInput:eui.TextInput = evt.target.parent;

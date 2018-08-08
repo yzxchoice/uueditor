@@ -55,7 +55,9 @@ var SiderbarSkinBy = (function (_super) {
     };
     SiderbarSkinBy.prototype.init = function () {
         this.listenEvent();
-        this.tabIndex = 0;
+        this.tabIndex = 2;
+        // TODO:测试用
+        this.addEventSet();
     };
     SiderbarSkinBy.prototype.listenEvent = function () {
         // 监听tabs click事件
@@ -118,6 +120,19 @@ var SiderbarSkinBy = (function (_super) {
                 this.gp_selection.addChild(checkBox);
             }
         }
+        ;
+    };
+    SiderbarSkinBy.prototype.addEventSet = function () {
+        var eventSet1 = new EventSetDome('元素1');
+        var height = eventSet1.height;
+        console.log(height);
+        var eventSet2 = new EventSetDome('元素2');
+        var eventSet3 = new EventSetDome('元素3');
+        eventSet2.y = (height + 1) * 1;
+        eventSet3.y = (height + 1) * 2;
+        this.gp_eventSetContainer.addChild(eventSet1);
+        this.gp_eventSetContainer.addChild(eventSet2);
+        this.gp_eventSetContainer.addChild(eventSet3);
     };
     SiderbarSkinBy.prototype.onFocusOut = function (evt) {
         var textInput = evt.target.parent;

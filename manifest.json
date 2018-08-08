@@ -19,6 +19,7 @@
 		"bin-debug/ControlSet.js",
 		"bin-debug/EditGroup.js",
 		"bin-debug/EgretControl.js",
+		"bin-debug/EventSet.js",
 		"bin-debug/Game.js",
 		"bin-debug/Header.js",
 		"bin-debug/ImageBox.js",
