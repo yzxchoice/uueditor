@@ -117,6 +117,7 @@ class EditGroup extends eui.Group {
             this.deliveryItemMessageToControlPanel(this.tool.target);
         }
         
+        SiderbarSkinBy.getInstance().selectionVisible = false;
         requestAnimationFrame(this.render);
         event.preventDefault();
     }
@@ -152,6 +153,8 @@ class EditGroup extends eui.Group {
     }
 
     private deliveryItemMessageToControlPanel(targetItem){
+        console.log('targetItem...');
+        console.log(targetItem);
         let matrix:Matrix = targetItem.matrix;
         let item = targetItem.owner.image;
         let {a, b, c, d, x, y} = matrix;
@@ -167,7 +170,12 @@ class EditGroup extends eui.Group {
             height: Math.floor(height * scaleY),
             rotate: Math.floor(rotation)
         };
-        siderbarSkinBy.data = newData;       
+
+        siderbarSkinBy.data = newData;    
+        let targetItemId = targetItem.owner.image.data.id;
+        let triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        siderbarSkinBy.targetItemId = targetItemId;
+        siderbarSkinBy.triggerGroup = triggerGroup;        
     }
 
     private setProperty(x?: number, y?: number) {

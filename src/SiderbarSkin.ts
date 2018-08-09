@@ -23,13 +23,76 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	private gp_selection_rect:eui.Label;
 	private gp_selection_box:eui.Group;
 	private gp_selection:eui.Group;
+	private gp_eventSetContainer:eui.Group;
 
 	private gp_inputContainer:eui.Group;
 	private input_width:eui.TextInput;
 	private btn_update:eui.Button;
+	private scroller_eventSet:eui.Scroller;
 
 	private color_AEEEEE:number = 0xAEEEEE;
 	private color_000000:number = 0x000000;	
+
+	private _selectionVisible:boolean = false;
+	public get selectionVisible():boolean {
+		return this._selectionVisible;
+	}
+	public set selectionVisible(v:boolean) {
+		this._selectionVisible = v;
+		this.gp_selection_box.visible = v;
+	}
+	// TODO: 
+	// 获取选中目标的id
+	// 转化 properties/triggerGroup 中由选中目标与触发的对象目标元素的数据结构 形成一个数组 用于判断初始化CheckItem时的selected状态以及渲染对应的eventSet组件
+	// 假数据 测试用：
+	private _targetItemId:number = 8401;
+	public get targetItemId():number {
+		return this._targetItemId;
+	}
+	public set targetItemId(v:number) {
+		this._targetItemId = v;
+	}
+	private _triggerGroup:Array<any>;
+	public get triggerGroup():Array<any> {
+		return this._triggerGroup;
+	}
+	public set triggerGroup(v:Array<any>) {
+		this._triggerGroup = v;
+		let triggerGroupFilter = v.filter(item => item.targetId == this.targetItemId);
+		this.relevanceItemIdList = triggerGroupFilter.map(item => item.sourceId);
+		let obj = {};
+		for(let i = 0,len = triggerGroupFilter.length; i < len; i++){
+			let item = triggerGroupFilter[i];
+			obj[item.sourceId] = item;
+			obj[item.sourceId].id = item.sourceId;
+			obj[item.sourceId].title = item.sourceId;	
+			obj[item.sourceId].isShow = true;			
+			obj[item.sourceId].delayed = item.delay;								
+		};
+		this.relevanceItemIdObj = obj;
+		console.log('this.relevanceItemIdObj...');
+		console.log(obj);
+		this.initShowEventSetList();		
+	}
+	private relevanceItemIdList = [];
+	private _relevanceItemIdObj:Object = {};
+	public get relevanceItemIdObj():Object {
+		return this._relevanceItemIdObj;
+	}
+	// 增/删/改 之后 relevanceItemIdObj = relevanceItemIdObj 从而触发set
+	public set relevanceItemIdObj(v:Object) {
+		this._relevanceItemIdObj = v;
+		console.log('setter relevanceItemIdObj...');
+		console.log(v);		
+	}
+	// public relevanceItemIdObj = {
+	// 	8401: {
+	// 		id: 8401,
+	// 		title: '8401',
+	// 		isShow: true,
+	// 		delayed: 100,
+	// 	},
+	// };
 
 	public data:Object = {
 		width: 30,
@@ -67,9 +130,13 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
     }
 	private init(){
 		this.listenEvent();
-		this.tabIndex = 0;
+		this.tabIndex = 2;
 	}
 	private listenEvent(){
+		// 启用舞台的鼠标支持
+		// 开启监听鼠标的移动事件
+		mouse.enable(this.stage);
+		mouse.setMouseMoveEnabled(true);
 		// 监听tabs click事件
 		this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
 		this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
@@ -81,7 +148,6 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 			let input = groupInpput.getChildAt(1);
 			input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);			
 		}
-		// this.btn_update.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onFocusOut, this)
 	}
 	private touchTabsClick(evt:egret.TouchEvent){
 		var point = new egret.Point(evt.stageX - this.x - 0,evt.stageY - this.y - 60);
@@ -110,24 +176,105 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 			this.gp_container_addEvent.visible = false;	
 		});
 	}
-	private touchSelection(evt: egret.TouchEvent){
-		let isShow = this.gp_selection_box.visible = !this.gp_selection_box.visible;
-		if(isShow){
+	private touchSelection(){
+		this.selectionVisible = !this.selectionVisible;
+		if(this.selectionVisible){
 			this.gp_selection.removeChildren();
 			let g: Game = this.parent as Game;
 			let disPlayList = g.editGroup.displayList;
 			for(let j = 0, num = disPlayList.length; j < num; j++){
-				let checkBox:eui.CheckBox = new eui.CheckBox();
-				checkBox.y = 30 * j;
-				checkBox.label = `元素${j + 1}`;
 				let displayItemData = disPlayList[j].image.data;
-				checkBox.selected = false;
-				checkBox.addEventListener(egret.Event.CHANGE, (displayItemData => {
-					return () => {
-						console.log(displayItemData);
+				let relevanceItemId = displayItemData.id;
+				let checkBoxGroup:CheckItem = new CheckItem(relevanceItemId);
+				checkBoxGroup.y = 30 * j;
+				checkBoxGroup.addEventListener(egret.Event.ADDED_TO_STAGE, () => {
+					let isSelected = this.relevanceItemIdList.indexOf(relevanceItemId) == -1 ? false : true;
+					checkBoxGroup.isSelected = isSelected;
+				}, this);
+				checkBoxGroup.addEventListener(mouse.MouseEvent.MOUSE_OVER, (evt:egret.TouchEvent) => {
+					checkBoxGroup.isOver = true;
+				}, this);
+				checkBoxGroup.addEventListener(mouse.MouseEvent.MOUSE_OUT, (evt:egret.TouchEvent) => {
+					checkBoxGroup.isOver = false;
+				}, this);
+				checkBoxGroup.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt:egret.TouchEvent) => {
+					let checkItem = checkBoxGroup.checkBox;
+					console.log(checkItem);
+					console.log('selected = ' + checkItem.selected);
+					let selected = checkItem.selected;
+					let eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
+					if(!eventSetMessage){
+						this.relevanceItemIdObj[relevanceItemId] = {
+							id: relevanceItemId,
+							title: relevanceItemId.toString(),
+							isShow: true,
+							delayed: 100
+						};
+						this.relevanceItemIdObj = this.relevanceItemIdObj;
+						eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
 					}
-				})(displayItemData), this);
-				this.gp_selection.addChild(checkBox);
+					if(selected){
+						this.pushEventSet(eventSetMessage);
+						this.relevanceItemIdList.push(relevanceItemId);
+					}else {
+						this.removeEventSet(eventSetMessage);
+					}
+				}, this);
+				this.gp_selection.addChild(checkBoxGroup);
+			}
+		};
+	}
+	private pushEventSet(eventSetMessage){
+		console.log('eventSetMessage...');
+		console.log(eventSetMessage);
+		let {id,title,isShow,delayed} = eventSetMessage;
+		let eventSet:EventSetDome = new EventSetDome(title);
+		this.gp_eventSetContainer.addChild(eventSet);
+		eventSet.id = id;		
+		eventSet.name = id;
+		eventSet.delayed = delayed;
+		eventSet.isShow = isShow;
+		eventSet.y = (this.gp_eventSetContainer.numChildren - 1) * eventSet.height;
+		this.setupEventSetContainer();
+	}
+	public removeEventSet(eventSetMessage){
+		let relevanceItemId = eventSetMessage.id;
+		console.log('relevanceItemId = ' + relevanceItemId);
+		let eventSet = this.gp_eventSetContainer.getChildByName(relevanceItemId);
+		console.log(eventSet);
+		this.gp_eventSetContainer.removeChild(eventSet);
+		for(let i = 0, len = this.gp_eventSetContainer.numChildren; i < len; i++){
+			let eventSet = this.gp_eventSetContainer.getChildAt(i);
+			eventSet.y = eventSet.height * i;
+		};
+		this.setupEventSetContainer();
+		this.relevanceItemIdList.splice(this.relevanceItemIdList.indexOf(relevanceItemId), 1);
+		delete this.relevanceItemIdObj[relevanceItemId];
+		this.relevanceItemIdObj = this.relevanceItemIdObj;
+	}
+	private setupEventSetContainer(){
+		let numChildren;
+		this.gp_eventSetContainer.height = (numChildren = this.gp_eventSetContainer.numChildren) 
+		? numChildren * this.gp_eventSetContainer.getChildAt(0).height
+		: 0;
+		let scrollerContainerHeight = this.scroller_eventSet.height;
+		setTimeout(() => {
+			// 是否自动隐藏，取决于属性visible
+			this.scroller_eventSet.verticalScrollBar.autoVisibility = false;
+			this.scroller_eventSet.verticalScrollBar.visible = this.gp_eventSetContainer.height > scrollerContainerHeight;	
+		}, 0);
+	}
+	private initShowEventSetList(){
+		this.gp_eventSetContainer.removeChildren();
+		let g: Game = this.parent as Game;
+		let disPlayList = g.editGroup.displayList;
+		for(let j = 0, num = disPlayList.length; j < num; j++){
+			let displayItemData = disPlayList[j].image.data;
+			let relevanceItemId = displayItemData.id;
+			let isSelected = this.relevanceItemIdList.indexOf(relevanceItemId) == -1 ? false : true;
+			if(isSelected){
+				let eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
+				this.pushEventSet(eventSetMessage);
 			}
 		}
 	}

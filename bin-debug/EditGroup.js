@@ -109,6 +109,7 @@ var EditGroup = (function (_super) {
             this.stage.addEventListener(Mouse.END, this.up, this);
             this.deliveryItemMessageToControlPanel(this.tool.target);
         }
+        SiderbarSkinBy.getInstance().selectionVisible = false;
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
@@ -136,6 +137,8 @@ var EditGroup = (function (_super) {
         event.preventDefault();
     };
     EditGroup.prototype.deliveryItemMessageToControlPanel = function (targetItem) {
+        console.log('targetItem...');
+        console.log(targetItem);
         var matrix = targetItem.matrix;
         var item = targetItem.owner.image;
         var a = matrix.a, b = matrix.b, c = matrix.c, d = matrix.d, x = matrix.x, y = matrix.y;
@@ -152,6 +155,10 @@ var EditGroup = (function (_super) {
             rotate: Math.floor(rotation)
         };
         siderbarSkinBy.data = newData;
+        var targetItemId = targetItem.owner.image.data.id;
+        var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        siderbarSkinBy.targetItemId = targetItemId;
+        siderbarSkinBy.triggerGroup = triggerGroup;
     };
     EditGroup.prototype.setProperty = function (x, y) {
         var eles = this.pages[this.pageIndex].elements;
@@ -450,4 +457,3 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
-//# sourceMappingURL=EditGroup.js.map

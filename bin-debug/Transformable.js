@@ -14,4 +14,3 @@ var Transformable = (function () {
     return Transformable;
 }());
 __reflect(Transformable.prototype, "Transformable");
-//# sourceMappingURL=Transformable.js.map

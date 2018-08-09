@@ -150,4 +150,3 @@ var Matrix = (function () {
     return Matrix;
 }());
 __reflect(Matrix.prototype, "Matrix");
-//# sourceMappingURL=Matrix.js.map
