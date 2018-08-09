@@ -71,6 +71,7 @@ var Header = (function (_super) {
         this.addChild(btnRelease);
     };
     Header.prototype.preview = function (event) {
+        // callJsFunc("ts call js");
         this.parent.addChild(new Preview());
     };
     Header.prototype.openComponentPanel = function (event) {
