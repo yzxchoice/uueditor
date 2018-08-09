@@ -70,6 +70,7 @@ class Header extends eui.Group implements IUUContainer {
 
     
     preview (event: egret.TouchEvent) {
+        // callJsFunc("ts call js");
         this.parent.addChild(new Preview());
     }
 
