@@ -1,4 +1,29 @@
-class EventSetDome extends eui.Component {
+class EventSetDome extends eui.Component implements IUUContainer,BaseUI {
+
+	container: Game;
+	dispose (): void {
+		let data = this.data;
+		let index = null;
+		for(let i = 0, len = this.triggerGroup.length; i < len; i++){
+			let obj = this.triggerGroup[i];
+			if(data.sourceId == obj.sourceId && data.targetId == obj.targetId){
+				index = i;
+				break;
+			}
+		};
+		if(index !== null){
+			this.triggerGroup.splice(index, 1);
+			this.triggerGroup = this.triggerGroup;
+		};
+	}
+
+	draw (container: any) {
+		this.container = container;
+		this.container.addChild(this);
+	}
+
+    data: any;
+
 	private label_title:eui.Label;
 	public input_time:eui.TextInput;
 	private btn_show:eui.Button;
@@ -6,15 +31,17 @@ class EventSetDome extends eui.Component {
 	private label_close:eui.Label;
 
 	private siderbarSkin:SiderbarSkinBy = SiderbarSkinBy.getInstance();
+	private triggerGroup = this.siderbarSkin.triggerGroup
 	
 	private _isShow:boolean = true;
 	public get isShow():boolean {
 		return this._isShow;
 	}
 	public set isShow(v:boolean){
+		console.log('isShow = ' + v);
 		this._isShow = v;
 		this.currentState = v ? 'show' : 'hidden';
-		this.updateMessage();
+		this.data.targetState = v ? 1 : 2;		
 	}
 	private _delayed:number;
 	public get delayed():number{
@@ -23,14 +50,7 @@ class EventSetDome extends eui.Component {
 	public set delayed(v:number){
 		this._delayed = v;
 		this.input_time.text = v.toString();
-		this.updateMessage();
-	}
-	private _id:number;
-	public get id():number{
-		return this._id;
-	}
-	public set id(v:number){
-		this._id = v;
+		this.data.delay = v;
 	}
 
 	public constructor(labelText:string = '') {
@@ -38,6 +58,7 @@ class EventSetDome extends eui.Component {
 		this.skinName = "resource/skins/EventSet.exml";
 		this.label_title.text = labelText;
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStageInit, this);
+		// this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedToStageInit, this);
 	}
 	private onAddToStageInit(event:egret.Event) {
 		this.btn_show.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
@@ -50,13 +71,13 @@ class EventSetDome extends eui.Component {
 			this.delayed = Number(evt.target.text); 
 		}, this);
 		this.label_close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-			this.siderbarSkin.removeEventSet({id: this.id});
+			this.siderbarSkin.removeEventSet(this.data);
+			// this.parent.removeChild(this);
+			// this.dispose();
 		}, this);
     }
-	private updateMessage(){
-		let relevanceItem = this.siderbarSkin.relevanceItemIdObj[this.id];
-		relevanceItem.isShow = this.isShow;
-		relevanceItem.delayed = this.delayed;
-		this.siderbarSkin.relevanceItemIdObj = this.siderbarSkin.relevanceItemIdObj;
+
+	public pushData(){
+		this.triggerGroup.push(this.data);
 	}
 }

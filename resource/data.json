@@ -18,6 +18,9 @@
                         "x": 200,
                         "y": 200
                     },
+                    "tween": {
+                        
+                    },
                     "src": "resource/assets/dunny.png",
                     "sceneId": 1001
                 },
@@ -121,7 +124,7 @@
                         "sourceId": 8405,
                         "sourceType": "e",
                         "targetId": 8405,
-                        "targetState": 4,
+                        "targetState": 2,
                         "targetType": "e"
                     }
                 ]

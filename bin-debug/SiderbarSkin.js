@@ -15,21 +15,17 @@ var SiderbarSkinBy = (function (_super) {
         _this.color_AEEEEE = 0xAEEEEE;
         _this.color_000000 = 0x000000;
         _this._selectionVisible = false;
-        // TODO: 
-        // 获取选中目标的id
-        // 转化 properties/triggerGroup 中由选中目标与触发的对象目标元素的数据结构 形成一个数组 用于判断初始化CheckItem时的selected状态以及渲染对应的eventSet组件
-        // 假数据 测试用：
-        _this._targetItemId = 8401;
         _this.relevanceItemIdList = [];
         _this._relevanceItemIdObj = {};
-        // public relevanceItemIdObj = {
-        // 	8401: {
-        // 		id: 8401,
-        // 		title: '8401',
-        // 		isShow: true,
-        // 		delayed: 100,
-        // 	},
-        // };
+        _this.defaultRelevanceItem = {
+            "delay": 100,
+            "eventType": 1,
+            "sourceId": 8405,
+            "sourceType": "e",
+            "targetId": 8405,
+            "targetState": 1,
+            "targetType": "e"
+        };
         _this.data = {
             width: 30,
             height: 30,
@@ -37,6 +33,7 @@ var SiderbarSkinBy = (function (_super) {
             y: 30,
             rotate: 10,
         };
+        _this.isFirstSelect = true;
         _this.skinName = "resource/skins/SiderbarSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
@@ -74,22 +71,18 @@ var SiderbarSkinBy = (function (_super) {
         },
         set: function (v) {
             var _this = this;
+            console.log('set triggerGroup...');
+            console.log(v);
             this._triggerGroup = v;
-            var triggerGroupFilter = v.filter(function (item) { return item.targetId == _this.targetItemId; });
-            this.relevanceItemIdList = triggerGroupFilter.map(function (item) { return item.sourceId; });
+            var triggerGroupFilter = v.filter(function (item) { return item.sourceId == _this.targetItemId; });
+            this.relevanceItemIdList = triggerGroupFilter.map(function (item) { return item.targetId; });
             var obj = {};
             for (var i = 0, len = triggerGroupFilter.length; i < len; i++) {
                 var item = triggerGroupFilter[i];
-                obj[item.sourceId] = item;
-                obj[item.sourceId].id = item.sourceId;
-                obj[item.sourceId].title = item.sourceId;
-                obj[item.sourceId].isShow = true;
-                obj[item.sourceId].delayed = item.delay;
+                obj[item.targetId] = item;
             }
             ;
             this.relevanceItemIdObj = obj;
-            console.log('this.relevanceItemIdObj...');
-            console.log(obj);
             this.initShowEventSetList();
         },
         enumerable: true,
@@ -131,19 +124,21 @@ var SiderbarSkinBy = (function (_super) {
         this.init();
     };
     SiderbarSkinBy.prototype.init = function () {
-        this.listenEvent();
-        this.tabIndex = 2;
-    };
-    SiderbarSkinBy.prototype.listenEvent = function () {
         // 启用舞台的鼠标支持
         // 开启监听鼠标的移动事件
         mouse.enable(this.stage);
         mouse.setMouseMoveEnabled(true);
+        var vLayout = new eui.VerticalLayout();
+        this.gp_eventSetContainer.layout = vLayout;
+        this.listenEvent();
+        this.tabIndex = 2;
+    };
+    SiderbarSkinBy.prototype.listenEvent = function () {
         // 监听tabs click事件
         this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
         this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
         this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
-        this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection, this);
+        this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
         for (var i = 0, len = this.gp_inputContainer.numChildren; i < len; i++) {
             var groupInpput = this.gp_inputContainer.getChildAt(i);
             var input = groupInpput.getChildAt(1);
@@ -178,8 +173,11 @@ var SiderbarSkinBy = (function (_super) {
             _this.gp_container_addEvent.visible = false;
         });
     };
-    SiderbarSkinBy.prototype.touchSelection = function () {
+    // 触发 tab 功能
+    SiderbarSkinBy.prototype.touchSelection2 = function () {
         var _this = this;
+        if (!this.targetItemId)
+            return;
         this.selectionVisible = !this.selectionVisible;
         if (this.selectionVisible) {
             this.gp_selection.removeChildren();
@@ -194,80 +192,74 @@ var SiderbarSkinBy = (function (_super) {
                     var isSelected = _this.relevanceItemIdList.indexOf(relevanceItemId) == -1 ? false : true;
                     checkBoxGroup.isSelected = isSelected;
                 }, this_1);
-                checkBoxGroup.addEventListener(mouse.MouseEvent.MOUSE_OVER, function (evt) {
-                    checkBoxGroup.isOver = true;
-                }, this_1);
-                checkBoxGroup.addEventListener(mouse.MouseEvent.MOUSE_OUT, function (evt) {
-                    checkBoxGroup.isOver = false;
-                }, this_1);
-                checkBoxGroup.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-                    var checkItem = checkBoxGroup.checkBox;
-                    console.log(checkItem);
-                    console.log('selected = ' + checkItem.selected);
-                    var selected = checkItem.selected;
-                    var eventSetMessage = _this.relevanceItemIdObj[relevanceItemId];
-                    if (!eventSetMessage) {
-                        _this.relevanceItemIdObj[relevanceItemId] = {
-                            id: relevanceItemId,
-                            title: relevanceItemId.toString(),
-                            isShow: true,
-                            delayed: 100
-                        };
-                        _this.relevanceItemIdObj = _this.relevanceItemIdObj;
-                        eventSetMessage = _this.relevanceItemIdObj[relevanceItemId];
-                    }
-                    if (selected) {
-                        _this.pushEventSet(eventSetMessage);
-                        _this.relevanceItemIdList.push(relevanceItemId);
-                    }
-                    else {
-                        _this.removeEventSet(eventSetMessage);
-                    }
-                }, this_1);
                 this_1.gp_selection.addChild(checkBoxGroup);
             };
             var this_1 = this;
             for (var j = 0, num = disPlayList.length; j < num; j++) {
                 _loop_1(j, num);
             }
+            if (!this.isFirstSelect) {
+                return;
+            }
+            this.isFirstSelect = false;
+            this.gp_selection.addEventListener(mouse.MouseEvent.MOUSE_OVER, this.onMouseover_Selection, this);
+            this.gp_selection.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick_Selection, this);
         }
         ;
+    };
+    SiderbarSkinBy.prototype.onMouseover_Selection = function (evt) {
+        for (var i = 0, len = this.gp_selection.numChildren; i < len; i++) {
+            var item = this.gp_selection.getChildAt(i);
+            item.isOver = false;
+        }
+        ;
+        evt.target.parent.isOver = true;
+    };
+    SiderbarSkinBy.prototype.onClick_Selection = function (evt) {
+        var checkoutBox = evt.target;
+        var checkItem = evt.target.parent;
+        var selected = checkoutBox.selected;
+        var relevanceItemId = checkItem.labelText;
+        var eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
+        if (!eventSetMessage) {
+            this.relevanceItemIdObj[relevanceItemId] = JSON.parse(JSON.stringify(this.defaultRelevanceItem));
+            this.relevanceItemIdObj[relevanceItemId].sourceId = this.targetItemId;
+            this.relevanceItemIdObj[relevanceItemId].targetId = relevanceItemId;
+            this.relevanceItemIdObj = this.relevanceItemIdObj;
+            eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
+        }
+        if (selected) {
+            this.pushEventSet(eventSetMessage);
+            this.relevanceItemIdList.push(relevanceItemId);
+        }
+        else {
+            this.removeEventSet(eventSetMessage);
+        }
+    };
+    SiderbarSkinBy.prototype.drawEventSet = function (eventSetMessage) {
+        var eventSet = new EventSetDome();
+        eventSet.name = eventSetMessage.targetId;
+        eventSet.data = eventSetMessage;
+        eventSet.isShow = eventSetMessage.targetState == 1 ? true : false;
+        eventSet.draw(this.gp_eventSetContainer);
+        this.setupEventSetContainer();
+        return eventSet;
     };
     SiderbarSkinBy.prototype.pushEventSet = function (eventSetMessage) {
-        console.log('eventSetMessage...');
-        console.log(eventSetMessage);
-        var id = eventSetMessage.id, title = eventSetMessage.title, isShow = eventSetMessage.isShow, delayed = eventSetMessage.delayed;
-        var eventSet = new EventSetDome(title);
-        this.gp_eventSetContainer.addChild(eventSet);
-        eventSet.id = id;
-        eventSet.name = id;
-        eventSet.delayed = delayed;
-        eventSet.isShow = isShow;
-        eventSet.y = (this.gp_eventSetContainer.numChildren - 1) * eventSet.height;
-        this.setupEventSetContainer();
+        var eventSet = this.drawEventSet(eventSetMessage);
+        eventSet.pushData();
     };
     SiderbarSkinBy.prototype.removeEventSet = function (eventSetMessage) {
-        var relevanceItemId = eventSetMessage.id;
+        var relevanceItemId = eventSetMessage.targetId;
         console.log('relevanceItemId = ' + relevanceItemId);
         var eventSet = this.gp_eventSetContainer.getChildByName(relevanceItemId);
-        console.log(eventSet);
         this.gp_eventSetContainer.removeChild(eventSet);
-        for (var i = 0, len = this.gp_eventSetContainer.numChildren; i < len; i++) {
-            var eventSet_1 = this.gp_eventSetContainer.getChildAt(i);
-            eventSet_1.y = eventSet_1.height * i;
-        }
-        ;
-        this.setupEventSetContainer();
+        eventSet.dispose();
         this.relevanceItemIdList.splice(this.relevanceItemIdList.indexOf(relevanceItemId), 1);
-        delete this.relevanceItemIdObj[relevanceItemId];
-        this.relevanceItemIdObj = this.relevanceItemIdObj;
+        this.setupEventSetContainer();
     };
     SiderbarSkinBy.prototype.setupEventSetContainer = function () {
         var _this = this;
-        var numChildren;
-        this.gp_eventSetContainer.height = (numChildren = this.gp_eventSetContainer.numChildren)
-            ? numChildren * this.gp_eventSetContainer.getChildAt(0).height
-            : 0;
         var scrollerContainerHeight = this.scroller_eventSet.height;
         setTimeout(function () {
             // 是否自动隐藏，取决于属性visible
@@ -280,12 +272,11 @@ var SiderbarSkinBy = (function (_super) {
         var g = this.parent;
         var disPlayList = g.editGroup.displayList;
         for (var j = 0, num = disPlayList.length; j < num; j++) {
-            var displayItemData = disPlayList[j].image.data;
-            var relevanceItemId = displayItemData.id;
+            var relevanceItemId = disPlayList[j].image.data.id;
             var isSelected = this.relevanceItemIdList.indexOf(relevanceItemId) == -1 ? false : true;
             if (isSelected) {
                 var eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
-                this.pushEventSet(eventSetMessage);
+                this.drawEventSet(eventSetMessage);
             }
         }
     };
@@ -309,8 +300,8 @@ var SiderbarSkinBy = (function (_super) {
         if (name == "input_rotate") {
             tool.rotate((this.data['rotate']) * Math.PI / 180 - tool.endMatrix.getRotationX());
         }
-        console.log(tool.endMatrix.getRotationX(), tool.endMatrix.getRotationY());
-        console.log(tool.regX, tool.regY);
+        // console.log(tool.endMatrix.getRotationX(),tool.endMatrix.getRotationY());
+        // console.log(tool.regX, tool.regY);
         this.container.editGroup.render();
         // console.log(tool.regEndU, tool.regEndV);
         // console.log(tool.regStartU, tool.regStartV);
