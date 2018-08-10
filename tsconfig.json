@@ -8,7 +8,8 @@
             "dom",
             "es2015.promise"
         ],
-        "types": []
+        "types": [],
+        "declaration": true
     },
     "include": [
         "src",

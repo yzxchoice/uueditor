@@ -71,7 +71,9 @@ class Header extends eui.Group implements IUUContainer {
     
     preview (event: egret.TouchEvent) {
         // callJsFunc("ts call js");
-        this.parent.addChild(new Preview());
+        var g: Game = this.parent as Game;
+        var pb: PreviewBox = new PreviewBox();
+        pb.draw(g);
     }
 
     openComponentPanel (event: egret.TouchEvent) {

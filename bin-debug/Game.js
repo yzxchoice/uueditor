@@ -36,19 +36,25 @@ var Game = (function (_super) {
         editContaier.horizontalCenter = 0;
         editContaier.verticalCenter = 0;
         this.addChild(editContaier);
-        var img = new eui.Image("resource/assets/phone16.png");
-        img.width = 393 * 1.5;
-        img.height = 796 * 1.5;
-        editContaier.addChild(img);
+        // var img = new eui.Image("resource/assets/phone16.png");
+        // img.width = 393*1.5;
+        // img.height = 796*1.5;
+        // editContaier.addChild(img);
         // var img = new eui.Image("resource/assets/phonewhite.svg");
         // img.width = 328*1.5;
         // img.height = 560*1.5;
         // this.editGroup.horizontalCenter = 0;
         // this.editGroup.verticalCenter = 0;
-        this.editGroup.width = 340 * 1.5;
-        this.editGroup.height = 506 * 1.5;
+        var bg = new egret.Shape;
+        // bg.graphics.lineStyle(3,0x999999);
+        bg.graphics.beginFill(0xffffff, 1);
+        bg.graphics.drawRect(0, 0, 750, 1334);
+        bg.graphics.endFill();
+        editContaier.addChild(bg);
+        this.editGroup.width = 750;
+        this.editGroup.height = 1334;
         this.editGroup.horizontalCenter = 0;
-        this.editGroup.y = 190 * 1.5;
+        this.editGroup.y = 0;
         this.editGroup.scrollEnabled = true;
         // this.drawBg(this.editGroup);
         // this.editGroup.addChild(img);
@@ -119,3 +125,4 @@ var Game = (function (_super) {
     return Game;
 }(eui.Component));
 __reflect(Game.prototype, "Game");
+//# sourceMappingURL=Game.js.map

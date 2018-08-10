@@ -1,0 +1,38 @@
+declare class EditGroup extends eui.Group {
+    displayList: any[];
+    tool: any;
+    private pages;
+    private pageIndex;
+    private borderColor;
+    private bg;
+    constructor();
+    protected createChildren(): void;
+    private onAddToStage(event);
+    private bindHandlers();
+    private getPages();
+    private init();
+    private addBg();
+    setupTool(): void;
+    getCustomControls(): EgretControl[];
+    down(event: egret.TouchEvent): boolean;
+    move(event: egret.TouchEvent): void;
+    up(event: egret.TouchEvent): void;
+    private deliveryItemMessageToControlPanel(targetItem);
+    private setProperty(x?, y?);
+    applyDynamicControls(event: any): void;
+    getDynamicControl(): any;
+    findControlByType(type: any): any;
+    containsPoint(x: number, y: number): boolean;
+    selectImage(x: number, y: number): boolean;
+    private renderResources(index);
+    render(): void;
+    clear(): void;
+    reset(): void;
+    drawDisplayList(): void;
+    pre(event: egret.TouchEvent): void;
+    next(event: egret.TouchEvent): void;
+    addSinglePicture(data: uiData): void;
+    changeBg(url: string): void;
+    addSound(data: uiData): void;
+    addComponent(data: uiData): void;
+}

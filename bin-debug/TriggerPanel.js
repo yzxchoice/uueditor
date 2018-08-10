@@ -21,3 +21,4 @@ var TriggerPanel = (function (_super) {
     return TriggerPanel;
 }(eui.Group));
 __reflect(TriggerPanel.prototype, "TriggerPanel");
+//# sourceMappingURL=TriggerPanel.js.map

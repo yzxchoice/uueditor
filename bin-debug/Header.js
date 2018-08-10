@@ -72,7 +72,9 @@ var Header = (function (_super) {
     };
     Header.prototype.preview = function (event) {
         // callJsFunc("ts call js");
-        this.parent.addChild(new Preview());
+        var g = this.parent;
+        var pb = new PreviewBox();
+        pb.draw(g);
     };
     Header.prototype.openComponentPanel = function (event) {
         var g = this.parent;
@@ -93,3 +95,4 @@ var Header = (function (_super) {
     return Header;
 }(eui.Group));
 __reflect(Header.prototype, "Header", ["IUUContainer"]);
+//# sourceMappingURL=Header.js.map
