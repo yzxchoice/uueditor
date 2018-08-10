@@ -12,9 +12,12 @@ var SiderbarSkinBy = (function (_super) {
     __extends(SiderbarSkinBy, _super);
     function SiderbarSkinBy() {
         var _this = _super.call(this) || this;
-        _this.color_AEEEEE = 0xAEEEEE;
-        _this.color_000000 = 0x000000;
-        _this._selectionVisible = false;
+        // state
+        _this.stateObj = {
+            selectionVisible: false,
+        };
+        _this.selectionVisible = false;
+        _this.isFirstSelect = true;
         _this.relevanceItemIdList = [];
         _this._relevanceItemIdObj = {};
         _this.defaultRelevanceItem = {
@@ -33,7 +36,6 @@ var SiderbarSkinBy = (function (_super) {
             y: 30,
             rotate: 10,
         };
-        _this.isFirstSelect = true;
         _this.skinName = "resource/skins/SiderbarSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
@@ -44,17 +46,13 @@ var SiderbarSkinBy = (function (_super) {
         this.container = container;
         this.container.addChild(this);
     };
-    Object.defineProperty(SiderbarSkinBy.prototype, "selectionVisible", {
-        get: function () {
-            return this._selectionVisible;
-        },
-        set: function (v) {
-            this._selectionVisible = v;
-            this.gp_selection_box.visible = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    SiderbarSkinBy.getInstance = function () {
+        if (SiderbarSkinBy._instance == null) {
+            SiderbarSkinBy._instance = new SiderbarSkinBy();
+        }
+        ;
+        return SiderbarSkinBy._instance;
+    };
     Object.defineProperty(SiderbarSkinBy.prototype, "targetItemId", {
         get: function () {
             return this._targetItemId;
@@ -71,8 +69,6 @@ var SiderbarSkinBy = (function (_super) {
         },
         set: function (v) {
             var _this = this;
-            console.log('set triggerGroup...');
-            console.log(v);
             this._triggerGroup = v;
             var triggerGroupFilter = v.filter(function (item) { return item.sourceId == _this.targetItemId; });
             this.relevanceItemIdList = triggerGroupFilter.map(function (item) { return item.targetId; });
@@ -101,25 +97,6 @@ var SiderbarSkinBy = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    SiderbarSkinBy.getInstance = function () {
-        if (SiderbarSkinBy._instance == null) {
-            SiderbarSkinBy._instance = new SiderbarSkinBy();
-        }
-        ;
-        return SiderbarSkinBy._instance;
-    };
-    Object.defineProperty(SiderbarSkinBy.prototype, "tabIndex", {
-        get: function () {
-            return this._tabIndex;
-        },
-        set: function (v) {
-            this._tabIndex = v;
-            this.changeTabIndex(v);
-            this.gp_container_addEvent.visible = false;
-        },
-        enumerable: true,
-        configurable: true
-    });
     SiderbarSkinBy.prototype.onAddToStageInit = function (event) {
         this.init();
     };
@@ -136,7 +113,7 @@ var SiderbarSkinBy = (function (_super) {
         vLayout2.paddingTop = 5;
         this.gp_selection.layout = vLayout2;
         this.listenEvent();
-        this.tabIndex = 2;
+        this.currentState = 'style';
     };
     SiderbarSkinBy.prototype.listenEvent = function () {
         // 监听tabs click事件
@@ -151,17 +128,7 @@ var SiderbarSkinBy = (function (_super) {
         }
     };
     SiderbarSkinBy.prototype.touchTabsClick = function (evt) {
-        var point = new egret.Point(evt.stageX - this.x - 0, evt.stageY - this.y - 60);
-        for (var i = 0, len = this.gp_tabs.numChildren; i < len; i++) {
-            var tab = this.gp_tabs.getChildAt(i);
-            var rect = new egret.Rectangle(tab.x, tab.y, tab.width, tab.height);
-            if (rect.containsPoint(point)) {
-                console.log(tab);
-                console.log(i);
-                this.tabIndex = i;
-                break;
-            }
-        }
+        this.currentState = evt.target.parent.name;
     };
     SiderbarSkinBy.prototype.touchAddEvent = function (evt) {
         this.gp_container_addEvent.visible = true;
@@ -183,8 +150,8 @@ var SiderbarSkinBy = (function (_super) {
         var _this = this;
         if (!this.targetItemId)
             return;
-        this.selectionVisible = !this.selectionVisible;
-        if (this.selectionVisible) {
+        this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
+        if (this.stateObj.selectionVisible) {
             this.gp_selection.removeChildren();
             var g = this.parent;
             var disPlayList = g.editGroup.displayList;
@@ -202,9 +169,8 @@ var SiderbarSkinBy = (function (_super) {
             for (var j = 0, num = disPlayList.length; j < num; j++) {
                 _loop_1(j, num);
             }
-            if (!this.isFirstSelect) {
+            if (!this.isFirstSelect)
                 return;
-            }
             this.isFirstSelect = false;
             this.gp_selection.addEventListener(mouse.MouseEvent.MOUSE_OVER, this.onMouseover_Selection, this);
             this.gp_selection.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick_Selection, this);
@@ -300,42 +266,6 @@ var SiderbarSkinBy = (function (_super) {
         this.container.editGroup.render();
         // console.log(tool.regEndU, tool.regEndV);
         // console.log(tool.regStartU, tool.regStartV);
-    };
-    SiderbarSkinBy.prototype.activetedTab = function (tab) {
-        var label = tab.getChildByName('label');
-        var rect_default = tab.getChildByName('rect_default');
-        var rect_activeted = tab.getChildByName('rect_activeted');
-        rect_default.visible = false;
-        rect_activeted.visible = true;
-        label.textColor = this.color_AEEEEE;
-    };
-    SiderbarSkinBy.prototype.unActivetedTab = function (tab) {
-        var label = tab.getChildByName('label');
-        var rect_default = tab.getChildByName('rect_default');
-        var rect_activeted = tab.getChildByName('rect_activeted');
-        rect_default.visible = true;
-        rect_activeted.visible = false;
-        label.textColor = this.color_000000;
-    };
-    SiderbarSkinBy.prototype.cleanTab = function () {
-        for (var i = 0, len = this.gp_tabs.numChildren; i < len; i++) {
-            var tab = this.gp_tabs.getChildAt(i);
-            this.unActivetedTab(tab);
-        }
-    };
-    SiderbarSkinBy.prototype.cleanContainer = function () {
-        for (var i = 0, len = this.gp_eventContainers.numChildren; i < len; i++) {
-            var eventContainer = this.gp_eventContainers.getChildAt(i);
-            eventContainer.visible = false;
-        }
-    };
-    SiderbarSkinBy.prototype.changeTabIndex = function (index) {
-        var tab = this.gp_tabs.getChildAt(index);
-        var eventContainer = this.gp_eventContainers.getChildAt(index);
-        this.cleanTab();
-        this.activetedTab(tab);
-        this.cleanContainer();
-        eventContainer.visible = true;
     };
     SiderbarSkinBy._instance = null;
     return SiderbarSkinBy;

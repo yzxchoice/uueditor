@@ -8,39 +8,29 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.container = container;
 		this.container.addChild(this);
 	}
+	private static _instance:SiderbarSkinBy = null;
+	public static getInstance(){
+		if(SiderbarSkinBy._instance == null){
+			SiderbarSkinBy._instance = new SiderbarSkinBy();
+		};
+		return SiderbarSkinBy._instance;
+	}
+
 	private gp_tabs:eui.Group;
-	// private gp_tab_style:eui.Group;
-	// private gp_tab_animation:eui.Group;
-	// private gp_tab_event:eui.Group;
-	private gp_eventContainers:eui.Group;
-	// private gp_eventContainer_style:eui.Group;
-	// private gp_eventContainer_animation:eui.Group;
-	// private gp_eventContainer_event:eui.Group;
 	private gp_container_addEvent:eui.Group;
 	private btn_add_event:eui.Button;
 	private gp_add_click_event:eui.Group;
 	private gp_eventContainer_event_click:eui.Group;
 	private gp_selection_rect:eui.Label;
-	private gp_selection_box:eui.Group;
 	private gp_selection:eui.Group;
 	private gp_eventSetContainer:eui.Group;
-
 	private gp_inputContainer:eui.Group;
-	private input_width:eui.TextInput;
-	private btn_update:eui.Button;
-	private scroller_eventSet:eui.Scroller;
-
-	private color_AEEEEE:number = 0xAEEEEE;
-	private color_000000:number = 0x000000;	
-
-	private _selectionVisible:boolean = false;
-	public get selectionVisible():boolean {
-		return this._selectionVisible;
+	// state
+	public stateObj = {
+		selectionVisible: false,
 	}
-	public set selectionVisible(v:boolean) {
-		this._selectionVisible = v;
-		this.gp_selection_box.visible = v;
-	}
+	public selectionVisible:boolean = false;
+	private isFirstSelect:boolean = true;	
 
 	private _targetItemId:number;
 	public get targetItemId():number {
@@ -54,8 +44,6 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		return this._triggerGroup;
 	}
 	public set triggerGroup(v:Array<any>) {
-		console.log('set triggerGroup...');
-		console.log(v);
 		this._triggerGroup = v;
 		let triggerGroupFilter = v.filter(item => item.sourceId == this.targetItemId);
 		this.relevanceItemIdList = triggerGroupFilter.map(item => item.targetId);
@@ -87,7 +75,6 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		"targetState": 1,
 		"targetType": "e"
 	}
-
 	public data:Object = {
 		width: 30,
 		height: 30,
@@ -95,26 +82,6 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		y: 30,
 		rotate: 10,
 	}
-
-	private static _instance:SiderbarSkinBy = null;
-	public static getInstance(){
-		if(SiderbarSkinBy._instance == null){
-			SiderbarSkinBy._instance = new SiderbarSkinBy();
-		};
-		return SiderbarSkinBy._instance;
-	}
-	
-	private _tabIndex:number;
-	public get tabIndex():number {
-		return this._tabIndex;
-	}
-	public set tabIndex(v:number){
-		this._tabIndex = v;
-		this.changeTabIndex(v);
-		this.gp_container_addEvent.visible = false;
-	}
-
-	private isFirstSelect:boolean = true;
 
 	public constructor() {
 		super();
@@ -137,7 +104,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		vLayout2.paddingTop = 5;		
 		this.gp_selection.layout = vLayout2;
 		this.listenEvent();
-		this.tabIndex = 2;
+		this.currentState = 'style';
 	}
 	private listenEvent(){
 		// 监听tabs click事件
@@ -153,17 +120,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		}
 	}
 	private touchTabsClick(evt:egret.TouchEvent){
-		var point = new egret.Point(evt.stageX - this.x - 0,evt.stageY - this.y - 60);
-		for(let i = 0, len = this.gp_tabs.numChildren; i < len; i++){
-			let tab = <eui.Group>this.gp_tabs.getChildAt(i);
-			let rect = new egret.Rectangle(tab.x,tab.y,tab.width,tab.height);
-			if(rect.containsPoint(point)){
-				console.log(tab);
-				console.log(i);
-				this.tabIndex = i;
-				break;
-			}
-		}
+		this.currentState = evt.target.parent.name;
 	}
 	private touchAddEvent(evt:egret.TouchEvent){
 		this.gp_container_addEvent.visible = true;
@@ -182,8 +139,8 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	// tab 触发 功能
 	private touchSelection2(){
 		if(!this.targetItemId) return;
-		this.selectionVisible = !this.selectionVisible;
-		if(this.selectionVisible){
+		this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
+		if(this.stateObj.selectionVisible){
 			this.gp_selection.removeChildren();
 			let g: Game = this.parent as Game;
 			let disPlayList = g.editGroup.displayList;
@@ -197,9 +154,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 				}, this);		
 				this.gp_selection.addChild(checkBoxGroup);						
 			}
-			if(!this.isFirstSelect){
-				return;
-			}
+			if(!this.isFirstSelect) return;
 			this.isFirstSelect = false;			
 			this.gp_selection.addEventListener(mouse.MouseEvent.MOUSE_OVER, this.onMouseover_Selection, this);
 			this.gp_selection.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick_Selection, this);
@@ -293,41 +248,5 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.container.editGroup.render();
 		// console.log(tool.regEndU, tool.regEndV);
 		// console.log(tool.regStartU, tool.regStartV);
-	}
-	private activetedTab(tab:eui.Group){
-		let label = <eui.Label>tab.getChildByName('label');
-		let rect_default = <eui.Rect>tab.getChildByName('rect_default');
-		let rect_activeted = <eui.Rect>tab.getChildByName('rect_activeted');	
-		rect_default.visible = false;
-		rect_activeted.visible = true;			
-		label.textColor = this.color_AEEEEE;
-	}
-	private unActivetedTab(tab:eui.Group){
-		let label = <eui.Label>tab.getChildByName('label');
-		let rect_default = <eui.Rect>tab.getChildByName('rect_default');
-		let rect_activeted = <eui.Rect>tab.getChildByName('rect_activeted');	
-		rect_default.visible = true;
-		rect_activeted.visible = false;			
-		label.textColor = this.color_000000;
-	}
-	private cleanTab(){
-		for(let i = 0, len = this.gp_tabs.numChildren; i < len; i++){
-			let tab = <eui.Group>this.gp_tabs.getChildAt(i);
-			this.unActivetedTab(tab);
-		}
-	}
-	private cleanContainer(){
-		for(let i = 0, len = this.gp_eventContainers.numChildren; i < len; i++){
-			let eventContainer = <eui.Group>this.gp_eventContainers.getChildAt(i);
-			eventContainer.visible = false;
-		}
-	}
-	private changeTabIndex(index: number){
-		let tab = <eui.Group>this.gp_tabs.getChildAt(index);
-		let eventContainer = <eui.Group>this.gp_eventContainers.getChildAt(index);
-		this.cleanTab();
-		this.activetedTab(tab);		
-		this.cleanContainer();
-		eventContainer.visible = true;
 	}
 }
