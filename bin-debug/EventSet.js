@@ -73,6 +73,7 @@ var EventSetDome = (function (_super) {
     };
     EventSetDome.prototype.pushData = function () {
         this.triggerGroup.push(this.data);
+        console.log(this.triggerGroup);
     };
     return EventSetDome;
 }(eui.Component));

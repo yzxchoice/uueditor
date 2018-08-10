@@ -114,10 +114,11 @@ class EditGroup extends eui.Group {
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
 
-            this.deliveryItemMessageToControlPanel(this.tool.target);
+            SiderbarSkinBy.getInstance().setTarget(this.tool);
+
         }
         
-        SiderbarSkinBy.getInstance().selectionVisible = false;
+        // SiderbarSkinBy.getInstance().selectionVisible = false;
         requestAnimationFrame(this.render);
         event.preventDefault();
     }
@@ -127,7 +128,9 @@ class EditGroup extends eui.Group {
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
 
-        this.deliveryItemMessageToControlPanel(this.tool.target);        
+        SiderbarSkinBy.getInstance().updateTarget();
+
+        // this.deliveryItemMessageToControlPanel(this.tool.target);        
         
         requestAnimationFrame(this.render);
         event.preventDefault();
@@ -146,38 +149,10 @@ class EditGroup extends eui.Group {
         this.stage.removeEventListener(Mouse.MOVE, this.move, this);
         this.stage.removeEventListener(Mouse.END, this.up, this);
 
-        this.deliveryItemMessageToControlPanel(this.tool.target);
+        SiderbarSkinBy.getInstance().updateTarget();
         
         requestAnimationFrame(this.render);
         event.preventDefault();
-    }
-
-    private deliveryItemMessageToControlPanel(targetItem){
-        console.log('targetItem...');
-        console.log(targetItem);
-        let matrix:Matrix = targetItem.matrix;
-        let item = targetItem.owner.image;
-        let {a, b, c, d, x, y} = matrix;
-        let {width, height} = targetItem;
-        let {scaleX, scaleY, rotation} = item;
-        // TODO: this.parent.parent 优化
-        let game:Game = <Game>this.parent.parent;
-        let siderbarSkinBy:SiderbarSkinBy = <SiderbarSkinBy>game.siderbarSkinBy;
-        let newData = {
-            x: Math.floor(this.tool.regX),
-            y: Math.floor(this.tool.regY),
-            width: Math.floor(width * scaleX),
-            height: Math.floor(height * scaleY),
-            rotate: Math.floor(rotation)
-        };
-
-        siderbarSkinBy.data = newData;    
-        let targetItemId = targetItem.owner.image.data.id;
-        let triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-        console.log('-----------------');
-        console.log(triggerGroup);
-        siderbarSkinBy.targetItemId = targetItemId;
-        siderbarSkinBy.triggerGroup = triggerGroup;        
     }
 
     private setProperty(x?: number, y?: number) {
@@ -302,6 +277,7 @@ class EditGroup extends eui.Group {
                     label.textAlign = egret.HorizontalAlign.JUSTIFY;
                     label.name = elements[i].id;
                     label.data = elements[i];
+                    
                     this.displayList.push(new Picture(label, elements[i].matrix));
                     break;
                 case 2:

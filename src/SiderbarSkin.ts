@@ -1,11 +1,13 @@
 class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	container: Game;
+	editGroup: EditGroup;
 	dispose (): void {
 
 	}
 
 	draw (container: any) {
 		this.container = container;
+		this.editGroup = this.container.editGroup;
 		this.container.addChild(this);
 	}
 	private static _instance:SiderbarSkinBy = null;
@@ -15,7 +17,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		};
 		return SiderbarSkinBy._instance;
 	}
-
+	private tool;
 	private gp_tabs:eui.Group;
 	private gp_container_addEvent:eui.Group;
 	private btn_add_event:eui.Button;
@@ -32,13 +34,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	public selectionVisible:boolean = false;
 	private isFirstSelect:boolean = true;	
 
-	private _targetItemId:number;
-	public get targetItemId():number {
-		return this._targetItemId;
-	}
-	public set targetItemId(v:number) {
-		this._targetItemId = v;
-	}
+	private targetItemId:number;
 	private _triggerGroup:Array<any>;
 	public get triggerGroup():Array<any> {
 		return this._triggerGroup;
@@ -66,7 +62,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		console.log('setter relevanceItemIdObj...');
 		console.log(v);		
 	}
-	private defaultRelevanceItem = {
+	static defaultRelevanceItem = {
 		"delay": 100,
 		"eventType": 1,
 		"sourceId": 8405,
@@ -119,6 +115,27 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 			input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);			
 		}
 	}
+	public setTarget(tool){
+		this.tool = tool;
+	}
+	public updateTarget(){
+		let matrix:Matrix = this.tool.target.matrix;
+        let item = this.tool.target.owner.image;
+        let {width, height} = this.tool.target;
+        let {scaleX, scaleY, rotation} = item;
+        let newData = {
+            x: Math.floor(this.tool.regX),
+            y: Math.floor(this.tool.regY),
+            width: Math.floor(width * scaleX),
+            height: Math.floor(height * scaleY),
+            rotate: Math.floor(rotation)
+        };
+		this.data = newData;
+
+		this.targetItemId = this.tool.target.owner.image.data.id;
+        this.triggerGroup = this.editGroup.pages[this.editGroup.pageIndex].properties.triggerGroup;
+		console.log(this.triggerGroup);
+	}
 	private touchTabsClick(evt:egret.TouchEvent){
 		this.currentState = evt.target.parent.name;
 	}
@@ -142,8 +159,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
 		if(this.stateObj.selectionVisible){
 			this.gp_selection.removeChildren();
-			let g: Game = this.parent as Game;
-			let disPlayList = g.editGroup.displayList;
+			let disPlayList = this.editGroup.displayList;
 			for(let j = 0, num = disPlayList.length; j < num; j++){
 				let displayItemData = disPlayList[j].image.data;
 				let relevanceItemId = displayItemData.id;
@@ -175,14 +191,18 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		let relevanceItemId = checkItem.labelText;
 		let eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
 		if(!eventSetMessage){
-			this.relevanceItemIdObj[relevanceItemId] = JSON.parse(JSON.stringify(this.defaultRelevanceItem));
+			this.relevanceItemIdObj[relevanceItemId] = JSON.parse(JSON.stringify(SiderbarSkinBy.defaultRelevanceItem));
 			this.relevanceItemIdObj[relevanceItemId].sourceId = this.targetItemId;
 			this.relevanceItemIdObj[relevanceItemId].targetId = relevanceItemId;						
-			this.relevanceItemIdObj = this.relevanceItemIdObj;
+			// this.relevanceItemIdObj = this.relevanceItemIdObj;
 			eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
+			console.log('------1------');
+			console.log(eventSetMessage);
+			// return;
 		}
 		if(selected){
-			this.pushEventSet(eventSetMessage);
+			this.pushEventSet({});
+			// this.pushEventSet(eventSetMessage);			
 			this.relevanceItemIdList.push(relevanceItemId);
 		}else {
 			this.removeEventSet(eventSetMessage);
@@ -190,15 +210,17 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	}
 	private drawEventSet(eventSetMessage){
 		let eventSet:EventSetDome = new EventSetDome();	
-		eventSet.name = eventSetMessage.targetId;
 		eventSet.data = eventSetMessage;
+		eventSet.name = eventSetMessage.targetId;		
 		eventSet.isShow = eventSetMessage.targetState == 1 ? true : false;
-		eventSet.draw(this.gp_eventSetContainer);
+		// eventSet.draw(this.gp_eventSetContainer);
 		return eventSet;
 	}
 	private pushEventSet(eventSetMessage){
 		let eventSet:EventSetDome = this.drawEventSet(eventSetMessage);
-		eventSet.pushData();
+		console.log('---0000----');
+		console.log(eventSetMessage);
+		// eventSet.pushData();
 	}
 	public removeEventSet(eventSetMessage){
 		let relevanceItemId = eventSetMessage.targetId;
@@ -210,8 +232,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	}
 	private initShowEventSetList(){
 		this.gp_eventSetContainer.removeChildren();
-		let g: Game = this.parent as Game;
-		let disPlayList = g.editGroup.displayList;
+		let disPlayList = this.editGroup.displayList;
 		for(let j = 0, num = disPlayList.length; j < num; j++){
 			let relevanceItemId = disPlayList[j].image.data.id;
 			let isSelected = this.relevanceItemIdList.indexOf(relevanceItemId) == -1 ? false : true;

@@ -1,9 +1,11 @@
 declare class SiderbarSkinBy extends eui.Component implements IUUContainer {
     container: Game;
+    editGroup: EditGroup;
     dispose(): void;
     draw(container: any): void;
     private static _instance;
     static getInstance(): SiderbarSkinBy;
+    private tool;
     private gp_tabs;
     private gp_container_addEvent;
     private btn_add_event;
@@ -18,19 +20,28 @@ declare class SiderbarSkinBy extends eui.Component implements IUUContainer {
     };
     selectionVisible: boolean;
     private isFirstSelect;
-    private _targetItemId;
-    targetItemId: number;
+    private targetItemId;
     private _triggerGroup;
     triggerGroup: Array<any>;
     private relevanceItemIdList;
     private _relevanceItemIdObj;
     relevanceItemIdObj: Object;
-    private defaultRelevanceItem;
+    static defaultRelevanceItem: {
+        "delay": number;
+        "eventType": number;
+        "sourceId": number;
+        "sourceType": string;
+        "targetId": number;
+        "targetState": number;
+        "targetType": string;
+    };
     data: Object;
     constructor();
     private onAddToStageInit(event);
     private init();
     private listenEvent();
+    setTarget(tool: any): void;
+    updateTarget(): void;
     private touchTabsClick(evt);
     private touchAddEvent(evt);
     private addClickEventItem(evt);

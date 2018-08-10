@@ -20,15 +20,6 @@ var SiderbarSkinBy = (function (_super) {
         _this.isFirstSelect = true;
         _this.relevanceItemIdList = [];
         _this._relevanceItemIdObj = {};
-        _this.defaultRelevanceItem = {
-            "delay": 100,
-            "eventType": 1,
-            "sourceId": 8405,
-            "sourceType": "e",
-            "targetId": 8405,
-            "targetState": 1,
-            "targetType": "e"
-        };
         _this.data = {
             width: 30,
             height: 30,
@@ -44,6 +35,7 @@ var SiderbarSkinBy = (function (_super) {
     };
     SiderbarSkinBy.prototype.draw = function (container) {
         this.container = container;
+        this.editGroup = this.container.editGroup;
         this.container.addChild(this);
     };
     SiderbarSkinBy.getInstance = function () {
@@ -53,16 +45,6 @@ var SiderbarSkinBy = (function (_super) {
         ;
         return SiderbarSkinBy._instance;
     };
-    Object.defineProperty(SiderbarSkinBy.prototype, "targetItemId", {
-        get: function () {
-            return this._targetItemId;
-        },
-        set: function (v) {
-            this._targetItemId = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(SiderbarSkinBy.prototype, "triggerGroup", {
         get: function () {
             return this._triggerGroup;
@@ -127,6 +109,26 @@ var SiderbarSkinBy = (function (_super) {
             input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
         }
     };
+    SiderbarSkinBy.prototype.setTarget = function (tool) {
+        this.tool = tool;
+    };
+    SiderbarSkinBy.prototype.updateTarget = function () {
+        var matrix = this.tool.target.matrix;
+        var item = this.tool.target.owner.image;
+        var _a = this.tool.target, width = _a.width, height = _a.height;
+        var scaleX = item.scaleX, scaleY = item.scaleY, rotation = item.rotation;
+        var newData = {
+            x: Math.floor(this.tool.regX),
+            y: Math.floor(this.tool.regY),
+            width: Math.floor(width * scaleX),
+            height: Math.floor(height * scaleY),
+            rotate: Math.floor(rotation)
+        };
+        this.data = newData;
+        this.targetItemId = this.tool.target.owner.image.data.id;
+        this.triggerGroup = this.editGroup.pages[this.editGroup.pageIndex].properties.triggerGroup;
+        console.log(this.triggerGroup);
+    };
     SiderbarSkinBy.prototype.touchTabsClick = function (evt) {
         this.currentState = evt.target.parent.name;
     };
@@ -153,8 +155,7 @@ var SiderbarSkinBy = (function (_super) {
         this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
         if (this.stateObj.selectionVisible) {
             this.gp_selection.removeChildren();
-            var g = this.parent;
-            var disPlayList = g.editGroup.displayList;
+            var disPlayList = this.editGroup.displayList;
             var _loop_1 = function (j, num) {
                 var displayItemData = disPlayList[j].image.data;
                 var relevanceItemId = displayItemData.id;
@@ -194,14 +195,18 @@ var SiderbarSkinBy = (function (_super) {
         var relevanceItemId = checkItem.labelText;
         var eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
         if (!eventSetMessage) {
-            this.relevanceItemIdObj[relevanceItemId] = JSON.parse(JSON.stringify(this.defaultRelevanceItem));
+            this.relevanceItemIdObj[relevanceItemId] = JSON.parse(JSON.stringify(SiderbarSkinBy.defaultRelevanceItem));
             this.relevanceItemIdObj[relevanceItemId].sourceId = this.targetItemId;
             this.relevanceItemIdObj[relevanceItemId].targetId = relevanceItemId;
-            this.relevanceItemIdObj = this.relevanceItemIdObj;
+            // this.relevanceItemIdObj = this.relevanceItemIdObj;
             eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
+            console.log('------1------');
+            console.log(eventSetMessage);
+            // return;
         }
         if (selected) {
-            this.pushEventSet(eventSetMessage);
+            this.pushEventSet({});
+            // this.pushEventSet(eventSetMessage);			
             this.relevanceItemIdList.push(relevanceItemId);
         }
         else {
@@ -210,15 +215,17 @@ var SiderbarSkinBy = (function (_super) {
     };
     SiderbarSkinBy.prototype.drawEventSet = function (eventSetMessage) {
         var eventSet = new EventSetDome();
-        eventSet.name = eventSetMessage.targetId;
         eventSet.data = eventSetMessage;
+        eventSet.name = eventSetMessage.targetId;
         eventSet.isShow = eventSetMessage.targetState == 1 ? true : false;
-        eventSet.draw(this.gp_eventSetContainer);
+        // eventSet.draw(this.gp_eventSetContainer);
         return eventSet;
     };
     SiderbarSkinBy.prototype.pushEventSet = function (eventSetMessage) {
         var eventSet = this.drawEventSet(eventSetMessage);
-        eventSet.pushData();
+        console.log('---0000----');
+        console.log(eventSetMessage);
+        // eventSet.pushData();
     };
     SiderbarSkinBy.prototype.removeEventSet = function (eventSetMessage) {
         var relevanceItemId = eventSetMessage.targetId;
@@ -230,8 +237,7 @@ var SiderbarSkinBy = (function (_super) {
     };
     SiderbarSkinBy.prototype.initShowEventSetList = function () {
         this.gp_eventSetContainer.removeChildren();
-        var g = this.parent;
-        var disPlayList = g.editGroup.displayList;
+        var disPlayList = this.editGroup.displayList;
         for (var j = 0, num = disPlayList.length; j < num; j++) {
             var relevanceItemId = disPlayList[j].image.data.id;
             var isSelected = this.relevanceItemIdList.indexOf(relevanceItemId) == -1 ? false : true;
@@ -268,6 +274,15 @@ var SiderbarSkinBy = (function (_super) {
         // console.log(tool.regStartU, tool.regStartV);
     };
     SiderbarSkinBy._instance = null;
+    SiderbarSkinBy.defaultRelevanceItem = {
+        "delay": 100,
+        "eventType": 1,
+        "sourceId": 8405,
+        "sourceType": "e",
+        "targetId": 8405,
+        "targetState": 1,
+        "targetType": "e"
+    };
     return SiderbarSkinBy;
 }(eui.Component));
 __reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy", ["IUUContainer"]);

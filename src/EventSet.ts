@@ -1,4 +1,4 @@
-class EventSetDome extends eui.Component implements IUUContainer,BaseUI {
+class EventSetDome extends eui.Component implements IUUContainer {
 
 	container: Game;
 	dispose (): void {
@@ -68,5 +68,6 @@ class EventSetDome extends eui.Component implements IUUContainer,BaseUI {
 
 	public pushData(){
 		this.triggerGroup.push(this.data);
+		console.log(this.triggerGroup);
 	}
 }

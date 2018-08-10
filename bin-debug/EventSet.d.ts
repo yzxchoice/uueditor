@@ -1,4 +1,4 @@
-declare class EventSetDome extends eui.Component implements IUUContainer, BaseUI {
+declare class EventSetDome extends eui.Component implements IUUContainer {
     container: Game;
     dispose(): void;
     draw(container: any): void;
