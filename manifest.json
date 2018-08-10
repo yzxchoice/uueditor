@@ -14,9 +14,6 @@
 	"game": [
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/ImagesLoader.js",
-		"bin-debug/Control.js",
-		"bin-debug/Main.js",
-		"bin-debug/BaseUI.js",
 		"bin-debug/BgBox.js",
 		"bin-debug/checkItem.js",
 		"bin-debug/ComponentBox.js",
@@ -27,9 +24,7 @@
 		"bin-debug/ImageBox.js",
 		"bin-debug/ActionBox.js",
 		"bin-debug/LoadingUI.js",
-		"bin-debug/AssetAdapter.js",
-		"bin-debug/Matrix.js",
-		"bin-debug/Mouse.js",
+		"bin-debug/Main.js",
 		"bin-debug/NewFile.js",
 		"bin-debug/Platform.js",
 		"bin-debug/PreviewBox.js",
@@ -37,9 +32,6 @@
 		"bin-debug/SoundBox.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/TriggerPanel.js",
-		"bin-debug/UUBitmap.js",
-		"bin-debug/UUImage.js",
-		"bin-debug/UULabel.js",
 		"bin-debug/UUMovieClip.js"
 	]
 }

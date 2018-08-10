@@ -76,9 +76,4 @@ var EventSetDome = (function (_super) {
     };
     return EventSetDome;
 }(eui.Component));
-<<<<<<< HEAD
-__reflect(EventSetDome.prototype, "EventSetDome");
-//# sourceMappingURL=EventSet.js.map
-=======
 __reflect(EventSetDome.prototype, "EventSetDome", ["IUUContainer"]);
->>>>>>> 2b471f5d6677115b55c4797405515d2052e42f4e

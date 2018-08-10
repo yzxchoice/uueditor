@@ -42,4 +42,3 @@ var PreviewBox = (function (_super) {
     return PreviewBox;
 }(eui.Group));
 __reflect(PreviewBox.prototype, "PreviewBox", ["IUUContainer"]);
-//# sourceMappingURL=PreviewBox.js.map
