@@ -39,6 +39,10 @@
     {
       "name": "mouse",
       "path": "../libsrc"
+    },
+    {
+      "name": "uulib",
+      "path": "../uulib"
     }
   ]
 }

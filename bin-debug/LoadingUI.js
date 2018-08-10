@@ -46,14 +46,31 @@ var LoadingUI = (function (_super) {
     LoadingUI.prototype.createView = function () {
         this.textField = new egret.TextField();
         this.addChild(this.textField);
-        this.textField.y = 300;
+        this.textField.y = 400;
+        this.textField.x = (1920 - 480) / 2;
         this.textField.width = 480;
         this.textField.height = 100;
         this.textField.textAlign = "center";
+        this.textField.textColor = 0x999999;
+        this.progressBar = new egret.Shape();
+        this.progressBar.height = 30;
+        this.progressBar.width = 480;
+        this.progressBar.x = (1920 - 480) / 2;
+        this.progressBar.y = 350;
+        this.progressBar.graphics.beginFill(0xcccccc, 1);
+        this.progressBar.graphics.drawRoundRect(0, 0, 480, 30, 30);
+        this.progressBar.graphics.endFill();
+        this.addChild(this.progressBar);
     };
     LoadingUI.prototype.onProgress = function (current, total) {
         this.textField.text = "Loading..." + current + "/" + total;
+        // this.progressBar.value = Math.floor(current / total * 100);
+        this.progressBar.graphics.beginFill(0x3fb0f5, 1);
+        // this.progressBar.graphics.lineStyle(1, 0xf2f2f2);
+        this.progressBar.graphics.drawRoundRect(0, 0, 480 * current / total, 30, 30);
+        this.progressBar.graphics.endFill();
     };
     return LoadingUI;
 }(egret.Sprite));
 __reflect(LoadingUI.prototype, "LoadingUI", ["RES.PromiseTaskReporter"]);
+//# sourceMappingURL=LoadingUI.js.map
