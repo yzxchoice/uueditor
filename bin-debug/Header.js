@@ -69,6 +69,40 @@ var Header = (function (_super) {
         btnRelease.label = "发布";
         // btnRelease.addEventListener(Mouse.START, this.preview, this);
         this.addChild(btnRelease);
+        var btnSave = new eui.Button();
+        btnSave.width = 100;
+        btnSave.height = 40;
+        btnSave.label = "保存";
+        btnSave.addEventListener(Mouse.START, this.save, this);
+        this.addChild(btnSave);
+    };
+    Header.prototype.save = function (event) {
+        var g = this.parent;
+        console.log(g.editGroup.pages);
+        var obj = {
+            code: 200,
+            msg: "success",
+            list: g.editGroup.pages
+        };
+        var params = "id=1&template=" + JSON.stringify(obj);
+        var request = new egret.HttpRequest();
+        request.responseType = egret.HttpResponseType.TEXT;
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.open("http://localhost:8002/template/updateTemplate", egret.HttpMethod.POST);
+        request.send(params);
+        request.addEventListener(egret.Event.COMPLETE, this.onPostComplete, this);
+        request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onPostIOError, this);
+        request.addEventListener(egret.ProgressEvent.PROGRESS, this.onPostProgress, this);
+    };
+    Header.prototype.onPostComplete = function (event) {
+        var request = event.currentTarget;
+        egret.log("post data : ", request.response);
+    };
+    Header.prototype.onPostIOError = function (event) {
+        egret.log("post error : " + event);
+    };
+    Header.prototype.onPostProgress = function (event) {
+        egret.log("post progress : " + Math.floor(100 * event.bytesLoaded / event.bytesTotal) + "%");
     };
     Header.prototype.preview = function (event) {
         // callJsFunc("ts call js");

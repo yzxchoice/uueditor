@@ -107,9 +107,9 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
-            this.deliveryItemMessageToControlPanel(this.tool.target);
+            // this.deliveryItemMessageToControlPanel(this.tool.target);
         }
-        SiderbarSkinBy.getInstance().selectionVisible = false;
+        // SiderbarSkinBy.getInstance().selectionVisible = false;
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
@@ -117,7 +117,7 @@ var EditGroup = (function (_super) {
         Mouse.get(event, this);
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
-        this.deliveryItemMessageToControlPanel(this.tool.target);
+        // this.deliveryItemMessageToControlPanel(this.tool.target);        
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
@@ -132,7 +132,7 @@ var EditGroup = (function (_super) {
         }
         this.stage.removeEventListener(Mouse.MOVE, this.move, this);
         this.stage.removeEventListener(Mouse.END, this.up, this);
-        this.deliveryItemMessageToControlPanel(this.tool.target);
+        // this.deliveryItemMessageToControlPanel(this.tool.target);
         requestAnimationFrame(this.render);
         event.preventDefault();
     };

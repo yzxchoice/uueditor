@@ -27,11 +27,13 @@ declare class SiderbarSkinBy extends eui.Component implements IUUContainer {
     private relevanceItemIdList;
     private _relevanceItemIdObj;
     relevanceItemIdObj: Object;
+    private defaultRelevanceItem;
     data: Object;
     private static _instance;
     static getInstance(): SiderbarSkinBy;
     private _tabIndex;
     tabIndex: number;
+    private isFirstSelect;
     constructor();
     private onAddToStageInit(event);
     private init();
@@ -39,7 +41,10 @@ declare class SiderbarSkinBy extends eui.Component implements IUUContainer {
     private touchTabsClick(evt);
     private touchAddEvent(evt);
     private addClickEventItem(evt);
-    private touchSelection();
+    private touchSelection2();
+    private onMouseover_Selection(evt);
+    private onClick_Selection(evt);
+    private drawEventSet(eventSetMessage);
     private pushEventSet(eventSetMessage);
     removeEventSet(eventSetMessage: any): void;
     private setupEventSetContainer();

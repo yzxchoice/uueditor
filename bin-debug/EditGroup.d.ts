@@ -1,8 +1,8 @@
 declare class EditGroup extends eui.Group {
     displayList: any[];
     tool: any;
-    private pages;
-    private pageIndex;
+    pages: any[];
+    pageIndex: number;
     private borderColor;
     private bg;
     constructor();

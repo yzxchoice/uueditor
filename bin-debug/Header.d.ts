@@ -5,6 +5,10 @@ declare class Header extends eui.Group implements IUUContainer {
     constructor();
     private onAddToStage(event);
     private init();
+    private save(event);
+    private onPostComplete(event);
+    private onPostIOError(event);
+    private onPostProgress(event);
     preview(event: egret.TouchEvent): void;
     openComponentPanel(event: egret.TouchEvent): void;
     openSoundPanel(event: egret.TouchEvent): void;

@@ -66,6 +66,45 @@ class Header extends eui.Group implements IUUContainer {
         btnRelease.label = "发布";
         // btnRelease.addEventListener(Mouse.START, this.preview, this);
         this.addChild(btnRelease);
+        var btnSave = new eui.Button();
+        btnSave.width = 100;
+        btnSave.height = 40;
+        btnSave.label = "保存";
+        btnSave.addEventListener(Mouse.START, this.save, this);
+        this.addChild(btnSave);
+    }
+
+    private save (event: egret.TouchEvent) {
+        var g: Game = this.parent as Game;
+        console.log(g.editGroup.pages);
+        var obj = {
+            code: 200,
+            msg: "success",
+            list: g.editGroup.pages
+        }
+        var params = "id=1&template="+JSON.stringify(obj);
+        var request = new egret.HttpRequest();
+        request.responseType = egret.HttpResponseType.TEXT;
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.open("http://localhost:8002/template/updateTemplate",egret.HttpMethod.POST);
+        request.send(params);
+        request.addEventListener(egret.Event.COMPLETE,this.onPostComplete,this);
+        request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.onPostIOError,this);
+        request.addEventListener(egret.ProgressEvent.PROGRESS,this.onPostProgress,this);
+    }
+
+    private onPostComplete(event:egret.Event):void {
+        var request = <egret.HttpRequest>event.currentTarget;
+        egret.log("post data : ",request.response);
+        
+    }
+
+    private onPostIOError(event:egret.IOErrorEvent):void {
+        egret.log("post error : " + event);
+    }
+
+    private onPostProgress(event:egret.ProgressEvent):void {
+        egret.log("post progress : " + Math.floor(100*event.bytesLoaded/event.bytesTotal) + "%");
     }
 
     
