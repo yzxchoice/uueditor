@@ -41,10 +41,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this._selectionVisible = v;
 		this.gp_selection_box.visible = v;
 	}
-	// TODO: 
-	// 获取选中目标的id
-	// 转化 properties/triggerGroup 中由选中目标与触发的对象目标元素的数据结构 形成一个数组 用于判断初始化CheckItem时的selected状态以及渲染对应的eventSet组件
-	// 假数据 测试用：
+
 	private _targetItemId:number;
 	public get targetItemId():number {
 		return this._targetItemId;
@@ -133,7 +130,12 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		mouse.enable(this.stage);
 		mouse.setMouseMoveEnabled(true);
 		var vLayout:eui.VerticalLayout = new eui.VerticalLayout();
+		vLayout.paddingTop = 5;				
 		this.gp_eventSetContainer.layout = vLayout;
+		var vLayout2:eui.VerticalLayout = new eui.VerticalLayout();
+		vLayout2.gap = 0;
+		vLayout2.paddingTop = 5;		
+		this.gp_selection.layout = vLayout2;
 		this.listenEvent();
 		this.tabIndex = 2;
 	}
@@ -177,7 +179,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 			this.gp_container_addEvent.visible = false;	
 		});
 	}
-	// 触发 tab 功能
+	// tab 触发 功能
 	private touchSelection2(){
 		if(!this.targetItemId) return;
 		this.selectionVisible = !this.selectionVisible;
@@ -189,7 +191,6 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 				let displayItemData = disPlayList[j].image.data;
 				let relevanceItemId = displayItemData.id;
 				let checkBoxGroup:CheckItem = new CheckItem(relevanceItemId);
-				checkBoxGroup.y = 30 * j;
 				checkBoxGroup.addEventListener(egret.Event.ADDED_TO_STAGE, () => {
 					let isSelected = this.relevanceItemIdList.indexOf(relevanceItemId) == -1 ? false : true;
 					checkBoxGroup.isSelected = isSelected;
@@ -215,6 +216,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		let checkoutBox = evt.target;
 		let checkItem = evt.target.parent;					
 		let selected = checkoutBox.selected;
+		if(selected === undefined) return;
 		let relevanceItemId = checkItem.labelText;
 		let eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
 		if(!eventSetMessage){
@@ -237,7 +239,6 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		eventSet.data = eventSetMessage;
 		eventSet.isShow = eventSetMessage.targetState == 1 ? true : false;
 		eventSet.draw(this.gp_eventSetContainer);
-		this.setupEventSetContainer();		
 		return eventSet;
 	}
 	private pushEventSet(eventSetMessage){
@@ -251,15 +252,6 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.gp_eventSetContainer.removeChild(eventSet);
 		eventSet.dispose();
 		this.relevanceItemIdList.splice(this.relevanceItemIdList.indexOf(relevanceItemId),1);
-		this.setupEventSetContainer();
-	}
-	private setupEventSetContainer(){
-		let scrollerContainerHeight = this.scroller_eventSet.height;
-		setTimeout(() => {
-			// 是否自动隐藏，取决于属性visible
-			this.scroller_eventSet.verticalScrollBar.autoVisibility = false;
-			this.scroller_eventSet.verticalScrollBar.visible = this.gp_eventSetContainer.height > scrollerContainerHeight;	
-		}, 0);
 	}
 	private initShowEventSetList(){
 		this.gp_eventSetContainer.removeChildren();

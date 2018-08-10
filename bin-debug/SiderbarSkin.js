@@ -129,7 +129,12 @@ var SiderbarSkinBy = (function (_super) {
         mouse.enable(this.stage);
         mouse.setMouseMoveEnabled(true);
         var vLayout = new eui.VerticalLayout();
+        vLayout.paddingTop = 5;
         this.gp_eventSetContainer.layout = vLayout;
+        var vLayout2 = new eui.VerticalLayout();
+        vLayout2.gap = 0;
+        vLayout2.paddingTop = 5;
+        this.gp_selection.layout = vLayout2;
         this.listenEvent();
         this.tabIndex = 2;
     };
@@ -173,7 +178,7 @@ var SiderbarSkinBy = (function (_super) {
             _this.gp_container_addEvent.visible = false;
         });
     };
-    // 触发 tab 功能
+    // tab 触发 功能
     SiderbarSkinBy.prototype.touchSelection2 = function () {
         var _this = this;
         if (!this.targetItemId)
@@ -187,7 +192,6 @@ var SiderbarSkinBy = (function (_super) {
                 var displayItemData = disPlayList[j].image.data;
                 var relevanceItemId = displayItemData.id;
                 var checkBoxGroup = new CheckItem(relevanceItemId);
-                checkBoxGroup.y = 30 * j;
                 checkBoxGroup.addEventListener(egret.Event.ADDED_TO_STAGE, function () {
                     var isSelected = _this.relevanceItemIdList.indexOf(relevanceItemId) == -1 ? false : true;
                     checkBoxGroup.isSelected = isSelected;
@@ -219,6 +223,8 @@ var SiderbarSkinBy = (function (_super) {
         var checkoutBox = evt.target;
         var checkItem = evt.target.parent;
         var selected = checkoutBox.selected;
+        if (selected === undefined)
+            return;
         var relevanceItemId = checkItem.labelText;
         var eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
         if (!eventSetMessage) {
@@ -242,7 +248,6 @@ var SiderbarSkinBy = (function (_super) {
         eventSet.data = eventSetMessage;
         eventSet.isShow = eventSetMessage.targetState == 1 ? true : false;
         eventSet.draw(this.gp_eventSetContainer);
-        this.setupEventSetContainer();
         return eventSet;
     };
     SiderbarSkinBy.prototype.pushEventSet = function (eventSetMessage) {
@@ -256,16 +261,6 @@ var SiderbarSkinBy = (function (_super) {
         this.gp_eventSetContainer.removeChild(eventSet);
         eventSet.dispose();
         this.relevanceItemIdList.splice(this.relevanceItemIdList.indexOf(relevanceItemId), 1);
-        this.setupEventSetContainer();
-    };
-    SiderbarSkinBy.prototype.setupEventSetContainer = function () {
-        var _this = this;
-        var scrollerContainerHeight = this.scroller_eventSet.height;
-        setTimeout(function () {
-            // 是否自动隐藏，取决于属性visible
-            _this.scroller_eventSet.verticalScrollBar.autoVisibility = false;
-            _this.scroller_eventSet.verticalScrollBar.visible = _this.gp_eventSetContainer.height > scrollerContainerHeight;
-        }, 0);
     };
     SiderbarSkinBy.prototype.initShowEventSetList = function () {
         this.gp_eventSetContainer.removeChildren();

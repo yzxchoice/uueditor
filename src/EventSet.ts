@@ -24,7 +24,6 @@ class EventSetDome extends eui.Component implements IUUContainer,BaseUI {
 
     data: any;
 
-	private label_title:eui.Label;
 	public input_time:eui.TextInput;
 	private btn_show:eui.Button;
 	private btn_hidden:eui.Button;
@@ -43,20 +42,10 @@ class EventSetDome extends eui.Component implements IUUContainer,BaseUI {
 		this.currentState = v ? 'show' : 'hidden';
 		this.data.targetState = v ? 1 : 2;		
 	}
-	private _delayed:number;
-	public get delayed():number{
-		return this._delayed;
-	}
-	public set delayed(v:number){
-		this._delayed = v;
-		this.input_time.text = v.toString();
-		this.data.delay = v;
-	}
 
-	public constructor(labelText:string = '') {
+	public constructor() {
 		super();
 		this.skinName = "resource/skins/EventSet.exml";
-		this.label_title.text = labelText;
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStageInit, this);
 		// this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedToStageInit, this);
 	}
@@ -68,7 +57,7 @@ class EventSetDome extends eui.Component implements IUUContainer,BaseUI {
 			this.isShow = false;
 		}, this);
 		this.input_time.addEventListener(egret.FocusEvent.FOCUS_OUT, (evt:egret.FocusEvent) => {
-			this.delayed = Number(evt.target.text); 
+			this.data.delay = Number(evt.target.text);
 		}, this);
 		this.label_close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 			this.siderbarSkin.removeEventSet(this.data);
