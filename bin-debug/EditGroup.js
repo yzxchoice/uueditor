@@ -157,6 +157,8 @@ var EditGroup = (function (_super) {
         siderbarSkinBy.data = newData;
         var targetItemId = targetItem.owner.image.data.id;
         var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        console.log('-----------------');
+        console.log(triggerGroup);
         siderbarSkinBy.targetItemId = targetItemId;
         siderbarSkinBy.triggerGroup = triggerGroup;
     };

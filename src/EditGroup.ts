@@ -3,8 +3,8 @@ class EditGroup extends eui.Group {
     
     displayList = [];
     tool: any;
-    private pages = [];
-    private pageIndex: number = 0;
+    public pages = [];
+    public pageIndex: number = 0;
     private borderColor = 0xcccccc;
     private bg: eui.Component = new eui.Component;
     public constructor () {
@@ -174,6 +174,8 @@ class EditGroup extends eui.Group {
         siderbarSkinBy.data = newData;    
         let targetItemId = targetItem.owner.image.data.id;
         let triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        console.log('-----------------');
+        console.log(triggerGroup);
         siderbarSkinBy.targetItemId = targetItemId;
         siderbarSkinBy.triggerGroup = triggerGroup;        
     }
