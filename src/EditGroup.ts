@@ -314,6 +314,8 @@ class EditGroup extends eui.Group {
             }
             
         }
+
+        requestAnimationFrame(this.render);
     }
 
     render () {

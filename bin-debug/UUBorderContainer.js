@@ -26,3 +26,4 @@ var UUBorderContainer = (function (_super) {
     return UUBorderContainer;
 }(eui.Group));
 __reflect(UUBorderContainer.prototype, "UUBorderContainer", ["IUUContainer"]);
+//# sourceMappingURL=UUBorderContainer.js.map

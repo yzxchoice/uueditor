@@ -277,6 +277,7 @@ var EditGroup = (function (_super) {
                     break;
             }
         }
+        requestAnimationFrame(this.render);
     };
     EditGroup.prototype.render = function () {
         this.clear();
@@ -434,3 +435,4 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
+//# sourceMappingURL=EditGroup.js.map
