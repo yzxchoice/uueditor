@@ -753,13 +753,13 @@ __reflect(CircleSector.prototype, "CircleSector", ["IUUContainer"]);
  */
 var Preview = (function (_super) {
     __extends(Preview, _super);
+    // w: number = 1200;
+    // h: number = 900;
     function Preview() {
         var _this = _super.call(this) || this;
         _this.displayList = [];
         _this.pages = [];
         _this.pageIndex = 0;
-        _this.w = 750;
-        _this.h = 1334;
         _this.displayGroup = new eui.Group();
         // this.tool = new TransformTool(this);
         _this.getPages();
@@ -774,13 +774,14 @@ var Preview = (function (_super) {
     Preview.prototype.initEui = function () {
         var bg = new egret.Shape;
         bg.graphics.beginFill(0xffffff, 1);
-        bg.graphics.drawRect(0, 0, this.w, this.h);
+        bg.graphics.lineStyle(1, 0xcccccc);
+        bg.graphics.drawRect(0, 0, this.width - 2, this.height - 2);
         bg.graphics.endFill();
         this.addChild(bg);
-        this.horizontalCenter = 0;
+        // this.horizontalCenter = 0;
         // this.displayGroup.horizontalCenter = 0;
-        this.displayGroup.width = this.w;
-        this.displayGroup.height = this.h;
+        this.displayGroup.width = this.width;
+        this.displayGroup.height = this.height;
         this.displayGroup.scrollEnabled = true;
         this.addChild(this.displayGroup);
         var button = new eui.Button();
