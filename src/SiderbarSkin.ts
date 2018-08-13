@@ -51,17 +51,9 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.relevanceItemIdObj = obj;
 		this.initShowEventSetList();		
 	}
-	private relevanceItemIdList = [];
-	private _relevanceItemIdObj:Object = {};
-	public get relevanceItemIdObj():Object {
-		return this._relevanceItemIdObj;
-	}
-	// 增/删/改 之后 relevanceItemIdObj = relevanceItemIdObj 从而触发set
-	public set relevanceItemIdObj(v:Object) {
-		this._relevanceItemIdObj = v;
-		console.log('setter relevanceItemIdObj...');
-		console.log(v);		
-	}
+	public relevanceItemIdList = [];
+	private relevanceItemIdObj: any;
+
 	static defaultRelevanceItem = {
 		"delay": 100,
 		"eventType": 1,
@@ -92,15 +84,18 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		// 开启监听鼠标的移动事件
 		mouse.enable(this.stage);
 		mouse.setMouseMoveEnabled(true);
-		var vLayout:eui.VerticalLayout = new eui.VerticalLayout();
+		this.initLayout();
+		this.listenEvent();
+		this.currentState = 'style';
+	}
+	private initLayout(){
+		let vLayout:eui.VerticalLayout = new eui.VerticalLayout();
 		vLayout.paddingTop = 5;				
 		this.gp_eventSetContainer.layout = vLayout;
-		var vLayout2:eui.VerticalLayout = new eui.VerticalLayout();
+		let vLayout2:eui.VerticalLayout = new eui.VerticalLayout();
 		vLayout2.gap = 0;
 		vLayout2.paddingTop = 5;		
 		this.gp_selection.layout = vLayout2;
-		this.listenEvent();
-		this.currentState = 'style';
 	}
 	private listenEvent(){
 		// 监听tabs click事件
@@ -134,7 +129,6 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 
 		this.targetItemId = this.tool.target.owner.image.data.id;
         this.triggerGroup = this.editGroup.pages[this.editGroup.pageIndex].properties.triggerGroup;
-		console.log(this.triggerGroup);
 	}
 	private touchTabsClick(evt:egret.TouchEvent){
 		this.currentState = evt.target.parent.name;
@@ -194,15 +188,10 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 			this.relevanceItemIdObj[relevanceItemId] = JSON.parse(JSON.stringify(SiderbarSkinBy.defaultRelevanceItem));
 			this.relevanceItemIdObj[relevanceItemId].sourceId = this.targetItemId;
 			this.relevanceItemIdObj[relevanceItemId].targetId = relevanceItemId;						
-			// this.relevanceItemIdObj = this.relevanceItemIdObj;
 			eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
-			console.log('------1------');
-			console.log(eventSetMessage);
-			// return;
 		}
 		if(selected){
-			this.pushEventSet({});
-			// this.pushEventSet(eventSetMessage);			
+			this.pushEventSet(eventSetMessage);			
 			this.relevanceItemIdList.push(relevanceItemId);
 		}else {
 			this.removeEventSet(eventSetMessage);
@@ -210,25 +199,18 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	}
 	private drawEventSet(eventSetMessage){
 		let eventSet:EventSetDome = new EventSetDome();	
-		eventSet.data = eventSetMessage;
-		eventSet.name = eventSetMessage.targetId;		
-		eventSet.isShow = eventSetMessage.targetState == 1 ? true : false;
-		// eventSet.draw(this.gp_eventSetContainer);
+		eventSet.initData(eventSetMessage);
+		eventSet.draw(this.gp_eventSetContainer);
 		return eventSet;
 	}
 	private pushEventSet(eventSetMessage){
 		let eventSet:EventSetDome = this.drawEventSet(eventSetMessage);
-		console.log('---0000----');
-		console.log(eventSetMessage);
-		// eventSet.pushData();
+		eventSet.pushData();
 	}
 	public removeEventSet(eventSetMessage){
 		let relevanceItemId = eventSetMessage.targetId;
-		console.log('relevanceItemId = ' + relevanceItemId);
 		let eventSet = <EventSetDome>this.gp_eventSetContainer.getChildByName(relevanceItemId);
-		this.gp_eventSetContainer.removeChild(eventSet);
-		eventSet.dispose();
-		this.relevanceItemIdList.splice(this.relevanceItemIdList.indexOf(relevanceItemId),1);
+		eventSet.removeData();
 	}
 	private initShowEventSetList(){
 		this.gp_eventSetContainer.removeChildren();

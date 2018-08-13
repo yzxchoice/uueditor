@@ -1,7 +1,9 @@
 declare class EventSetDome extends eui.Component implements IUUContainer {
-    container: Game;
+    container: any;
     dispose(): void;
     draw(container: any): void;
+    stateObj: any;
+    _data: any;
     data: any;
     input_time: eui.TextInput;
     private btn_show;
@@ -13,5 +15,7 @@ declare class EventSetDome extends eui.Component implements IUUContainer {
     isShow: boolean;
     constructor();
     private onAddToStageInit(event);
+    initData(data: any): void;
     pushData(): void;
+    removeData(): void;
 }

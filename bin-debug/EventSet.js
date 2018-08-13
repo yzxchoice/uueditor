@@ -41,6 +41,18 @@ var EventSetDome = (function (_super) {
         this.container = container;
         this.container.addChild(this);
     };
+    Object.defineProperty(EventSetDome.prototype, "data", {
+        get: function () {
+            return this._data;
+        },
+        set: function (v) {
+            this._data = v;
+            // 需要拷贝一份数据用于skin，直接赋值会污染本身的data
+            this.stateObj = JSON.parse(JSON.stringify(v));
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(EventSetDome.prototype, "isShow", {
         get: function () {
             return this._isShow;
@@ -66,14 +78,22 @@ var EventSetDome = (function (_super) {
             _this.data.delay = Number(evt.target.text);
         }, this);
         this.label_close.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.siderbarSkin.removeEventSet(_this.data);
-            // this.parent.removeChild(this);
-            // this.dispose();
+            _this.removeData();
         }, this);
+    };
+    EventSetDome.prototype.initData = function (data) {
+        this.data = data;
+        this.name = data.targetId;
+        this.isShow = data.targetState == 1 ? true : false;
     };
     EventSetDome.prototype.pushData = function () {
         this.triggerGroup.push(this.data);
-        console.log(this.triggerGroup);
+    };
+    EventSetDome.prototype.removeData = function () {
+        var relevanceItemId = this.data.targetId;
+        this.container.removeChild(this);
+        this.dispose();
+        this.siderbarSkin.relevanceItemIdList.splice(this.siderbarSkin.relevanceItemIdList.indexOf(relevanceItemId), 1);
     };
     return EventSetDome;
 }(eui.Component));

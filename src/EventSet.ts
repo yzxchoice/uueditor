@@ -1,6 +1,6 @@
 class EventSetDome extends eui.Component implements IUUContainer {
 
-	container: Game;
+	container;
 	dispose (): void {
 		let data = this.data;
 		let index = null;
@@ -22,7 +22,16 @@ class EventSetDome extends eui.Component implements IUUContainer {
 		this.container.addChild(this);
 	}
 
-    data: any;
+	stateObj: any;
+	_data: any;
+	public get data(): any{
+		return this._data;
+	}
+	public set data(v: any){
+		this._data = v;
+		// 需要拷贝一份数据用于skin，直接赋值会污染本身的data
+		this.stateObj = JSON.parse(JSON.stringify(v));
+	}
 
 	public input_time:eui.TextInput;
 	private btn_show:eui.Button;
@@ -60,14 +69,24 @@ class EventSetDome extends eui.Component implements IUUContainer {
 			this.data.delay = Number(evt.target.text);
 		}, this);
 		this.label_close.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-			this.siderbarSkin.removeEventSet(this.data);
-			// this.parent.removeChild(this);
-			// this.dispose();
+			this.removeData();
 		}, this);
     }
 
+	public initData(data: any){
+		this.data = data;
+		this.name = data.targetId;		
+		this.isShow = data.targetState == 1 ? true : false;
+	}
+
 	public pushData(){
 		this.triggerGroup.push(this.data);
-		console.log(this.triggerGroup);
+	}
+
+	public removeData(){
+		let relevanceItemId = this.data.targetId;
+		this.container.removeChild(this);
+		this.dispose();
+		this.siderbarSkin.relevanceItemIdList.splice(this.siderbarSkin.relevanceItemIdList.indexOf(relevanceItemId),1);
 	}
 }

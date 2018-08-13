@@ -32,6 +32,10 @@ var Game = (function (_super) {
         this.initEui();
     };
     Game.prototype.initEui = function () {
+        var wvw = new EventSetDome();
+        wvw.data = {};
+        console.log('------------------fdfdsafdsafdasfdsa-----');
+        console.log(wvw.data);
         var editContaier = new eui.Group();
         editContaier.horizontalCenter = 0;
         editContaier.verticalCenter = 0;

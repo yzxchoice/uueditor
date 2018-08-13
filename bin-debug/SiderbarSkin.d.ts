@@ -23,9 +23,8 @@ declare class SiderbarSkinBy extends eui.Component implements IUUContainer {
     private targetItemId;
     private _triggerGroup;
     triggerGroup: Array<any>;
-    private relevanceItemIdList;
-    private _relevanceItemIdObj;
-    relevanceItemIdObj: Object;
+    relevanceItemIdList: any[];
+    private relevanceItemIdObj;
     static defaultRelevanceItem: {
         "delay": number;
         "eventType": number;
@@ -39,6 +38,7 @@ declare class SiderbarSkinBy extends eui.Component implements IUUContainer {
     constructor();
     private onAddToStageInit(event);
     private init();
+    private initLayout();
     private listenEvent();
     setTarget(tool: any): void;
     updateTarget(): void;

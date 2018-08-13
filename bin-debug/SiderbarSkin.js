@@ -19,7 +19,6 @@ var SiderbarSkinBy = (function (_super) {
         _this.selectionVisible = false;
         _this.isFirstSelect = true;
         _this.relevanceItemIdList = [];
-        _this._relevanceItemIdObj = {};
         _this.data = {
             width: 30,
             height: 30,
@@ -66,19 +65,6 @@ var SiderbarSkinBy = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(SiderbarSkinBy.prototype, "relevanceItemIdObj", {
-        get: function () {
-            return this._relevanceItemIdObj;
-        },
-        // 增/删/改 之后 relevanceItemIdObj = relevanceItemIdObj 从而触发set
-        set: function (v) {
-            this._relevanceItemIdObj = v;
-            console.log('setter relevanceItemIdObj...');
-            console.log(v);
-        },
-        enumerable: true,
-        configurable: true
-    });
     SiderbarSkinBy.prototype.onAddToStageInit = function (event) {
         this.init();
     };
@@ -87,6 +73,11 @@ var SiderbarSkinBy = (function (_super) {
         // 开启监听鼠标的移动事件
         mouse.enable(this.stage);
         mouse.setMouseMoveEnabled(true);
+        this.initLayout();
+        this.listenEvent();
+        this.currentState = 'style';
+    };
+    SiderbarSkinBy.prototype.initLayout = function () {
         var vLayout = new eui.VerticalLayout();
         vLayout.paddingTop = 5;
         this.gp_eventSetContainer.layout = vLayout;
@@ -94,8 +85,6 @@ var SiderbarSkinBy = (function (_super) {
         vLayout2.gap = 0;
         vLayout2.paddingTop = 5;
         this.gp_selection.layout = vLayout2;
-        this.listenEvent();
-        this.currentState = 'style';
     };
     SiderbarSkinBy.prototype.listenEvent = function () {
         // 监听tabs click事件
@@ -127,7 +116,6 @@ var SiderbarSkinBy = (function (_super) {
         this.data = newData;
         this.targetItemId = this.tool.target.owner.image.data.id;
         this.triggerGroup = this.editGroup.pages[this.editGroup.pageIndex].properties.triggerGroup;
-        console.log(this.triggerGroup);
     };
     SiderbarSkinBy.prototype.touchTabsClick = function (evt) {
         this.currentState = evt.target.parent.name;
@@ -198,15 +186,10 @@ var SiderbarSkinBy = (function (_super) {
             this.relevanceItemIdObj[relevanceItemId] = JSON.parse(JSON.stringify(SiderbarSkinBy.defaultRelevanceItem));
             this.relevanceItemIdObj[relevanceItemId].sourceId = this.targetItemId;
             this.relevanceItemIdObj[relevanceItemId].targetId = relevanceItemId;
-            // this.relevanceItemIdObj = this.relevanceItemIdObj;
             eventSetMessage = this.relevanceItemIdObj[relevanceItemId];
-            console.log('------1------');
-            console.log(eventSetMessage);
-            // return;
         }
         if (selected) {
-            this.pushEventSet({});
-            // this.pushEventSet(eventSetMessage);			
+            this.pushEventSet(eventSetMessage);
             this.relevanceItemIdList.push(relevanceItemId);
         }
         else {
@@ -215,25 +198,18 @@ var SiderbarSkinBy = (function (_super) {
     };
     SiderbarSkinBy.prototype.drawEventSet = function (eventSetMessage) {
         var eventSet = new EventSetDome();
-        eventSet.data = eventSetMessage;
-        eventSet.name = eventSetMessage.targetId;
-        eventSet.isShow = eventSetMessage.targetState == 1 ? true : false;
-        // eventSet.draw(this.gp_eventSetContainer);
+        eventSet.initData(eventSetMessage);
+        eventSet.draw(this.gp_eventSetContainer);
         return eventSet;
     };
     SiderbarSkinBy.prototype.pushEventSet = function (eventSetMessage) {
         var eventSet = this.drawEventSet(eventSetMessage);
-        console.log('---0000----');
-        console.log(eventSetMessage);
-        // eventSet.pushData();
+        eventSet.pushData();
     };
     SiderbarSkinBy.prototype.removeEventSet = function (eventSetMessage) {
         var relevanceItemId = eventSetMessage.targetId;
-        console.log('relevanceItemId = ' + relevanceItemId);
         var eventSet = this.gp_eventSetContainer.getChildByName(relevanceItemId);
-        this.gp_eventSetContainer.removeChild(eventSet);
-        eventSet.dispose();
-        this.relevanceItemIdList.splice(this.relevanceItemIdList.indexOf(relevanceItemId), 1);
+        eventSet.removeData();
     };
     SiderbarSkinBy.prototype.initShowEventSetList = function () {
         this.gp_eventSetContainer.removeChildren();
