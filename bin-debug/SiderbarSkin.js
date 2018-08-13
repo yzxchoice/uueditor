@@ -87,11 +87,22 @@ var SiderbarSkinBy = (function (_super) {
         this.gp_selection.layout = vLayout2;
     };
     SiderbarSkinBy.prototype.listenEvent = function () {
+        var _this = this;
         // 监听tabs click事件
+        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            console.log(evt.target);
+            if (evt.target.name == 'gp_selection_rect') {
+                _this.stateObj.selectionVisible = true;
+                _this.touchSelection2();
+            }
+            else {
+                _this.stateObj.selectionVisible = false;
+            }
+        }, this, false, 1);
         this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
         this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
         this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
-        this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
+        // this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this, false, 2);
         for (var i = 0, len = this.gp_inputContainer.numChildren; i < len; i++) {
             var groupInpput = this.gp_inputContainer.getChildAt(i);
             var input = groupInpput.getChildAt(1);
