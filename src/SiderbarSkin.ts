@@ -100,18 +100,13 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	private listenEvent(){
 		// 监听tabs click事件
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => { 
-			console.log(evt.target);
-			if(evt.target.name == 'gp_selection_rect'){
-				this.stateObj.selectionVisible = true; 				
-				this.touchSelection2();
-			}else {
-				this.stateObj.selectionVisible = false; 
-			}
+			console.log('this event');
+			this.stateObj.selectionVisible = false; 
 		}, this, false, 1);
 		this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
 		this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
 		this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
-		// this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this, false, 2);
+		this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
 
 		for(let i = 0, len = this.gp_inputContainer.numChildren; i < len; i++){
 			let groupInpput = <eui.Group>this.gp_inputContainer.getChildAt(i);
@@ -157,7 +152,8 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		});
 	}
 	// tab 触发 功能
-	private touchSelection2(){
+	private touchSelection2(evt: egret.TouchEvent){
+		console.log('selection event');
 		if(!this.targetItemId) return;
 		this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
 		if(this.stateObj.selectionVisible){
@@ -178,6 +174,8 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 			this.gp_selection.addEventListener(mouse.MouseEvent.MOUSE_OVER, this.onMouseover_Selection, this);
 			this.gp_selection.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick_Selection, this);
 		};
+		evt.stopPropagation();
+		evt.preventDefault();
 	}
 	private onMouseover_Selection(evt:egret.TouchEvent){
 		for(let i = 0, len = this.gp_selection.numChildren; i < len; i++){
