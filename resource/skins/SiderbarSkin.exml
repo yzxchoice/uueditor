@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="SiderbarSkin" width="500" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="SiderbarSkin"  states="style,animation,event" width="500" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Rect width="500" height="800" x="0" y="0" fillColor="0xf9f2f2" strokeColor="0xfffcfc" locked="true"/>
 	<e:Group width="500" height="60" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" locked="true">
 		<e:Label text="组件设置" x="21.33" y="15" textColor="0x160f0f" size="26"/>
 	</e:Group>
 	<e:Rect width="500" height="740" x="0" y="60" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xebf4f1" locked="true"/>
-	<e:Group id="gp_tabs" width="500" height="60" x="0" y="60" anchorOffsetX="0" locked="true">
-		<e:Group id="gp_tab_style" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0">
-			<e:Label text="样式" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160d0d" name="label" locked="true"/>
-			<e:Rect width="166" height="1" x="0" y="59" name="rect_default"/>
-			<e:Rect width="166" height="1" x="0" y="59" fillColor="0xaeeeee" name="rect_activeted" visible="false"/>
+	<e:Group id="gp_tabs" width="500" height="60" x="0" y="60" anchorOffsetX="0">
+		<e:Group id="gp_tab_style" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="style">
+			<e:Label text="样式" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160d0d" textColor.style="0x009aff" name="label" locked="true"/>
+			<e:Rect width="166" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.style="0x009aff"/>
 		</e:Group>
-		<e:Group id="gp_tab_animation" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="166">
-			<e:Label text="动画" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" name="label" locked="true"/>
-			<e:Rect width="166" height="1" x="0" y="59" name="rect_default"/>
-			<e:Rect width="166" height="1" x="0" y="59" fillColor="0xaeeeee" name="rect_activeted" visible="false"/>
+		<e:Group id="gp_tab_animation" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="166" name="animation">
+			<e:Label text="动画" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.animation="0x009aff" name="label" locked="true"/>
+			<e:Rect width="166" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.animation="0x009aff"/>
 		</e:Group>
-		<e:Group id="gp_tab_event" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="332">
-			<e:Label text="触发" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" bold="false" border="false" name="label" locked="true"/>
-			<e:Rect width="166" height="1" x="0" y="59" name="rect_default"/>
-			<e:Rect width="166" height="1" x="0" y="59" fillColor="0xaeeeee" name="rect_activeted" visible="false"/>
+		<e:Group id="gp_tab_event" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="332" name="event">
+			<e:Label text="触发" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.event="0x009aff" name="label" locked="true"/>
+			<e:Rect width="166" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.event="0x009aff"/>
 		</e:Group>
 	</e:Group>
 	<e:Group id="gp_eventContainers" x="0" y="120">
-		<e:Group id="gp_eventContainer_style" width="500" height="680" x="0" y="0" visible="false">
+		<e:Group id="gp_eventContainer_style" includeIn="style" width="500" height="680" x="0" y="0">
 			<e:Group id="gp_inputContainer" width="500" height="300" y="0" anchorOffsetX="0" anchorOffsetY="0" locked="true">
 				<e:Group width="250" height="70" x="0" y="0" anchorOffsetY="0">
 					<e:Label text="宽：" x="20" y="0" height="70" verticalAlign="middle" textColor="0x0a0000" size="24"/>
@@ -48,10 +45,10 @@
 			</e:Group>
 			<e:Button id="btn_update" label="update" x="195.5" y="250"/>
 		</e:Group>
-		<e:Group id="gp_eventContainer_animation" width="500" height="680" x="0" y="0" visible="false" locked="true">
+		<e:Group id="gp_eventContainer_animation" includeIn="animation" width="500" height="680" x="0" y="0" locked="true">
 			<e:Label text="动画" x="15" y="15" textColor="0x161111" locked="true"/>
 		</e:Group>
-		<e:Group id="gp_eventContainer_event" width="500" height="680" x="0" y="0">
+		<e:Group id="gp_eventContainer_event" includeIn="event" width="500" height="680" x="0" y="0">
 			<e:Group x="33" y="15" visible="false">
 				<e:Button id="btn_add_event" label="+ 添加触发" x="0" y="0" anchorOffsetX="0" width="213.33"/>
 				<e:ToggleSwitch label="ToggleButton" x="266.5" y="11.5"/>
@@ -64,9 +61,8 @@
 					<e:Label id="label_delete_clickEvent" text="x" x="447" y="14" size="24" textColor="0x070000" visible="false"/>
 				</e:Group>
 				<e:Scroller id="scroller_eventSet" width="500" height="500" x="0" y="180" skinName="skins.ScrollerSkin" enabled="true" visible="true">
-					<e:Group width="500" height="500">
-					<e:Group id="gp_eventSetContainer" width="100%" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" maxHeight="400" scaleX="1" scaleY="1" height="800" visible="true">
-					</e:Group>
+					<e:Group id="gp_eventSetContainer" width="500">
+
 					</e:Group>
 				</e:Scroller>
 				<e:Group width="500" height="100" x="0" y="80" anchorOffsetX="0" anchorOffsetY="0">
@@ -75,9 +71,11 @@
 					<e:Group x="200" y="30" height="40">
 						<e:Rect width="190" height="40" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xfcfffe" strokeColor="0xdbd2d2" ellipseWidth="10" ellipseHeight="10" strokeWeight="2"/>
 						<e:Label id="gp_selection_rect" text="选择目标元素" x="0" y="1" width="190" height="40" textColor="0xccc3c3" size="20" textAlign="center" verticalAlign="middle"/>
-						<e:Group id="gp_selection_box" width="190" height="200" x="0" y="40" visible="false">
-							<e:Rect width="190" height="200" x="0" y="0" fillColor="0xe2e0e0" locked="true"/>
-							<e:Group id="gp_selection" width="190" height="200" x="0" y="0" locked="true"/>
+						<e:Group id="gp_selection_box" width="190" height="200" x="0" y="40" visible="{stateObj.selectionVisible}">
+							<e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xe2e0e0"/>
+							<e:Scroller width="100%" height="100%" x="0" y="0" enabled="true" skinName="skins.ScrollerSkin">
+								<e:Group id="gp_selection" width="100%" height="100%"/>
+							</e:Scroller>
 						</e:Group>
 					</e:Group>
 				</e:Group>

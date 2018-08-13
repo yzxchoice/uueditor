@@ -18,8 +18,8 @@
                         "x": 200,
                         "y": 200
                     },
-                    "tween": {
-                        
+                    "property": {
+                        "drag": 1
                     },
                     "src": "resource/assets/dunny.png",
                     "sceneId": 1001
@@ -37,6 +37,9 @@
                         "x": 300,
                         "y": 400
                     },
+                    "property": {
+
+                    },
                     "src": "resource/assets/fatcap.png",
                     "sceneId": 1001
                 },
@@ -53,6 +56,9 @@
                         "x": 50,
                         "y": 200
                     },
+                    "property": {
+                        
+                    },
                     "content": "transform test",
                     "sceneId": 1001
                 },
@@ -68,6 +74,9 @@
                         "d": 1,
                         "x": 300,
                         "y": 400
+                    },
+                    "property": {
+                        
                     },
                     "sceneId": 1001
                 },

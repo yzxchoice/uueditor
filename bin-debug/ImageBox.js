@@ -23,6 +23,11 @@ var ImageBox = (function (_super) {
                 id: "9002",
                 name: "piggy_png",
                 url: "piggy.png"
+            },
+            {
+                id: "9002",
+                name: "border_jpg",
+                url: "border.jpg"
             }
         ];
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
@@ -77,4 +82,3 @@ var ImageBox = (function (_super) {
     return ImageBox;
 }(eui.Panel));
 __reflect(ImageBox.prototype, "ImageBox");
-//# sourceMappingURL=ImageBox.js.map

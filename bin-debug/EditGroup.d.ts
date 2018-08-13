@@ -17,7 +17,6 @@ declare class EditGroup extends eui.Group {
     down(event: egret.TouchEvent): boolean;
     move(event: egret.TouchEvent): void;
     up(event: egret.TouchEvent): void;
-    private deliveryItemMessageToControlPanel(targetItem);
     private setProperty(x?, y?);
     applyDynamicControls(event: any): void;
     getDynamicControl(): any;

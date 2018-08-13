@@ -1,9 +1,10 @@
-declare class EventSetDome extends eui.Component implements IUUContainer, BaseUI {
-    container: Game;
+declare class EventSetDome extends eui.Component implements IUUContainer {
+    container: any;
     dispose(): void;
     draw(container: any): void;
+    stateObj: any;
+    _data: any;
     data: any;
-    private label_title;
     input_time: eui.TextInput;
     private btn_show;
     private btn_hidden;
@@ -12,9 +13,9 @@ declare class EventSetDome extends eui.Component implements IUUContainer, BaseUI
     private triggerGroup;
     private _isShow;
     isShow: boolean;
-    private _delayed;
-    delayed: number;
-    constructor(labelText?: string);
+    constructor();
     private onAddToStageInit(event);
+    initData(data: any): void;
     pushData(): void;
+    removeData(): void;
 }

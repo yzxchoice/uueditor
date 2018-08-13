@@ -17,6 +17,7 @@
 		"bin-debug/BgBox.js",
 		"bin-debug/checkItem.js",
 		"bin-debug/ComponentBox.js",
+		"bin-debug/Drag.js",
 		"bin-debug/EditGroup.js",
 		"bin-debug/EventSet.js",
 		"bin-debug/Game.js",
@@ -32,6 +33,7 @@
 		"bin-debug/SoundBox.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/TriggerPanel.js",
+		"bin-debug/UUBorderContainer.js",
 		"bin-debug/UUMovieClip.js"
 	]
 }

@@ -78,7 +78,8 @@ var Header = (function (_super) {
     };
     Header.prototype.save = function (event) {
         var g = this.parent;
-        console.log(g.editGroup.pages);
+        console.log(g.editGroup.pages[0]);
+        console.log(JSON.stringify(g.editGroup.pages[0]));
         var obj = {
             code: 200,
             msg: "success",
@@ -129,4 +130,3 @@ var Header = (function (_super) {
     return Header;
 }(eui.Group));
 __reflect(Header.prototype, "Header", ["IUUContainer"]);
-//# sourceMappingURL=Header.js.map

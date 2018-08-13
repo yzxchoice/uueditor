@@ -107,7 +107,7 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
-            // this.deliveryItemMessageToControlPanel(this.tool.target);
+            SiderbarSkinBy.getInstance().setTarget(this.tool);
         }
         // SiderbarSkinBy.getInstance().selectionVisible = false;
         requestAnimationFrame(this.render);
@@ -117,6 +117,7 @@ var EditGroup = (function (_super) {
         Mouse.get(event, this);
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
+        SiderbarSkinBy.getInstance().updateTarget();
         // this.deliveryItemMessageToControlPanel(this.tool.target);        
         requestAnimationFrame(this.render);
         event.preventDefault();
@@ -132,35 +133,9 @@ var EditGroup = (function (_super) {
         }
         this.stage.removeEventListener(Mouse.MOVE, this.move, this);
         this.stage.removeEventListener(Mouse.END, this.up, this);
-        // this.deliveryItemMessageToControlPanel(this.tool.target);
+        SiderbarSkinBy.getInstance().updateTarget();
         requestAnimationFrame(this.render);
         event.preventDefault();
-    };
-    EditGroup.prototype.deliveryItemMessageToControlPanel = function (targetItem) {
-        console.log('targetItem...');
-        console.log(targetItem);
-        var matrix = targetItem.matrix;
-        var item = targetItem.owner.image;
-        var a = matrix.a, b = matrix.b, c = matrix.c, d = matrix.d, x = matrix.x, y = matrix.y;
-        var width = targetItem.width, height = targetItem.height;
-        var scaleX = item.scaleX, scaleY = item.scaleY, rotation = item.rotation;
-        // TODO: this.parent.parent 优化
-        var game = this.parent.parent;
-        var siderbarSkinBy = game.siderbarSkinBy;
-        var newData = {
-            x: Math.floor(this.tool.regX),
-            y: Math.floor(this.tool.regY),
-            width: Math.floor(width * scaleX),
-            height: Math.floor(height * scaleY),
-            rotate: Math.floor(rotation)
-        };
-        siderbarSkinBy.data = newData;
-        var targetItemId = targetItem.owner.image.data.id;
-        var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-        console.log('-----------------');
-        console.log(triggerGroup);
-        siderbarSkinBy.targetItemId = targetItemId;
-        siderbarSkinBy.triggerGroup = triggerGroup;
     };
     EditGroup.prototype.setProperty = function (x, y) {
         var eles = this.pages[this.pageIndex].elements;
@@ -459,4 +434,3 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
-//# sourceMappingURL=EditGroup.js.map

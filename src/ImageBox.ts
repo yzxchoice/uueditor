@@ -10,6 +10,11 @@ class ImageBox extends eui.Panel {
             id: "9002",
             name: "piggy_png",
             url: "piggy.png"
+        },
+        {
+            id: "9002",
+            name: "border_jpg",
+            url: "border.jpg"
         }
     ];
     static instance: ImageBox;

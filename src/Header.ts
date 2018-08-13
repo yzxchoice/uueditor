@@ -76,7 +76,8 @@ class Header extends eui.Group implements IUUContainer {
 
     private save (event: egret.TouchEvent) {
         var g: Game = this.parent as Game;
-        console.log(g.editGroup.pages);
+        console.log(g.editGroup.pages[0]);
+        console.log(JSON.stringify(g.editGroup.pages[0]));                
         var obj = {
             code: 200,
             msg: "success",

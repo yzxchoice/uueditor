@@ -39,6 +39,7 @@ var ComponentBox = (function (_super) {
         for (var i = 0; i < this.imgList.length; i++) {
             var image = new UUImage();
             image.source = "resource/assets/" + this.imgList[i].name;
+            console.log(image.source);
             // image.scale9Grid = new egret.Rectangle(10,10,80,80);
             image.y = 50;
             image.x = 120 * i;
@@ -60,4 +61,3 @@ var ComponentBox = (function (_super) {
     return ComponentBox;
 }(eui.Panel));
 __reflect(ComponentBox.prototype, "ComponentBox");
-//# sourceMappingURL=ComponentBox.js.map

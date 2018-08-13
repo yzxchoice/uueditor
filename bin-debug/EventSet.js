@@ -10,14 +10,12 @@ r.prototype = e.prototype, t.prototype = new r();
 };
 var EventSetDome = (function (_super) {
     __extends(EventSetDome, _super);
-    function EventSetDome(labelText) {
-        if (labelText === void 0) { labelText = ''; }
+    function EventSetDome() {
         var _this = _super.call(this) || this;
         _this.siderbarSkin = SiderbarSkinBy.getInstance();
         _this.triggerGroup = _this.siderbarSkin.triggerGroup;
         _this._isShow = true;
         _this.skinName = "resource/skins/EventSet.exml";
-        _this.label_title.text = labelText;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
         // this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemovedToStageInit, this);
@@ -43,6 +41,18 @@ var EventSetDome = (function (_super) {
         this.container = container;
         this.container.addChild(this);
     };
+    Object.defineProperty(EventSetDome.prototype, "data", {
+        get: function () {
+            return this._data;
+        },
+        set: function (v) {
+            this._data = v;
+            // 需要拷贝一份数据用于skin，直接赋值会污染本身的data
+            this.stateObj = JSON.parse(JSON.stringify(v));
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(EventSetDome.prototype, "isShow", {
         get: function () {
             return this._isShow;
@@ -56,18 +66,6 @@ var EventSetDome = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(EventSetDome.prototype, "delayed", {
-        get: function () {
-            return this._delayed;
-        },
-        set: function (v) {
-            this._delayed = v;
-            this.input_time.text = v.toString();
-            this.data.delay = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
     EventSetDome.prototype.onAddToStageInit = function (event) {
         var _this = this;
         this.btn_show.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -77,18 +75,26 @@ var EventSetDome = (function (_super) {
             _this.isShow = false;
         }, this);
         this.input_time.addEventListener(egret.FocusEvent.FOCUS_OUT, function (evt) {
-            _this.delayed = Number(evt.target.text);
+            _this.data.delay = Number(evt.target.text);
         }, this);
         this.label_close.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            _this.siderbarSkin.removeEventSet(_this.data);
-            // this.parent.removeChild(this);
-            // this.dispose();
+            _this.removeData();
         }, this);
+    };
+    EventSetDome.prototype.initData = function (data) {
+        this.data = data;
+        this.name = data.targetId;
+        this.isShow = data.targetState == 1 ? true : false;
     };
     EventSetDome.prototype.pushData = function () {
         this.triggerGroup.push(this.data);
     };
+    EventSetDome.prototype.removeData = function () {
+        var relevanceItemId = this.data.targetId;
+        this.container.removeChild(this);
+        this.dispose();
+        this.siderbarSkin.relevanceItemIdList.splice(this.siderbarSkin.relevanceItemIdList.indexOf(relevanceItemId), 1);
+    };
     return EventSetDome;
 }(eui.Component));
 __reflect(EventSetDome.prototype, "EventSetDome", ["IUUContainer"]);
-//# sourceMappingURL=EventSet.js.map
