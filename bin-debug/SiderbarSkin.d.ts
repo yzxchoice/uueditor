@@ -45,7 +45,7 @@ declare class SiderbarSkinBy extends eui.Component implements IUUContainer {
     private touchTabsClick(evt);
     private touchAddEvent(evt);
     private addClickEventItem(evt);
-    private touchSelection2();
+    private touchSelection2(evt);
     private onMouseover_Selection(evt);
     private onClick_Selection(evt);
     private drawEventSet(eventSetMessage);

@@ -4,14 +4,14 @@ declare class EditGroup extends eui.Group {
     pages: any[];
     pageIndex: number;
     private borderColor;
-    private bg;
+    private displayGroup;
     constructor();
     protected createChildren(): void;
     private onAddToStage(event);
     private bindHandlers();
+    private initEui();
     private getPages();
     private init();
-    private addBg();
     setupTool(): void;
     getCustomControls(): EgretControl[];
     down(event: egret.TouchEvent): boolean;
@@ -31,7 +31,7 @@ declare class EditGroup extends eui.Group {
     pre(event: egret.TouchEvent): void;
     next(event: egret.TouchEvent): void;
     addSinglePicture(data: uiData): void;
-    changeBg(url: string): void;
+    changeBg(data: uiData): void;
     addSound(data: uiData): void;
     addComponent(data: uiData): void;
 }

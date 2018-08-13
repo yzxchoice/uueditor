@@ -99,6 +99,9 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	}
 	private listenEvent(){
 		// 监听tabs click事件
+		this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => { 
+			this.stateObj.selectionVisible = false; 
+		}, this);
 		this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
 		this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
 		this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
@@ -148,7 +151,8 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		});
 	}
 	// tab 触发 功能
-	private touchSelection2(){
+	private touchSelection2(evt: egret.TouchEvent){
+		evt.stopPropagation();
 		if(!this.targetItemId) return;
 		this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
 		if(this.stateObj.selectionVisible){
@@ -178,6 +182,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		evt.target.parent.isOver = true;
 	}
 	private onClick_Selection(evt:egret.TouchEvent){
+		evt.stopPropagation();		
 		let checkoutBox = evt.target;
 		let checkItem = evt.target.parent;					
 		let selected = checkoutBox.selected;

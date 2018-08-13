@@ -87,7 +87,11 @@ var SiderbarSkinBy = (function (_super) {
         this.gp_selection.layout = vLayout2;
     };
     SiderbarSkinBy.prototype.listenEvent = function () {
+        var _this = this;
         // 监听tabs click事件
+        this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            _this.stateObj.selectionVisible = false;
+        }, this);
         this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
         this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
         this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
@@ -136,8 +140,9 @@ var SiderbarSkinBy = (function (_super) {
         });
     };
     // tab 触发 功能
-    SiderbarSkinBy.prototype.touchSelection2 = function () {
+    SiderbarSkinBy.prototype.touchSelection2 = function (evt) {
         var _this = this;
+        evt.stopPropagation();
         if (!this.targetItemId)
             return;
         this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
@@ -175,6 +180,7 @@ var SiderbarSkinBy = (function (_super) {
         evt.target.parent.isOver = true;
     };
     SiderbarSkinBy.prototype.onClick_Selection = function (evt) {
+        evt.stopPropagation();
         var checkoutBox = evt.target;
         var checkItem = evt.target.parent;
         var selected = checkoutBox.selected;
