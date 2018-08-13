@@ -63,24 +63,6 @@
                     "sceneId": 1001
                 },
                 {
-                    "id": 8404,
-                    "name": "dragonBones1",
-                    "pageId": 201807311008,
-                    "type": 9,
-                    "matrix": {
-                        "a": 1,
-                        "b": 0,
-                        "c": 0,
-                        "d": 1,
-                        "x": 300,
-                        "y": 400
-                    },
-                    "property": {
-                        
-                    },
-                    "sceneId": 1001
-                },
-                {
                     "id": 8405,
                     "name": "test_mp3",
                     "pageId": 201807311008,

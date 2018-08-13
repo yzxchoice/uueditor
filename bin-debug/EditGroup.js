@@ -17,7 +17,8 @@ var EditGroup = (function (_super) {
         _this.pages = [];
         _this.pageIndex = 0;
         _this.borderColor = 0xcccccc;
-        _this.bg = new eui.Component;
+        // private bg: eui.Component = new eui.Component;
+        _this.displayGroup = new eui.Group();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -28,33 +29,28 @@ var EditGroup = (function (_super) {
         this.tool = new TransformTool(this);
         this.bindHandlers();
         this.getPages();
+        this.initEui();
         this.init();
     };
     EditGroup.prototype.bindHandlers = function () {
         this.render = this.render.bind(this);
         // this.addSinglePicture = this.addSinglePicture.bind(this);
     };
+    EditGroup.prototype.initEui = function () {
+        this.displayGroup.width = this.width;
+        this.displayGroup.height = this.height;
+        this.displayGroup.scrollEnabled = true;
+        this.addChild(this.displayGroup);
+    };
     EditGroup.prototype.getPages = function () {
         // console.log(RES.getRes("data_json"));
         this.pages = RES.getRes("data_json").list;
     };
     EditGroup.prototype.init = function () {
-        this.addBg();
         this.renderResources(this.pageIndex);
         this.setupTool();
         this.stage.addEventListener(Mouse.START, this.down, this);
         this.render();
-        //添加转盘实例
-        // var g = new CircleSector();
-        // g.width = 400;
-        // g.height = 400;
-        // this.addChild(g);
-        // this.displayList.push(new Picture(g, new Matrix(1,0,0,1,0,0)));
-    };
-    EditGroup.prototype.addBg = function () {
-        this.bg.width = this.width;
-        this.bg.height = this.height;
-        this.addChild(this.bg);
     };
     EditGroup.prototype.setupTool = function () {
         ControlSet.controlClass = EgretControl;
@@ -204,14 +200,16 @@ var EditGroup = (function (_super) {
         var i = this.displayList.length;
         while (i--) {
             pic = this.displayList[i];
+            if (!pic.b)
+                return false;
             t = pic.transform;
             if (t.matrix.containsPoint(x, y, t.width, t.height)) {
                 if (this.tool.target !== t) {
                     // select
                     this.tool.setTarget(t);
                     // reorder for layer rendering
-                    this.displayList.splice(i, 1);
-                    this.displayList.push(pic);
+                    // this.displayList.splice(i,1);
+                    // this.displayList.push(pic);
                     return true;
                 }
                 // already selected
@@ -276,14 +274,12 @@ var EditGroup = (function (_super) {
                     // this.displayList.push(new Picture(this.container, elements[i].matrix));
                     break;
                 case 99:
-                    var bg = new UUImage();
-                    var texture = RES.getRes(elements[i].src);
+                    var bg = new UUBitmap();
+                    var texture = RES.getRes(elements[i].name);
                     bg.texture = texture;
-                    bg.width = this.bg.width;
-                    bg.height = this.bg.height;
                     bg.name = elements[i].id;
                     bg.data = elements[i];
-                    this.displayList.push(new Picture(bg, elements[i].matrix));
+                    this.displayList.push(new Picture(bg, elements[i].matrix, false));
                     break;
             }
         }
@@ -299,10 +295,11 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.reset = function () {
         this.clear();
+        this.tool.setTarget(null);
         var i = 0;
         var n = this.displayList.length;
         for (i = 0; i < n; i++) {
-            this.displayList[i].undraw(this);
+            this.displayList[i].undraw(this.displayGroup);
         }
         this.displayList = [];
     };
@@ -314,11 +311,7 @@ var EditGroup = (function (_super) {
             // so it can be layered within the controls
             // otherwise draw the other images here
             // if (!targetControl || this.tool.target !== this.displayList[i].transform){
-            this.displayList[i].draw(this);
-            // let item = this.displayList[i].image;                
-            // if(item.data.type == 99){
-            //     this.setChildIndex(item, 0);
-            // }
+            this.displayList[i].draw(this.displayGroup);
             // }
         }
     };
@@ -366,33 +359,39 @@ var EditGroup = (function (_super) {
             this.displayList.push(new Picture(result, m));
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
-    EditGroup.prototype.changeBg = function (url, name) {
-        RES.getResByUrl(url, function (texture) {
-            var result = new egret.Bitmap();
-            result.texture = texture;
-            result.width = this.bg.width;
-            result.height = this.bg.height;
-            this.bg.removeChildren();
-            this.bg.addChild(result);
+    EditGroup.prototype.changeBg = function (data) {
+        RES.getResByUrl("resource/assets/Background/" + data.url, function (texture) {
+            var m = new Matrix(this.displayGroup.width / texture.bitmapData.width, 0, 0, this.displayGroup.width / texture.bitmapData.width, 0, 0);
+            var bg = new UUBitmap();
+            bg.texture = texture;
             var eles = this.pages[this.pageIndex].elements;
-            var id = name + '-' + this.displayList.length;
-            var data = {
-                "id": id,
-                "name": name,
+            data.id = data.id + '-' + this.displayList.length;
+            if (eles[0].type == 99) {
+                // this.displayGroup.removeChildAt(0);
+                this.displayList[0].undraw(this.displayGroup);
+                this.displayList.splice(0, 1);
+                eles.splice(0, 1);
+            }
+            eles.unshift({
+                "id": data.id,
+                "name": data.name,
                 "pageId": 201807311008,
                 "type": 99,
-                "matrix": {},
-                "property": {},
-                "src": url,
+                "matrix": {
+                    "a": m.a,
+                    "b": m.b,
+                    "c": m.c,
+                    "d": m.d,
+                    "x": m.x,
+                    "y": m.y
+                },
+                "src": "resource/assets/Background/" + data.url,
                 "sceneId": 1001
-            };
-            if (!eles.some(function (item) { return item.type == 99; })) {
-                eles.push(data);
-            }
-            else {
-                var bgItem = eles.find(function (item) { return item.type == 99; });
-                bgItem.src = url;
-            }
+            });
+            bg.name = data.id;
+            bg.data = data;
+            this.displayList.unshift(new Picture(bg, m, false));
+            // requestAnimationFrame(this.render);
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
     EditGroup.prototype.addSound = function (data) {
@@ -468,3 +467,4 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
+//# sourceMappingURL=EditGroup.js.map

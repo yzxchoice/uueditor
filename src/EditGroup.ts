@@ -6,7 +6,8 @@ class EditGroup extends eui.Group {
     public pages = [];
     public pageIndex: number = 0;
     private borderColor = 0xcccccc;
-    private bg: eui.Component = new eui.Component;
+    // private bg: eui.Component = new eui.Component;
+    private displayGroup: eui.Group = new eui.Group();
     public constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -20,6 +21,7 @@ class EditGroup extends eui.Group {
         this.tool = new TransformTool(this);
         this.bindHandlers();
         this.getPages();
+        this.initEui();
         this.init();
     }
 
@@ -28,32 +30,25 @@ class EditGroup extends eui.Group {
         // this.addSinglePicture = this.addSinglePicture.bind(this);
     }
 
+    private initEui() {
+        this.displayGroup.width = this.width;
+        this.displayGroup.height = this.height;
+        this.displayGroup.scrollEnabled = true;
+        this.addChild(this.displayGroup);
+    }
+
     private getPages () {
         // console.log(RES.getRes("data_json"));
         this.pages = RES.getRes("data_json").list;
     }
 
     private init (): void {
-        this.addBg();
         this.renderResources(this.pageIndex);
         this.setupTool();
 
         this.stage.addEventListener(Mouse.START, this.down, this);
 
         this.render();
-
-        //添加转盘实例
-        // var g = new CircleSector();
-        // g.width = 400;
-        // g.height = 400;
-        // this.addChild(g);
-        // this.displayList.push(new Picture(g, new Matrix(1,0,0,1,0,0)));
-    }
-
-    private addBg () {
-        this.bg.width = this.width;
-        this.bg.height = this.height;
-        this.addChild(this.bg);
     }
 
     setupTool () {
@@ -235,6 +230,7 @@ class EditGroup extends eui.Group {
         var i = this.displayList.length;
         while (i--){
             pic = this.displayList[i];
+            if(!pic.b) return false;
             t = pic.transform;
             if (t.matrix.containsPoint(x, y, t.width, t.height)){
                 if (this.tool.target !== t){
@@ -242,8 +238,8 @@ class EditGroup extends eui.Group {
                     // select
                     this.tool.setTarget(t);
                     // reorder for layer rendering
-                    this.displayList.splice(i,1);
-                    this.displayList.push(pic);
+                    // this.displayList.splice(i,1);
+                    // this.displayList.push(pic);
                     return true;
                 }
                 
@@ -312,14 +308,12 @@ class EditGroup extends eui.Group {
                     // this.displayList.push(new Picture(this.container, elements[i].matrix));
                     break;
                  case 99:
-                    var bg:UUImage = new UUImage();
-                    var texture:egret.Texture = RES.getRes(elements[i].src);
+                    var bg:UUBitmap = new UUBitmap();
+                    var texture:egret.Texture = RES.getRes(elements[i].name);
                     bg.texture = texture;
-                    bg.width = this.bg.width;
-                    bg.height = this.bg.height;
                     bg.name = elements[i].id;
                     bg.data = elements[i];
-                    this.displayList.push(new Picture(bg, elements[i].matrix));
+                    this.displayList.push(new Picture(bg, elements[i].matrix, false));
                     break;
             }
             
@@ -335,15 +329,17 @@ class EditGroup extends eui.Group {
     }
 
     clear () {
-        this.tool.undraw();
+        this.tool.undraw();    
     }
 
     reset () {
         this.clear();
+        
+        this.tool.setTarget(null);  
         var i = 0;
         var n = this.displayList.length;
         for (i=0; i<n; i++){
-            this.displayList[i].undraw(this);
+            this.displayList[i].undraw(this.displayGroup);
         }
         this.displayList = [];
     }
@@ -356,11 +352,7 @@ class EditGroup extends eui.Group {
             // so it can be layered within the controls
             // otherwise draw the other images here
             // if (!targetControl || this.tool.target !== this.displayList[i].transform){
-                this.displayList[i].draw(this);
-                // let item = this.displayList[i].image;                
-                // if(item.data.type == 99){
-                //     this.setChildIndex(item, 0);
-                // }
+                this.displayList[i].draw(this.displayGroup);
             // }
         }
     }
@@ -417,33 +409,42 @@ class EditGroup extends eui.Group {
 
     }
 
-    changeBg (url: string, name: any) {
-        RES.getResByUrl(url, function(texture:egret.Texture):void {
-            var result:egret.Bitmap = new egret.Bitmap();
-            result.texture = texture;
-            result.width = this.bg.width;
-            result.height = this.bg.height;
-            this.bg.removeChildren();
-            this.bg.addChild(result);
+    changeBg (data: uiData) {
+        RES.getResByUrl("resource/assets/Background/"+data.url, function(texture:egret.Texture):void {
+            var m = new Matrix(this.displayGroup.width/texture.bitmapData.width,0,0,this.displayGroup.width/texture.bitmapData.width,0,0);
+            var bg:UUBitmap = new UUBitmap();
+            bg.texture = texture;        
 
             var eles = this.pages[this.pageIndex].elements;
-            let id = name + '-'+ this.displayList.length;   
-            let data = {
-                "id": id,
-                "name": name,
+            data.id = data.id + '-'+ this.displayList.length;              
+            
+            if(eles[0].type == 99){
+                // this.displayGroup.removeChildAt(0);
+                this.displayList[0].undraw(this.displayGroup);
+                this.displayList.splice(0,1);
+                eles.splice(0,1);
+            }
+            eles.unshift({
+                "id": data.id,
+                "name": data.name,
                 "pageId": 201807311008,
                 "type": 99,
-                "matrix": {},
-                "property": {},
-                "src": url,
+                "matrix": {
+                    "a": m.a,
+                    "b": m.b,
+                    "c": m.c,
+                    "d": m.d,
+                    "x": m.x,
+                    "y": m.y
+                },
+                "src": "resource/assets/Background/" + data.url,
                 "sceneId": 1001
-            }         
-            if(!eles.some(item => item.type == 99)){
-                eles.push(data);
-            }else {
-                let bgItem = eles.find(item => item.type == 99);
-                bgItem.src = url;
-            }
+            })
+            bg.name = data.id;
+            bg.data = data; 
+            this.displayList.unshift(new Picture(bg, m, false));
+            // requestAnimationFrame(this.render);
+
         }, this, RES.ResourceItem.TYPE_IMAGE);
     }
 
