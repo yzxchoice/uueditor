@@ -28,6 +28,19 @@ var ImageBox = (function (_super) {
                 id: "9002",
                 name: "border_jpg",
                 url: "border.jpg"
+            }, {
+                id: "9003",
+                name: "betty_png",
+                url: "betty.png"
+            }, {
+                id: "9004",
+                name: "adam_q_png",
+                url: "adam_q.png"
+            },
+            {
+                id: "9005",
+                name: "uu_q_png",
+                url: "uu_q.png"
             }
         ];
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);

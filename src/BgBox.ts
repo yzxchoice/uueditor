@@ -2,12 +2,20 @@
 class BgBox extends eui.Panel {
     private imgList = [
         {
-            id: "9003",
+            id: "9103",
             name: "bg.jpg"
         },
         {
-            id: "9004",
+            id: "9104",
             name: "bg1.jpg"
+        },
+        {
+            id: "9105",
+            name: "start_f_bg.png"
+        },
+        {
+            id: "9106",
+            name: "start_bg.png"
         }
     ];
     static instance: ImageBox;
