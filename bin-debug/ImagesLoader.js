@@ -36,4 +36,3 @@ var ImagesLoader = (function () {
     return ImagesLoader;
 }());
 __reflect(ImagesLoader.prototype, "ImagesLoader");
-//# sourceMappingURL=ImagesLoader.js.map

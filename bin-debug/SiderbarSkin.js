@@ -90,9 +90,8 @@ var SiderbarSkinBy = (function (_super) {
         var _this = this;
         // 监听tabs click事件
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-            console.log('this event');
             _this.stateObj.selectionVisible = false;
-        }, this, false, 1);
+        }, this);
         this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
         this.btn_add_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchAddEvent, this);
         this.gp_add_click_event.addEventListener(egret.TouchEvent.TOUCH_TAP, this.addClickEventItem, this);
@@ -143,7 +142,7 @@ var SiderbarSkinBy = (function (_super) {
     // tab 触发 功能
     SiderbarSkinBy.prototype.touchSelection2 = function (evt) {
         var _this = this;
-        console.log('selection event');
+        evt.stopPropagation();
         if (!this.targetItemId)
             return;
         this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
@@ -171,8 +170,6 @@ var SiderbarSkinBy = (function (_super) {
             this.gp_selection.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick_Selection, this);
         }
         ;
-        evt.stopPropagation();
-        evt.preventDefault();
     };
     SiderbarSkinBy.prototype.onMouseover_Selection = function (evt) {
         for (var i = 0, len = this.gp_selection.numChildren; i < len; i++) {
@@ -183,6 +180,7 @@ var SiderbarSkinBy = (function (_super) {
         evt.target.parent.isOver = true;
     };
     SiderbarSkinBy.prototype.onClick_Selection = function (evt) {
+        evt.stopPropagation();
         var checkoutBox = evt.target;
         var checkItem = evt.target.parent;
         var selected = checkoutBox.selected;
@@ -270,4 +268,3 @@ var SiderbarSkinBy = (function (_super) {
     return SiderbarSkinBy;
 }(eui.Component));
 __reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy", ["IUUContainer"]);
-//# sourceMappingURL=SiderbarSkin.js.map
