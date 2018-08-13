@@ -141,8 +141,6 @@ declare class Preview extends eui.Component {
     tool: any;
     pages: any[];
     private pageIndex;
-    w: number;
-    h: number;
     constructor();
     private onAddToStageInit(event);
     private initEui();

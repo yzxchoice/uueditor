@@ -17,7 +17,11 @@ class PreviewBox extends eui.Group implements IUUContainer {
         bg.graphics.drawRect(0, 0, 1920, 1080);
         bg.graphics.endFill();
         this.addChild(bg);
-        this.addChild(new Preview());
+        var p: Preview = new Preview();
+        p.width = 1200;
+        p.height = 900;
+        p.horizontalCenter = 0;
+        this.addChild(p);
 
         var button3 = new eui.Button();
         button3.y = 0;

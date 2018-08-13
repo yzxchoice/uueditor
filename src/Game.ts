@@ -31,8 +31,8 @@ class Game extends eui.Component {
         console.log(wvw.data);
         
         var editContaier: eui.Group = new eui.Group();
-        editContaier.horizontalCenter = 0;
-        editContaier.verticalCenter = 0;
+        editContaier.x = 0;
+        editContaier.y = 110;
         this.addChild(editContaier);
 
         // var img = new eui.Image("resource/assets/phone16.png");
@@ -49,13 +49,13 @@ class Game extends eui.Component {
         var bg:egret.Shape = new egret.Shape;
         // bg.graphics.lineStyle(3,0x999999);
         bg.graphics.beginFill(0xffffff,1);
-        bg.graphics.drawRect(0, 0, 750, 1334);
+        bg.graphics.drawRect(0, 0, 1200, 900);
         bg.graphics.endFill();
         editContaier.addChild(bg);
 
-        this.editGroup.width = 750;
-        this.editGroup.height = 1334;
-        this.editGroup.horizontalCenter = 0;
+        this.editGroup.width = 1200;
+        this.editGroup.height = 900;
+        this.editGroup.x = 0;
         this.editGroup.y = 0;
         this.editGroup.scrollEnabled = true;
         // this.drawBg(this.editGroup);
@@ -83,9 +83,9 @@ class Game extends eui.Component {
         hLayout.paddingRight = 30;
         
         var bottomGroup = new eui.Group();
-        bottomGroup.width = 750;
+        bottomGroup.width = 1200;
         bottomGroup.height = 100;
-        bottomGroup.horizontalCenter = 0;
+        bottomGroup.x = 0;
         bottomGroup.layout = hLayout;
         bottomGroup.bottom = 0;
         this.addChild(bottomGroup);
