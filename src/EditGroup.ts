@@ -413,8 +413,8 @@ class EditGroup extends eui.Group {
             this.bg.addChild(result);
 
             var eles = this.pages[this.pageIndex].elements;
-            let id = name + '-'+ this.displayList.length;
-            eles.push({
+            let id = name + '-'+ this.displayList.length;   
+            let data = {
                 "id": id,
                 "name": name,
                 "pageId": 201807311008,
@@ -423,7 +423,13 @@ class EditGroup extends eui.Group {
                 "property": {},
                 "src": url,
                 "sceneId": 1001
-            });
+            }         
+            if(!eles.some(item => item.type == 99)){
+                eles.push(data);
+            }else {
+                let bgItem = eles.find(item => item.type == 99);
+                bgItem.src = url;
+            }
         }, this, RES.ResourceItem.TYPE_IMAGE);
     }
 

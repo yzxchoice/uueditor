@@ -362,7 +362,7 @@ var EditGroup = (function (_super) {
             this.bg.addChild(result);
             var eles = this.pages[this.pageIndex].elements;
             var id = name + '-' + this.displayList.length;
-            eles.push({
+            var data = {
                 "id": id,
                 "name": name,
                 "pageId": 201807311008,
@@ -371,7 +371,14 @@ var EditGroup = (function (_super) {
                 "property": {},
                 "src": url,
                 "sceneId": 1001
-            });
+            };
+            if (!eles.some(function (item) { return item.type == 99; })) {
+                eles.push(data);
+            }
+            else {
+                var bgItem = eles.find(function (item) { return item.type == 99; });
+                bgItem.src = url;
+            }
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
     EditGroup.prototype.addSound = function (data) {
