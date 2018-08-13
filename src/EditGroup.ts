@@ -403,7 +403,7 @@ class EditGroup extends eui.Group {
 
     }
 
-    changeBg (url: string) {
+    changeBg (url: string, name: any) {
         RES.getResByUrl(url, function(texture:egret.Texture):void {
             var result:egret.Bitmap = new egret.Bitmap();
             result.texture = texture;
@@ -411,6 +411,19 @@ class EditGroup extends eui.Group {
             result.height = this.bg.height;
             this.bg.removeChildren();
             this.bg.addChild(result);
+
+            var eles = this.pages[this.pageIndex].elements;
+            let id = name + '-'+ this.displayList.length;
+            eles.push({
+                "id": id,
+                "name": name,
+                "pageId": 201807311008,
+                "type": 99,
+                "matrix": {},
+                "property": {},
+                "src": url,
+                "sceneId": 1001
+            });
         }, this, RES.ResourceItem.TYPE_IMAGE);
     }
 

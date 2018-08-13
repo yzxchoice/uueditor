@@ -352,7 +352,7 @@ var EditGroup = (function (_super) {
             this.displayList.push(new Picture(result, m));
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
-    EditGroup.prototype.changeBg = function (url) {
+    EditGroup.prototype.changeBg = function (url, name) {
         RES.getResByUrl(url, function (texture) {
             var result = new egret.Bitmap();
             result.texture = texture;
@@ -360,6 +360,18 @@ var EditGroup = (function (_super) {
             result.height = this.bg.height;
             this.bg.removeChildren();
             this.bg.addChild(result);
+            var eles = this.pages[this.pageIndex].elements;
+            var id = name + '-' + this.displayList.length;
+            eles.push({
+                "id": id,
+                "name": name,
+                "pageId": 201807311008,
+                "type": 99,
+                "matrix": {},
+                "property": {},
+                "src": url,
+                "sceneId": 1001
+            });
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
     EditGroup.prototype.addSound = function (data) {

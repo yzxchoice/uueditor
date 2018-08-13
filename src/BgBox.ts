@@ -3,11 +3,39 @@ class BgBox extends eui.Panel {
     private imgList = [
         {
             id: "9003",
-            name: "bg.jpg"
+            name: "bg1.jpg"
         },
         {
             id: "9004",
-            name: "bg1.jpg"
+            name: "bg2.jpg"
+        },
+        {
+            id: "9005",
+            name: "bg3.jpg"
+        },
+        {
+            id: "9006",
+            name: "bg4.jpg"
+        },
+        {
+            id: "9007",
+            name: "bg5.jpg"
+        },
+        {
+            id: "9008",
+            name: "bg6.jpg"
+        },
+        {
+            id: "9009",
+            name: "bg7.jpg"
+        },
+        {
+            id: "9010",
+            name: "bg8.jpg"
+        },
+        {
+            id: "9011",
+            name: "bg9.jpg"
         }
     ];
     static instance: ImageBox;
@@ -44,7 +72,7 @@ class BgBox extends eui.Panel {
 
         for(var i = 0; i<this.imgList.length;i++){
             var image = new eui.Image();
-            image.source = "resource/assets/" + this.imgList[i].name;
+            image.source = "resource/assets/Background/" + this.imgList[i].name;
             // image.scale9Grid = new egret.Rectangle(10,10,80,80);
             image.y = 50;
             image.x = 120 * i;
@@ -59,12 +87,15 @@ class BgBox extends eui.Panel {
     }
 
     private addImage (event: egret.TouchEvent) {
+        console.log('addIamge...');
+        console.log(event);
+        console.log(event.currentTarget);
         var g: Game = this.parent as Game;
         // g.imgBox.close();
         // g.editGroup.addSinglePicture(event.currentTarget.source);
 
         // g.closeImagePanel();
-        g.editGroup.changeBg(event.currentTarget.source);
+        g.editGroup.changeBg(event.currentTarget.source, event.currentTarget.name);
     }
 
     open (container: eui.Component) {

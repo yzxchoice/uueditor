@@ -12,8 +12,8 @@
 		"libs/modules/uulib/uulib.js"
 	],
 	"game": [
-		"bin-debug/ActionBox.js",
 		"bin-debug/AssetAdapter.js",
+		"bin-debug/ImagesLoader.js",
 		"bin-debug/BgBox.js",
 		"bin-debug/checkItem.js",
 		"bin-debug/ComponentBox.js",
@@ -23,7 +23,7 @@
 		"bin-debug/Game.js",
 		"bin-debug/Header.js",
 		"bin-debug/ImageBox.js",
-		"bin-debug/ImagesLoader.js",
+		"bin-debug/ActionBox.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/NewFile.js",

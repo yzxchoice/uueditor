@@ -31,7 +31,7 @@ declare class EditGroup extends eui.Group {
     pre(event: egret.TouchEvent): void;
     next(event: egret.TouchEvent): void;
     addSinglePicture(data: uiData): void;
-    changeBg(url: string): void;
+    changeBg(url: string, name: any): void;
     addSound(data: uiData): void;
     addComponent(data: uiData): void;
 }
