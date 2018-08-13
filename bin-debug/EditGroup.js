@@ -275,6 +275,16 @@ var EditGroup = (function (_super) {
                     // this.createGameScene();
                     // this.displayList.push(new Picture(this.container, elements[i].matrix));
                     break;
+                case 99:
+                    var bg = new UUImage();
+                    var texture = RES.getRes(elements[i].src);
+                    bg.texture = texture;
+                    bg.width = this.bg.width;
+                    bg.height = this.bg.height;
+                    bg.name = elements[i].id;
+                    bg.data = elements[i];
+                    this.displayList.push(new Picture(bg, elements[i].matrix));
+                    break;
             }
         }
         requestAnimationFrame(this.render);
@@ -305,6 +315,10 @@ var EditGroup = (function (_super) {
             // otherwise draw the other images here
             // if (!targetControl || this.tool.target !== this.displayList[i].transform){
             this.displayList[i].draw(this);
+            // let item = this.displayList[i].image;                
+            // if(item.data.type == 99){
+            //     this.setChildIndex(item, 0);
+            // }
             // }
         }
     };
