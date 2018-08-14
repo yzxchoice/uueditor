@@ -22,10 +22,11 @@
 			<e:Label text="触发" width="100%" height="59" top="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.event="0x009aff" name="label" x="0"/>
 			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.event="0x009aff"/>
 		</e:Group>
+		<e:layout>
+			<e:TileLayout orientation="rows" horizontalGap="0" verticalGap="0" horizontalAlign="justify" requestedColumnCount="4" verticalAlign="top" rowAlign="justifyUsingGap" columnAlign="justifyUsingGap" requestedRowCount="1" columnWidth="125"/>
+		</e:layout>
 	</e:Group>
 	<e:Group id="gp_eventContainers" x="0" y="120">
-
-
 		<ns1:TabStyle id="component_style" width="100%" height="100%" x="0" y="0" skinName="TabStyleSkin" includeIn="style"/>
 		<ns1:TabAnimation id="component_animation" width="100%" height="100%" x="0" y="0" includeIn="animation" enabled="true" skinName="TabAnimationSkin"/>
 		<ns1:TabEvent id="component_event" width="100%" height="100%" x="0" y="0" skinName="TabEventSkin" includeIn="event"/>
