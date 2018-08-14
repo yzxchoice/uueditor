@@ -14,6 +14,7 @@ var PageBox = (function (_super) {
     function PageBox() {
         var _this = _super.call(this) || this;
         _this.pages = [];
+        _this.currentIndex = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddedToStage, _this);
         return _this;
     }
@@ -26,7 +27,8 @@ var PageBox = (function (_super) {
     PageBox.prototype.onAddedToStage = function () {
         this.getPages();
         this.init();
-        this.render(0);
+        this.removeChildren();
+        this.render(this.currentIndex);
     };
     PageBox.prototype.init = function () {
         var vLayout = new eui.VerticalLayout();
@@ -66,7 +68,8 @@ var PageBox = (function (_super) {
             };
             this.dispatchEvent(e);
         }
-        this.render(index);
+        this.currentIndex = index;
+        this.render(this.currentIndex);
     };
     PageBox.prototype.pageAdd = function (event) {
         this.redraw();
@@ -74,3 +77,4 @@ var PageBox = (function (_super) {
     return PageBox;
 }(eui.Group));
 __reflect(PageBox.prototype, "PageBox", ["IUUContainer"]);
+//# sourceMappingURL=PageBox.js.map

@@ -3,6 +3,7 @@ class PageBox extends eui.Group implements IUUContainer {
     container: any;
 
     public pages = [];
+    currentIndex: number = 0;
     constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddedToStage, this);
@@ -20,7 +21,8 @@ class PageBox extends eui.Group implements IUUContainer {
 		
         this.getPages();
         this.init();
-        this.render(0);
+        this.removeChildren();
+        this.render(this.currentIndex);
 	}
 
     private init() {
@@ -64,7 +66,8 @@ class PageBox extends eui.Group implements IUUContainer {
             }
             this.dispatchEvent(e);
         }
-        this.render(index);
+        this.currentIndex = index;
+        this.render(this.currentIndex);
     }
 
     private pageAdd(event: PageEvent): void {
