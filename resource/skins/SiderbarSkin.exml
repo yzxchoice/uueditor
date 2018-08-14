@@ -30,6 +30,7 @@
 		<ns1:TabStyle id="component_style" width="100%" height="100%" x="0" y="0" skinName="TabStyleSkin" includeIn="style"/>
 		<ns1:TabAnimation id="component_animation" width="100%" height="100%" x="0" y="0" includeIn="animation" enabled="true" skinName="TabAnimationSkin"/>
 		<ns1:TabEvent id="component_event" width="100%" height="100%" x="0" y="0" skinName="TabEventSkin" includeIn="event"/>
+		<ns1:PageBox width="500" height="680" x="0" y="0" includeIn="page"/>
 	</e:Group>
 	<e:Group id="gp_container_addEvent" width="500" height="680" x="0" y="120" visible="false">
 		<e:Rect width="500" height="680" x="0" y="0" fillColor="0xffffff" locked="true"/>

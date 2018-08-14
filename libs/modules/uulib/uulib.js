@@ -855,11 +855,11 @@ var Preview = (function (_super) {
                 }
             });
             // 可拖拽
-            // let elements = this.pages[this.pageIndex].elements;
-            // if(elements.some(item => item.id == event.target.name)){
-            //     if(event.target.data.property.drag){
-            //     }
-            // }
+            var elements = this.pages[this.pageIndex].elements;
+            if (elements.some(function (item) { return item.id == event.target.name; })) {
+                if (event.target.data.property.drag) {
+                }
+            }
         }
         event.preventDefault();
     };
@@ -1423,11 +1423,3 @@ var UULabel = (function (_super) {
     return UULabel;
 }(eui.Label));
 __reflect(UULabel.prototype, "UULabel");
-// TypeScript file
-var UURequest = (function () {
-    // private req: egret.HttpRequest = new egret.HttpRequest();
-    function UURequest() {
-    }
-    return UURequest;
-}());
-__reflect(UURequest.prototype, "UURequest");

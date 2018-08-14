@@ -21,7 +21,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	public component_animation: TabAnimation;
 	public component_event: TabEvent;	
 	private gp_tabs:eui.Group;
-	private pagebox: PageBox = new PageBox();;
+	// private pagebox: PageBox = new PageBox();;
 
 	public constructor() {
 		super();
@@ -36,7 +36,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.component_style.draw(this);
 		this.component_animation.draw(this);				
 		this.component_event.draw(this);	
-		this.pagebox.draw(this);	
+		// this.pagebox.draw(this);	
 		this.currentState = 'style';
 	}
 	private listenEvent(){
