@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="SiderbarSkin"  states="style,animation,event" width="500" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
+<e:Skin class="SiderbarSkin"  states="page,style,animation,event" width="500" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
 	<e:Rect width="500" height="800" x="0" y="0" fillColor="0xf9f2f2" strokeColor="0xfffcfc" locked="true"/>
 	<e:Group width="500" height="60" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" locked="true">
 		<e:Label text="组件设置" x="21.33" y="15" textColor="0x160f0f" size="26"/>
 	</e:Group>
 	<e:Rect width="500" height="740" x="0" y="60" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xebf4f1" locked="true"/>
 	<e:Group id="gp_tabs" width="500" height="60" x="0" y="60" anchorOffsetX="0">
-		<e:Group id="gp_tab_style" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="style">
-			<e:Label text="样式" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160d0d" textColor.style="0x009aff" name="label" locked="true"/>
-			<e:Rect width="166" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.style="0x009aff"/>
+		<e:Group id="gp_tab_page" width="25%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="page" x="0">
+			<e:Label text="页面" width="100%" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.page="0x009aff" name="label"/>
+			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160D0D" fillColor.page="0x009aff"/>
 		</e:Group>
-		<e:Group id="gp_tab_animation" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="166" name="animation">
-			<e:Label text="动画" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.animation="0x009aff" name="label" locked="true"/>
-			<e:Rect width="166" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.animation="0x009aff"/>
+		<e:Group id="gp_tab_style" width="25%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="style" x="125">
+			<e:Label text="样式" width="100%" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160d0d" textColor.style="0x009aff" name="label"/>
+			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.style="0x009aff"/>
 		</e:Group>
-		<e:Group id="gp_tab_event" width="166" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="332" name="event">
-			<e:Label text="触发" width="166" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.event="0x009aff" name="label" locked="true"/>
-			<e:Rect width="166" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.event="0x009aff"/>
+		<e:Group id="gp_tab_animation" width="25%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="animation" x="250">
+			<e:Label text="动画" width="100%" height="59" top="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.animation="0x009aff" name="label" x="0"/>
+			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.animation="0x009aff"/>
+		</e:Group>
+		<e:Group id="gp_tab_event" width="25%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="375" name="event">
+			<e:Label text="触发" width="100%" height="59" top="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.event="0x009aff" name="label" x="0"/>
+			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.event="0x009aff"/>
 		</e:Group>
 	</e:Group>
 	<e:Group id="gp_eventContainers" x="0" y="120">
