@@ -375,7 +375,7 @@ class EditGroup extends eui.Group {
     }
 
     addSinglePicture (data: uiData) {
-        RES.getResByUrl("resource/assets/"+data.url, function(texture:egret.Texture):void {
+        RES.getResByUrl("resource/assets/Pic/"+data.url, function(texture:egret.Texture):void {
             var m = new Matrix(1,0,0,1,300,500);
             var result: UUBitmap = new UUBitmap();
             result.texture = texture;
@@ -397,7 +397,7 @@ class EditGroup extends eui.Group {
                     "x": m.x,
                     "y": m.y
                 },
-                "src": "resource/assets/" + data.url,
+                "src": "resource/assets/Pic/" + data.url,
                 "sceneId": 1001
             })
             
@@ -418,7 +418,7 @@ class EditGroup extends eui.Group {
             var eles = this.pages[this.pageIndex].elements;
             data.id = data.id + '-'+ this.displayList.length;              
             
-            if(eles[0].type == 99){
+            if(eles.length > 0 && eles[0].type == 99){
                 // this.displayGroup.removeChildAt(0);
                 this.displayList[0].undraw(this.displayGroup);
                 this.displayList.splice(0,1);

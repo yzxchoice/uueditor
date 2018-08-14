@@ -7,7 +7,7 @@
             "elements": [
                 {
                     "id": 8401,
-                    "name": "dunny_png",
+                    "name": "uu_q_png",
                     "pageId": 201807311008,
                     "type": 2,
                     "matrix": {
@@ -21,12 +21,12 @@
                     "property": {
                         "drag": 1
                     },
-                    "src": "resource/assets/dunny.png",
+                    "src": "resource/assets/Pic/uu_q.png",
                     "sceneId": 1001
                 },
                 {
                     "id": 8402,
-                    "name": "fatcap_png",
+                    "name": "betty_png",
                     "pageId": 201807311008,
                     "type": 2,
                     "matrix": {
@@ -40,7 +40,7 @@
                     "property": {
 
                     },
-                    "src": "resource/assets/fatcap.png",
+                    "src": "resource/assets/Pic/betty.png",
                     "sceneId": 1001
                 },
                 {
@@ -126,7 +126,7 @@
             "elements": [
                 {
                     "id": 9401,
-                    "name": "piggy_png",
+                    "name": "uu_q_png",
                     "pageId": 201807311014,
                     "type": 2,
                     "matrix": {
@@ -137,7 +137,7 @@
                         "x": 200,
                         "y": 400
                     },
-                    "src": "resource/assets/piggy.png",
+                    "src": "resource/assets/Pic/uu_q.png",
                     "sceneId": 1001
                 }
             ],
