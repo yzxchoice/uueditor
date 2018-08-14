@@ -333,7 +333,7 @@ var EditGroup = (function (_super) {
         }
     };
     EditGroup.prototype.addSinglePicture = function (data) {
-        RES.getResByUrl("resource/assets/" + data.url, function (texture) {
+        RES.getResByUrl("resource/assets/Pic/" + data.url, function (texture) {
             var m = new Matrix(1, 0, 0, 1, 300, 500);
             var result = new UUBitmap();
             result.texture = texture;
@@ -354,7 +354,8 @@ var EditGroup = (function (_super) {
                     "x": m.x,
                     "y": m.y
                 },
-                "src": "resource/assets/" + data.url,
+                "property": {},
+                "src": "resource/assets/Pic/" + data.url,
                 "sceneId": 1001
             });
             result.name = data.id;
@@ -388,6 +389,7 @@ var EditGroup = (function (_super) {
                     "x": m.x,
                     "y": m.y
                 },
+                "property": {},
                 "src": "resource/assets/Background/" + data.url,
                 "sceneId": 1001
             });
