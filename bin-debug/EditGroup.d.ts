@@ -5,6 +5,7 @@ declare class EditGroup extends eui.Group {
     pageIndex: number;
     private borderColor;
     private displayGroup;
+    private SiderbarSkinBy;
     constructor();
     protected createChildren(): void;
     private onAddToStage(event);

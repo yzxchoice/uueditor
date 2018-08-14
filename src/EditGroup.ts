@@ -8,6 +8,7 @@ class EditGroup extends eui.Group {
     private borderColor = 0xcccccc;
     // private bg: eui.Component = new eui.Component;
     private displayGroup: eui.Group = new eui.Group();
+    private SiderbarSkinBy: SiderbarSkinBy = SiderbarSkinBy.getInstance();
     public constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -109,8 +110,9 @@ class EditGroup extends eui.Group {
             this.stage.addEventListener(Mouse.MOVE, this.move, this);
             this.stage.addEventListener(Mouse.END, this.up, this);
 
-            SiderbarSkinBy.getInstance().setTarget(this.tool);
-
+            this.SiderbarSkinBy.component_style.setTarget();
+            this.SiderbarSkinBy.component_event.getTargetItemId();            
+            this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup
         }
         
         // SiderbarSkinBy.getInstance().selectionVisible = false;
@@ -123,7 +125,7 @@ class EditGroup extends eui.Group {
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
 
-        SiderbarSkinBy.getInstance().updateTarget();
+        this.SiderbarSkinBy.component_style.updateTarget();
 
         // this.deliveryItemMessageToControlPanel(this.tool.target);        
         
@@ -144,7 +146,7 @@ class EditGroup extends eui.Group {
         this.stage.removeEventListener(Mouse.MOVE, this.move, this);
         this.stage.removeEventListener(Mouse.END, this.up, this);
 
-        SiderbarSkinBy.getInstance().updateTarget();
+        this.SiderbarSkinBy.component_style.updateTarget();
         
         requestAnimationFrame(this.render);
         event.preventDefault();
@@ -397,6 +399,7 @@ class EditGroup extends eui.Group {
                     "x": m.x,
                     "y": m.y
                 },
+                "property": {},                
                 "src": "resource/assets/Pic/" + data.url,
                 "sceneId": 1001
             })
@@ -437,6 +440,7 @@ class EditGroup extends eui.Group {
                     "x": m.x,
                     "y": m.y
                 },
+                "property": {},
                 "src": "resource/assets/Background/" + data.url,
                 "sceneId": 1001
             })

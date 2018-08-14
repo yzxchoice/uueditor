@@ -12,8 +12,6 @@ var EventSetDome = (function (_super) {
     __extends(EventSetDome, _super);
     function EventSetDome() {
         var _this = _super.call(this) || this;
-        _this.siderbarSkin = SiderbarSkinBy.getInstance();
-        _this.triggerGroup = _this.siderbarSkin.triggerGroup;
         _this._isShow = true;
         _this.skinName = "resource/skins/EventSet.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
@@ -33,7 +31,6 @@ var EventSetDome = (function (_super) {
         ;
         if (index !== null) {
             this.triggerGroup.splice(index, 1);
-            this.triggerGroup = this.triggerGroup;
         }
         ;
     };
@@ -81,6 +78,10 @@ var EventSetDome = (function (_super) {
             _this.removeData();
         }, this);
     };
+    EventSetDome.prototype.getDataContainer = function (dataContainer) {
+        this.dataContainer = dataContainer;
+        this.triggerGroup = this.dataContainer.triggerGroup;
+    };
     EventSetDome.prototype.initData = function (data) {
         this.data = data;
         this.name = data.targetId;
@@ -93,9 +94,8 @@ var EventSetDome = (function (_super) {
         var relevanceItemId = this.data.targetId;
         this.container.removeChild(this);
         this.dispose();
-        this.siderbarSkin.relevanceItemIdList.splice(this.siderbarSkin.relevanceItemIdList.indexOf(relevanceItemId), 1);
+        this.dataContainer.relevanceItemIdList.splice(this.dataContainer.relevanceItemIdList.indexOf(relevanceItemId), 1);
     };
     return EventSetDome;
 }(eui.Component));
 __reflect(EventSetDome.prototype, "EventSetDome", ["IUUContainer"]);
-//# sourceMappingURL=EventSet.js.map

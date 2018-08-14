@@ -1423,3 +1423,11 @@ var UULabel = (function (_super) {
     return UULabel;
 }(eui.Label));
 __reflect(UULabel.prototype, "UULabel");
+// TypeScript file
+var UURequest = (function () {
+    // private req: egret.HttpRequest = new egret.HttpRequest();
+    function UURequest() {
+    }
+    return UURequest;
+}());
+__reflect(UURequest.prototype, "UURequest");
