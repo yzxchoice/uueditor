@@ -27,8 +27,6 @@ class Game extends eui.Component {
     private initEui() {
         var wvw = new EventSetDome();
         wvw.data = {};
-        console.log('------------------fdfdsafdsafdasfdsa-----')
-        console.log(wvw.data);
         
         var editContaier: eui.Group = new eui.Group();
         editContaier.x = 0;

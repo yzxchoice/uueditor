@@ -268,4 +268,3 @@ var SiderbarSkinBy = (function (_super) {
     return SiderbarSkinBy;
 }(eui.Component));
 __reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy", ["IUUContainer"]);
-//# sourceMappingURL=SiderbarSkin.js.map

@@ -34,8 +34,6 @@ var Game = (function (_super) {
     Game.prototype.initEui = function () {
         var wvw = new EventSetDome();
         wvw.data = {};
-        console.log('------------------fdfdsafdsafdasfdsa-----');
-        console.log(wvw.data);
         var editContaier = new eui.Group();
         editContaier.x = 0;
         editContaier.y = 110;
@@ -129,4 +127,3 @@ var Game = (function (_super) {
     return Game;
 }(eui.Component));
 __reflect(Game.prototype, "Game");
-//# sourceMappingURL=Game.js.map

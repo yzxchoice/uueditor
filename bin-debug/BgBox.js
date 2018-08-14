@@ -130,4 +130,3 @@ var BgBox = (function (_super) {
     return BgBox;
 }(eui.Panel));
 __reflect(BgBox.prototype, "BgBox");
-//# sourceMappingURL=BgBox.js.map

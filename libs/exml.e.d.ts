@@ -1,11 +1,3 @@
-declare class SetEvent extends eui.Skin{
-}
-declare class GameSkin extends eui.Skin{
-}
-declare class SiderbarSkin extends eui.Skin{
-}
-declare class Start extends eui.Skin{
-}
 declare module skins{
 	class ButtonSkin extends eui.Skin{
 	}
@@ -57,4 +49,12 @@ declare module skins{
 declare module skins{
 	class VSliderSkin extends eui.Skin{
 	}
+}
+declare class SetEvent extends eui.Skin{
+}
+declare class GameSkin extends eui.Skin{
+}
+declare class SiderbarSkin extends eui.Skin{
+}
+declare class Start extends eui.Skin{
 }
