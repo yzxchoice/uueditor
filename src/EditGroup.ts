@@ -48,6 +48,7 @@ class EditGroup extends eui.Group {
         this.setupTool();
 
         this.stage.addEventListener(Mouse.START, this.down, this);
+        this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
 
         this.render();
     }
@@ -114,8 +115,6 @@ class EditGroup extends eui.Group {
             this.SiderbarSkinBy.component_event.getTargetItemId();            
             this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup
         }
-        
-        // SiderbarSkinBy.getInstance().selectionVisible = false;
         requestAnimationFrame(this.render);
         event.preventDefault();
     }
@@ -125,9 +124,7 @@ class EditGroup extends eui.Group {
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
 
-        this.SiderbarSkinBy.component_style.updateTarget();
-
-        // this.deliveryItemMessageToControlPanel(this.tool.target);        
+        this.SiderbarSkinBy.component_style.updateTarget();    
         
         requestAnimationFrame(this.render);
         event.preventDefault();
@@ -374,6 +371,12 @@ class EditGroup extends eui.Group {
             this.pageIndex ++;
             this.renderResources(this.pageIndex);
         }
+    }
+
+    go (event: PageEvent) {
+        this.reset();
+        this.pageIndex = event.data.pageIndex;
+        this.renderResources(this.pageIndex);
     }
 
     addSinglePicture (data: uiData) {

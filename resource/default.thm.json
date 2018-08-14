@@ -11,6 +11,10 @@
 		"resource/eui_skins/TextInputSkin.exml",
 		"resource/skins/EventSet.exml",
 		"resource/skins/GameSkin.exml",
+		"resource/skins/TabStyleSkin.exml",
+		"resource/skins/TabAnimationSkin.exml",
+		"resource/eui_skins/ScrollerSkin.exml",
+		"resource/skins/TabEventSkin.exml",
 		"resource/skins/SiderbarSkin.exml",
 		"resource/skins/StartSkin.exml",
 		"resource/eui_skins/ButtonSkin.exml",
@@ -21,7 +25,6 @@
 		"resource/eui_skins/PanelSkin.exml",
 		"resource/eui_skins/ProgressBarSkin.exml",
 		"resource/eui_skins/RadioButtonSkin.exml",
-		"resource/eui_skins/ScrollerSkin.exml",
 		"resource/eui_skins/ToggleSwitchSkin.exml",
 		"resource/eui_skins/VScrollBarSkin.exml",
 		"resource/eui_skins/VSliderSkin.exml"

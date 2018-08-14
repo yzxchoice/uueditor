@@ -72,7 +72,7 @@ var Game = (function (_super) {
         this.siderbarSkinBy.y = this.header.height + 10;
         this.siderbarSkinBy.draw(this);
         // this.addChild(this.siderbarSkinBy);
-        console.log(this.siderbarSkinBy.data);
+        // console.log(this.siderbarSkinBy.data);
         var hLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;
         hLayout.horizontalAlign = egret.HorizontalAlign.CENTER;
@@ -127,3 +127,4 @@ var Game = (function (_super) {
     return Game;
 }(eui.Component));
 __reflect(Game.prototype, "Game");
+//# sourceMappingURL=Game.js.map

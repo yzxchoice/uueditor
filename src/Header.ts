@@ -117,6 +117,7 @@ class Header extends eui.Group implements IUUContainer {
     onAddPage (event: egret.TouchEvent) {
         var g: Game = this.parent as Game;
         g.editGroup.addPage();
+        this.dispatchEvent(new PageEvent(PageEvent.PAGE_ADD, true));
     }
     
     preview (event: egret.TouchEvent) {

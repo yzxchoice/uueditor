@@ -114,6 +114,7 @@ var Header = (function (_super) {
     Header.prototype.onAddPage = function (event) {
         var g = this.parent;
         g.editGroup.addPage();
+        this.dispatchEvent(new PageEvent(PageEvent.PAGE_ADD, true));
     };
     Header.prototype.preview = function (event) {
         // callJsFunc("ts call js");
@@ -140,3 +141,4 @@ var Header = (function (_super) {
     return Header;
 }(eui.Group));
 __reflect(Header.prototype, "Header", ["IUUContainer"]);
+//# sourceMappingURL=Header.js.map

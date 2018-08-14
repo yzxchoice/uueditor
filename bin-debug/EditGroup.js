@@ -51,6 +51,7 @@ var EditGroup = (function (_super) {
         this.renderResources(this.pageIndex);
         this.setupTool();
         this.stage.addEventListener(Mouse.START, this.down, this);
+        this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
         this.render();
     };
     EditGroup.prototype.setupTool = function () {
@@ -108,7 +109,6 @@ var EditGroup = (function (_super) {
             this.SiderbarSkinBy.component_event.getTargetItemId();
             this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
         }
-        // SiderbarSkinBy.getInstance().selectionVisible = false;
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
@@ -117,7 +117,6 @@ var EditGroup = (function (_super) {
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
         this.SiderbarSkinBy.component_style.updateTarget();
-        // this.deliveryItemMessageToControlPanel(this.tool.target);        
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
@@ -332,6 +331,11 @@ var EditGroup = (function (_super) {
             this.renderResources(this.pageIndex);
         }
     };
+    EditGroup.prototype.go = function (event) {
+        this.reset();
+        this.pageIndex = event.data.pageIndex;
+        this.renderResources(this.pageIndex);
+    };
     EditGroup.prototype.addSinglePicture = function (data) {
         RES.getResByUrl("resource/assets/Pic/" + data.url, function (texture) {
             var m = new Matrix(1, 0, 0, 1, 300, 500);
@@ -482,3 +486,4 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
+//# sourceMappingURL=EditGroup.js.map
