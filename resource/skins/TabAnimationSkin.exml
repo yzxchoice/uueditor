@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="TabAnimationSkin" width="500" height="680" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+    <e:Group id="gp_eventContainer_animation" width="500" height="680" x="0" y="0">
+        <e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xebf4f1"/>
+        <e:Label text="动画" x="15" y="15" textColor="0x161111"/>
+    </e:Group>
+</e:Skin>
