@@ -13,7 +13,6 @@ class EventSetDome extends eui.Component implements IUUContainer {
 		};
 		if(index !== null){
 			this.triggerGroup.splice(index, 1);
-			this.triggerGroup = this.triggerGroup;
 		};
 	}
 
@@ -38,8 +37,8 @@ class EventSetDome extends eui.Component implements IUUContainer {
 	private btn_hidden:eui.Button;
 	private label_close:eui.Label;
 
-	private siderbarSkin:SiderbarSkinBy = SiderbarSkinBy.getInstance();
-	private triggerGroup = this.siderbarSkin.triggerGroup
+	private dataContainer: TabEvent;
+	private triggerGroup: any[];
 	
 	private _isShow:boolean = true;
 	public get isShow():boolean {
@@ -73,6 +72,11 @@ class EventSetDome extends eui.Component implements IUUContainer {
 		}, this);
     }
 
+	public getDataContainer(dataContainer){
+		this.dataContainer = dataContainer;
+		this.triggerGroup = this.dataContainer.triggerGroup;
+	}
+
 	public initData(data: any){
 		this.data = data;
 		this.name = data.targetId;		
@@ -87,6 +91,6 @@ class EventSetDome extends eui.Component implements IUUContainer {
 		let relevanceItemId = this.data.targetId;
 		this.container.removeChild(this);
 		this.dispose();
-		this.siderbarSkin.relevanceItemIdList.splice(this.siderbarSkin.relevanceItemIdList.indexOf(relevanceItemId),1);
+		this.dataContainer.relevanceItemIdList.splice(this.dataContainer.relevanceItemIdList.indexOf(relevanceItemId),1);
 	}
 }

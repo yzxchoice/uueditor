@@ -23,6 +23,9 @@
 		"resource/eui_skins/VSliderSkin.exml",
 		"resource/skins/EventSet.exml",
 		"resource/skins/GameSkin.exml",
+		"resource/skins/TabStyleSkin.exml",
+		"resource/skins/TabAnimationSkin.exml",
+		"resource/skins/TabEventSkin.exml",
 		"resource/skins/SiderbarSkin.exml",
 		"resource/skins/StartSkin.exml"
 	],
