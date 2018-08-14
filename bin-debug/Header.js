@@ -33,6 +33,12 @@ var Header = (function (_super) {
         hLayout.verticalAlign = egret.VerticalAlign.MIDDLE;
         hLayout.paddingRight = 30;
         this.layout = hLayout;
+        var btnAddPage = new eui.Button();
+        btnAddPage.width = 100;
+        btnAddPage.height = 40;
+        btnAddPage.label = "加页";
+        btnAddPage.addEventListener(Mouse.START, this.onAddPage, this);
+        this.addChild(btnAddPage);
         var btnAddComponent = new eui.Button();
         btnAddComponent.width = 100;
         btnAddComponent.height = 40;
@@ -104,6 +110,10 @@ var Header = (function (_super) {
     };
     Header.prototype.onPostProgress = function (event) {
         egret.log("post progress : " + Math.floor(100 * event.bytesLoaded / event.bytesTotal) + "%");
+    };
+    Header.prototype.onAddPage = function (event) {
+        var g = this.parent;
+        g.editGroup.addPage();
     };
     Header.prototype.preview = function (event) {
         // callJsFunc("ts call js");

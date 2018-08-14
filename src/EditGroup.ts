@@ -523,4 +523,15 @@ class EditGroup extends eui.Group {
         circle.height = 400;
         this.displayList.push(new Picture(circle, m));
     }
+
+    addPage () {
+        var pages = this.pages;
+        pages.push({
+            id: Date.now,
+            elements: [],
+            properties: {
+                triggerGroup: []
+            }
+        })
+    }
 }

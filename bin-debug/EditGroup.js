@@ -464,6 +464,16 @@ var EditGroup = (function (_super) {
         circle.height = 400;
         this.displayList.push(new Picture(circle, m));
     };
+    EditGroup.prototype.addPage = function () {
+        var pages = this.pages;
+        pages.push({
+            id: Date.now,
+            elements: [],
+            properties: {
+                triggerGroup: []
+            }
+        });
+    };
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");

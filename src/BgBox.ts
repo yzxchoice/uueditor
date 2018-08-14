@@ -1,66 +1,26 @@
 // TypeScript file
 class BgBox extends eui.Panel {
     private imgList = [
-        // {
-        //     id: "9104",
-        //     name: "bg.jpg",
-        //     url: "bg.jpg"
-        // },
-        // {
-        //     id: "9105",
-        //     name: "start_f_bg.png",
-        //     url: "start_f_bg.png"
-        // },
-        // {
-        //     id: "9106",
-        //     name: "start_bg.png",
-        //     url: "start_bg.png"
-        // },
         {
             id: "9203",
-            name: "bg1_jpg",
-            url: "bg1.jpg"
-        },
-        {
-            id: "9204",
-            name: "bg2_jpg",
-            url: "bg2.jpg"
-        },
-        {
-            id: "9205",
             name: "bg3_jpg",
             url: "bg3.jpg"
         },
         {
-            id: "9206",
-            name: "bg4_jpg",
-            url: "bg4.jpg"
-        },
-        {
             id: "9207",
-            name: "bg5_jpg",
-             url: "bg5.jpg"
+            name: "scene_1_jpg",
+             url: "scene_1.jpg"
         },
         {
             id: "9208",
-            name: "bg6_jpg",
-             url: "bg6.jpg"
+            name: "scene_4_jpg",
+             url: "scene_4.jpg"
         },
         {
             id: "9209",
-            name: "bg7_jpg",
-             url: "bg7.jpg"
+            name: "scene_2_jpg",
+             url: "scene_2.jpg"
         },
-        {
-            id: "9210",
-            name: "bg8_jpg",
-             url: "bg8.jpg"
-        },
-        {
-            id: "9211",
-            name: "bg9_jpg",
-             url: "bg9.jpg"
-        }
     ];
     static instance: ImageBox;
     public constructor () {
