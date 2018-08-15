@@ -23,6 +23,7 @@ var Game = (function (_super) {
         _this.bgBox = new BgBox();
         _this.soundBox = new SoundBox();
         _this.comBox = new ComponentBox();
+        _this.frameBox = new FrameBox();
         _this.siderbarSkinBy = SiderbarSkinBy.getInstance();
         _this.skinName = "resource/skins/GameSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
@@ -102,6 +103,9 @@ var Game = (function (_super) {
     };
     Game.prototype.openComponentPanel = function () {
         this.comBox.open(this);
+    };
+    Game.prototype.openFramePanel = function () {
+        this.frameBox.open(this);
     };
     Game.prototype.openSoundePanel = function () {
         this.soundBox.open(this);

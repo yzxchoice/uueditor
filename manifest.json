@@ -20,6 +20,7 @@
 		"bin-debug/Drag.js",
 		"bin-debug/EditGroup.js",
 		"bin-debug/EventSet.js",
+		"bin-debug/FrameBox.js",
 		"bin-debug/Game.js",
 		"bin-debug/Header.js",
 		"bin-debug/ImageBox.js",

@@ -22,6 +22,7 @@ class Game extends eui.Component {
     public bgBox: BgBox = new BgBox();
     public soundBox: SoundBox = new SoundBox();
     public comBox: ComponentBox = new ComponentBox();
+    public frameBox: FrameBox = new FrameBox();
     public siderbarSkinBy: SiderbarSkinBy = SiderbarSkinBy.getInstance();
 
     private initEui() {
@@ -105,6 +106,10 @@ class Game extends eui.Component {
 
     openComponentPanel () {
         this.comBox.open(this);
+    }
+
+    openFramePanel () {
+        this.frameBox.open(this);
     }
 
     openSoundePanel () {

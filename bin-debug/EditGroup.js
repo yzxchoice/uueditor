@@ -50,7 +50,7 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.init = function () {
         this.renderResources(this.pageIndex);
         this.setupTool();
-        this.stage.addEventListener(Mouse.START, this.down, this);
+        this.addEventListener(Mouse.START, this.down, this);
         this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
         this.render();
     };
@@ -103,8 +103,8 @@ var EditGroup = (function (_super) {
         }
         if (controlled) {
             // events for moving selection
-            this.stage.addEventListener(Mouse.MOVE, this.move, this);
-            this.stage.addEventListener(Mouse.END, this.up, this);
+            this.addEventListener(Mouse.MOVE, this.move, this);
+            this.addEventListener(Mouse.END, this.up, this);
             this.SiderbarSkinBy.component_style.setTarget();
             this.SiderbarSkinBy.component_event.getTargetItemId();
             this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
@@ -129,8 +129,8 @@ var EditGroup = (function (_super) {
                 eles[i].matrix = this.tool.target.matrix;
             }
         }
-        this.stage.removeEventListener(Mouse.MOVE, this.move, this);
-        this.stage.removeEventListener(Mouse.END, this.up, this);
+        this.removeEventListener(Mouse.MOVE, this.move, this);
+        this.removeEventListener(Mouse.END, this.up, this);
         this.SiderbarSkinBy.component_style.updateTarget();
         requestAnimationFrame(this.render);
         event.preventDefault();
@@ -283,6 +283,14 @@ var EditGroup = (function (_super) {
                     bg.data = elements[i];
                     this.displayList.push(new Picture(bg, elements[i].matrix, false));
                     break;
+                case 102:
+                    var c = new UUContainer();
+                    c.name = elements[i].id;
+                    c.data = elements[i];
+                    c.width = 300;
+                    c.height = 300;
+                    this.displayList.push(new Picture(c, elements[i].matrix));
+                    break;
             }
         }
         requestAnimationFrame(this.render);
@@ -338,7 +346,7 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.addSinglePicture = function (data) {
         RES.getResByUrl("resource/assets/Pic/" + data.url, function (texture) {
-            var m = new Matrix(1, 0, 0, 1, 300, 500);
+            var m = new Matrix(1, 0, 0, 1, 300, 300);
             var result = new UUBitmap();
             result.texture = texture;
             // this.addChild(result);
@@ -365,6 +373,7 @@ var EditGroup = (function (_super) {
             result.name = data.id;
             result.data = data;
             this.displayList.push(new Picture(result, m));
+            requestAnimationFrame(this.render);
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
     EditGroup.prototype.changeBg = function (data) {
@@ -400,7 +409,7 @@ var EditGroup = (function (_super) {
             bg.name = data.id;
             bg.data = data;
             this.displayList.unshift(new Picture(bg, m, false));
-            // requestAnimationFrame(this.render);
+            requestAnimationFrame(this.render);
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
     EditGroup.prototype.addSound = function (data) {
@@ -445,6 +454,7 @@ var EditGroup = (function (_super) {
         soundBtn.height = 50;
         soundBtn.data = data;
         this.displayList.push(new Picture(soundBtn, m));
+        requestAnimationFrame(this.render);
     };
     EditGroup.prototype.addComponent = function (data) {
         var m = new Matrix(1, 0, 0, 1, 0, 0);
@@ -472,6 +482,35 @@ var EditGroup = (function (_super) {
         circle.width = 400;
         circle.height = 400;
         this.displayList.push(new Picture(circle, m));
+        requestAnimationFrame(this.render);
+    };
+    EditGroup.prototype.addFrame = function (data) {
+        var m = new Matrix(1, 0, 0, 1, 0, 0);
+        var n = data.name;
+        var eles = this.pages[this.pageIndex].elements;
+        // var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        data.id = data.id + '-' + this.displayList.length;
+        eles.push({
+            "id": data.id,
+            "name": n,
+            "pageId": 201807311008,
+            "type": 102,
+            "matrix": {
+                "a": m.a,
+                "b": m.b,
+                "c": m.c,
+                "d": m.d,
+                "x": m.x,
+                "y": m.y
+            },
+            "sceneId": 1001
+        });
+        var f = new UUContainer();
+        f.data = data;
+        f.width = 300;
+        f.height = 300;
+        this.displayList.push(new Picture(f, m));
+        requestAnimationFrame(this.render);
     };
     EditGroup.prototype.addPage = function () {
         var pages = this.pages;

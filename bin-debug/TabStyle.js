@@ -68,6 +68,7 @@ var TabStyle = (function (_super) {
         var element = tool.target.owner.image;
         if (name == "input_width") {
             tool.scale(this.data['width'] / Math.round(target.width * tool.endMatrix.a));
+            // tool.scale((this.data['width'] - target.width) / target.width);
         }
         if (name == "input_x" || name == "input_y") {
             tool.translate(this.data['x'] - tool.regX, this.data['y'] - tool.regY);
