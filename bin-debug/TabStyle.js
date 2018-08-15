@@ -65,12 +65,7 @@ var TabStyle = (function (_super) {
         var target = tool.target;
         var element = tool.target.owner.image;
         if (name == "input_width") {
-<<<<<<< HEAD
-            tool.scale(this.data['width'] / Math.round(target.width * tool.endMatrix.a));
-            // tool.scale((this.data['width'] - target.width) / target.width);
-=======
             tool.scale(this.data['width'] / this.preData.width);
->>>>>>> 5eb54e943affcb26030cf9eb118bae63c0c70ba7
         }
         if (name == "input_x" || name == "input_y") {
             tool.translate(this.data['x'] - this.preData.x, this.data['y'] - this.preData.y);
@@ -91,3 +86,4 @@ var TabStyle = (function (_super) {
     return TabStyle;
 }(eui.Component));
 __reflect(TabStyle.prototype, "TabStyle", ["IUUContainer"]);
+//# sourceMappingURL=TabStyle.js.map

@@ -32,3 +32,4 @@ var Drag = (function () {
     return Drag;
 }());
 __reflect(Drag.prototype, "Drag");
+//# sourceMappingURL=Drag.js.map
