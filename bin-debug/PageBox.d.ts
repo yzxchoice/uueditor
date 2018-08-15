@@ -1,6 +1,7 @@
 declare class PageBox extends eui.Group implements IUUContainer {
     container: any;
     pages: any[];
+    currentIndex: number;
     constructor();
     dispose(): void;
     draw(container: any): void;

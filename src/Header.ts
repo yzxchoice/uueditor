@@ -93,7 +93,7 @@ class Header extends eui.Group implements IUUContainer {
         var request = new egret.HttpRequest();
         request.responseType = egret.HttpResponseType.TEXT;
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.open("http://localhost:8002/template/updateTemplate",egret.HttpMethod.POST);
+        request.open("http://10.63.5.71:8002/template/updateTemplate",egret.HttpMethod.POST);
         request.send(params);
         request.addEventListener(egret.Event.COMPLETE,this.onPostComplete,this);
         request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.onPostIOError,this);
