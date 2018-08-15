@@ -50,6 +50,7 @@ class TabStyle extends eui.Component implements IUUContainer{
 		this.data = newData;
 	}
 	private onFocusOut(evt:egret.FocusEvent){
+		console.log('onFocusOut...');
 		let textInput:eui.TextInput = evt.target.parent;
 		let name:string = textInput.name;
 		let propertyName:string = name.split('_')[1];
@@ -57,20 +58,21 @@ class TabStyle extends eui.Component implements IUUContainer{
 		// TODO: 去修改对应的视图元素的信息
 		let game = <Game>this.parent;
 		let tool: TransformTool = this.tool;
+		console.log('tool...');
+		console.log(tool);
 		let target = tool.target;
 		let element = tool.target.owner.image;
 
 		if(name == "input_width"){
-			tool.scale(this.data['width'] / this.preData.width);
+			tool.scale(this.data.width / this.preData.width);
 		}
 		if(name == "input_x" || name == "input_y"){
-			tool.translate(this.data['x']-this.preData.x, this.data['y']-this.preData.y);
+			tool.translate(this.data.x-this.preData.x, this.data['y']-this.preData.y);
 		}
 		if(name == "input_rotate"){
-			tool.rotate((this.data['rotate'] - this.preData.rotate) * Math.PI / 180);
+			tool.rotate((this.data.rotate - this.preData.rotate) * Math.PI / 180);
 		}
 
-		this.editGroup.render();
 		let newData = {
             x: this.data.x,
             y: this.data.y,
@@ -78,7 +80,10 @@ class TabStyle extends eui.Component implements IUUContainer{
             height: this.data.height,
             rotate: this.data.rotate
         };
-		this.preData = JSON.parse(JSON.stringify(newData));				
+		this.preData = JSON.parse(JSON.stringify(newData));	
+		this.tool.startMatrix.copyFrom(this.tool.endMatrix);
+
+		this.editGroup.render();
 
 	}
 }
