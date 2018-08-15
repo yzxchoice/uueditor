@@ -22,3 +22,4 @@ var UUMovieClip = (function (_super) {
     return UUMovieClip;
 }(egret.MovieClip));
 __reflect(UUMovieClip.prototype, "UUMovieClip");
+//# sourceMappingURL=UUMovieClip.js.map
