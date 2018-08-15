@@ -55,6 +55,7 @@ var TabStyle = (function (_super) {
         this.data = newData;
     };
     TabStyle.prototype.onFocusOut = function (evt) {
+        console.log('onFocusOut...');
         var textInput = evt.target.parent;
         var name = textInput.name;
         var propertyName = name.split('_')[1];
@@ -62,18 +63,19 @@ var TabStyle = (function (_super) {
         // TODO: 去修改对应的视图元素的信息
         var game = this.parent;
         var tool = this.tool;
+        console.log('tool...');
+        console.log(tool);
         var target = tool.target;
         var element = tool.target.owner.image;
         if (name == "input_width") {
-            tool.scale(this.data['width'] / this.preData.width);
+            tool.scale(this.data.width / this.preData.width);
         }
         if (name == "input_x" || name == "input_y") {
-            tool.translate(this.data['x'] - this.preData.x, this.data['y'] - this.preData.y);
+            tool.translate(this.data.x - this.preData.x, this.data['y'] - this.preData.y);
         }
         if (name == "input_rotate") {
-            tool.rotate((this.data['rotate'] - this.preData.rotate) * Math.PI / 180);
+            tool.rotate((this.data.rotate - this.preData.rotate) * Math.PI / 180);
         }
-        this.editGroup.render();
         var newData = {
             x: this.data.x,
             y: this.data.y,
@@ -82,6 +84,8 @@ var TabStyle = (function (_super) {
             rotate: this.data.rotate
         };
         this.preData = JSON.parse(JSON.stringify(newData));
+        this.tool.startMatrix.copyFrom(this.tool.endMatrix);
+        this.editGroup.render();
     };
     return TabStyle;
 }(eui.Component));
