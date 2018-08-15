@@ -36,5 +36,6 @@ declare class EditGroup extends eui.Group {
     changeBg(data: uiData): void;
     addSound(data: uiData): void;
     addComponent(data: uiData): void;
+    addFrame(data: uiData): void;
     addPage(): void;
 }

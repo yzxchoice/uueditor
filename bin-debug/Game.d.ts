@@ -11,9 +11,11 @@ declare class Game extends eui.Component {
     bgBox: BgBox;
     soundBox: SoundBox;
     comBox: ComponentBox;
+    frameBox: FrameBox;
     siderbarSkinBy: SiderbarSkinBy;
     private initEui();
     openComponentPanel(): void;
+    openFramePanel(): void;
     openSoundePanel(): void;
     openImagePanel(): void;
     openBgPanel(): void;

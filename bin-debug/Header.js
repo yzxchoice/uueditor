@@ -45,6 +45,12 @@ var Header = (function (_super) {
         btnAddComponent.label = "组件";
         btnAddComponent.addEventListener(Mouse.START, this.openComponentPanel, this);
         this.addChild(btnAddComponent);
+        var btnAddFrame = new eui.Button();
+        btnAddFrame.width = 100;
+        btnAddFrame.height = 40;
+        btnAddFrame.label = "边框";
+        btnAddFrame.addEventListener(Mouse.START, this.openFramePanel, this);
+        this.addChild(btnAddFrame);
         var btnAddSound = new eui.Button();
         btnAddSound.width = 100;
         btnAddSound.height = 40;
@@ -125,6 +131,10 @@ var Header = (function (_super) {
     Header.prototype.openComponentPanel = function (event) {
         var g = this.parent;
         g.openComponentPanel();
+    };
+    Header.prototype.openFramePanel = function (event) {
+        var g = this.parent;
+        g.openFramePanel();
     };
     Header.prototype.openSoundPanel = function (event) {
         var g = this.parent;

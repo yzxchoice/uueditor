@@ -42,6 +42,12 @@ class Header extends eui.Group implements IUUContainer {
         btnAddComponent.label = "组件";
         btnAddComponent.addEventListener(Mouse.START, this.openComponentPanel, this);
         this.addChild(btnAddComponent);
+        var btnAddFrame = new eui.Button();
+        btnAddFrame.width = 100;
+        btnAddFrame.height = 40;
+        btnAddFrame.label = "边框";
+        btnAddFrame.addEventListener(Mouse.START, this.openFramePanel, this);
+        this.addChild(btnAddFrame);
         var btnAddSound = new eui.Button();
         btnAddSound.width = 100;
         btnAddSound.height = 40;
@@ -130,6 +136,11 @@ class Header extends eui.Group implements IUUContainer {
     openComponentPanel (event: egret.TouchEvent) {
         var g: Game = this.parent as Game;
         g.openComponentPanel();
+    }
+
+    openFramePanel (event: egret.TouchEvent) {
+        var g: Game = this.parent as Game;
+        g.openFramePanel();
     }
 
     openSoundPanel (event: egret.TouchEvent) {

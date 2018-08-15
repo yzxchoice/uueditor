@@ -110,6 +110,36 @@ class ImageBox extends eui.Panel {
             id: "8022",
             name: "uu_q_png",
             url: "uu_q.png"
+        },
+        {
+            id: "8023",
+            name: "post_item_17_png",
+            url: "post_item_17.png"
+        },
+        {
+            id: "8024",
+            name: "post_item_18_png",
+            url: "post_item_18.png"
+        },
+        {
+            id: "8025",
+            name: "post_item_19_png",
+            url: "post_item_19.png"
+        },
+        {
+            id: "8026",
+            name: "post_item_20_png",
+            url: "post_item_20.png"
+        },
+        {
+            id: "8027",
+            name: "post_item_21_png",
+            url: "post_item_21.png"
+        },
+        {
+            id: "8028",
+            name: "post_item_22_png",
+            url: "post_item_22.png"
         }
     ];
     static instance: ImageBox;
