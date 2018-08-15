@@ -297,6 +297,3 @@ declare class UUImage extends eui.Image implements BaseUI {
 declare class UULabel extends eui.Label implements BaseUI {
     data: any;
 }
-declare class UURequest {
-    constructor();
-}
