@@ -114,7 +114,6 @@ class EditGroup extends eui.Group {
             this.SiderbarSkinBy.component_event.getTargetItemId();            
             this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup
         }
-        if(this.isBg) return;
         requestAnimationFrame(this.render);
         event.preventDefault();
     }

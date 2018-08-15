@@ -109,8 +109,6 @@ var EditGroup = (function (_super) {
             this.SiderbarSkinBy.component_event.getTargetItemId();
             this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
         }
-        if (this.isBg)
-            return;
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
