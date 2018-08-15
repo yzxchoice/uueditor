@@ -9,13 +9,14 @@ class TabStyle extends eui.Component implements IUUContainer{
 		this.container = container;
 		this.editGroup = container.editGroup;
 	}
-	private data:Object = {
+	private data = {
 		width: 30,
 		height: 30,
 		x: 30,
 		y: 30,
 		rotate: 10,
 	}
+	private preData: any;
 	private tool: TransformTool;
 	private gp_inputContainer:eui.Group;
 	public constructor() {
@@ -36,10 +37,8 @@ class TabStyle extends eui.Component implements IUUContainer{
 		this.tool = this.editGroup.tool;
 	}
 	public updateTarget(){
-		let matrix:Matrix = this.tool.target.matrix;
         let item = this.tool.target.owner.image;
-        let {width, height} = this.tool.target;
-        let {scaleX, scaleY, rotation} = item;
+        let {width, height, scaleX, scaleY, rotation} = item;
         let newData = {
             x: Math.floor(this.tool.regX),
             y: Math.floor(this.tool.regY),
@@ -47,10 +46,10 @@ class TabStyle extends eui.Component implements IUUContainer{
             height: Math.floor(height * scaleY),
             rotate: Math.floor(rotation)
         };
+		this.preData = JSON.parse(JSON.stringify(newData));		
 		this.data = newData;
 	}
 	private onFocusOut(evt:egret.FocusEvent){
-		console.log(evt.target.id);
 		let textInput:eui.TextInput = evt.target.parent;
 		let name:string = textInput.name;
 		let propertyName:string = name.split('_')[1];
@@ -60,22 +59,26 @@ class TabStyle extends eui.Component implements IUUContainer{
 		let tool: TransformTool = this.tool;
 		let target = tool.target;
 		let element = tool.target.owner.image;
+
 		if(name == "input_width"){
-			tool.scale(this.data['width'] / Math.round(target.width * tool.endMatrix.a));
-			// tool.scale((this.data['width'] - target.width) / target.width);
+			tool.scale(this.data['width'] / this.preData.width);
 		}
 		if(name == "input_x" || name == "input_y"){
-			tool.translate(this.data['x']-tool.regX, this.data['y']-tool.regY);
+			tool.translate(this.data['x']-this.preData.x, this.data['y']-this.preData.y);
 		}
 		if(name == "input_rotate"){
-			tool.rotate((this.data['rotate']) * Math.PI / 180 - tool.endMatrix.getRotationX());
-		}	
+			tool.rotate((this.data['rotate'] - this.preData.rotate) * Math.PI / 180);
+		}
 
-
-		// console.log(tool.endMatrix.getRotationX(),tool.endMatrix.getRotationY());
-		// console.log(tool.regX, tool.regY);
 		this.editGroup.render();
-		// console.log(tool.regEndU, tool.regEndV);
-		// console.log(tool.regStartU, tool.regStartV);
+		let newData = {
+            x: this.data.x,
+            y: this.data.y,
+            width: this.data.width,
+            height: this.data.height,
+            rotate: this.data.rotate
+        };
+		this.preData = JSON.parse(JSON.stringify(newData));				
+
 	}
 }

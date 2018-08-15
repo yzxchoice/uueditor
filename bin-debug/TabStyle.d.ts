@@ -4,6 +4,7 @@ declare class TabStyle extends eui.Component implements IUUContainer {
     dispose(): void;
     draw(container: any): void;
     private data;
+    private preData;
     private tool;
     private gp_inputContainer;
     constructor();

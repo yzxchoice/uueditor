@@ -42,10 +42,8 @@ var TabStyle = (function (_super) {
         this.tool = this.editGroup.tool;
     };
     TabStyle.prototype.updateTarget = function () {
-        var matrix = this.tool.target.matrix;
         var item = this.tool.target.owner.image;
-        var _a = this.tool.target, width = _a.width, height = _a.height;
-        var scaleX = item.scaleX, scaleY = item.scaleY, rotation = item.rotation;
+        var width = item.width, height = item.height, scaleX = item.scaleX, scaleY = item.scaleY, rotation = item.rotation;
         var newData = {
             x: Math.floor(this.tool.regX),
             y: Math.floor(this.tool.regY),
@@ -53,10 +51,10 @@ var TabStyle = (function (_super) {
             height: Math.floor(height * scaleY),
             rotate: Math.floor(rotation)
         };
+        this.preData = JSON.parse(JSON.stringify(newData));
         this.data = newData;
     };
     TabStyle.prototype.onFocusOut = function (evt) {
-        console.log(evt.target.id);
         var textInput = evt.target.parent;
         var name = textInput.name;
         var propertyName = name.split('_')[1];
@@ -67,22 +65,29 @@ var TabStyle = (function (_super) {
         var target = tool.target;
         var element = tool.target.owner.image;
         if (name == "input_width") {
+<<<<<<< HEAD
             tool.scale(this.data['width'] / Math.round(target.width * tool.endMatrix.a));
             // tool.scale((this.data['width'] - target.width) / target.width);
+=======
+            tool.scale(this.data['width'] / this.preData.width);
+>>>>>>> 5eb54e943affcb26030cf9eb118bae63c0c70ba7
         }
         if (name == "input_x" || name == "input_y") {
-            tool.translate(this.data['x'] - tool.regX, this.data['y'] - tool.regY);
+            tool.translate(this.data['x'] - this.preData.x, this.data['y'] - this.preData.y);
         }
         if (name == "input_rotate") {
-            tool.rotate((this.data['rotate']) * Math.PI / 180 - tool.endMatrix.getRotationX());
+            tool.rotate((this.data['rotate'] - this.preData.rotate) * Math.PI / 180);
         }
-        // console.log(tool.endMatrix.getRotationX(),tool.endMatrix.getRotationY());
-        // console.log(tool.regX, tool.regY);
         this.editGroup.render();
-        // console.log(tool.regEndU, tool.regEndV);
-        // console.log(tool.regStartU, tool.regStartV);
+        var newData = {
+            x: this.data.x,
+            y: this.data.y,
+            width: this.data.width,
+            height: this.data.height,
+            rotate: this.data.rotate
+        };
+        this.preData = JSON.parse(JSON.stringify(newData));
     };
     return TabStyle;
 }(eui.Component));
 __reflect(TabStyle.prototype, "TabStyle", ["IUUContainer"]);
-//# sourceMappingURL=TabStyle.js.map
