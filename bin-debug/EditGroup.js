@@ -109,6 +109,8 @@ var EditGroup = (function (_super) {
             this.SiderbarSkinBy.component_event.getTargetItemId();
             this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
         }
+        if (this.isBg)
+            return;
         requestAnimationFrame(this.render);
         event.preventDefault();
     };
@@ -202,8 +204,13 @@ var EditGroup = (function (_super) {
         var i = this.displayList.length;
         while (i--) {
             pic = this.displayList[i];
-            if (!pic.b)
+            if (!pic.b) {
+                console.log('点击了背景...');
+                this.tool.setTarget(null);
+                this.clear();
                 return false;
+            }
+            ;
             t = pic.transform;
             if (t.matrix.containsPoint(x, y, t.width, t.height)) {
                 if (this.tool.target !== t) {
