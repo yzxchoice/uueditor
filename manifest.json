@@ -9,11 +9,12 @@
 		"libs/modules/dragonBones/dragonBones.js",
 		"libs/modules/promise/promise.js",
 		"libs/modules/mouse/mouse.js",
-		"libs/modules/uulib/uulib.js"
+		"libs/modules/uulib/uulib.js",
+		"libs/modules/keyboard/keyboard.js"
 	],
 	"game": [
+		"bin-debug/ActionBox.js",
 		"bin-debug/AssetAdapter.js",
-		"bin-debug/NewFile.js",
 		"bin-debug/BgBox.js",
 		"bin-debug/checkItem.js",
 		"bin-debug/ComponentBox.js",
@@ -27,7 +28,7 @@
 		"bin-debug/ImagesLoader.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
-		"bin-debug/ActionBox.js",
+		"bin-debug/NewFile.js",
 		"bin-debug/PageBox.js",
 		"bin-debug/PageEvent.js",
 		"bin-debug/PageItem.js",

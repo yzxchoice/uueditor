@@ -43,6 +43,10 @@
     {
       "name": "uulib",
       "path": "../uulib"
+    },
+    {
+      "name": "keyboard",
+      "path": "../libsrc/keyboard"
     }
   ]
 }
