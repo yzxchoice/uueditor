@@ -65,8 +65,8 @@ var TabStyle = (function (_super) {
         var tool = this.tool;
         console.log('tool...');
         console.log(tool);
-        var target = tool.target;
-        var element = tool.target.owner.image;
+        if (!tool.target)
+            return;
         if (name == "input_width") {
             tool.scale(this.data.width / this.preData.width);
         }

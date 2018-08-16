@@ -60,8 +60,7 @@ class TabStyle extends eui.Component implements IUUContainer{
 		let tool: TransformTool = this.tool;
 		console.log('tool...');
 		console.log(tool);
-		let target = tool.target;
-		let element = tool.target.owner.image;
+		if(!tool.target) return;
 
 		if(name == "input_width"){
 			tool.scale(this.data.width / this.preData.width);
