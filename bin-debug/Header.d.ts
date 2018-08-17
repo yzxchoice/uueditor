@@ -5,6 +5,7 @@ declare class Header extends eui.Group implements IUUContainer {
     constructor();
     private onAddToStage(event);
     private init();
+    private getQueryString();
     private save(event);
     private onPostComplete(event);
     private onPostIOError(event);

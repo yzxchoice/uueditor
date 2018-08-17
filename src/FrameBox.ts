@@ -61,7 +61,7 @@ class FrameBox extends eui.Panel {
             borderGroup.addChild(bg);
 
             var image = new UUImage();
-            image.source = "resource/assets/Pic/" + this.imgList[i].url;
+            image.source = "resource/"+Main.id+"/assets/Pic/" + this.imgList[i].url;
             image.width = 100;
             image.height = 100;
             image.name = this.imgList[i].id;
