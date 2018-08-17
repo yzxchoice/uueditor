@@ -48,7 +48,7 @@ class EditGroup extends eui.Group {
         this.renderResources(this.pageIndex);
         this.setupTool();
 
-        this.addEventListener(Mouse.START, this.down, this);
+        this.stage.addEventListener(Mouse.START, this.down, this);
         this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
 
         this.render();
@@ -265,73 +265,19 @@ class EditGroup extends eui.Group {
 
     private renderResources (index: number): void {
         
+        var list = [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground];
         var i = 0;
         var elements = this.pages[index].elements;
         var n = elements.length;
         for (i=0; i<n; i++){
-            switch (elements[i].type){
-                case 1:
-                    var label: UULabel = new UULabel();
-                    let property = elements[i].property;   
-                    let { size, textColor } = property;              
-                    label.text = elements[i].content;
-                    label.textColor = textColor || 0xff0000;
-                    label.size = size || 16;
-                    label.lineSpacing = 12;
-                    label.textAlign = egret.HorizontalAlign.JUSTIFY;
-                    label.name = elements[i].id;
-                    label.data = elements[i];
-                    
-                    this.displayList.push(new Picture(label, elements[i].matrix));
-                    break;
-                case 2:
-                    var result: UUBitmap = new UUBitmap();
-                    var texture:egret.Texture = RES.getRes(elements[i].name);
-                    result.texture = texture;
-                    result.name = elements[i].id;
-                    result.data = elements[i];
-                    this.displayList.push(new Picture(result, elements[i].matrix));
-                    break;
-                case 18:
-                    var soundBtn:SoundButton = new SoundButton();
-                    soundBtn.label = elements[i].name;
-                    // var texture:egret.Texture = RES.getRes(elements[i].name);
-                    // result.source = texture;
-                    soundBtn.name = elements[i].id;
-                    soundBtn.data = elements[i];
-                    soundBtn.width = 100;
-                    soundBtn.height = 50;
-                    this.displayList.push(new Picture(soundBtn, elements[i].matrix));
-                    break;
-                case 101: 
-                    var circle:CircleSector = new CircleSector();
-                    circle.name = elements[i].id;
-                    circle.data = elements[i];
-                    circle.width = 400;
-                    circle.height = 400;
-                    this.displayList.push(new Picture(circle, elements[i].matrix));
-                    break;
-                case 8:
-                    // this.createGameScene();
-                    // this.displayList.push(new Picture(this.container, elements[i].matrix));
-                    break;
-                 case 99:
-                    var bg:UUBitmap = new UUBitmap();
-                    var texture:egret.Texture = RES.getRes(elements[i].name);
-                    bg.texture = texture;
-                    bg.name = elements[i].id;
-                    bg.data = elements[i];
-                    this.displayList.push(new Picture(bg, elements[i].matrix, false));
-                    break;
-                case 102:
-                    var c:UUContainer = new UUContainer();
-                    c.name = elements[i].id;
-                    c.data = elements[i];
-                    c.width = 300;
-                    c.height = 300;
-                    this.displayList.push(new Picture(c, elements[i].matrix));
-                    break;
-            }
+
+            var t = LayerSet.getLayer(list, elements[i].type)[0];
+            var com = LayerSet.createInstance(t,elements[i].props);
+            var texture:egret.Texture = RES.getRes(elements[i].name);
+            com.texture = texture;
+            com.name = elements[i].id;
+            com.data = elements[i];
+            this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==99?false:true));
             
         }
 
@@ -402,7 +348,7 @@ class EditGroup extends eui.Group {
     }
 
     addSinglePicture (data: uiData) {
-        RES.getResByUrl("resource/assets/Pic/"+data.url, function(texture:egret.Texture):void {
+        RES.getResByUrl("resource/"+Main.id+"/assets/Pic/"+data.url, function(texture:egret.Texture):void {
             var m = new Matrix(1,0,0,1,300,300);
             var result: UUBitmap = new UUBitmap();
             result.texture = texture;
@@ -424,8 +370,8 @@ class EditGroup extends eui.Group {
                     "x": m.x,
                     "y": m.y
                 },
-                "property": {},                
-                "src": "resource/assets/Pic/" + data.url,
+                "props": {},                
+                "src": "resource/"+Main.id+"/assets/Pic/" + data.url,
                 "sceneId": 1001
             })
             
@@ -439,7 +385,7 @@ class EditGroup extends eui.Group {
     }
 
     changeBg (data: uiData) {
-        RES.getResByUrl("resource/assets/Background/"+data.url, function(texture:egret.Texture):void {
+        RES.getResByUrl("resource/"+Main.id+"/assets/Background/"+data.url, function(texture:egret.Texture):void {
             var m = new Matrix(this.displayGroup.width/texture.bitmapData.width,0,0,this.displayGroup.width/texture.bitmapData.width,0,0);
             var bg:UUBitmap = new UUBitmap();
             bg.texture = texture;        
@@ -466,8 +412,8 @@ class EditGroup extends eui.Group {
                     "x": m.x,
                     "y": m.y
                 },
-                "property": {},
-                "src": "resource/assets/Background/" + data.url,
+                "props": {},
+                "src": "resource/"+Main.id+"/assets/Background/" + data.url,
                 "sceneId": 1001
             })
             bg.name = data.id;
@@ -497,10 +443,14 @@ class EditGroup extends eui.Group {
                 "x": m.x,
                 "y": m.y
             },
+            "props": {
+                "width": 100,
+                "height": 50
+            },
             "sound": {
                 "id": data.id,
                 "name": n,
-                "src": "resource/assets/" + data.url
+                "src": "resource/"+Main.id+"/assets/" + data.url
             },
             "sceneId": 1001
         })
@@ -546,6 +496,10 @@ class EditGroup extends eui.Group {
                 "x": m.x,
                 "y": m.y
             },
+            "props": {
+                "width": 400,
+                "height": 400
+            },
             "sceneId": 1001
         })
         
@@ -576,6 +530,10 @@ class EditGroup extends eui.Group {
                 "x": m.x,
                 "y": m.y
             },
+            "props": {
+                "width": 300,
+                "height": 300
+            },
             "sceneId": 1001
         })
         
@@ -602,7 +560,8 @@ class EditGroup extends eui.Group {
         var m = new Matrix(1,0,0,1,300,300);
         var result: UULabel = new UULabel();
         result.text = '请输入文本';
-        result.textColor = 0x00000;
+        result.textColor = '0x000000';
+        result.size = 40;
         var eles = this.pages[this.pageIndex].elements;
         let id = (new Date()).valueOf();
         let data = {
@@ -618,7 +577,10 @@ class EditGroup extends eui.Group {
                 "x": m.x,
                 "y": m.y
             },
-            "property": {}, 
+            "props": {
+                textColor: '0x000000',
+                size: 40,
+            }, 
             content: '请输入文本',          
             "src": '',
             "sceneId": 1001

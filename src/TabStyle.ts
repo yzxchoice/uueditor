@@ -51,18 +51,13 @@ class TabStyle extends eui.Component implements IUUContainer{
 	private exchangeDiffGroup(data){
 		this.gp_diff.removeChildren();		
 		let type = data.type;
-		console.log('type = ' + type);
-		let label = new eui.Label();
-		label.text = '';
 		switch(type){
 			case 1:
 				let styleType1: StyleType1 = new StyleType1();
 				styleType1.draw(this.gp_diff);
 				styleType1.setDataContainer(this);
 				break;
-			case 2:
-				label.text = '图片';
-				this.gp_diff.addChild(label);				
+			case 2:			
 				break;
 		}
 	}

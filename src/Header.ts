@@ -92,7 +92,27 @@ class Header extends eui.Group implements IUUContainer {
         this.addChild(btnSave);
     }
 
+    private getQueryString() {  
+        var qs = location.search.substr(1), // 获取url中"?"符后的字串  
+        args = {}, // 保存参数数据的对象
+        items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+        item = null,
+        len = items.length;
+    
+        for(var i = 0; i < len; i++) {
+            item = items[i].split("=");
+            var name = decodeURIComponent(item[0]),
+            value = decodeURIComponent(item[1]);
+            if(name) {
+            args[name] = value;
+            }
+        }
+        return args;
+    }
+
     private save (event: egret.TouchEvent) {
+        egret.log(this.getQueryString()['id']);
+        var id = this.getQueryString()['id'];
         var g: Game = this.parent as Game;
         console.log(g.editGroup.pages[0]);
         console.log(JSON.stringify(g.editGroup.pages[0]));                
@@ -101,7 +121,7 @@ class Header extends eui.Group implements IUUContainer {
             msg: "success",
             list: g.editGroup.pages
         }
-        var params = "id=1&template="+JSON.stringify(obj);
+        var params = "id="+id+"&template="+JSON.stringify(obj);
         var request = new egret.HttpRequest();
         request.responseType = egret.HttpResponseType.TEXT;
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

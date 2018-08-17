@@ -57,39 +57,26 @@ var StyleType1 = (function (_super) {
         this.inputType = name;
     };
     StyleType1.prototype.onFocusOut = function (evt) {
-        var _this = this;
         console.log('onFocusOut...');
+        var tool = this.dataContainer.tool;
+        var target = tool.target;
+        if (!(tool && target))
+            return;
         var value = evt.target.text;
-        console.log('item...');
-        console.log(this.item);
-        console.log('tool...');
-        console.log(this.dataContainer.tool);
         if (this.inputType == 'text') {
             this.data.content = value;
         }
         else {
-            this.data.property[this.inputType] = value;
+            this.data.props[this.inputType] = value;
         }
-        var target = this.dataContainer.tool.target;
-        var preWidth = this.item.width;
-        console.log('this.item.width = ' + this.item.width);
-        console.log('this.item.height = ' + this.item.height);
-        setTimeout(function () {
-            var nowWidth = _this.item.width;
-            _this.dataContainer.tool.scale(nowWidth / preWidth);
-            _this.dataContainer.tool.startMatrix.copyFrom(_this.dataContainer.tool.endMatrix);
-            console.log('render...');
-            _this.dataContainer.editGroup.render();
-            console.log('this.item.width = ' + _this.item.width);
-            console.log('this.item.height = ' + _this.item.height);
-            // target.width = this.item.width;
-            // target.height = this.item.height;	
-        }, 0);
-        console.log('render...');
-        // this.dataContainer.editGroup.render();
-        // this.dataContainer.editGroup.render();
-        // console.log('refresh...');;
-        // this.dataContainer.editGroup.refresh();
+        this.dataContainer.tool.setTarget(null);
+        this.dataContainer.editGroup.clear();
+        this.dataContainer.editGroup.drawDisplayList();
+        target.width = this.item.width;
+        target.height = this.item.height;
+        this.dataContainer.tool.setTarget(target);
+        this.dataContainer.tool.draw();
+        this.dataContainer.updateTarget();
     };
     return StyleType1;
 }(eui.Component));

@@ -1,6 +1,8 @@
 declare class Main extends eui.UILayer {
+    static id: any;
     protected createChildren(): void;
     private runGame();
+    private getQueryString();
     private loadResource();
     private loadTheme();
     private textfield;

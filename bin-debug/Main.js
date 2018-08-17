@@ -121,31 +121,53 @@ var Main = (function (_super) {
             });
         });
     };
+    Main.prototype.getQueryString = function () {
+        var qs = location.search.substr(1), // 获取url中"?"符后的字串  
+        args = {}, // 保存参数数据的对象
+        items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+        item = null, len = items.length;
+        for (var i = 0; i < len; i++) {
+            item = items[i].split("=");
+            var name = decodeURIComponent(item[0]), value = decodeURIComponent(item[1]);
+            if (name) {
+                args[name] = value;
+            }
+        }
+        return args;
+    };
     Main.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var loadingView, e_1;
+            var id, path, loadingView, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
+                        egret.log(this.getQueryString()['id']);
+                        id = this.getQueryString()['id'];
+                        Main.id = id || '';
+                        path = id ? '/' + id : '';
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 5, , 6]);
                         loadingView = new LoadingUI();
                         this.stage.addChild(loadingView);
-                        return [4 /*yield*/, RES.loadConfig("resource/default.res.json", "resource/")];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.loadTheme()];
+                        return [4 /*yield*/, RES.loadConfig("resource" + path + "/default.res.json", "resource/" + path)];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
+                        // await RES.loadConfig("resource/default.res.json", "resource/");
+                        return [4 /*yield*/, this.loadTheme()];
                     case 3:
+                        // await RES.loadConfig("resource/default.res.json", "resource/");
+                        _a.sent();
+                        return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
+                    case 4:
                         _a.sent();
                         this.stage.removeChild(loadingView);
-                        return [3 /*break*/, 5];
-                    case 4:
+                        return [3 /*break*/, 6];
+                    case 5:
                         e_1 = _a.sent();
                         console.error(e_1);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        return [3 /*break*/, 6];
+                    case 6: return [2 /*return*/];
                 }
             });
         });

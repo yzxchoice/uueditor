@@ -32,7 +32,7 @@
 							<e:TextInput id="input_width3" width="140" height="30" x="80" enabled="true" skinName="skins.TextInputSkin" textColor="0x000000" touchEnabled="true" verticalCenter="0" text="{data.rotate}" name="input_rotate"/>
 							</e:Group>
 						</e:Group>
-						<e:Button id="btn_update" label="update" x="195.5" y="250"/>
+						<e:Button id="btn_update" label="update" x="195.5" y="250" enabled="true" visible="false"/>
 						<e:layout>
 							<e:VerticalLayout gap="0"/>
 						</e:layout>

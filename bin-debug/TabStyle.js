@@ -53,9 +53,6 @@ var TabStyle = (function (_super) {
     TabStyle.prototype.exchangeDiffGroup = function (data) {
         this.gp_diff.removeChildren();
         var type = data.type;
-        console.log('type = ' + type);
-        var label = new eui.Label();
-        label.text = '';
         switch (type) {
             case 1:
                 var styleType1 = new StyleType1();
@@ -63,8 +60,6 @@ var TabStyle = (function (_super) {
                 styleType1.setDataContainer(this);
                 break;
             case 2:
-                label.text = '图片';
-                this.gp_diff.addChild(label);
                 break;
         }
     };

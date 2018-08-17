@@ -31,6 +31,7 @@
 
 class Main extends eui.UILayer {
 
+    static id;
 
     protected createChildren(): void {
         super.createChildren();
@@ -70,12 +71,34 @@ class Main extends eui.UILayer {
 
     }
 
+    private getQueryString() {  
+        var qs = location.search.substr(1), // 获取url中"?"符后的字串  
+        args = {}, // 保存参数数据的对象
+        items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+        item = null,
+        len = items.length;
+    
+        for(var i = 0; i < len; i++) {
+            item = items[i].split("=");
+            var name = decodeURIComponent(item[0]),
+            value = decodeURIComponent(item[1]);
+            if(name) {
+            args[name] = value;
+            }
+        }
+        return args;
+    }
+
     private async loadResource() {
+        egret.log(this.getQueryString()['id']);
+        var id = this.getQueryString()['id'];
+        Main.id = id || '';
+        var path = id ? '/'+id : '';
         try {
             const loadingView = new LoadingUI();
             this.stage.addChild(loadingView);
-            
-            await RES.loadConfig("resource/default.res.json", "resource/");
+            await RES.loadConfig(`resource${path}/default.res.json`, `resource/${path}`);
+            // await RES.loadConfig("resource/default.res.json", "resource/");
             await this.loadTheme();
             await RES.loadGroup("preload", 0, loadingView);
             this.stage.removeChild(loadingView);

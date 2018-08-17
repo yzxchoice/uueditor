@@ -23,6 +23,7 @@ class BgBox extends eui.Panel {
         },
     ];
     static instance: ImageBox;
+    private _grpLayout:eui.Group;
     public constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -45,27 +46,43 @@ class BgBox extends eui.Panel {
         this.width = 1200;
         this.height = 800;
 
-        // var hLayout:eui.HorizontalLayout = new eui.HorizontalLayout();
-        // hLayout.gap = 30;
-        // hLayout.horizontalAlign = egret.HorizontalAlign.LEFT;
-        // // hLayout.verticalAlign = egret.VerticalAlign.MIDDLE;
-        // hLayout.paddingRight = 30;
-        // hLayout.paddingLeft = 30;
-        // hLayout.paddingTop = 30;
-        // this.layout = hLayout;
+        /// 创建容器，在其中进行布局
+        this._grpLayout = new eui.Group();
+        this._grpLayout.horizontalCenter = 0;
+        this._grpLayout.verticalCenter = 0;
+        
+        this.addChild( this._grpLayout );
+        this._grpLayout.width = this.width;
+        this._grpLayout.height = this.height - 50;
+
+        var tLayout:eui.TileLayout = new eui.TileLayout();
+        tLayout.paddingTop = 30;
+        tLayout.paddingLeft = 30;
+        tLayout.paddingRight = 30;
+        tLayout.paddingBottom = 30;
+        this._grpLayout.layout = tLayout;
 
         for(var i = 0; i<this.imgList.length;i++){
+            var borderGroup: eui.Group = new eui.Group();
+            borderGroup.width = 100;
+            borderGroup.height = 100;
+            this._grpLayout.addChild(borderGroup);
+
+            var bg:egret.Shape = new egret.Shape;
+            bg.graphics.lineStyle(1,0x999999);
+            bg.graphics.beginFill(0xffffff,1);
+            bg.graphics.drawRect(0, 0, borderGroup.width, borderGroup.height);
+            bg.graphics.endFill();
+            borderGroup.addChild(bg);
+
             var image = new UUImage();
-            image.source = "resource/assets/Background/" + this.imgList[i].url;
-            // image.scale9Grid = new egret.Rectangle(10,10,80,80);
-            image.y = 50;
-            image.x = 120 * i;
+            image.source = "resource/"+Main.id+"/assets/Background/" + this.imgList[i].url;
             image.width = 100;
             image.height = 100;
             image.name = this.imgList[i].id;
             image.data = this.imgList[i];
             image.addEventListener(Mouse.START, this.addImage, this);
-            this.addChild(image);
+            borderGroup.addChild(image);
         }
     }
 
@@ -74,10 +91,6 @@ class BgBox extends eui.Panel {
         console.log(event);
         console.log(event.currentTarget);
         var g: Game = this.parent as Game;
-        // g.imgBox.close();
-        // g.editGroup.addSinglePicture(event.currentTarget.source);
-
-        // g.closeImagePanel();
         g.editGroup.changeBg(event.currentTarget.data);
     }
 

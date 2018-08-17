@@ -51,38 +51,24 @@ class StyleType1 extends eui.Component implements IUUContainer{
 	}
 	private onFocusOut(evt:egret.FocusEvent){
 		console.log('onFocusOut...');
+		let tool = this.dataContainer.tool;
+		let target: Transformable = tool.target;
+		if(!(tool && target)) return;
 		let value = evt.target.text;
-		console.log('item...');
-		console.log(this.item);
-		console.log('tool...');
-		console.log(this.dataContainer.tool);
 		if(this.inputType == 'text'){
 			this.data.content = value;
 		}else {
-			this.data.property[this.inputType] = value;
+			this.data.props[this.inputType] = value;
 		}
-		let target: Transformable = this.dataContainer.tool.target;
-		let preWidth = this.item.width;
-		console.log('this.item.width = ' + this.item.width);
-		console.log('this.item.height = ' + this.item.height);		
-		setTimeout(() => {
-			let nowWidth = this.item.width;
-			this.dataContainer.tool.scale(nowWidth / preWidth);	
-			this.dataContainer.tool.startMatrix.copyFrom(this.dataContainer.tool.endMatrix);
-			console.log('render...');			
-			this.dataContainer.editGroup.render();
-			console.log('this.item.width = ' + this.item.width);
-			console.log('this.item.height = ' + this.item.height);
-			// target.width = this.item.width;
-			// target.height = this.item.height;	
-		}, 0);
+		this.dataContainer.tool.setTarget(null);  
+		this.dataContainer.editGroup.clear();
+		this.dataContainer.editGroup.drawDisplayList();		
 
-		console.log('render...');
-		// this.dataContainer.editGroup.render();
-
-		// this.dataContainer.editGroup.render();
-		// console.log('refresh...');;
-		// this.dataContainer.editGroup.refresh();
+		target.width = this.item.width;
+		target.height = this.item.height;
+		this.dataContainer.tool.setTarget(target);	
+		this.dataContainer.tool.draw();		
+		this.dataContainer.updateTarget();
 	}
 
 }
