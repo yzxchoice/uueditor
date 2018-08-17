@@ -19,8 +19,10 @@ class TabStyle extends eui.Component implements IUUContainer{
 	}
 	private inputType: string;
 	private preData: any;
-	private tool: TransformTool;
+	public tool: TransformTool;
+	private gp_diff: eui.Group;
 	private gp_inputContainer:eui.Group;
+	private btn_update: eui.Button;
 	public constructor() {
 		super();
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddedToStage, this);
@@ -36,9 +38,39 @@ class TabStyle extends eui.Component implements IUUContainer{
 			input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);		
 			input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);							
 		};
+		var type:string = GestureType.DOUBLE_TAP;
+        var event:string = GestureState.RECOGNIZED;
+        var config = {};
+        config[type] = {};
+        config[type][event] = this.onDoubleClick;
+        GestureManager.add(this.btn_update, config, false);
+	}
+	private onDoubleClick(){
+		console.log("double_click");
+	}
+	private exchangeDiffGroup(data){
+		this.gp_diff.removeChildren();		
+		let type = data.type;
+		console.log('type = ' + type);
+		let label = new eui.Label();
+		label.text = '';
+		switch(type){
+			case 1:
+				let styleType1: StyleType1 = new StyleType1();
+				styleType1.draw(this.gp_diff);
+				styleType1.setDataContainer(this);
+				break;
+			case 2:
+				label.text = '图片';
+				this.gp_diff.addChild(label);				
+				break;
+		}
 	}
 	public setTarget(){
 		this.tool = this.editGroup.tool;
+		console.log(this.tool);
+		let data = this.tool.target.owner.image.data;		
+		this.exchangeDiffGroup(data);
 	}
 	public updateTarget(){
         let item = this.tool.target.owner.image;

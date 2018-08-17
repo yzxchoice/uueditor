@@ -30,6 +30,12 @@ class Header extends eui.Group implements IUUContainer {
         hLayout.paddingRight = 30;
         this.layout = hLayout;
 
+        var btnAddText = new eui.Button();
+        btnAddText.width = 100;
+        btnAddText.height = 40;
+        btnAddText.label = "文本";
+        btnAddText.addEventListener(Mouse.START, this.onAddText, this);     
+        this.addChild(btnAddText);           
         var btnAddPage = new eui.Button();
         btnAddPage.width = 100;
         btnAddPage.height = 40;
@@ -118,6 +124,11 @@ class Header extends eui.Group implements IUUContainer {
 
     private onPostProgress(event:egret.ProgressEvent):void {
         egret.log("post progress : " + Math.floor(100*event.bytesLoaded/event.bytesTotal) + "%");
+    }
+
+    onAddText(){
+        let editGroup = this.container.editGroup;
+        editGroup.addText();
     }
 
     onAddPage (event: egret.TouchEvent) {

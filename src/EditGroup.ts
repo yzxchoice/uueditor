@@ -2,6 +2,7 @@
 class EditGroup extends eui.Group {
     displayList = [];
     tool: any;
+    maskTool: TransformTool;
     public pages = [];
     public pageIndex: number = 0;
     private borderColor = 0xcccccc;
@@ -19,6 +20,7 @@ class EditGroup extends eui.Group {
 
     private onAddToStage (event:egret.Event) {
         this.tool = new TransformTool(this);
+        this.maskTool = new TransformTool(this);        
         this.bindHandlers();
         this.getPages();
         this.initEui();
@@ -270,9 +272,11 @@ class EditGroup extends eui.Group {
             switch (elements[i].type){
                 case 1:
                     var label: UULabel = new UULabel();
+                    let property = elements[i].property;   
+                    let { size, textColor } = property;              
                     label.text = elements[i].content;
-                    label.textColor = 0xff0000;
-                    label.size = 16;
+                    label.textColor = textColor || 0xff0000;
+                    label.size = size || 16;
                     label.lineSpacing = 12;
                     label.textAlign = egret.HorizontalAlign.JUSTIFY;
                     label.name = elements[i].id;
@@ -389,6 +393,11 @@ class EditGroup extends eui.Group {
     go (event: PageEvent) {
         this.reset();
         this.pageIndex = event.data.pageIndex;
+        this.renderResources(this.pageIndex);
+    }
+
+    refresh(){
+        this.reset();
         this.renderResources(this.pageIndex);
     }
 
@@ -587,5 +596,37 @@ class EditGroup extends eui.Group {
                 triggerGroup: []
             }
         })
+    }
+
+    addText () {
+        var m = new Matrix(1,0,0,1,300,300);
+        var result: UULabel = new UULabel();
+        result.text = '请输入文本';
+        result.textColor = 0x00000;
+        var eles = this.pages[this.pageIndex].elements;
+        let id = (new Date()).valueOf();
+        let data = {
+            "id": id,
+            "name": `text${id}`,
+            "pageId": 201807311008,
+            "type": 1,
+            "matrix": {
+                "a": m.a,
+                "b": m.b,
+                "c": m.c,
+                "d": m.d,
+                "x": m.x,
+                "y": m.y
+            },
+            "property": {}, 
+            content: '请输入文本',          
+            "src": '',
+            "sceneId": 1001
+        }; 
+        eles.push(data)
+        result.name = id.toString();
+        result.data = data;
+        this.displayList.push(new Picture(result, m));
+        requestAnimationFrame(this.render);
     }
 }

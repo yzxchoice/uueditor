@@ -40,9 +40,39 @@ var TabStyle = (function (_super) {
             input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);
         }
         ;
+        var type = GestureType.DOUBLE_TAP;
+        var event = GestureState.RECOGNIZED;
+        var config = {};
+        config[type] = {};
+        config[type][event] = this.onDoubleClick;
+        GestureManager.add(this.btn_update, config, false);
+    };
+    TabStyle.prototype.onDoubleClick = function () {
+        console.log("double_click");
+    };
+    TabStyle.prototype.exchangeDiffGroup = function (data) {
+        this.gp_diff.removeChildren();
+        var type = data.type;
+        console.log('type = ' + type);
+        var label = new eui.Label();
+        label.text = '';
+        switch (type) {
+            case 1:
+                var styleType1 = new StyleType1();
+                styleType1.draw(this.gp_diff);
+                styleType1.setDataContainer(this);
+                break;
+            case 2:
+                label.text = '图片';
+                this.gp_diff.addChild(label);
+                break;
+        }
     };
     TabStyle.prototype.setTarget = function () {
         this.tool = this.editGroup.tool;
+        console.log(this.tool);
+        var data = this.tool.target.owner.image.data;
+        this.exchangeDiffGroup(data);
     };
     TabStyle.prototype.updateTarget = function () {
         var item = this.tool.target.owner.image;

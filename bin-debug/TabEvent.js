@@ -82,6 +82,8 @@ var TabEvent = (function (_super) {
         // 监听tabs click事件
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
             _this.stateObj.selectionVisible = false;
+            var maskTool = _this.editGroup.maskTool;
+            maskTool.removeMask();
         }, this);
         this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
     };
@@ -126,6 +128,27 @@ var TabEvent = (function (_super) {
         }
         ;
         evt.target.parent.isOver = true;
+        var id = evt.target.parent.labelText;
+        console.log('id = ' + id);
+        var displayList = this.editGroup.displayList;
+        var transform;
+        for (var i = 0, len = displayList.length; i < len; i++) {
+            var item = displayList[i];
+            if (item.image.data.id == id) {
+                transform = item.transform;
+                break;
+            }
+        }
+        ;
+        console.log('transform...');
+        console.log(transform);
+        var maskTool = this.editGroup.maskTool;
+        if (!transform) {
+            maskTool.removeMask();
+            return;
+        }
+        maskTool.setPreTarget(transform);
+        maskTool.addMask();
     };
     TabEvent.prototype.onClick_Selection = function (evt) {
         evt.stopPropagation();

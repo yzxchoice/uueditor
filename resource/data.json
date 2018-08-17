@@ -96,6 +96,26 @@
                         "y": 400
                     },
                     "sceneId": 1001
+                },
+                {
+                    "id": 8407,
+                    "name": "text",
+                    "pageId": 201807311008,
+                    "type": 1,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 400,
+                        "y": 400
+                    },
+                    "property": {
+                        "size": 40,
+                        "textColor": "0x00ff00"
+                    },
+                    "content": "hello world!",                    
+                    "sceneId": 1001
                 }
             ],
             "properties": {

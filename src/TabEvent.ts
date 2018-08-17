@@ -75,6 +75,8 @@ class TabEvent extends eui.Component implements IUUContainer{
 		// 监听tabs click事件
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP, (evt: egret.TouchEvent) => { 
 			this.stateObj.selectionVisible = false; 
+			let maskTool = this.editGroup.maskTool;		
+			maskTool.removeMask();			
 		}, this);
 		this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
 	}
@@ -110,6 +112,26 @@ class TabEvent extends eui.Component implements IUUContainer{
 			item.isOver = false;
 		};
 		evt.target.parent.isOver = true;
+		let id = evt.target.parent.labelText;
+		console.log('id = ' + id);
+		let displayList = this.editGroup.displayList;
+		let transform: Transformable;
+		for(let i = 0, len = displayList.length; i < len; i++){
+			let item = <Picture>displayList[i];
+			if(item.image.data.id == id){
+				transform = item.transform;
+				break;
+			}
+		};
+		console.log('transform...');
+		console.log(transform);
+		let maskTool = this.editGroup.maskTool;		
+		if(!transform){
+			maskTool.removeMask();
+			return;
+		}
+		maskTool.setPreTarget(transform);
+		maskTool.addMask();
 	}
 	private onClick_Selection(evt:egret.TouchEvent){
 		evt.stopPropagation();		

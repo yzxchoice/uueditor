@@ -1,6 +1,7 @@
 declare class EditGroup extends eui.Group {
     displayList: any[];
     tool: any;
+    maskTool: TransformTool;
     pages: any[];
     pageIndex: number;
     private borderColor;
@@ -32,10 +33,12 @@ declare class EditGroup extends eui.Group {
     pre(event: egret.TouchEvent): void;
     next(event: egret.TouchEvent): void;
     go(event: PageEvent): void;
+    refresh(): void;
     addSinglePicture(data: uiData): void;
     changeBg(data: uiData): void;
     addSound(data: uiData): void;
     addComponent(data: uiData): void;
     addFrame(data: uiData): void;
     addPage(): void;
+    addText(): void;
 }

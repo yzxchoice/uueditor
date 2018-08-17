@@ -27,7 +27,8 @@
 		"resource/skins/TabAnimationSkin.exml",
 		"resource/skins/TabEventSkin.exml",
 		"resource/skins/SiderbarSkin.exml",
-		"resource/skins/StartSkin.exml"
+		"resource/skins/StartSkin.exml",
+		"resource/skins/StyleType1Skin.exml"
 	],
 	"path": "resource/default.thm.json"
 }

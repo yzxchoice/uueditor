@@ -9,6 +9,7 @@ declare class Header extends eui.Group implements IUUContainer {
     private onPostComplete(event);
     private onPostIOError(event);
     private onPostProgress(event);
+    onAddText(): void;
     onAddPage(event: egret.TouchEvent): void;
     preview(event: egret.TouchEvent): void;
     openComponentPanel(event: egret.TouchEvent): void;

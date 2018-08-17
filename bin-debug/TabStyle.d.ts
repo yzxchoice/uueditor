@@ -7,11 +7,15 @@ declare class TabStyle extends eui.Component implements IUUContainer {
     private data;
     private inputType;
     private preData;
-    private tool;
+    tool: TransformTool;
+    private gp_diff;
     private gp_inputContainer;
+    private btn_update;
     constructor();
     private onAddedToStage();
     private initEvent();
+    private onDoubleClick();
+    private exchangeDiffGroup(data);
     setTarget(): void;
     updateTarget(): void;
     private onFocusIn(evt);
