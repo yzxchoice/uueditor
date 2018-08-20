@@ -245,66 +245,6 @@ var EditGroup = (function (_super) {
             com.name = elements[i].id;
             com.data = elements[i];
             this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == 99 ? false : true));
-            // switch (elements[i].type){
-            //     case 1:
-            //         var label: UULabel = new UULabel();
-            //         label.text = elements[i].content;
-            //         label.textColor = 0xff0000;
-            //         label.size = 16;
-            //         label.lineSpacing = 12;
-            //         label.textAlign = egret.HorizontalAlign.JUSTIFY;
-            //         label.name = elements[i].id;
-            //         label.data = elements[i];
-            //         this.displayList.push(new Picture(label, elements[i].matrix));
-            //         break;
-            //     case 2:
-            //         var result: UUImage = new UUImage();
-            //         var texture:egret.Texture = RES.getRes(elements[i].name);
-            //         result.texture = texture;
-            //         result.name = elements[i].id;
-            //         result.data = elements[i];
-            //         this.displayList.push(new Picture(result, elements[i].matrix));
-            //         break;
-            //     case 18:
-            //         var soundBtn:SoundButton = new SoundButton();
-            //         soundBtn.label = elements[i].name;
-            //         // var texture:egret.Texture = RES.getRes(elements[i].name);
-            //         // result.source = texture;
-            //         soundBtn.name = elements[i].id;
-            //         soundBtn.data = elements[i];
-            //         soundBtn.width = 100;
-            //         soundBtn.height = 50;
-            //         this.displayList.push(new Picture(soundBtn, elements[i].matrix));
-            //         break;
-            //     case 101: 
-            //         var circle:CircleSector = new CircleSector();
-            //         circle.name = elements[i].id;
-            //         circle.data = elements[i];
-            //         circle.width = 400;
-            //         circle.height = 400;
-            //         this.displayList.push(new Picture(circle, elements[i].matrix));
-            //         break;
-            //     case 8:
-            //         // this.createGameScene();
-            //         // this.displayList.push(new Picture(this.container, elements[i].matrix));
-            //         break;
-            //      case 99:
-            //         var bg:UUBitmap = new UUBitmap();
-            //         var texture:egret.Texture = RES.getRes(elements[i].name);
-            //         bg.texture = texture;
-            //         bg.name = elements[i].id;
-            //         bg.data = elements[i];
-            //         this.displayList.push(new Picture(bg, elements[i].matrix, false));
-            //         break;
-            //     case 102:
-            //         var c:UUContainer = new UUContainer();
-            //         c.name = elements[i].id;
-            //         c.data = elements[i];
-            //         c.width = 300;
-            //         c.height = 300;
-            //         this.displayList.push(new Picture(c, elements[i].matrix));
-            //         break;
-            // }
         }
         requestAnimationFrame(this.render);
     };
@@ -358,7 +298,7 @@ var EditGroup = (function (_super) {
         this.renderResources(this.pageIndex);
     };
     EditGroup.prototype.addSinglePicture = function (data) {
-        RES.getResByUrl("resource/" + Main.id + "/assets/Pic/" + data.url, function (texture) {
+        RES.getResByUrl("resource/" + data.url, function (texture) {
             var m = new Matrix(1, 0, 0, 1, 300, 300);
             var result = new UUBitmap();
             result.texture = texture;
@@ -380,7 +320,7 @@ var EditGroup = (function (_super) {
                     "y": m.y
                 },
                 "props": {},
-                "src": "resource/" + Main.id + "/assets/Pic/" + data.url,
+                "src": data.url,
                 "sceneId": 1001
             });
             result.name = data.id;
@@ -390,7 +330,7 @@ var EditGroup = (function (_super) {
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
     EditGroup.prototype.changeBg = function (data) {
-        RES.getResByUrl("resource/" + Main.id + "/assets/Background/" + data.url, function (texture) {
+        RES.getResByUrl("resource/" + data.url, function (texture) {
             var m = new Matrix(this.displayGroup.width / texture.bitmapData.width, 0, 0, this.displayGroup.width / texture.bitmapData.width, 0, 0);
             var bg = new UUBitmap();
             bg.texture = texture;
@@ -416,7 +356,7 @@ var EditGroup = (function (_super) {
                     "y": m.y
                 },
                 "props": {},
-                "src": "resource/" + Main.id + "/assets/Background/" + data.url,
+                "src": data.url,
                 "sceneId": 1001
             });
             bg.name = data.id;
@@ -451,7 +391,7 @@ var EditGroup = (function (_super) {
             "sound": {
                 "id": data.id,
                 "name": n,
-                "src": "resource/" + Main.id + "/assets/" + data.url
+                "src": data.url
             },
             "sceneId": 1001
         });

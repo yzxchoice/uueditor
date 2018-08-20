@@ -8,6 +8,41 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 // TypeScript file
 var Header = (function (_super) {
     __extends(Header, _super);
@@ -88,50 +123,28 @@ var Header = (function (_super) {
         btnSave.addEventListener(Mouse.START, this.save, this);
         this.addChild(btnSave);
     };
-    Header.prototype.getQueryString = function () {
-        var qs = location.search.substr(1), // 获取url中"?"符后的字串  
-        args = {}, // 保存参数数据的对象
-        items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
-        item = null, len = items.length;
-        for (var i = 0; i < len; i++) {
-            item = items[i].split("=");
-            var name = decodeURIComponent(item[0]), value = decodeURIComponent(item[1]);
-            if (name) {
-                args[name] = value;
-            }
-        }
-        return args;
-    };
     Header.prototype.save = function (event) {
-        egret.log(this.getQueryString()['id']);
-        var id = this.getQueryString()['id'];
-        var g = this.parent;
-        console.log(g.editGroup.pages[0]);
-        console.log(JSON.stringify(g.editGroup.pages[0]));
-        var obj = {
-            code: 200,
-            msg: "success",
-            list: g.editGroup.pages
-        };
-        var params = "id=" + id + "&template=" + JSON.stringify(obj);
-        var request = new egret.HttpRequest();
-        request.responseType = egret.HttpResponseType.TEXT;
-        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.open("http://10.63.5.71:8002/template/updateTemplate", egret.HttpMethod.POST);
-        request.send(params);
-        request.addEventListener(egret.Event.COMPLETE, this.onPostComplete, this);
-        request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onPostIOError, this);
-        request.addEventListener(egret.ProgressEvent.PROGRESS, this.onPostProgress, this);
-    };
-    Header.prototype.onPostComplete = function (event) {
-        var request = event.currentTarget;
-        egret.log("post data : ", request.response);
-    };
-    Header.prototype.onPostIOError = function (event) {
-        egret.log("post error : " + event);
-    };
-    Header.prototype.onPostProgress = function (event) {
-        egret.log("post progress : " + Math.floor(100 * event.bytesLoaded / event.bytesTotal) + "%");
+        return __awaiter(this, void 0, void 0, function () {
+            var g, obj, params, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        g = this.parent;
+                        console.log(g.editGroup.pages[0]);
+                        console.log(JSON.stringify(g.editGroup.pages[0]));
+                        obj = {
+                            code: 200,
+                            msg: "success",
+                            list: g.editGroup.pages
+                        };
+                        params = "id=" + Main.id + "&template=" + JSON.stringify(obj) + "&resource=" + JSON.stringify(Utils.trans(g.editGroup.pages));
+                        return [4 /*yield*/, Fetch.start('http://10.63.5.71:8002/template/updateTemplate', params, 'POST')];
+                    case 1:
+                        res = _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     Header.prototype.onAddPage = function (event) {
         var g = this.parent;

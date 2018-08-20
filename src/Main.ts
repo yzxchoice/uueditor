@@ -91,16 +91,17 @@ class Main extends eui.UILayer {
 
     private async loadResource() {
         egret.log(this.getQueryString()['id']);
-        var id = this.getQueryString()['id'];
+        var id = this.getQueryString()['id'] || 2;
         Main.id = id || '';
         var path = id ? '/'+id : '';
         try {
             const loadingView = new LoadingUI();
             this.stage.addChild(loadingView);
-            await RES.loadConfig(`resource${path}/default.res.json`, `resource/${path}`);
-            // await RES.loadConfig("resource/default.res.json", "resource/");
+            await RES.loadConfig(`resource/default.res.json`, `resource/`);
+            await RES.loadConfig(`resource/${Main.id}/template.json`, "resource/");
             await this.loadTheme();
             await RES.loadGroup("preload", 0, loadingView);
+            await RES.loadGroup("preloadpic", 1, loadingView);
             this.stage.removeChild(loadingView);
         }
         catch (e) {

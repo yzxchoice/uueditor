@@ -19,6 +19,7 @@
 		"bin-debug/ComponentBox.js",
 		"bin-debug/EditGroup.js",
 		"bin-debug/EventSet.js",
+		"bin-debug/Fetch.js",
 		"bin-debug/FrameBox.js",
 		"bin-debug/Game.js",
 		"bin-debug/Header.js",
@@ -39,6 +40,7 @@
 		"bin-debug/TabStyle.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/TriggerPanel.js",
+		"bin-debug/Utils.js",
 		"bin-debug/UUBorderContainer.js",
 		"bin-debug/UUMovieClip.js"
 	]
