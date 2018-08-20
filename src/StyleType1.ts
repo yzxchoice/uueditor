@@ -18,8 +18,12 @@ class StyleType1 extends eui.Component implements IUUContainer{
 	}
 	private inputType: string;
 	private gp_styleContainer: eui.Group;
+	private lb_selectColor: eui.Label;
+	private gp_style_fontFamily: eui.Group;
+	private gp_style_fontFamily_select: eui.Group;	
 	private dataContainer: TabStyle;
 	private item: any;
+	private colorSelectBox: ColorSelectBox;
 	public constructor() {
 		super();
 		this.skinName = 'resource/skins/StyleType1Skin.exml';
@@ -28,20 +32,71 @@ class StyleType1 extends eui.Component implements IUUContainer{
 
 	private onAddToStage(){
 		this.initEvent();
+		this.initSelect();
 	}
 
 	private initEvent(){
 		for(let i = 0, len = this.gp_styleContainer.numChildren; i < len; i++){
 			let groupInpput = <eui.Group>this.gp_styleContainer.getChildAt(i);
-			let input = groupInpput.getChildAt(1);
-			input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);		
-			input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);							
+			try {
+				let input = groupInpput.getChildAt(1);
+				input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);		
+				input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);	
+			}catch(e) {
+				console.log('input...');
+			}						
 		};
+		this.lb_selectColor.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+	}
+	private initSelect(){
+		let data = [
+			{
+				content: 'by1'
+			},
+			{
+				content: '111'
+			},
+			{
+				content: '2222'
+			},
+			{
+				content: '333'
+			},
+			{
+				content: '111'
+			},
+			{
+				content: '2222'
+			},
+			{
+				content: '333'
+			},
+		];
+		let select = new Select(data);
+		this.gp_style_fontFamily_select.addChild(select);		
+		this.gp_styleContainer.setChildIndex( this.gp_style_fontFamily, 5 );
+	}
+	private onClick(){
+		if(!this.colorSelectBox || !this.colorSelectBox.isShow){
+			let colorSelectBox: ColorSelectBox = new ColorSelectBox();
+			colorSelectBox.draw(this);
+			colorSelectBox.x = 280;
+			colorSelectBox.y = 100;
+			this.colorSelectBox = colorSelectBox;
+		}else {
+			this.colorSelectBox.undraw();
+		}
+
 	}
 	setDataContainer(dataContainer: TabStyle){
 		this.dataContainer = dataContainer;
 		this.item = dataContainer.tool.target.owner.image;
 		this.data = this.item.data;
+	}
+	public changeColor(color){
+		this.data.props.textColor = color;
+		this.data = this.item.data;		
+		this.refresh();
 	}
 	private onFocusIn(evt: egret.FocusEvent){
 		console.log('onFocusIn...');
@@ -60,6 +115,10 @@ class StyleType1 extends eui.Component implements IUUContainer{
 		}else {
 			this.data.props[this.inputType] = value;
 		}
+		this.refresh();
+	}
+	private refresh(){
+		let target: Transformable = this.dataContainer.tool.target;		
 		this.dataContainer.tool.setTarget(null);  
 		this.dataContainer.editGroup.clear();
 		this.dataContainer.editGroup.drawDisplayList();		

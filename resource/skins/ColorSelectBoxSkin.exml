@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ColorSelectBoxSkin" width="212" height="135" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="100%" height="100%" x="0" y="0">
+		<e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xc4bebe" strokeWeight="1" strokeColor="0x070000" locked="true"/>
+		<e:Group id="gp_box" width="100%" height="100%" x="0" y="0">
+			<e:layout>
+				<e:TileLayout rowAlign="top" columnAlign="left" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" requestedRowCount="4" requestedColumnCount="8"/>
+			</e:layout>
+		</e:Group>
+	</e:Group>
+</e:Skin>

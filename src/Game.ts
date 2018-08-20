@@ -26,6 +26,7 @@ class Game extends eui.Component {
     public siderbarSkinBy: SiderbarSkinBy = SiderbarSkinBy.getInstance();
 
     private initEui() {
+        demoFn();
         var wvw = new EventSetDome();
         wvw.data = {};
         
