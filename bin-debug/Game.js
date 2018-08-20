@@ -33,6 +33,7 @@ var Game = (function (_super) {
         this.initEui();
     };
     Game.prototype.initEui = function () {
+        demoFn();
         var wvw = new EventSetDome();
         wvw.data = {};
         var editContaier = new eui.Group();

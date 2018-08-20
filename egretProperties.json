@@ -51,6 +51,10 @@
     {
 			"name": "gesture",
 			"path": "../libsrc/gesture"
-		}
+		},
+    {
+      "name": "demo",
+			"path": "../libsrc/demo"      
+    }
   ]
 }

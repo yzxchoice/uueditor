@@ -35,20 +35,72 @@ var StyleType1 = (function (_super) {
     });
     StyleType1.prototype.onAddToStage = function () {
         this.initEvent();
+        this.initSelect();
     };
     StyleType1.prototype.initEvent = function () {
         for (var i = 0, len = this.gp_styleContainer.numChildren; i < len; i++) {
             var groupInpput = this.gp_styleContainer.getChildAt(i);
-            var input = groupInpput.getChildAt(1);
-            input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
-            input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);
+            try {
+                var input = groupInpput.getChildAt(1);
+                input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
+                input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);
+            }
+            catch (e) {
+                console.log('input...');
+            }
         }
         ;
+        this.lb_selectColor.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+    };
+    StyleType1.prototype.initSelect = function () {
+        var data = [
+            {
+                content: 'by1'
+            },
+            {
+                content: '111'
+            },
+            {
+                content: '2222'
+            },
+            {
+                content: '333'
+            },
+            {
+                content: '111'
+            },
+            {
+                content: '2222'
+            },
+            {
+                content: '333'
+            },
+        ];
+        var select = new Select(data);
+        this.gp_style_fontFamily_select.addChild(select);
+        this.gp_styleContainer.setChildIndex(this.gp_style_fontFamily, 5);
+    };
+    StyleType1.prototype.onClick = function () {
+        if (!this.colorSelectBox || !this.colorSelectBox.isShow) {
+            var colorSelectBox = new ColorSelectBox();
+            colorSelectBox.draw(this);
+            colorSelectBox.x = 280;
+            colorSelectBox.y = 100;
+            this.colorSelectBox = colorSelectBox;
+        }
+        else {
+            this.colorSelectBox.undraw();
+        }
     };
     StyleType1.prototype.setDataContainer = function (dataContainer) {
         this.dataContainer = dataContainer;
         this.item = dataContainer.tool.target.owner.image;
         this.data = this.item.data;
+    };
+    StyleType1.prototype.changeColor = function (color) {
+        this.data.props.textColor = color;
+        this.data = this.item.data;
+        this.refresh();
     };
     StyleType1.prototype.onFocusIn = function (evt) {
         console.log('onFocusIn...');
@@ -69,6 +121,10 @@ var StyleType1 = (function (_super) {
         else {
             this.data.props[this.inputType] = value;
         }
+        this.refresh();
+    };
+    StyleType1.prototype.refresh = function () {
+        var target = this.dataContainer.tool.target;
         this.dataContainer.tool.setTarget(null);
         this.dataContainer.editGroup.clear();
         this.dataContainer.editGroup.drawDisplayList();
