@@ -28,6 +28,7 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.onAddToStage = function (event) {
         this.tool = new TransformTool(this);
+        this.maskTool = new TransformTool(this);
         this.bindHandlers();
         this.getPages();
         this.initEui();
@@ -297,6 +298,10 @@ var EditGroup = (function (_super) {
         this.pageIndex = event.data.pageIndex;
         this.renderResources(this.pageIndex);
     };
+    EditGroup.prototype.refresh = function () {
+        this.reset();
+        this.renderResources(this.pageIndex);
+    };
     EditGroup.prototype.addSinglePicture = function (data) {
         RES.getResByUrl("resource/" + data.url, function (texture) {
             var m = new Matrix(1, 0, 0, 1, 300, 300);
@@ -486,6 +491,41 @@ var EditGroup = (function (_super) {
                 triggerGroup: []
             }
         });
+    };
+    EditGroup.prototype.addText = function () {
+        var m = new Matrix(1, 0, 0, 1, 300, 300);
+        var result = new UULabel();
+        result.text = '请输入文本';
+        result.textColor = '0x000000';
+        result.size = 40;
+        var eles = this.pages[this.pageIndex].elements;
+        var id = (new Date()).valueOf();
+        var data = {
+            "id": id,
+            "name": "text" + id,
+            "pageId": 201807311008,
+            "type": 1,
+            "matrix": {
+                "a": m.a,
+                "b": m.b,
+                "c": m.c,
+                "d": m.d,
+                "x": m.x,
+                "y": m.y
+            },
+            "props": {
+                textColor: '0x000000',
+                size: 40,
+            },
+            content: '请输入文本',
+            "src": '',
+            "sceneId": 1001
+        };
+        eles.push(data);
+        result.name = id.toString();
+        result.data = data;
+        this.displayList.push(new Picture(result, m));
+        requestAnimationFrame(this.render);
     };
     return EditGroup;
 }(eui.Group));

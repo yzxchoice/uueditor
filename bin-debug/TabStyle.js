@@ -29,6 +29,7 @@ var TabStyle = (function (_super) {
         this.editGroup = container.editGroup;
     };
     TabStyle.prototype.onAddedToStage = function () {
+        this.kb = new KeyBoard();
         this.initEvent();
     };
     TabStyle.prototype.initEvent = function () {
@@ -36,10 +37,37 @@ var TabStyle = (function (_super) {
             var groupInpput = this.gp_inputContainer.getChildAt(i);
             var input = groupInpput.getChildAt(1);
             input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
+            input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);
+        }
+        ;
+        var type = GestureType.DOUBLE_TAP;
+        var event = GestureState.RECOGNIZED;
+        var config = {};
+        config[type] = {};
+        config[type][event] = this.onDoubleClick;
+        GestureManager.add(this.btn_update, config, false);
+    };
+    TabStyle.prototype.onDoubleClick = function () {
+        console.log("double_click");
+    };
+    TabStyle.prototype.exchangeDiffGroup = function (data) {
+        this.gp_diff.removeChildren();
+        var type = data.type;
+        switch (type) {
+            case 1:
+                var styleType1 = new StyleType1();
+                styleType1.draw(this.gp_diff);
+                styleType1.setDataContainer(this);
+                break;
+            case 2:
+                break;
         }
     };
     TabStyle.prototype.setTarget = function () {
         this.tool = this.editGroup.tool;
+        console.log(this.tool);
+        var data = this.tool.target.owner.image.data;
+        this.exchangeDiffGroup(data);
     };
     TabStyle.prototype.updateTarget = function () {
         var item = this.tool.target.owner.image;
@@ -49,41 +77,84 @@ var TabStyle = (function (_super) {
             y: Math.floor(this.tool.regY),
             width: Math.floor(width * scaleX),
             height: Math.floor(height * scaleY),
-            rotate: Math.floor(rotation)
+            rotate: Math.floor(rotation) || '0'
         };
         this.preData = JSON.parse(JSON.stringify(newData));
         this.data = newData;
     };
-    TabStyle.prototype.onFocusOut = function (evt) {
-        console.log('onFocusOut...');
+    TabStyle.prototype.onFocusIn = function (evt) {
+        console.log('onFocusIn...');
+        console.log('add keyboard...');
         var textInput = evt.target.parent;
         var name = textInput.name;
         var propertyName = name.split('_')[1];
-        this.data[propertyName] = Number(evt.target.text);
-        // TODO: 去修改对应的视图元素的信息
-        var game = this.parent;
+        this.inputType = propertyName;
+        console.log(propertyName);
+        this.kb.addEventListener(KeyBoard.onkeydown, this.onkeydown, this);
+    };
+    TabStyle.prototype.onFocusOut = function (evt) {
+        console.log('onFocusOut...');
+        console.log('remove keyboard...');
+        if (!this.preData)
+            return;
+        this.kb.removeEventListener(KeyBoard.onkeydown, this.onkeydown, this);
+        var addValue = Number(evt.target.text) - this.preData[this.inputType];
+        if (!addValue)
+            return;
+        this.adjuctMatrix(addValue);
+    };
+    TabStyle.prototype.onkeydown = function (evt) {
+        console.log('onkeydown...');
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.stopImmediatePropagation();
+        if (this.kb.isContain(evt.data, KeyBoard.DownArrow)) {
+            console.log(evt.data);
+            this.adjuctMatrix(-1);
+        }
+        if (this.kb.isContain(evt.data, KeyBoard.UpArrow)) {
+            console.log(evt.data);
+            this.adjuctMatrix(1);
+        }
+    };
+    TabStyle.prototype.adjuctMatrix = function (value) {
+        var addValue = value;
         var tool = this.tool;
-        console.log('tool...');
-        console.log(tool);
-        var target = tool.target;
-        var element = tool.target.owner.image;
-        if (name == "input_width") {
-            tool.scale(this.data.width / this.preData.width);
+        if (!(tool && tool.target))
+            return;
+        console.log(addValue);
+        switch (this.inputType) {
+            case 'width':
+                console.log('width');
+                this.data.width += addValue;
+                tool.scale(this.data.width / this.preData.width);
+                this.preData.width = this.data.width;
+                break;
+            case 'height':
+                console.log('height');
+                this.data.height += addValue;
+                tool.scale(this.data.height / this.preData.height);
+                this.preData.height = this.data.height;
+                break;
+            case 'x':
+                console.log('x');
+                this.data.x += addValue;
+                tool.translate(addValue, 0);
+                this.preData.x = this.data.x;
+                break;
+            case 'y':
+                console.log('y');
+                this.data.y += addValue;
+                tool.translate(0, addValue);
+                this.preData.y = this.data.y;
+                break;
+            case 'rotate':
+                console.log('rotate');
+                this.data.rotate = Number(this.data.rotate) + addValue;
+                tool.rotate(addValue * Math.PI / 180);
+                this.preData.rotate = this.data.rotate;
+                break;
         }
-        if (name == "input_x" || name == "input_y") {
-            tool.translate(this.data.x - this.preData.x, this.data['y'] - this.preData.y);
-        }
-        if (name == "input_rotate") {
-            tool.rotate((this.data.rotate - this.preData.rotate) * Math.PI / 180);
-        }
-        var newData = {
-            x: this.data.x,
-            y: this.data.y,
-            width: this.data.width,
-            height: this.data.height,
-            rotate: this.data.rotate
-        };
-        this.preData = JSON.parse(JSON.stringify(newData));
         this.tool.startMatrix.copyFrom(this.tool.endMatrix);
         this.editGroup.render();
     };

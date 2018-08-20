@@ -2,6 +2,7 @@
 class EditGroup extends eui.Group {
     displayList = [];
     tool: any;
+    maskTool: TransformTool;
     public pages = [];
     public pageIndex: number = 0;
     private borderColor = 0xcccccc;
@@ -19,6 +20,7 @@ class EditGroup extends eui.Group {
 
     private onAddToStage (event:egret.Event) {
         this.tool = new TransformTool(this);
+        this.maskTool = new TransformTool(this);        
         this.bindHandlers();
         this.getPages();
         this.initEui();
@@ -268,6 +270,7 @@ class EditGroup extends eui.Group {
         var elements = this.pages[index].elements;
         var n = elements.length;
         for (i=0; i<n; i++){
+
             var t = LayerSet.getLayer(list, elements[i].type)[0];
             var com = LayerSet.createInstance(t,elements[i].props);
             var texture:egret.Texture = RES.getRes(elements[i].name);
@@ -336,6 +339,11 @@ class EditGroup extends eui.Group {
     go (event: PageEvent) {
         this.reset();
         this.pageIndex = event.data.pageIndex;
+        this.renderResources(this.pageIndex);
+    }
+
+    refresh(){
+        this.reset();
         this.renderResources(this.pageIndex);
     }
 
@@ -546,5 +554,41 @@ class EditGroup extends eui.Group {
                 triggerGroup: []
             }
         })
+    }
+
+    addText () {
+        var m = new Matrix(1,0,0,1,300,300);
+        var result: UULabel = new UULabel();
+        result.text = '请输入文本';
+        result.textColor = '0x000000';
+        result.size = 40;
+        var eles = this.pages[this.pageIndex].elements;
+        let id = (new Date()).valueOf();
+        let data = {
+            "id": id,
+            "name": `text${id}`,
+            "pageId": 201807311008,
+            "type": 1,
+            "matrix": {
+                "a": m.a,
+                "b": m.b,
+                "c": m.c,
+                "d": m.d,
+                "x": m.x,
+                "y": m.y
+            },
+            "props": {
+                textColor: '0x000000',
+                size: 40,
+            }, 
+            content: '请输入文本',          
+            "src": '',
+            "sceneId": 1001
+        }; 
+        eles.push(data)
+        result.name = id.toString();
+        result.data = data;
+        this.displayList.push(new Picture(result, m));
+        requestAnimationFrame(this.render);
     }
 }

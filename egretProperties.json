@@ -43,6 +43,14 @@
     {
       "name": "uulib",
       "path": "../uulib"
-    }
+    },
+    {
+      "name": "keyboard",
+      "path": "../libsrc/keyboard"
+    },
+    {
+			"name": "gesture",
+			"path": "../libsrc/gesture"
+		}
   ]
 }

@@ -68,6 +68,12 @@ var Header = (function (_super) {
         hLayout.verticalAlign = egret.VerticalAlign.MIDDLE;
         hLayout.paddingRight = 30;
         this.layout = hLayout;
+        var btnAddText = new eui.Button();
+        btnAddText.width = 100;
+        btnAddText.height = 40;
+        btnAddText.label = "文本";
+        btnAddText.addEventListener(Mouse.START, this.onAddText, this);
+        this.addChild(btnAddText);
         var btnAddPage = new eui.Button();
         btnAddPage.width = 100;
         btnAddPage.height = 40;
@@ -145,6 +151,10 @@ var Header = (function (_super) {
                 }
             });
         });
+    };
+    Header.prototype.onAddText = function () {
+        var editGroup = this.container.editGroup;
+        editGroup.addText();
     };
     Header.prototype.onAddPage = function (event) {
         var g = this.parent;
