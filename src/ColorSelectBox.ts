@@ -2,6 +2,7 @@ class ColorSelectBox extends eui.Component{
 	private container: any;
 	private gp_box: eui.Group;
 	public isShow: boolean = false;
+	private cb: Function;
 	private colorPool: Array<string> = ["#000000","#993300","#333300","#003300","#003366","#000080","#333399","#333333","#800000","#FF6600","#808000","#008000","#008080","#0000FF","#666699","#808080","#FF0000","#FF9900","#99CC00","#339966","#33CCCC","#3366FF","#800080","#999999","#FF00FF","#FFCC00","#FFFF00","#00FF00","#00FFFF","#00CCFF","#993366","#CCCCCC","#FF99CC","#FFCC99","#FFFF99","#CCFFCC","#CCFFFF","#99CCFF","#CC99FF","#FFFFFF"];
 	public constructor() {
 		super();
@@ -36,7 +37,7 @@ class ColorSelectBox extends eui.Component{
 		}
 		let newColor = pre + exchange;
 		this.undraw();	
-		this.container.changeColor(newColor);	
+		this.cb && this.cb(newColor);
 	}
 	private createShape(color){
 		let shape = new egret.Shape();
@@ -48,6 +49,9 @@ class ColorSelectBox extends eui.Component{
 	}
 	private exchangeColor(color){
 		return parseInt(color.replace('#', ''), 16);				
+	}
+	public listenColorChange(cb: Function){
+		this.cb = cb;
 	}
 	public draw(container: any){
 		this.container = container;

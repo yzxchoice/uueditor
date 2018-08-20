@@ -84,4 +84,3 @@ var FrameBox = (function (_super) {
     return FrameBox;
 }(eui.Panel));
 __reflect(FrameBox.prototype, "FrameBox");
-//# sourceMappingURL=FrameBox.js.map

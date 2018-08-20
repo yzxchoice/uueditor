@@ -32,7 +32,6 @@ class StyleType1 extends eui.Component implements IUUContainer{
 
 	private onAddToStage(){
 		this.initEvent();
-		this.initSelect();
 	}
 
 	private initEvent(){
@@ -51,30 +50,39 @@ class StyleType1 extends eui.Component implements IUUContainer{
 	private initSelect(){
 		let data = [
 			{
-				content: 'by1'
+				content: 'Arial'
 			},
 			{
-				content: '111'
+				content: 'DFKai-SB'
 			},
 			{
-				content: '2222'
+				content: 'FangSong'
 			},
 			{
-				content: '333'
+				content: 'Georgia'
 			},
 			{
-				content: '111'
+				content: 'Helvetica'
 			},
 			{
-				content: '2222'
+				content: 'KaiTi'
 			},
 			{
-				content: '333'
+				content: 'Lucida Family'
 			},
 		];
 		let select = new Select(data);
+		
 		this.gp_style_fontFamily_select.addChild(select);		
 		this.gp_styleContainer.setChildIndex( this.gp_style_fontFamily, 5 );
+		select.setDataContainer(this);	
+		console.log(this.data);	
+		select.setDefaultItem(this.data.props.fontFamily);
+	}
+	public getFontFamily(v){
+		if(!this.isTargetSelected()) return;			
+		this.data.props.fontFamily = v;
+		this.refresh();
 	}
 	private onClick(){
 		if(!this.colorSelectBox || !this.colorSelectBox.isShow){
@@ -83,6 +91,7 @@ class StyleType1 extends eui.Component implements IUUContainer{
 			colorSelectBox.x = 280;
 			colorSelectBox.y = 100;
 			this.colorSelectBox = colorSelectBox;
+			this.colorSelectBox.listenColorChange(this.changeColor.bind(this));
 		}else {
 			this.colorSelectBox.undraw();
 		}
@@ -92,8 +101,11 @@ class StyleType1 extends eui.Component implements IUUContainer{
 		this.dataContainer = dataContainer;
 		this.item = dataContainer.tool.target.owner.image;
 		this.data = this.item.data;
+		this.initSelect();
 	}
 	public changeColor(color){
+		console.log('color = ' + color);
+		if(!this.isTargetSelected()) return;	
 		this.data.props.textColor = color;
 		this.data = this.item.data;		
 		this.refresh();
@@ -106,22 +118,18 @@ class StyleType1 extends eui.Component implements IUUContainer{
 	}
 	private onFocusOut(evt:egret.FocusEvent){
 		console.log('onFocusOut...');
-		let tool = this.dataContainer.tool;
-		let target: Transformable = tool.target;
-		if(!(tool && target)) return;
+		if(!this.isTargetSelected()) return;
 		let value = evt.target.text;
-		if(this.inputType == 'text'){
-			this.data.content = value;
-		}else {
-			this.data.props[this.inputType] = value;
-		}
+		this.data.props[this.inputType] = value;
 		this.refresh();
 	}
 	private refresh(){
-		let target: Transformable = this.dataContainer.tool.target;		
+		let target: Transformable = this.dataContainer.tool.target;	
+		let picture:Picture = target.owner;
+		
 		this.dataContainer.tool.setTarget(null);  
 		this.dataContainer.editGroup.clear();
-		this.dataContainer.editGroup.drawDisplayList();		
+		this.dataContainer.editGroup.updateDisplay(picture);		
 
 		target.width = this.item.width;
 		target.height = this.item.height;
@@ -129,5 +137,10 @@ class StyleType1 extends eui.Component implements IUUContainer{
 		this.dataContainer.tool.draw();		
 		this.dataContainer.updateTarget();
 	}
-
+	private isTargetSelected(){
+		let tool = this.dataContainer.tool;
+		let target: Transformable = tool.target;
+		if(!(tool && target)) return false;	
+		return true;
+	}
 }

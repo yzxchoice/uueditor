@@ -57,4 +57,3 @@ var SoundBox = (function (_super) {
     return SoundBox;
 }(eui.Panel));
 __reflect(SoundBox.prototype, "SoundBox");
-//# sourceMappingURL=SoundBox.js.map

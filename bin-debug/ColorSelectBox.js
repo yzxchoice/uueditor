@@ -49,7 +49,7 @@ var ColorSelectBox = (function (_super) {
         }
         var newColor = pre + exchange;
         this.undraw();
-        this.container.changeColor(newColor);
+        this.cb && this.cb(newColor);
     };
     ColorSelectBox.prototype.createShape = function (color) {
         var shape = new egret.Shape();
@@ -61,6 +61,9 @@ var ColorSelectBox = (function (_super) {
     };
     ColorSelectBox.prototype.exchangeColor = function (color) {
         return parseInt(color.replace('#', ''), 16);
+    };
+    ColorSelectBox.prototype.listenColorChange = function (cb) {
+        this.cb = cb;
     };
     ColorSelectBox.prototype.draw = function (container) {
         this.container = container;

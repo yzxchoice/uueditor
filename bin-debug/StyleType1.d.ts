@@ -17,10 +17,12 @@ declare class StyleType1 extends eui.Component implements IUUContainer {
     private onAddToStage();
     private initEvent();
     private initSelect();
+    getFontFamily(v: any): void;
     private onClick();
     setDataContainer(dataContainer: TabStyle): void;
     changeColor(color: any): void;
     private onFocusIn(evt);
     private onFocusOut(evt);
     private refresh();
+    private isTargetSelected();
 }

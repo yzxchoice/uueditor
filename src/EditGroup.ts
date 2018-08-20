@@ -278,8 +278,7 @@ class EditGroup extends eui.Group {
             com.name = elements[i].id;
             com.data = elements[i];
             this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==99?false:true));
-            
-        }
+        }   
 
         requestAnimationFrame(this.render);
     }
@@ -341,11 +340,38 @@ class EditGroup extends eui.Group {
         this.pageIndex = event.data.pageIndex;
         this.renderResources(this.pageIndex);
     }
-
-    refresh(){
-        this.reset();
-        this.renderResources(this.pageIndex);
+    // 更新显示对象
+    updateDisplay(display: Picture){
+        this.updateDisplayProps(display);
+        display.draw(this);
     }
+
+    updateDisplayProps(display: Picture){
+        let image = display.image;
+        let props = image.data.props;
+        for(let key in props){
+            image[key] = props[key];
+        }
+    }
+    // 使用图形遮罩
+    public triggerMaskById(imageId){
+		let id = imageId;
+		let displayList = this.displayList;
+		let transform: Transformable;
+		for(let i = 0, len = displayList.length; i < len; i++){
+			let item = <Picture>displayList[i];
+			if(item.image.data.id == id){
+				transform = item.transform;
+				break;
+			}
+		};
+		if(!transform){
+			this.maskTool.removeMask();
+			return;
+		}
+		this.maskTool.setPreTarget(transform);
+		this.maskTool.addMask();
+	}
 
     addSinglePicture (data: uiData) {
         RES.getResByUrl("resource/"+data.url, function(texture:egret.Texture):void {
@@ -578,10 +604,11 @@ class EditGroup extends eui.Group {
                 "y": m.y
             },
             "props": {
-                textColor: '0x000000',
+                text: '请输入文本',                                          
+                fontFamily: 'Arial',                
                 size: 40,
+                textColor: '0x000000',                
             }, 
-            content: '请输入文本',          
             "src": '',
             "sceneId": 1001
         }; 

@@ -1,5 +1,14 @@
-class Select extends eui.Component{
+class Select extends eui.Component implements IUUContainer{
+	container: any;
+	dispose (): void {
+
+	}
+
+	draw (container: any) {
+		
+	}
 	private selectData: any[];
+	private dataContainer: any;
 	private stateObj = {
 		selectionVisible: false,
 		selectedItem: 'default',
@@ -23,6 +32,18 @@ class Select extends eui.Component{
 	private init(){
 		this.listenEvent();
 	}
+	public setDefaultItem(item){
+		this.stateObj.selectedItem = item;
+	}
+	public setDataContainer(dataContainer){
+		this.dataContainer = dataContainer;
+	}
+	public hide(){
+		this.stateObj.selectionVisible = false;
+	}
+	private output(){
+		this.dataContainer.getFontFamily(this.stateObj.selectedItem);
+	}
 	private listenEvent(){
 		this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
 	}
@@ -42,6 +63,8 @@ class Select extends eui.Component{
 		group.addChild(shape);
 		let label = new eui.Label();
 		label.text = obj.content;
+		label.textColor = 0x000000;
+		label.size = 24;
 		label.width = this.itemWidth;
 		label.height = this.itemHeight;
 		group.addChild(label);
@@ -50,7 +73,6 @@ class Select extends eui.Component{
 	private touchSelection2(evt: egret.TouchEvent){
 		evt.stopPropagation();
 		this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
-		this.gp_selection_box.visible = this.stateObj.selectionVisible;
 		if(this.stateObj.selectionVisible){
 			this.gp_selection.removeChildren();
 			for(let j = 0, num = this.selectData.length; j < num; j++){
@@ -62,24 +84,27 @@ class Select extends eui.Component{
 			this.gp_selection.addEventListener(mouse.MouseEvent.MOUSE_OVER, this.onMouseover_Selection, this);
 			this.gp_selection.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick_Selection, this);
 		};
-		this.getChildByName
 	}
 	private onMouseover_Selection(evt:egret.TouchEvent){
 		let target = evt.target;
-		console.log('mouse...');		
-		console.log(target);
 		if(target instanceof eui.Group) return;
+		this.removeOverState();
 		let shape = <egret.Shape>target.parent.getChildByName('shape');
 		shape.visible = true;
-		console.log(shape);
 	}
 	private removeOverState(){
 		for(let i = 0, len = this.gp_selection.numChildren; i < len; i++){
 			let item = <eui.Group>this.gp_selection.getChildAt(i);
 			let shape = item.getChildByName('shape');
+			shape.visible = false;
 		}
 	}
 	private onClick_Selection(evt:egret.TouchEvent){
-		console.log('click...');		
+		let target = evt.target;
+		if(target instanceof eui.Group) return;
+		let text = target.text;
+		this.stateObj.selectedItem = text;
+		this.stateObj.selectionVisible = false;
+		this.output();
 	}
 }

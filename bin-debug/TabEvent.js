@@ -122,33 +122,17 @@ var TabEvent = (function (_super) {
         ;
     };
     TabEvent.prototype.onMouseover_Selection = function (evt) {
+        this.removeOver();
+        evt.target.parent.isOver = true;
+        var id = evt.target.parent.labelText;
+        this.editGroup.triggerMaskById(id);
+    };
+    TabEvent.prototype.removeOver = function () {
         for (var i = 0, len = this.gp_selection.numChildren; i < len; i++) {
             var item = this.gp_selection.getChildAt(i);
             item.isOver = false;
         }
         ;
-        evt.target.parent.isOver = true;
-        var id = evt.target.parent.labelText;
-        console.log('id = ' + id);
-        var displayList = this.editGroup.displayList;
-        var transform;
-        for (var i = 0, len = displayList.length; i < len; i++) {
-            var item = displayList[i];
-            if (item.image.data.id == id) {
-                transform = item.transform;
-                break;
-            }
-        }
-        ;
-        console.log('transform...');
-        console.log(transform);
-        var maskTool = this.editGroup.maskTool;
-        if (!transform) {
-            maskTool.removeMask();
-            return;
-        }
-        maskTool.setPreTarget(transform);
-        maskTool.addMask();
     };
     TabEvent.prototype.onClick_Selection = function (evt) {
         evt.stopPropagation();
@@ -204,4 +188,3 @@ var TabEvent = (function (_super) {
     return TabEvent;
 }(eui.Component));
 __reflect(TabEvent.prototype, "TabEvent", ["IUUContainer"]);
-//# sourceMappingURL=TabEvent.js.map

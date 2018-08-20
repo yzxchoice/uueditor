@@ -24,11 +24,27 @@ var Select = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddedToStage, _this);
         return _this;
     }
+    Select.prototype.dispose = function () {
+    };
+    Select.prototype.draw = function (container) {
+    };
     Select.prototype.onAddedToStage = function () {
         this.init();
     };
     Select.prototype.init = function () {
         this.listenEvent();
+    };
+    Select.prototype.setDefaultItem = function (item) {
+        this.stateObj.selectedItem = item;
+    };
+    Select.prototype.setDataContainer = function (dataContainer) {
+        this.dataContainer = dataContainer;
+    };
+    Select.prototype.hide = function () {
+        this.stateObj.selectionVisible = false;
+    };
+    Select.prototype.output = function () {
+        this.dataContainer.getFontFamily(this.stateObj.selectedItem);
     };
     Select.prototype.listenEvent = function () {
         this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
@@ -49,6 +65,8 @@ var Select = (function (_super) {
         group.addChild(shape);
         var label = new eui.Label();
         label.text = obj.content;
+        label.textColor = 0x000000;
+        label.size = 24;
         label.width = this.itemWidth;
         label.height = this.itemHeight;
         group.addChild(label);
@@ -57,7 +75,6 @@ var Select = (function (_super) {
     Select.prototype.touchSelection2 = function (evt) {
         evt.stopPropagation();
         this.stateObj.selectionVisible = !this.stateObj.selectionVisible;
-        this.gp_selection_box.visible = this.stateObj.selectionVisible;
         if (this.stateObj.selectionVisible) {
             this.gp_selection.removeChildren();
             for (var j = 0, num = this.selectData.length; j < num; j++) {
@@ -71,27 +88,31 @@ var Select = (function (_super) {
             this.gp_selection.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick_Selection, this);
         }
         ;
-        this.getChildByName;
     };
     Select.prototype.onMouseover_Selection = function (evt) {
         var target = evt.target;
-        console.log('mouse...');
-        console.log(target);
         if (target instanceof eui.Group)
             return;
+        this.removeOverState();
         var shape = target.parent.getChildByName('shape');
         shape.visible = true;
-        console.log(shape);
     };
     Select.prototype.removeOverState = function () {
         for (var i = 0, len = this.gp_selection.numChildren; i < len; i++) {
             var item = this.gp_selection.getChildAt(i);
             var shape = item.getChildByName('shape');
+            shape.visible = false;
         }
     };
     Select.prototype.onClick_Selection = function (evt) {
-        console.log('click...');
+        var target = evt.target;
+        if (target instanceof eui.Group)
+            return;
+        var text = target.text;
+        this.stateObj.selectedItem = text;
+        this.stateObj.selectionVisible = false;
+        this.output();
     };
     return Select;
 }(eui.Component));
-__reflect(Select.prototype, "Select");
+__reflect(Select.prototype, "Select", ["IUUContainer"]);

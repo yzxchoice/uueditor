@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="SelectSkin" width="200" height="240" xmlns:e="http://ns.egret.com/eui">
     <e:Group x="0" y="0" height="40" width="200">
-        <e:Rect width="100%" height="40" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xfcfffe" strokeColor="0xdbd2d2" ellipseWidth="10" ellipseHeight="10" strokeWeight="2"/>
-        <e:Label id="gp_selection_rect" text="{stateObj.selectedItem}" x="0" y="1" width="100%" height="40" textColor="0xccc3c3" size="20" textAlign="center" verticalAlign="middle" name="gp_selection_rect"/>
-        <e:Group id="gp_selection_box" width="100%" height="160" x="0" y="40">
+        <e:Rect width="100%" height="40" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xfcfffe" strokeColor="0xdbd2d2" ellipseWidth="10" ellipseHeight="10" strokeWeight="2" strokeAlpha="0"/>
+        <e:Label id="gp_selection_rect" text="{stateObj.selectedItem}" x="10" y="1" width="100%" height="40" size="20" textAlign="left" verticalAlign="middle" name="gp_selection_rect" textColor="0x000000"/>
+        <e:Group id="gp_selection_box" width="100%" height="160" x="0" y="40" visible="{stateObj.selectionVisible}">
             <e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xe2e0e0"/>
             <e:Scroller width="100%" height="100%" x="0" y="0" enabled="true" skinName="skins.ScrollerSkin">
                 <e:Group id="gp_selection" width="100%" height="100%">
-									<e:layout>
-										<e:VerticalLayout horizontalAlign="left" verticalAlign="top" paddingTop="5" gap="0" paddingLeft="0"/>
-									</e:layout>
-								</e:Group>
+                    <e:layout>
+                        <e:VerticalLayout horizontalAlign="left" verticalAlign="top" paddingTop="5" gap="0" paddingLeft="0"/>
+                    </e:layout>
+                </e:Group>
             </e:Scroller>
         </e:Group>
     </e:Group>

@@ -298,9 +298,37 @@ var EditGroup = (function (_super) {
         this.pageIndex = event.data.pageIndex;
         this.renderResources(this.pageIndex);
     };
-    EditGroup.prototype.refresh = function () {
-        this.reset();
-        this.renderResources(this.pageIndex);
+    // 更新显示对象
+    EditGroup.prototype.updateDisplay = function (display) {
+        this.updateDisplayProps(display);
+        display.draw(this);
+    };
+    EditGroup.prototype.updateDisplayProps = function (display) {
+        var image = display.image;
+        var props = image.data.props;
+        for (var key in props) {
+            image[key] = props[key];
+        }
+    };
+    // 使用图形遮罩
+    EditGroup.prototype.triggerMaskById = function (imageId) {
+        var id = imageId;
+        var displayList = this.displayList;
+        var transform;
+        for (var i = 0, len = displayList.length; i < len; i++) {
+            var item = displayList[i];
+            if (item.image.data.id == id) {
+                transform = item.transform;
+                break;
+            }
+        }
+        ;
+        if (!transform) {
+            this.maskTool.removeMask();
+            return;
+        }
+        this.maskTool.setPreTarget(transform);
+        this.maskTool.addMask();
     };
     EditGroup.prototype.addSinglePicture = function (data) {
         RES.getResByUrl("resource/" + data.url, function (texture) {
@@ -514,10 +542,11 @@ var EditGroup = (function (_super) {
                 "y": m.y
             },
             "props": {
-                textColor: '0x000000',
+                text: '请输入文本',
+                fontFamily: 'Arial',
                 size: 40,
+                textColor: '0x000000',
             },
-            content: '请输入文本',
             "src": '',
             "sceneId": 1001
         };
@@ -530,4 +559,3 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
-//# sourceMappingURL=EditGroup.js.map

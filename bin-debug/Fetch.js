@@ -47,4 +47,3 @@ var Fetch = (function () {
     return Fetch;
 }());
 __reflect(Fetch.prototype, "Fetch");
-//# sourceMappingURL=Fetch.js.map

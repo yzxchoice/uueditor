@@ -24,6 +24,7 @@ declare class TabEvent extends eui.Component implements IUUContainer {
     getTargetItemId(): void;
     private touchSelection2(evt);
     private onMouseover_Selection(evt);
+    private removeOver();
     private onClick_Selection(evt);
     private drawEventSet(eventSetMessage);
     private pushEventSet(eventSetMessage);
