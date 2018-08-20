@@ -142,32 +142,36 @@ var Main = (function (_super) {
                 switch (_a.label) {
                     case 0:
                         egret.log(this.getQueryString()['id']);
-                        id = this.getQueryString()['id'];
+                        id = this.getQueryString()['id'] || 2;
                         Main.id = id || '';
                         path = id ? '/' + id : '';
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 5, , 6]);
+                        _a.trys.push([1, 7, , 8]);
                         loadingView = new LoadingUI();
                         this.stage.addChild(loadingView);
-                        return [4 /*yield*/, RES.loadConfig("resource" + path + "/default.res.json", "resource/" + path)];
+                        return [4 /*yield*/, RES.loadConfig("resource/default.res.json", "resource/")];
                     case 2:
                         _a.sent();
-                        // await RES.loadConfig("resource/default.res.json", "resource/");
-                        return [4 /*yield*/, this.loadTheme()];
+                        return [4 /*yield*/, RES.loadConfig("resource/" + Main.id + "/template.json", "resource/")];
                     case 3:
-                        // await RES.loadConfig("resource/default.res.json", "resource/");
                         _a.sent();
-                        return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
+                        return [4 /*yield*/, this.loadTheme()];
                     case 4:
                         _a.sent();
-                        this.stage.removeChild(loadingView);
-                        return [3 /*break*/, 6];
+                        return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
                     case 5:
+                        _a.sent();
+                        return [4 /*yield*/, RES.loadGroup("preloadpic", 1, loadingView)];
+                    case 6:
+                        _a.sent();
+                        this.stage.removeChild(loadingView);
+                        return [3 /*break*/, 8];
+                    case 7:
                         e_1 = _a.sent();
                         console.error(e_1);
-                        return [3 /*break*/, 6];
-                    case 6: return [2 /*return*/];
+                        return [3 /*break*/, 8];
+                    case 8: return [2 /*return*/];
                 }
             });
         });
@@ -222,3 +226,4 @@ var Main = (function (_super) {
     return Main;
 }(eui.UILayer));
 __reflect(Main.prototype, "Main");
+//# sourceMappingURL=Main.js.map

@@ -348,7 +348,7 @@ class EditGroup extends eui.Group {
     }
 
     addSinglePicture (data: uiData) {
-        RES.getResByUrl("resource/"+Main.id+"/assets/Pic/"+data.url, function(texture:egret.Texture):void {
+        RES.getResByUrl("resource/"+data.url, function(texture:egret.Texture):void {
             var m = new Matrix(1,0,0,1,300,300);
             var result: UUBitmap = new UUBitmap();
             result.texture = texture;
@@ -371,7 +371,7 @@ class EditGroup extends eui.Group {
                     "y": m.y
                 },
                 "props": {},                
-                "src": "resource/"+Main.id+"/assets/Pic/" + data.url,
+                "src": data.url,
                 "sceneId": 1001
             })
             
@@ -385,7 +385,7 @@ class EditGroup extends eui.Group {
     }
 
     changeBg (data: uiData) {
-        RES.getResByUrl("resource/"+Main.id+"/assets/Background/"+data.url, function(texture:egret.Texture):void {
+        RES.getResByUrl("resource/"+data.url, function(texture:egret.Texture):void {
             var m = new Matrix(this.displayGroup.width/texture.bitmapData.width,0,0,this.displayGroup.width/texture.bitmapData.width,0,0);
             var bg:UUBitmap = new UUBitmap();
             bg.texture = texture;        
@@ -413,7 +413,7 @@ class EditGroup extends eui.Group {
                     "y": m.y
                 },
                 "props": {},
-                "src": "resource/"+Main.id+"/assets/Background/" + data.url,
+                "src": data.url,
                 "sceneId": 1001
             })
             bg.name = data.id;
@@ -450,7 +450,7 @@ class EditGroup extends eui.Group {
             "sound": {
                 "id": data.id,
                 "name": n,
-                "src": "resource/"+Main.id+"/assets/" + data.url
+                "src": data.url
             },
             "sceneId": 1001
         })

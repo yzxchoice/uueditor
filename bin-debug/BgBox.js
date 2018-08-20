@@ -77,7 +77,7 @@ var BgBox = (function (_super) {
             bg.graphics.endFill();
             borderGroup.addChild(bg);
             var image = new UUImage();
-            image.source = "resource/" + Main.id + "/assets/Background/" + this.imgList[i].url;
+            image.source = "resource/assets/bg/" + this.imgList[i].url;
             image.width = 100;
             image.height = 100;
             image.name = this.imgList[i].id;
@@ -99,3 +99,4 @@ var BgBox = (function (_super) {
     return BgBox;
 }(eui.Panel));
 __reflect(BgBox.prototype, "BgBox");
+//# sourceMappingURL=BgBox.js.map

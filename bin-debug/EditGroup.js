@@ -303,7 +303,7 @@ var EditGroup = (function (_super) {
         this.renderResources(this.pageIndex);
     };
     EditGroup.prototype.addSinglePicture = function (data) {
-        RES.getResByUrl("resource/" + Main.id + "/assets/Pic/" + data.url, function (texture) {
+        RES.getResByUrl("resource/" + data.url, function (texture) {
             var m = new Matrix(1, 0, 0, 1, 300, 300);
             var result = new UUBitmap();
             result.texture = texture;
@@ -325,7 +325,7 @@ var EditGroup = (function (_super) {
                     "y": m.y
                 },
                 "props": {},
-                "src": "resource/" + Main.id + "/assets/Pic/" + data.url,
+                "src": data.url,
                 "sceneId": 1001
             });
             result.name = data.id;
@@ -335,7 +335,7 @@ var EditGroup = (function (_super) {
         }, this, RES.ResourceItem.TYPE_IMAGE);
     };
     EditGroup.prototype.changeBg = function (data) {
-        RES.getResByUrl("resource/" + Main.id + "/assets/Background/" + data.url, function (texture) {
+        RES.getResByUrl("resource/" + data.url, function (texture) {
             var m = new Matrix(this.displayGroup.width / texture.bitmapData.width, 0, 0, this.displayGroup.width / texture.bitmapData.width, 0, 0);
             var bg = new UUBitmap();
             bg.texture = texture;
@@ -361,7 +361,7 @@ var EditGroup = (function (_super) {
                     "y": m.y
                 },
                 "props": {},
-                "src": "resource/" + Main.id + "/assets/Background/" + data.url,
+                "src": data.url,
                 "sceneId": 1001
             });
             bg.name = data.id;
@@ -396,7 +396,7 @@ var EditGroup = (function (_super) {
             "sound": {
                 "id": data.id,
                 "name": n,
-                "src": "resource/" + Main.id + "/assets/" + data.url
+                "src": data.url
             },
             "sceneId": 1001
         });
@@ -530,3 +530,4 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
+//# sourceMappingURL=EditGroup.js.map
