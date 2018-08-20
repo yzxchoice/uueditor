@@ -11,11 +11,12 @@
 		"libs/modules/mouse/mouse.js",
 		"libs/modules/uulib/uulib.js",
 		"libs/modules/keyboard/keyboard.js",
-		"libs/modules/gesture/gesture.js"
+		"libs/modules/gesture/gesture.js",
+		"libs/modules/demo/demo.js"
 	],
 	"game": [
-		"bin-debug/PageBox.js",
 		"bin-debug/ActionBox.js",
+		"bin-debug/AssetAdapter.js",
 		"bin-debug/BgBox.js",
 		"bin-debug/checkItem.js",
 		"bin-debug/ComponentBox.js",
@@ -29,7 +30,7 @@
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/NewFile.js",
-		"bin-debug/AssetAdapter.js",
+		"bin-debug/PageBox.js",
 		"bin-debug/PageEvent.js",
 		"bin-debug/PageItem.js",
 		"bin-debug/Platform.js",
