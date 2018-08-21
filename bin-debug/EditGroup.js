@@ -234,6 +234,11 @@ var EditGroup = (function (_super) {
         ;
     };
     EditGroup.prototype.renderResources = function (index) {
+        var lable = new UULabel();
+        var j;
+        for (var key in j) {
+            console.log(key);
+        }
         var list = [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground];
         var i = 0;
         var elements = this.pages[index].elements;

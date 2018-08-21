@@ -11,8 +11,7 @@
 		"libs/modules/mouse/mouse.js",
 		"libs/modules/uulib/uulib.js",
 		"libs/modules/keyboard/keyboard.js",
-		"libs/modules/gesture/gesture.js",
-		"libs/modules/demo/demo.js"
+		"libs/modules/gesture/gesture.js"
 	],
 	"game": [
 		"bin-debug/PageBox.js",

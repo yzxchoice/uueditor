@@ -265,6 +265,11 @@ class EditGroup extends eui.Group {
 
     private renderResources (index: number): void {
         
+        let lable = <ILabel>new UULabel();
+        let j:ILabel;
+        for(let key in j){
+            console.log(key);
+        }
         var list = [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground];
         var i = 0;
         var elements = this.pages[index].elements;
