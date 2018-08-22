@@ -50,24 +50,19 @@ var TabStyle = (function (_super) {
     TabStyle.prototype.onDoubleClick = function () {
         console.log("double_click");
     };
-    TabStyle.prototype.exchangeDiffGroup = function (data) {
+    TabStyle.prototype.createStyleType = function (data) {
         this.gp_diff.removeChildren();
         var type = data.type;
-        switch (type) {
-            case 1:
-                var styleType1 = new StyleType1();
-                styleType1.draw(this.gp_diff);
-                styleType1.setDataContainer(this);
-                break;
-            case 2:
-                break;
-        }
+        var props = data.props;
+        var styleType = new StyleType(type, props);
+        styleType.draw(this.gp_diff);
+        styleType.setDataContainer(this);
     };
     TabStyle.prototype.setTarget = function () {
         this.tool = this.editGroup.tool;
         console.log(this.tool);
         var data = this.tool.target.owner.image.data;
-        this.exchangeDiffGroup(data);
+        this.createStyleType(data);
     };
     TabStyle.prototype.updateTarget = function () {
         var item = this.tool.target.owner.image;

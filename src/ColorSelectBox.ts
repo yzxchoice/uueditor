@@ -26,11 +26,13 @@ class ColorSelectBox extends eui.Component{
 	}
 	private onClick(evt: egret.TouchEvent){
 		let name = evt.target.name;
-		if(!name) return;
+		if(evt.target instanceof eui.Group) return;
 		let exchange = Number(name).toString(16);
 		let pre = '0x';
 		let len = exchange.length;
-		if(len == 2){
+		if(len == 1){
+			pre += '00000';
+		}else if(len == 2){
 			pre += '0000';
 		}else if(len == 4){
 			pre += '00';

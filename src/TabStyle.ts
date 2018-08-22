@@ -48,24 +48,19 @@ class TabStyle extends eui.Component implements IUUContainer{
 	private onDoubleClick(){
 		console.log("double_click");
 	}
-	private exchangeDiffGroup(data){
-		this.gp_diff.removeChildren();		
+	private createStyleType(data){
+		this.gp_diff.removeChildren();				
 		let type = data.type;
-		switch(type){
-			case 1:
-				let styleType1: StyleType1 = new StyleType1();
-				styleType1.draw(this.gp_diff);
-				styleType1.setDataContainer(this);
-				break;
-			case 2:			
-				break;
-		}
+		let props = data.props;
+		let styleType: StyleType = new StyleType(type, props);
+		styleType.draw(this.gp_diff);
+		styleType.setDataContainer(this);		
 	}
 	public setTarget(){
 		this.tool = this.editGroup.tool;
 		console.log(this.tool);
 		let data = this.tool.target.owner.image.data;		
-		this.exchangeDiffGroup(data);
+		this.createStyleType(data);
 	}
 	public updateTarget(){
         let item = this.tool.target.owner.image;

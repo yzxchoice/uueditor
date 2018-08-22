@@ -36,12 +36,15 @@ var ColorSelectBox = (function (_super) {
     };
     ColorSelectBox.prototype.onClick = function (evt) {
         var name = evt.target.name;
-        if (!name)
+        if (evt.target instanceof eui.Group)
             return;
         var exchange = Number(name).toString(16);
         var pre = '0x';
         var len = exchange.length;
-        if (len == 2) {
+        if (len == 1) {
+            pre += '00000';
+        }
+        else if (len == 2) {
             pre += '0000';
         }
         else if (len == 4) {
