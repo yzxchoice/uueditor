@@ -24,6 +24,7 @@ declare class EditGroup extends eui.Group {
     getDynamicControl(): any;
     findControlByType(type: any): any;
     containsPoint(x: number, y: number): boolean;
+    select(event: PageEvent): void;
     selectImage(x: number, y: number): boolean;
     private renderResources(index);
     render(): void;
@@ -33,7 +34,10 @@ declare class EditGroup extends eui.Group {
     pre(event: egret.TouchEvent): void;
     next(event: egret.TouchEvent): void;
     go(event: PageEvent): void;
-    refresh(): void;
+    updateDisplay(display: Picture): void;
+    updateDisplayProps(display: Picture): void;
+    triggerMaskById(imageId: any): void;
+    addResource(data: uiData, uutype: number): void;
     addSinglePicture(data: uiData): void;
     changeBg(data: uiData): void;
     addSound(data: uiData): void;

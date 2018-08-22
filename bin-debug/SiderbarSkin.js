@@ -10,9 +10,9 @@ r.prototype = e.prototype, t.prototype = new r();
 };
 var SiderbarSkinBy = (function (_super) {
     __extends(SiderbarSkinBy, _super);
-    // private pagebox: PageBox = new PageBox();;
     function SiderbarSkinBy() {
         var _this = _super.call(this) || this;
+        _this.layerbox = new LayerBox();
         _this.skinName = "resource/skins/SiderbarSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
@@ -31,6 +31,7 @@ var SiderbarSkinBy = (function (_super) {
         ;
         return SiderbarSkinBy._instance;
     };
+    ;
     SiderbarSkinBy.prototype.onAddToStageInit = function (event) {
         this.init();
     };
@@ -39,7 +40,7 @@ var SiderbarSkinBy = (function (_super) {
         this.component_style.draw(this);
         this.component_animation.draw(this);
         this.component_event.draw(this);
-        // this.pagebox.draw(this);	
+        this.layerbox.draw(this);
         this.currentState = 'style';
     };
     SiderbarSkinBy.prototype.listenEvent = function () {

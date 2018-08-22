@@ -18,6 +18,9 @@ var PageEvent = (function (_super) {
     }
     PageEvent.PAGE_CHANGE = "pageChange";
     PageEvent.PAGE_ADD = "pageAdd";
+    PageEvent.LAYER_ADD = "layerAdd";
+    PageEvent.LAYER_CHANGE = "layerChange";
+    PageEvent.LAYER_SELECT = "layerSelect";
     return PageEvent;
 }(egret.Event));
 __reflect(PageEvent.prototype, "PageEvent");

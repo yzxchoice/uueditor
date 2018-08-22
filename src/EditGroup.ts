@@ -50,6 +50,7 @@ class EditGroup extends eui.Group {
 
         this.stage.addEventListener(Mouse.START, this.down, this);
         this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
+        this.stage.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
 
         this.render();
     }
@@ -114,7 +115,10 @@ class EditGroup extends eui.Group {
 
             this.SiderbarSkinBy.component_style.setTarget();
             this.SiderbarSkinBy.component_event.getTargetItemId();            
-            this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup
+            this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+
+            // AnimateSet.target = this.tool.target.owner.image;
+            // AnimateSet.move();
         }
         requestAnimationFrame(this.render);
         event.preventDefault();
@@ -136,11 +140,14 @@ class EditGroup extends eui.Group {
         this.tool.end();
         // console.log(this.tool.target);
         var eles = this.pages[this.pageIndex].elements;
-        for(var i = 0; i<eles.length;i++){
-            if(eles[i].id === this.tool.target.owner.image.data.id){
-                eles[i].matrix = this.tool.target.matrix;
+        if(this.tool.target){
+            for(var i = 0; i<eles.length;i++){
+                if(eles[i].id === this.tool.target.owner.image.data.id){
+                    eles[i].matrix = this.tool.target.matrix;
+                }
             }
         }
+        
 	
         this.removeEventListener(Mouse.MOVE, this.move, this);
         this.removeEventListener(Mouse.END, this.up, this);
@@ -223,6 +230,12 @@ class EditGroup extends eui.Group {
         return m.containsPoint(globalMouse.x, globalMouse.y, this.width, this.height);
     }
 
+    select (event: PageEvent) {
+        this.tool.setTarget(event.data.t.transform);
+        requestAnimationFrame(this.render);
+        event.preventDefault();
+    }
+
     selectImage (x: number, y: number) {
         var pic = null;
         var t = null;
@@ -266,20 +279,28 @@ class EditGroup extends eui.Group {
     private renderResources (index: number): void {
         
         var list = [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground];
-        var i = 0;
+        
         var elements = this.pages[index].elements;
         var n = elements.length;
-        for (i=0; i<n; i++){
+        for (let i=0; i<n; i++){
 
             var t = LayerSet.getLayer(list, elements[i].type)[0];
             var com = LayerSet.createInstance(t,elements[i].props);
             var texture:egret.Texture = RES.getRes(elements[i].name);
-            com.texture = texture;
             com.name = elements[i].id;
             com.data = elements[i];
-            this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==99?false:true));
+            if(!texture && com.data.hasOwnProperty('src')){
+                RES.getResByUrl("resource/"+elements[i].src, function(texture:egret.Texture):void {
+                    com.texture = texture;
+                    
+                    this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==99?false:true));
+                }, this, RES.ResourceItem.TYPE_IMAGE);
+            }else {
+                com.texture = texture;
+                this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==99?false:true));
+            }
             
-        }
+        }   
 
         requestAnimationFrame(this.render);
     }
@@ -288,6 +309,8 @@ class EditGroup extends eui.Group {
         this.clear();
         this.drawDisplayList();
         this.tool.draw();
+        
+        
     }
 
     clear () {
@@ -341,10 +364,57 @@ class EditGroup extends eui.Group {
         this.pageIndex = event.data.pageIndex;
         this.renderResources(this.pageIndex);
     }
+    // 更新显示对象
+    updateDisplay(display: Picture){
+        this.updateDisplayProps(display);
+        display.draw(this);
+    }
 
-    refresh(){
-        this.reset();
-        this.renderResources(this.pageIndex);
+    updateDisplayProps(display: Picture){
+        let image = display.image;
+        let props = image.data.props;
+        for(let key in props){
+            image[key] = props[key];
+        }
+    }
+    // 使用图形遮罩
+    public triggerMaskById(imageId){
+		let id = imageId;
+		let displayList = this.displayList;
+		let transform: Transformable;
+		for(let i = 0, len = displayList.length; i < len; i++){
+			let item = <Picture>displayList[i];
+			if(item.image.data.id == id){
+				transform = item.transform;
+				break;
+			}
+		};
+		if(!transform){
+			this.maskTool.removeMask();
+			return;
+		}
+		this.maskTool.setPreTarget(transform);
+		this.maskTool.addMask();
+	}
+
+    addResource (data: uiData, uutype: number) {
+        switch (uutype) {
+            case UUType.IMAGE:  
+                this.addSinglePicture(data)
+                break;
+            case UUType.BACKGROUND:
+                this.changeBg(data)
+                break;
+            case UUType.FRAME:  
+                this.addFrame(data)
+                break;
+            case UUType.CIRCLE_SECTOR:
+                this.addComponent(data)
+                break;
+            case UUType.SOUND:
+                this.addSound(data)
+                break;
+        }
     }
 
     addSinglePicture (data: uiData) {
@@ -352,16 +422,14 @@ class EditGroup extends eui.Group {
             var m = new Matrix(1,0,0,1,300,300);
             var result: UUBitmap = new UUBitmap();
             result.texture = texture;
-            // this.addChild(result);
-            // var n = url.substring(url.lastIndexOf("/")+1);
             var eles = this.pages[this.pageIndex].elements;
             
             data.id = data.id + '-'+ this.displayList.length;
             eles.push({
                 "id": data.id,
-                "name": data.name,
+                "name": data.url.substring(data.url.lastIndexOf("/")+1).replace('.','_'),
                 "pageId": 201807311008,
-                "type": 2,
+                "type": UUType.IMAGE,
                 "matrix": {
                     "a": m.a,
                     "b": m.b,
@@ -379,6 +447,7 @@ class EditGroup extends eui.Group {
             result.name = data.id;
             result.data = data;
             this.displayList.push(new Picture(result, m));
+            this.dispatchEvent(new PageEvent(PageEvent.LAYER_ADD, true));
             requestAnimationFrame(this.render);
         }, this, RES.ResourceItem.TYPE_IMAGE);
 
@@ -394,7 +463,6 @@ class EditGroup extends eui.Group {
             data.id = data.id + '-'+ this.displayList.length;              
             
             if(eles.length > 0 && eles[0].type == 99){
-                // this.displayGroup.removeChildAt(0);
                 this.displayList[0].undraw(this.displayGroup);
                 this.displayList.splice(0,1);
                 eles.splice(0,1);
@@ -403,7 +471,7 @@ class EditGroup extends eui.Group {
                 "id": data.id,
                 "name": data.name,
                 "pageId": 201807311008,
-                "type": 99,
+                "type": UUType.BACKGROUND,
                 "matrix": {
                     "a": m.a,
                     "b": m.b,
@@ -434,7 +502,7 @@ class EditGroup extends eui.Group {
             "id": data.id,
             "name": n,
             "pageId": 201807311008,
-            "type": 18,
+            "type": UUType.SOUND,
             "matrix": {
                 "a": m.a,
                 "b": m.b,
@@ -487,7 +555,7 @@ class EditGroup extends eui.Group {
             "id": data.id,
             "name": n,
             "pageId": 201807311008,
-            "type": 101,
+            "type": UUType.CIRCLE_SECTOR,
             "matrix": {
                 "a": m.a,
                 "b": m.b,
@@ -521,7 +589,7 @@ class EditGroup extends eui.Group {
             "id": data.id,
             "name": n,
             "pageId": 201807311008,
-            "type": 102,
+            "type": UUType.FRAME,
             "matrix": {
                 "a": m.a,
                 "b": m.b,
@@ -568,7 +636,7 @@ class EditGroup extends eui.Group {
             "id": id,
             "name": `text${id}`,
             "pageId": 201807311008,
-            "type": 1,
+            "type": UUType.TEXT,
             "matrix": {
                 "a": m.a,
                 "b": m.b,
@@ -578,11 +646,11 @@ class EditGroup extends eui.Group {
                 "y": m.y
             },
             "props": {
-                textColor: '0x000000',
+                text: '请输入文本',                                          
+                fontFamily: 'Arial',                
                 size: 40,
+                textColor: '0x000000',                
             }, 
-            content: '请输入文本',          
-            "src": '',
             "sceneId": 1001
         }; 
         eles.push(data)

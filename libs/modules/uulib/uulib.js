@@ -241,6 +241,7 @@ var SoundButton = (function (_super) {
     __extends(SoundButton, _super);
     function SoundButton() {
         var _this = _super.call(this) || this;
+        _this.layerName = '声音';
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -253,7 +254,7 @@ var SoundButton = (function (_super) {
     SoundButton.uuType = UUType.SOUND;
     return SoundButton;
 }(eui.Button));
-__reflect(SoundButton.prototype, "SoundButton");
+__reflect(SoundButton.prototype, "SoundButton", ["IUUBase"]);
 /**
  * 自定义操作框
  */
@@ -642,15 +643,15 @@ var Picture = (function () {
         // if(this.image.data.pro)
     }
     Picture.prototype.draw = function (container) {
-        console.log('Picture draw...');
-        var data = this.image.data;
-        if (data.type == 1) {
-            data.props = data.props || {};
-            var _a = data.props, size = _a.size, textColor = _a.textColor;
-            this.image.text = data.content;
-            this.image.textColor = textColor || 0x000000;
-            this.image.size = size || 40;
-        }
+        console.log('Picture draww22223333...');
+        // let data = this.image.data;
+        // if(data.type == 1){
+        //     data.props = data.props || {};
+        //     let { size, textColor } = data.props;              
+        //     this.image.text = data.content;
+        //     this.image.textColor = textColor || 0x000000;
+        //     this.image.size = size || 40;
+        // }
         var m = this.transform.matrix;
         this.image.matrix = new egret.Matrix(m.a, m.b, m.c, m.d, m.x, m.y);
         container.addChild(this.image);
@@ -934,10 +935,18 @@ var Preview = (function (_super) {
             var t = LayerSet.getLayer(list, elements[i].type)[0];
             var com = LayerSet.createInstance(t, elements[i].props);
             var texture = RES.getRes(elements[i].name);
-            com.texture = texture;
             com.name = elements[i].id;
             com.data = elements[i];
-            this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == 99 ? false : true));
+            if (!texture && com.data.hasOwnProperty('src')) {
+                RES.getResByUrl("resource/" + elements[i].src, function (texture) {
+                    com.texture = texture;
+                    this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == 99 ? false : true));
+                }, this, RES.ResourceItem.TYPE_IMAGE);
+            }
+            else {
+                com.texture = texture;
+                this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == 99 ? false : true));
+            }
         }
         requestAnimationFrame(this.render);
     };
@@ -983,6 +992,7 @@ var CircleSector = (function (_super) {
     __extends(CircleSector, _super);
     function CircleSector() {
         var _this = _super.call(this) || this;
+        _this.layerName = '转盘';
         _this.awards = [
             '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '土豪金项链'
         ];
@@ -1131,7 +1141,7 @@ var CircleSector = (function (_super) {
     CircleSector.uuType = UUType.CIRCLE_SECTOR;
     return CircleSector;
 }(eui.Group));
-__reflect(CircleSector.prototype, "CircleSector", ["IUUContainer"]);
+__reflect(CircleSector.prototype, "CircleSector", ["IUUBase", "IUUContainer"]);
 var Transformable = (function () {
     function Transformable(width, height, matrix, owner) {
         this.width = 0;
@@ -1572,12 +1582,14 @@ __reflect(BaseUI.prototype, "BaseUI");
 var UUBackground = (function (_super) {
     __extends(UUBackground, _super);
     function UUBackground() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.layerName = '背景';
+        return _this;
     }
     UUBackground.uuType = UUType.BACKGROUND;
     return UUBackground;
 }(eui.Image));
-__reflect(UUBackground.prototype, "UUBackground");
+__reflect(UUBackground.prototype, "UUBackground", ["IUUBase"]);
 // TypeScript file
 /**
  * 图形基类
@@ -1585,11 +1597,13 @@ __reflect(UUBackground.prototype, "UUBackground");
 var UUBitmap = (function (_super) {
     __extends(UUBitmap, _super);
     function UUBitmap() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.layerName = '图片';
+        return _this;
     }
     return UUBitmap;
 }(egret.Bitmap));
-__reflect(UUBitmap.prototype, "UUBitmap");
+__reflect(UUBitmap.prototype, "UUBitmap", ["IUUBase"]);
 // TypeScript file
 var UUContainer = (function (_super) {
     __extends(UUContainer, _super);
@@ -1613,7 +1627,7 @@ var UUContainer = (function (_super) {
     UUContainer.uuType = UUType.FRAME;
     return UUContainer;
 }(eui.Group));
-__reflect(UUContainer.prototype, "UUContainer");
+__reflect(UUContainer.prototype, "UUContainer", ["IUUBase"]);
 // TypeScript file
 /**
  * 图片组件
@@ -1621,12 +1635,14 @@ __reflect(UUContainer.prototype, "UUContainer");
 var UUImage = (function (_super) {
     __extends(UUImage, _super);
     function UUImage() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.layerName = '图片';
+        return _this;
     }
     UUImage.uuType = UUType.IMAGE;
     return UUImage;
 }(eui.Image));
-__reflect(UUImage.prototype, "UUImage");
+__reflect(UUImage.prototype, "UUImage", ["IUUBase"]);
 /**
  * 文字组件
  */
@@ -1634,6 +1650,7 @@ var UULabel = (function (_super) {
     __extends(UULabel, _super);
     function UULabel() {
         var _this = _super.call(this) || this;
+        _this.layerName = '文字';
         _this.text = '双击此处进行编辑';
         _this.textColor = 0xff000;
         _this.size = 16;

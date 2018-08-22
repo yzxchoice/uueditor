@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="StyleType1Skin" width="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="StyleType1Skin" width="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
 	<e:Group width="100%" x="0" y="0">
-		<e:Rect width="100%" x="0" y="0" fillColor="0xebf4f1" height="100%"/>
+		<e:Rect width="100%" x="0" y="0" fillColor="0xebf4f1" height="100%" locked="true"/>
 		<e:Group id="gp_styleContainer" width="100%" x="0" y="0">
 			<e:Group width="100%" height="70" x="0" y="0">
-				<e:Label text="文本" x="119" y="19" textColor="0x050000" size="24"/>
-				<e:TextInput width="400" height="30" x="342" y="20" skinName="skins.TextInputSkin" anchorOffsetX="0" enabled="true" text="{stateObj.content}" name="text"/>
+				<e:Label text="文本" x="119" y="19" textColor="0x050000" size="24" fontFamily="Arial"/>
+				<e:TextInput width="400" height="30" x="342" y="20" skinName="skins.TextInputSkin" anchorOffsetX="0" enabled="true" text="{stateObj.props.text}" name="text"/>
 				<e:layout>
 				<e:HorizontalLayout verticalAlign="middle" horizontalAlign="left" paddingLeft="20" gap="20"/>
 				</e:layout>
 			</e:Group>
-			<e:Group width="100%" height="70" x="0" y="0">
+			<e:Group id="gp_style_fontFamily" width="100%" height="70" x="0" y="70">
 				<e:Label text="字体" x="119" y="19" textColor="0x050000" size="24"/>
-				<e:TextInput width="200" height="30" x="342" y="20" skinName="skins.TextInputSkin" anchorOffsetX="0" enabled="true" text="{stateObj.props.fontFamily}" name="fontFamily"/>
+				<e:Group id="gp_style_fontFamily_select" width="200" x="99" y="17" height="40">
+					<e:layout>
+						<e:VerticalLayout verticalAlign="middle" horizontalAlign="left"/>
+					</e:layout>
+				</e:Group>
 				<e:layout>
 				<e:HorizontalLayout verticalAlign="middle" horizontalAlign="left" paddingLeft="20" gap="20"/>
 				</e:layout>
 			</e:Group>
-			<e:Group width="100%" height="70" x="0" y="0" scaleX="1" scaleY="1">
+			<e:Group width="100%" height="70" x="0" y="140" scaleX="1" scaleY="1">
 				<e:Label text="字号" x="119" y="19" textColor="0x050000" size="24"/>
 				<e:TextInput width="200" height="30" x="342" y="20" skinName="skins.TextInputSkin" anchorOffsetX="0" enabled="true" text="{stateObj.props.size}" name="size"/>
 				<e:layout>
 				<e:HorizontalLayout verticalAlign="middle" horizontalAlign="left" paddingLeft="20" gap="20"/>
 				</e:layout>
 			</e:Group>
-			<e:Group width="100%" height="70" x="0" y="0" scaleX="1" scaleY="1">
+			<e:Group width="100%" height="70" x="0" y="210" scaleX="1" scaleY="1">
 				<e:Label text="颜色" x="119" y="19" textColor="0x050000" size="24"/>
 				<e:TextInput width="200" height="30" x="342" y="20" skinName="skins.TextInputSkin" anchorOffsetX="0" enabled="true" text="{stateObj.props.textColor}" name="textColor"/>
+				<e:Label id="lb_selectColor" text="选择" x="301" y="34" size="16" textColor="0x1593ff"/>
 				<e:layout>
 				<e:HorizontalLayout verticalAlign="middle" horizontalAlign="left" paddingLeft="20" gap="20"/>
 				</e:layout>
 			</e:Group>
 			<e:layout>
-				<e:VerticalLayout gap="0"/>
+				<e:BasicLayout/>
 			</e:layout>
 		</e:Group>
 		<e:layout>

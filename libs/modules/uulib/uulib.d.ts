@@ -80,6 +80,10 @@ interface IUUBase {
      * 组件数据
      */
     data: any;
+    /**
+     * 图层名称
+     */
+    layerName?: string;
 }
 declare class LayerSet {
     static layerClass: any;
@@ -95,8 +99,9 @@ interface uiData {
 /**
  * 声音组件
  */
-declare class SoundButton extends eui.Button implements BaseUI {
+declare class SoundButton extends eui.Button implements IUUBase {
     data: uiData;
+    layerName: string;
     static uuType: UUType;
     constructor();
     private onAddToStage(event);
@@ -242,8 +247,9 @@ declare class Preview extends eui.Group {
 /**
  * 转盘组件
  */
-declare class CircleSector extends eui.Group implements BaseUI, IUUContainer {
+declare class CircleSector extends eui.Group implements IUUBase, IUUContainer {
     data: any;
+    layerName: string;
     container: any;
     static uuType: UUType;
     draw(): void;
@@ -341,17 +347,19 @@ declare class BaseUI {
 /**
  * 背景
  */
-declare class UUBackground extends eui.Image implements BaseUI {
+declare class UUBackground extends eui.Image implements IUUBase {
     data: any;
+    layerName: string;
     static uuType: UUType;
 }
 /**
  * 图形基类
  */
-declare class UUBitmap extends egret.Bitmap implements BaseUI {
+declare class UUBitmap extends egret.Bitmap implements IUUBase {
     data: any;
+    layerName: string;
 }
-declare class UUContainer extends eui.Group implements BaseUI {
+declare class UUContainer extends eui.Group implements IUUBase {
     data: any;
     items: any[];
     static uuType: UUType;
@@ -362,8 +370,9 @@ declare class UUContainer extends eui.Group implements BaseUI {
 /**
  * 图片组件
  */
-declare class UUImage extends eui.Image implements BaseUI {
+declare class UUImage extends eui.Image implements IUUBase {
     data: any;
+    layerName: string;
     static uuType: UUType;
 }
 interface ILabel extends IUUBase {
@@ -378,6 +387,7 @@ interface ILabel extends IUUBase {
  */
 declare class UULabel extends eui.Label implements ILabel {
     data: any;
+    layerName: string;
     text: string;
     textColor: any;
     size: number;

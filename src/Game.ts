@@ -18,11 +18,7 @@ class Game extends eui.Component {
 
     public editGroup: EditGroup = new EditGroup();
     public header: Header = new Header();
-    public imgBox: ImageBox = new ImageBox();
-    public bgBox: BgBox = new BgBox();
-    public soundBox: SoundBox = new SoundBox();
-    public comBox: ComponentBox = new ComponentBox();
-    public frameBox: FrameBox = new FrameBox();
+    public imgBox: ImageBox = ImageBox.getInstance();
     public siderbarSkinBy: SiderbarSkinBy = SiderbarSkinBy.getInstance();
 
     private initEui() {
@@ -33,17 +29,6 @@ class Game extends eui.Component {
         editContaier.x = 0;
         editContaier.y = 110;
         this.addChild(editContaier);
-
-        // var img = new eui.Image("resource/assets/phone16.png");
-        // img.width = 393*1.5;
-        // img.height = 796*1.5;
-        // editContaier.addChild(img);
-
-        // var img = new eui.Image("resource/assets/phonewhite.svg");
-        // img.width = 328*1.5;
-        // img.height = 560*1.5;
-        // this.editGroup.horizontalCenter = 0;
-        // this.editGroup.verticalCenter = 0;
 
         var bg:egret.Shape = new egret.Shape;
         // bg.graphics.lineStyle(3,0x999999);
@@ -57,8 +42,6 @@ class Game extends eui.Component {
         this.editGroup.x = 0;
         this.editGroup.y = 0;
         this.editGroup.scrollEnabled = true;
-        // this.drawBg(this.editGroup);
-        // this.editGroup.addChild(img);
         editContaier.addChild(this.editGroup);
         
         this.header.x = 0;
@@ -72,8 +55,6 @@ class Game extends eui.Component {
         this.siderbarSkinBy.x = 1920 - 500;
         this.siderbarSkinBy.y = this.header.height + 10;
         this.siderbarSkinBy.draw(this);
-        // this.addChild(this.siderbarSkinBy);
-        // console.log(this.siderbarSkinBy.data);
 
         var hLayout:eui.HorizontalLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;
@@ -105,23 +86,28 @@ class Game extends eui.Component {
     }
 
     openComponentPanel () {
-        this.comBox.open(this);
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, {tag: 101}, UUType.CIRCLE_SECTOR);
     }
 
     openFramePanel () {
-        this.frameBox.open(this);
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, {tag: 102}, UUType.FRAME);
     }
 
     openSoundePanel () {
-        this.soundBox.open(this);
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, {tag: 18}, UUType.SOUND);
     }
 
     openImagePanel () {
         this.imgBox.open(this);
+        this.imgBox.getResources(getImages, {tag: 1}, UUType.IMAGE);
     }
 
     openBgPanel () {
-        this.bgBox.open(this);
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, {tag: 2}, UUType.BACKGROUND);
     }
 
     closeImagePanel () {
@@ -137,86 +123,5 @@ class Game extends eui.Component {
         container.addChild(border);
     }
 
-
-
-
-    /**
-     * 创建游戏场景
-     * Create a game scene
-     */
-    // private createGameScene(): void {
-
-    //     // this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
-    //     this.createMotorcycleExp();
-    // }
-    // /**
-    //  * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-    //  * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
-    //  */
-    // private createBitmapByName(name: string): egret.Bitmap {
-    //     var result: egret.Bitmap = new egret.Bitmap();
-    //     var texture: egret.Texture = RES.getRes(name);
-    //     result.texture = texture;
-    //     return result;
-    // }
-    // /**骨骼角色拥有的动作列表**/
-    // private actionArray;
-    // /**骨骼角色执行的当前动作索引**/
-    // private actionFlag;
-    // /**存放骨骼动画的容器**/
-    // private container;
-    // /**骨骼的实体数据**/
-    // private armature;
-    // /**骨骼的可视对象**/
-    // private armatureDisplay;
-    // /**创建骨骼模型**/
-    // private createMotorcycleExp():void
-    // {
-    //     this.actionArray = ["stop","run","run2","squat","oneLegStand","oneLegStand2","float","pushUp"]
-    //     this.container = new egret.DisplayObjectContainer();
-
-    //     // this.addChild(this.container);
-    //     this.container.x = 250;
-    //     this.container.y = 350;
-
-    //     //读取一个骨骼数据,并创建实例显示到舞台
-    //     var skeletonData = RES.getRes("skeleton_json");
-    //     var textureData = RES.getRes("skeleton_tex_json");
-    //     var texture = RES.getRes("skeleton_tex_png");
-
-    //     var factory = new dragonBones.EgretFactory();
-    //     factory.addDragonBonesData(dragonBones.DataParser.parseDragonBonesData(skeletonData));
-    //     factory.addTextureAtlasData(factory.parseTextureAtlasData(textureData, texture));
-
-    //     this.armature = factory.buildArmature("Robot");
-    //     this.armatureDisplay = this.armature.getDisplay();
-    //     dragonBones.WorldClock.clock.add(this.armature);
-    //     this.container.addChild(this.armatureDisplay);
-    //     this.armatureDisplay.x = 0;
-    //     this.armatureDisplay.y = 0;
-    //     this.actionFlag = 0;
-    //     //启动骨骼动画播放
-    //     this.armature.animation.gotoAndPlay(this.actionArray[this.actionFlag]);
-
-	// 	egret.startTick(this.onTicker, this);
-    // }
-	
-	// private _time:number;
-
-    // private onTicker(timeStamp:number) {
-
-    //     if(!this._time) {
-    //         this._time = timeStamp;
-    //     }
-
-    //     var now = timeStamp;
-    //     var pass = now - this._time;
-    //     this._time = now;
-
-    //     dragonBones.WorldClock.clock.advanceTime(pass / 1000);
-
-    //     return false;
-    // }
-	
    
 }

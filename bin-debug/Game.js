@@ -19,11 +19,7 @@ var Game = (function (_super) {
         _this.borderColor = 0xcccccc;
         _this.editGroup = new EditGroup();
         _this.header = new Header();
-        _this.imgBox = new ImageBox();
-        _this.bgBox = new BgBox();
-        _this.soundBox = new SoundBox();
-        _this.comBox = new ComponentBox();
-        _this.frameBox = new FrameBox();
+        _this.imgBox = ImageBox.getInstance();
         _this.siderbarSkinBy = SiderbarSkinBy.getInstance();
         _this.skinName = "resource/skins/GameSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
@@ -39,15 +35,6 @@ var Game = (function (_super) {
         editContaier.x = 0;
         editContaier.y = 110;
         this.addChild(editContaier);
-        // var img = new eui.Image("resource/assets/phone16.png");
-        // img.width = 393*1.5;
-        // img.height = 796*1.5;
-        // editContaier.addChild(img);
-        // var img = new eui.Image("resource/assets/phonewhite.svg");
-        // img.width = 328*1.5;
-        // img.height = 560*1.5;
-        // this.editGroup.horizontalCenter = 0;
-        // this.editGroup.verticalCenter = 0;
         var bg = new egret.Shape;
         // bg.graphics.lineStyle(3,0x999999);
         bg.graphics.beginFill(0xffffff, 1);
@@ -59,8 +46,6 @@ var Game = (function (_super) {
         this.editGroup.x = 0;
         this.editGroup.y = 0;
         this.editGroup.scrollEnabled = true;
-        // this.drawBg(this.editGroup);
-        // this.editGroup.addChild(img);
         editContaier.addChild(this.editGroup);
         this.header.x = 0;
         this.header.y = 0;
@@ -72,8 +57,6 @@ var Game = (function (_super) {
         this.siderbarSkinBy.x = 1920 - 500;
         this.siderbarSkinBy.y = this.header.height + 10;
         this.siderbarSkinBy.draw(this);
-        // this.addChild(this.siderbarSkinBy);
-        // console.log(this.siderbarSkinBy.data);
         var hLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;
         hLayout.horizontalAlign = egret.HorizontalAlign.CENTER;
@@ -102,19 +85,24 @@ var Game = (function (_super) {
         bottomGroup.addChild(button2);
     };
     Game.prototype.openComponentPanel = function () {
-        this.comBox.open(this);
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, { tag: 101 }, UUType.CIRCLE_SECTOR);
     };
     Game.prototype.openFramePanel = function () {
-        this.frameBox.open(this);
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, { tag: 102 }, UUType.FRAME);
     };
     Game.prototype.openSoundePanel = function () {
-        this.soundBox.open(this);
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, { tag: 18 }, UUType.SOUND);
     };
     Game.prototype.openImagePanel = function () {
         this.imgBox.open(this);
+        this.imgBox.getResources(getImages, { tag: 1 }, UUType.IMAGE);
     };
     Game.prototype.openBgPanel = function () {
-        this.bgBox.open(this);
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, { tag: 2 }, UUType.BACKGROUND);
     };
     Game.prototype.closeImagePanel = function () {
         this.imgBox.close();
