@@ -23,7 +23,7 @@ var LayerBox = (function (_super) {
     };
     LayerBox.prototype.draw = function (container) {
         this.container = container;
-        this.container.addChild(this);
+        this.editGroup = this.container.editGroup;
     };
     LayerBox.prototype.onAddedToStage = function () {
         this.getPages();
@@ -44,8 +44,7 @@ var LayerBox = (function (_super) {
         this.render();
     };
     LayerBox.prototype.getPages = function () {
-        var g = this.parent;
-        this.displayList = g.editGroup.displayList;
+        this.displayList = this.editGroup.displayList;
     };
     LayerBox.prototype.render = function (layerIndex) {
         if (layerIndex === void 0) { layerIndex = 0; }
