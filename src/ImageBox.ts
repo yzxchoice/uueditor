@@ -1,155 +1,19 @@
 // TypeScript file
 class ImageBox extends eui.Panel {
-    private imgList: any = [
-        // {
-        //     id: "8001",
-        //     name: "post_item_34_png",
-        //     url: "post_item_34.png"
-        // },
-        // {
-        //     id: "8002",
-        //     name: "post_item_35_png",
-        //     url: "post_item_35.png"
-        // },
-        // {
-        //     id: "8003",
-        //     name: "post_item_36_png",
-        //     url: "post_item_36.png"
-        // },
-        // {
-        //     id: "8004",
-        //     name: "post_item_37_png",
-        //     url: "post_item_37.png"
-        // },
-        // {
-        //     id: "8005",
-        //     name: "post_item_38_png",
-        //     url: "post_item_38.png"
-        // },
-        // {
-        //     id: "8006",
-        //     name: "post_item_39_png",
-        //     url: "post_item_39.png"
-        // },
-        // {
-        //     id: "8007",
-        //     name: "post_item_41_png",
-        //     url: "post_item_41.png"
-        // },
-        // {
-        //     id: "8008",
-        //     name: "post_item_42_png",
-        //     url: "post_item_42.png"
-        // },
-        // {
-        //     id: "8009",
-        //     name: "post_item_43_png",
-        //     url: "post_item_43.png"
-        // },
-        // {
-        //     id: "8010",
-        //     name: "post_item_44_png",
-        //     url: "post_item_44.png"
-        // },
-        // {
-        //     id: "8011",
-        //     name: "post_item_45_png",
-        //     url: "post_item_45.png"
-        // },
-        // {
-        //     id: "8012",
-        //     name: "post_item_46_png",
-        //     url: "post_item_46.png"
-        // },
-        // {
-        //     id: "8013",
-        //     name: "post_item_1_png",
-        //     url: "post_item_1.png"
-        // },
-        // {
-        //     id: "8014",
-        //     name: "post_item_2_png",
-        //     url: "post_item_2.png"
-        // },
-        // {
-        //     id: "8015",
-        //     name: "post_item_3_png",
-        //     url: "post_item_3.png"
-        // },
-        // {
-        //     id: "8016",
-        //     name: "post_item_4_png",
-        //     url: "post_item_4.png"
-        // },
-        // {
-        //     id: "8017",
-        //     name: "post_item_5_png",
-        //     url: "post_item_5.png"
-        // },
-        // {
-        //     id: "8018",
-        //     name: "post_item_6_png",
-        //     url: "post_item_6.png"
-        // },
-        // {
-        //     id: "8019",
-        //     name: "post_item_7_png",
-        //     url: "post_item_7.png"
-        // },
-        // {
-        //     id: "8020",
-        //     name: "adam_q_png",
-        //     url: "adam_q.png"
-        // },
-        // {
-        //     id: "8021",
-        //     name: "betty_png",
-        //     url: "betty.png"
-        // },
-        // {
-        //     id: "8022",
-        //     name: "uu_q_png",
-        //     url: "uu_q.png"
-        // },
-        // {
-        //     id: "8023",
-        //     name: "post_item_17_png",
-        //     url: "post_item_17.png"
-        // },
-        // {
-        //     id: "8024",
-        //     name: "post_item_18_png",
-        //     url: "post_item_18.png"
-        // },
-        // {
-        //     id: "8025",
-        //     name: "post_item_19_png",
-        //     url: "post_item_19.png"
-        // },
-        // {
-        //     id: "8026",
-        //     name: "post_item_20_png",
-        //     url: "post_item_20.png"
-        // },
-        // {
-        //     id: "8027",
-        //     name: "post_item_21_png",
-        //     url: "post_item_21.png"
-        // },
-        // {
-        //     id: "8028",
-        //     name: "post_item_22_png",
-        //     url: "post_item_22.png"
-        // }
-    ];
     static instance: ImageBox;
+    private imgList: any = [];
     private _grpLayout:eui.Group;
+    private url: string;
+    private params: any;
+    private uutype: number;
+    private container: eui.Component;
     public constructor () {
         super();
+        
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
 
-    static getInstance(name) {
+    static getInstance() {
         if(!this.instance) {
             this.instance = new ImageBox();
         }
@@ -158,17 +22,28 @@ class ImageBox extends eui.Panel {
 
     private onAddToStage(event:egret.Event) {
         this.init(); 
-        this.getImages();
+        
     }
 
-    async getImages () {
-        var res = await Fetch.start('http://10.63.5.71:8002/image/getImages',{ tag: 1 });
+    async getResources (url: string, params: any, uutype: number) {
+        this.url = url;
+        this.params = params;
+        this.uutype = uutype;
+        var res = await Fetch.start(this.url, this.params);
         this.imgList = res;
+        this.render();
+    }
 
+    private reset () {
+        this._grpLayout.removeChildren();
+    }
+
+    render () {
+        this.reset();
         for(var i = 0; i<this.imgList.length;i++){
             this.imgList[i].id = this.imgList[i]._id;
             this.imgList[i].url = this.imgList[i].img_path;
-            this.imgList[i].name = this.imgList[i].img_path.replace('.','_');
+            this.imgList[i].name = this.imgList[i].url.substring(this.imgList[i].url.lastIndexOf("/")+1).replace('.','_')
             var borderGroup: eui.Group = new eui.Group();
             borderGroup.width = 100;
             borderGroup.height = 100;
@@ -182,7 +57,6 @@ class ImageBox extends eui.Panel {
             borderGroup.addChild(bg);
 
             var image = new UUImage();
-            
             image.source = "resource/" + this.imgList[i].img_path;
             image.width = 100;
             image.height = 100;
@@ -192,10 +66,10 @@ class ImageBox extends eui.Panel {
             borderGroup.addChild(image);
             
         }
-        
     }
 
     private init () {
+        if(this._grpLayout) return;
         this.horizontalCenter = 0;
         this.verticalCenter = 0;
         this.width = 1200;
@@ -215,21 +89,22 @@ class ImageBox extends eui.Panel {
         tLayout.paddingLeft = 30;
         tLayout.paddingRight = 30;
         tLayout.paddingBottom = 30;
-        this._grpLayout.layout = tLayout;
-
-        
+        this._grpLayout.layout = tLayout;        
     }
 
     private addImage (event: egret.TouchEvent) {
         var g: Game = this.parent as Game;
-        // g.imgBox.close();
-        g.editGroup.addSinglePicture(event.currentTarget.data);
-
-        // g.closeImagePanel();
-        // g.editGroup.changeBg(event.currentTarget.source);
+        // g.editGroup.addSinglePicture(event.currentTarget.data);
+        g.editGroup.addResource(event.currentTarget.data, this.uutype);
+        // this.close();
     }
 
     open (container: eui.Component) {
-        container.addChild(this);
+        this.container = container;
+        this.container.addChild(this);
+    }
+
+    close () {
+        this.container.removeChild(this);
     }
 }

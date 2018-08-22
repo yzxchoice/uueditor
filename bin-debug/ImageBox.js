@@ -52,7 +52,7 @@ var ImageBox = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
-    ImageBox.getInstance = function (name) {
+    ImageBox.getInstance = function () {
         if (!this.instance) {
             this.instance = new ImageBox();
         }
@@ -60,46 +60,58 @@ var ImageBox = (function (_super) {
     };
     ImageBox.prototype.onAddToStage = function (event) {
         this.init();
-        this.getImages();
     };
-    ImageBox.prototype.getImages = function () {
+    ImageBox.prototype.getResources = function (url, params, uutype) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, i, borderGroup, bg, image;
+            var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, Fetch.start('http://10.63.5.71:8002/image/getImages', { tag: 1 })];
+                    case 0:
+                        this.url = url;
+                        this.params = params;
+                        this.uutype = uutype;
+                        return [4 /*yield*/, Fetch.start(this.url, this.params)];
                     case 1:
                         res = _a.sent();
                         this.imgList = res;
-                        for (i = 0; i < this.imgList.length; i++) {
-                            this.imgList[i].id = this.imgList[i]._id;
-                            this.imgList[i].url = this.imgList[i].img_path;
-                            this.imgList[i].name = this.imgList[i].img_path.replace('.', '_');
-                            borderGroup = new eui.Group();
-                            borderGroup.width = 100;
-                            borderGroup.height = 100;
-                            this._grpLayout.addChild(borderGroup);
-                            bg = new egret.Shape;
-                            bg.graphics.lineStyle(1, 0x999999);
-                            bg.graphics.beginFill(0xffffff, 1);
-                            bg.graphics.drawRect(0, 0, borderGroup.width, borderGroup.height);
-                            bg.graphics.endFill();
-                            borderGroup.addChild(bg);
-                            image = new UUImage();
-                            image.source = "resource/" + this.imgList[i].img_path;
-                            image.width = 100;
-                            image.height = 100;
-                            image.name = this.imgList[i].id;
-                            image.data = this.imgList[i];
-                            image.addEventListener(Mouse.START, this.addImage, this);
-                            borderGroup.addChild(image);
-                        }
+                        this.render();
                         return [2 /*return*/];
                 }
             });
         });
     };
+    ImageBox.prototype.reset = function () {
+        this._grpLayout.removeChildren();
+    };
+    ImageBox.prototype.render = function () {
+        this.reset();
+        for (var i = 0; i < this.imgList.length; i++) {
+            this.imgList[i].id = this.imgList[i]._id;
+            this.imgList[i].url = this.imgList[i].img_path;
+            this.imgList[i].name = this.imgList[i].url.substring(this.imgList[i].url.lastIndexOf("/") + 1).replace('.', '_');
+            var borderGroup = new eui.Group();
+            borderGroup.width = 100;
+            borderGroup.height = 100;
+            this._grpLayout.addChild(borderGroup);
+            var bg = new egret.Shape;
+            bg.graphics.lineStyle(1, 0x999999);
+            bg.graphics.beginFill(0xffffff, 1);
+            bg.graphics.drawRect(0, 0, borderGroup.width, borderGroup.height);
+            bg.graphics.endFill();
+            borderGroup.addChild(bg);
+            var image = new UUImage();
+            image.source = "resource/" + this.imgList[i].img_path;
+            image.width = 100;
+            image.height = 100;
+            image.name = this.imgList[i].id;
+            image.data = this.imgList[i];
+            image.addEventListener(Mouse.START, this.addImage, this);
+            borderGroup.addChild(image);
+        }
+    };
     ImageBox.prototype.init = function () {
+        if (this._grpLayout)
+            return;
         this.horizontalCenter = 0;
         this.verticalCenter = 0;
         this.width = 1200;
@@ -120,13 +132,16 @@ var ImageBox = (function (_super) {
     };
     ImageBox.prototype.addImage = function (event) {
         var g = this.parent;
-        // g.imgBox.close();
-        g.editGroup.addSinglePicture(event.currentTarget.data);
-        // g.closeImagePanel();
-        // g.editGroup.changeBg(event.currentTarget.source);
+        // g.editGroup.addSinglePicture(event.currentTarget.data);
+        g.editGroup.addResource(event.currentTarget.data, this.uutype);
+        // this.close();
     };
     ImageBox.prototype.open = function (container) {
-        container.addChild(this);
+        this.container = container;
+        this.container.addChild(this);
+    };
+    ImageBox.prototype.close = function () {
+        this.container.removeChild(this);
     };
     return ImageBox;
 }(eui.Panel));

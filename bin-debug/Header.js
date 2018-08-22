@@ -143,7 +143,7 @@ var Header = (function (_super) {
                             msg: "success",
                             list: g.editGroup.pages
                         };
-                        params = "id=" + Main.id + "&template=" + JSON.stringify(obj) + "&resource=" + JSON.stringify(Utils.trans(g.editGroup.pages));
+                        params = "id=" + Main.id + "&template=" + encodeURIComponent(JSON.stringify(obj)) + "&resource=" + encodeURIComponent(JSON.stringify(Utils.trans(g.editGroup.pages)));
                         return [4 /*yield*/, Fetch.start('http://10.63.5.71:8002/template/updateTemplate', params, 'POST')];
                     case 1:
                         res = _a.sent();
