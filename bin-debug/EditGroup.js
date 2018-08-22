@@ -315,9 +315,7 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.pre = function (event) {
         if (this.pageIndex > 0) {
-            this.reset();
             this.pageIndex--;
-            this.renderResources(this.pageIndex);
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
             e.data = { pageIndex: this.pageIndex };
             this.dispatchEvent(e);
@@ -325,9 +323,7 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.next = function (event) {
         if (this.pageIndex < this.pages.length - 1) {
-            // this.reset();
             this.pageIndex++;
-            // this.renderResources(this.pageIndex);
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
             e.data = { pageIndex: this.pageIndex };
             this.dispatchEvent(e);
