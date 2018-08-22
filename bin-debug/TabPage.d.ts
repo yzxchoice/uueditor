@@ -1,4 +1,4 @@
-declare class PageBox extends eui.Group implements IUUContainer {
+declare class TabPage extends eui.Group implements IUUContainer {
     container: any;
     pages: any[];
     currentIndex: number;

@@ -8,7 +8,7 @@ declare class Game extends eui.Component {
     editGroup: EditGroup;
     header: Header;
     imgBox: ImageBox;
-    siderbarSkinBy: SiderbarSkinBy;
+    Siderbar: Siderbar;
     private initEui();
     openComponentPanel(): void;
     openFramePanel(): void;

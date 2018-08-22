@@ -19,7 +19,7 @@ var EditGroup = (function (_super) {
         _this.borderColor = 0xcccccc;
         // private bg: eui.Component = new eui.Component;
         _this.displayGroup = new eui.Group();
-        _this.SiderbarSkinBy = SiderbarSkinBy.getInstance();
+        _this.siderbar = Siderbar.getInstance();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -52,9 +52,9 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.init = function () {
         this.renderResources(this.pageIndex);
         this.setupTool();
-        this.stage.addEventListener(Mouse.START, this.down, this);
-        this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
-        this.stage.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
+        this.addEventListener(Mouse.START, this.down, this);
+        this.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
+        this.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
         this.render();
     };
     EditGroup.prototype.setupTool = function () {
@@ -108,9 +108,7 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.addEventListener(Mouse.MOVE, this.move, this);
             this.addEventListener(Mouse.END, this.up, this);
-            this.SiderbarSkinBy.component_style.setTarget();
-            this.SiderbarSkinBy.component_event.getTargetItemId();
-            this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+            this.siderbar.selectTarget();
             // AnimateSet.target = this.tool.target.owner.image;
             // AnimateSet.move();
         }
@@ -122,7 +120,7 @@ var EditGroup = (function (_super) {
         Mouse.get(event, this);
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
-        this.SiderbarSkinBy.component_style.updateTarget();
+        this.siderbar.moveTarget();
         requestAnimationFrame(this.renderOneDisplay);
         // requestAnimationFrame(this.render);
         event.preventDefault();
@@ -140,7 +138,7 @@ var EditGroup = (function (_super) {
         }
         this.removeEventListener(Mouse.MOVE, this.move, this);
         this.removeEventListener(Mouse.END, this.up, this);
-        this.SiderbarSkinBy.component_style.updateTarget();
+        this.siderbar.upTarget();
         requestAnimationFrame(this.renderOneDisplay);
         // requestAnimationFrame(this.render);
         event.preventDefault();
@@ -578,7 +576,7 @@ var EditGroup = (function (_super) {
         var m = new Matrix(1, 0, 0, 1, 300, 300);
         var result = new UULabel();
         result.text = '请输入文本';
-        result.textColor = '0x000000';
+        result.textColor = 0x000000;
         result.size = 40;
         var eles = this.pages[this.pageIndex].elements;
         var id = (new Date()).valueOf();

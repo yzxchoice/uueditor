@@ -9,39 +9,39 @@ for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
 // TypeScript file
-var PageBox = (function (_super) {
-    __extends(PageBox, _super);
-    function PageBox() {
+var TabPage = (function (_super) {
+    __extends(TabPage, _super);
+    function TabPage() {
         var _this = _super.call(this) || this;
         _this.pages = [];
         _this.currentIndex = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddedToStage, _this);
         return _this;
     }
-    PageBox.prototype.dispose = function () {
+    TabPage.prototype.dispose = function () {
     };
-    PageBox.prototype.draw = function (container) {
+    TabPage.prototype.draw = function (container) {
         this.container = container;
         this.container.addChild(this);
     };
-    PageBox.prototype.onAddedToStage = function () {
+    TabPage.prototype.onAddedToStage = function () {
         this.getPages();
         this.init();
         this.removeChildren();
         this.render(this.currentIndex);
     };
-    PageBox.prototype.init = function () {
+    TabPage.prototype.init = function () {
         var vLayout = new eui.VerticalLayout();
         vLayout.paddingTop = 0;
         vLayout.gap = 0;
         this.layout = vLayout;
         this.stage.addEventListener(PageEvent.PAGE_ADD, this.pageAdd, this);
     };
-    PageBox.prototype.getPages = function () {
+    TabPage.prototype.getPages = function () {
         // console.log(RES.getRes("data_json"));
         this.pages = RES.getRes("data_json").list;
     };
-    PageBox.prototype.render = function (index) {
+    TabPage.prototype.render = function (index) {
         var i = 0;
         var elements = this.pages;
         var n = elements.length;
@@ -58,7 +58,7 @@ var PageBox = (function (_super) {
             g.draw(this);
         }
     };
-    PageBox.prototype.redraw = function (index) {
+    TabPage.prototype.redraw = function (index) {
         this.removeChildren();
         if (typeof (index) == 'undefined') {
             index = this.pages.length - 1;
@@ -71,9 +71,9 @@ var PageBox = (function (_super) {
         this.currentIndex = index;
         this.render(this.currentIndex);
     };
-    PageBox.prototype.pageAdd = function (event) {
+    TabPage.prototype.pageAdd = function (event) {
         this.redraw();
     };
-    return PageBox;
+    return TabPage;
 }(eui.Group));
-__reflect(PageBox.prototype, "PageBox", ["IUUContainer"]);
+__reflect(TabPage.prototype, "TabPage", ["IUUContainer"]);

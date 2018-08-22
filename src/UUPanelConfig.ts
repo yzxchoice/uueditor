@@ -1,10 +1,10 @@
 // TypeScript file
 var UUPanelConfig = {
-    1: [
+    [UUType.TEXT]: [
         {
             type: 'text',
             title: '文本',
-            componentType: 'StyleInput'
+            componentType: StyleInput
         },
         {
             type: 'fontFamily',

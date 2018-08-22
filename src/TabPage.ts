@@ -1,5 +1,5 @@
 // TypeScript file
-class PageBox extends eui.Group implements IUUContainer {
+class TabPage extends eui.Group implements IUUContainer {
     container: any;
 
     public pages = [];
