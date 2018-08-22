@@ -315,7 +315,7 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.pre = function (event) {
         if (this.pageIndex > 0) {
-            this.pageIndex++;
+            this.pageIndex--;
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
             e.data = { pageIndex: this.pageIndex };
             this.dispatchEvent(e);

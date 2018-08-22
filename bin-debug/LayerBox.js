@@ -40,6 +40,7 @@ var LayerBox = (function (_super) {
         this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.pageChange, this);
     };
     LayerBox.prototype.pageChange = function (event) {
+        this.getPages();
         this.removeChildren();
         this.render();
     };
@@ -48,6 +49,7 @@ var LayerBox = (function (_super) {
     };
     LayerBox.prototype.render = function (layerIndex) {
         if (layerIndex === void 0) { layerIndex = 0; }
+        this.layers = [];
         var i = 0;
         var elements = this.displayList;
         var n = elements.length;

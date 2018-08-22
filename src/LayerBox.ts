@@ -38,6 +38,7 @@ class LayerBox extends eui.Group implements IUUContainer {
     }
 
     private pageChange (event: PageEvent) {
+        this.getPages();
         this.removeChildren();
         this.render();
     }
@@ -47,6 +48,7 @@ class LayerBox extends eui.Group implements IUUContainer {
     }
 
     private render (layerIndex: number = 0) {
+        this.layers = []
         var i = 0;
         var elements = this.displayList;
         var n = elements.length;
