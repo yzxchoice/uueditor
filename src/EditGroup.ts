@@ -29,6 +29,7 @@ class EditGroup extends eui.Group {
 
     private bindHandlers () {
         this.render = this.render.bind(this);
+        this.renderOneDisplay = this.renderOneDisplay.bind(this);
         // this.addSinglePicture = this.addSinglePicture.bind(this);
     }
 
@@ -116,7 +117,8 @@ class EditGroup extends eui.Group {
             this.SiderbarSkinBy.component_event.getTargetItemId();            
             this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup
         }
-        requestAnimationFrame(this.render);
+        requestAnimationFrame(this.renderOneDisplay);        
+        // requestAnimationFrame(this.render);
         event.preventDefault();
     }
 
@@ -127,7 +129,8 @@ class EditGroup extends eui.Group {
 
         this.SiderbarSkinBy.component_style.updateTarget();    
         
-        requestAnimationFrame(this.render);
+        requestAnimationFrame(this.renderOneDisplay);
+        // requestAnimationFrame(this.render);
         event.preventDefault();
     }
 
@@ -146,8 +149,9 @@ class EditGroup extends eui.Group {
         this.removeEventListener(Mouse.END, this.up, this);
 
         this.SiderbarSkinBy.component_style.updateTarget();
-        
-        requestAnimationFrame(this.render);
+
+        requestAnimationFrame(this.renderOneDisplay);        
+        // requestAnimationFrame(this.render);
         event.preventDefault();
     }
 
@@ -166,7 +170,7 @@ class EditGroup extends eui.Group {
         // if dynamic, set controls based on 
         // keyboard keys
         var dyn = this.getDynamicControl();
-        console.log('dyn:'+dyn);
+        // console.log('dyn:'+dyn);
         if (dyn){
             if (event.ctrlKey){
                 if (event.shiftKey){
@@ -264,12 +268,7 @@ class EditGroup extends eui.Group {
     }
 
     private renderResources (index: number): void {
-        
-        let lable = <ILabel>new UULabel();
-        let j:ILabel;
-        for(let key in j){
-            console.log(key);
-        }
+
         var list = [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground];
         var i = 0;
         var elements = this.pages[index].elements;
@@ -291,6 +290,15 @@ class EditGroup extends eui.Group {
     render () {
         this.clear();
         this.drawDisplayList();
+        this.tool.draw();
+    }
+
+    renderOneDisplay(){
+        let target = this.tool.target;
+        if(!target) return;
+        let display: Picture = target.owner;
+        this.clear();
+        display.draw(this);
         this.tool.draw();
     }
 
@@ -350,7 +358,7 @@ class EditGroup extends eui.Group {
         this.updateDisplayProps(display);
         display.draw(this);
     }
-
+    // 更新props中的属性
     updateDisplayProps(display: Picture){
         let image = display.image;
         let props = image.data.props;

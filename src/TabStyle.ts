@@ -146,6 +146,6 @@ class TabStyle extends eui.Component implements IUUContainer{
 				break;
 		}
 		this.tool.startMatrix.copyFrom(this.tool.endMatrix);
-		this.editGroup.render();
+		this.editGroup.renderOneDisplay();
 	}
 }

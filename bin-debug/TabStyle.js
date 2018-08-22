@@ -151,7 +151,7 @@ var TabStyle = (function (_super) {
                 break;
         }
         this.tool.startMatrix.copyFrom(this.tool.endMatrix);
-        this.editGroup.render();
+        this.editGroup.renderOneDisplay();
     };
     return TabStyle;
 }(eui.Component));
