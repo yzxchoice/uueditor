@@ -651,7 +651,7 @@ class EditGroup extends eui.Group {
         var m = new Matrix(1,0,0,1,300,300);
         var result: UULabel = new UULabel();
         result.text = '请输入文本';
-        result.textColor = 0x000000;
+        result.textColor = '0x000000';
         result.size = 40;
         var eles = this.pages[this.pageIndex].elements;
         let id = (new Date()).valueOf();
