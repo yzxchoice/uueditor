@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="StyleTextColorSkin" width="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+    <e:Group width="100%" height="70" x="0" y="0" scaleX="1" scaleY="1">
+        <e:Label text="{stateObj.title}" x="119" y="19" textColor="0x050000" size="24"/>
+        <e:TextInput width="200" height="30" x="342" y="20" skinName="skins.TextInputSkin" anchorOffsetX="0" enabled="true" text="{stateObj.content}" name="textColor"/>
+        <e:Label id="lb_selectColor" text="选择" x="301" y="34" size="16" textColor="0x1593ff"/>
+        <e:layout>
+        <e:HorizontalLayout verticalAlign="middle" horizontalAlign="left" paddingLeft="20" gap="20"/>
+        </e:layout>
+    </e:Group>
+</e:Skin>

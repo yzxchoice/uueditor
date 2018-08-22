@@ -62,6 +62,12 @@ declare class SiderbarSkin extends eui.Skin{
 }
 declare class Start extends eui.Skin{
 }
+declare class StyleInputSkin extends eui.Skin{
+}
+declare class styleFontFamilySkin extends eui.Skin{
+}
+declare class StyleTextColorSkin extends eui.Skin{
+}
 declare class StyleType1Skin extends eui.Skin{
 }
 declare class TabAnimationSkin extends eui.Skin{

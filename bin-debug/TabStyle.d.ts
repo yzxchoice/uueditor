@@ -15,7 +15,7 @@ declare class TabStyle extends eui.Component implements IUUContainer {
     private onAddedToStage();
     private initEvent();
     private onDoubleClick();
-    private exchangeDiffGroup(data);
+    private createStyleType(data);
     setTarget(): void;
     updateTarget(): void;
     private onFocusIn(evt);

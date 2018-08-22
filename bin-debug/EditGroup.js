@@ -36,6 +36,7 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.bindHandlers = function () {
         this.render = this.render.bind(this);
+        this.renderOneDisplay = this.renderOneDisplay.bind(this);
         // this.addSinglePicture = this.addSinglePicture.bind(this);
     };
     EditGroup.prototype.initEui = function () {
@@ -113,7 +114,8 @@ var EditGroup = (function (_super) {
             // AnimateSet.target = this.tool.target.owner.image;
             // AnimateSet.move();
         }
-        requestAnimationFrame(this.render);
+        requestAnimationFrame(this.renderOneDisplay);
+        // requestAnimationFrame(this.render);
         event.preventDefault();
     };
     EditGroup.prototype.move = function (event) {
@@ -121,7 +123,8 @@ var EditGroup = (function (_super) {
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
         this.SiderbarSkinBy.component_style.updateTarget();
-        requestAnimationFrame(this.render);
+        requestAnimationFrame(this.renderOneDisplay);
+        // requestAnimationFrame(this.render);
         event.preventDefault();
     };
     EditGroup.prototype.up = function (event) {
@@ -138,7 +141,8 @@ var EditGroup = (function (_super) {
         this.removeEventListener(Mouse.MOVE, this.move, this);
         this.removeEventListener(Mouse.END, this.up, this);
         this.SiderbarSkinBy.component_style.updateTarget();
-        requestAnimationFrame(this.render);
+        requestAnimationFrame(this.renderOneDisplay);
+        // requestAnimationFrame(this.render);
         event.preventDefault();
     };
     EditGroup.prototype.setProperty = function (x, y) {
@@ -155,7 +159,7 @@ var EditGroup = (function (_super) {
         // if dynamic, set controls based on 
         // keyboard keys
         var dyn = this.getDynamicControl();
-        console.log('dyn:' + dyn);
+        // console.log('dyn:'+dyn);
         if (dyn) {
             if (event.ctrlKey) {
                 if (event.shiftKey) {
@@ -244,11 +248,6 @@ var EditGroup = (function (_super) {
         ;
     };
     EditGroup.prototype.renderResources = function (index) {
-        var lable = new UULabel();
-        var j;
-        for (var key in j) {
-            console.log(key);
-        }
         var list = [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground];
         var elements = this.pages[index].elements;
         var n = elements.length;
@@ -278,6 +277,15 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.render = function () {
         this.clear();
         this.drawDisplayList();
+        this.tool.draw();
+    };
+    EditGroup.prototype.renderOneDisplay = function () {
+        var target = this.tool.target;
+        if (!target)
+            return;
+        var display = target.owner;
+        this.clear();
+        display.draw(this);
         this.tool.draw();
     };
     EditGroup.prototype.clear = function () {
@@ -329,6 +337,7 @@ var EditGroup = (function (_super) {
         this.updateDisplayProps(display);
         display.draw(this);
     };
+    // 更新props中的属性
     EditGroup.prototype.updateDisplayProps = function (display) {
         var image = display.image;
         var props = image.data.props;

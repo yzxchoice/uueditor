@@ -28,6 +28,7 @@ declare class EditGroup extends eui.Group {
     selectImage(x: number, y: number): boolean;
     private renderResources(index);
     render(): void;
+    renderOneDisplay(): void;
     clear(): void;
     reset(): void;
     drawDisplayList(): void;

@@ -14,7 +14,7 @@
 		"libs/modules/gesture/gesture.js"
 	],
 	"game": [
-		"bin-debug/PageBox.js",
+		"bin-debug/PageItem.js",
 		"bin-debug/AnimateSet.js",
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/checkItem.js",
@@ -30,14 +30,17 @@
 		"bin-debug/LayerItem.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
-		"bin-debug/Api.js",
+		"bin-debug/PageBox.js",
 		"bin-debug/PageEvent.js",
-		"bin-debug/PageItem.js",
+		"bin-debug/Api.js",
 		"bin-debug/Platform.js",
 		"bin-debug/PreviewBox.js",
 		"bin-debug/Select.js",
 		"bin-debug/SiderbarSkin.js",
-		"bin-debug/StyleType1.js",
+		"bin-debug/StyleInput.js",
+		"bin-debug/StyleSelect.js",
+		"bin-debug/StyleTextColor.js",
+		"bin-debug/StyleType.js",
 		"bin-debug/TabAnimation.js",
 		"bin-debug/TabEvent.js",
 		"bin-debug/TabStyle.js",
@@ -45,6 +48,7 @@
 		"bin-debug/TriggerPanel.js",
 		"bin-debug/Utils.js",
 		"bin-debug/UUBorderContainer.js",
-		"bin-debug/UUMovieClip.js"
+		"bin-debug/UUMovieClip.js",
+		"bin-debug/UUPanelConfig.js"
 	]
 }
