@@ -33,6 +33,12 @@ class LayerBox extends eui.Group implements IUUContainer {
 		this.layout = vLayout;
         
         this.stage.addEventListener(PageEvent.LAYER_ADD, this.layerAdd, this);
+        this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.pageChange, this);
+    }
+
+    private pageChange (event: PageEvent) {
+        this.removeChildren();
+        this.render();
     }
 
     private getPages () {

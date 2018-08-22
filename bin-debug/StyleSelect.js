@@ -40,3 +40,4 @@ var StyleSelect = (function (_super) {
     return StyleSelect;
 }(eui.Component));
 __reflect(StyleSelect.prototype, "StyleSelect");
+//# sourceMappingURL=StyleSelect.js.map

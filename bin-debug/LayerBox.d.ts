@@ -9,6 +9,7 @@ declare class LayerBox extends eui.Group implements IUUContainer {
     draw(container: any): void;
     private onAddedToStage();
     private init();
+    private pageChange(event);
     private getPages();
     private render(layerIndex?);
     redraw(layerIndex?: number): void;

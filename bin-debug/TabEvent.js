@@ -188,3 +188,4 @@ var TabEvent = (function (_super) {
     return TabEvent;
 }(eui.Component));
 __reflect(TabEvent.prototype, "TabEvent", ["IUUContainer"]);
+//# sourceMappingURL=TabEvent.js.map
