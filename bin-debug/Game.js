@@ -27,6 +27,7 @@ var Game = (function (_super) {
     }
     Game.prototype.onAddToStageInit = function (event) {
         this.initEui();
+        // Object.keys(ILabel);
     };
     Game.prototype.initEui = function () {
         var wvw = new EventSetDome();
@@ -119,3 +120,4 @@ var Game = (function (_super) {
     return Game;
 }(eui.Component));
 __reflect(Game.prototype, "Game");
+//# sourceMappingURL=Game.js.map

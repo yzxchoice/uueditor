@@ -36,3 +36,36 @@ class Utils {
 		return obj;
 	}
 }
+
+
+
+enum InputType {
+    TEXT = 1,
+    COLOR = 2,
+    SELECT = 3
+}
+
+
+var FormItems = {
+    [InputType.TEXT]: {
+        com: StyleInput
+    },
+    [InputType.COLOR]: {
+		com: StyleTextColor
+    },
+    [InputType.SELECT]: {
+		com: StyleSelect
+    }
+}
+
+// interface FormItem {
+//     type: number,
+//     label: string,
+//     text: string
+// }
+
+// interface FormPanel {
+//     items: {
+//         [key: string]: FormItem
+//     }
+// }

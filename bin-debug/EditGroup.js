@@ -52,7 +52,7 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.init = function () {
         this.renderResources(this.pageIndex);
         this.setupTool();
-        this.stage.addEventListener(Mouse.START, this.down, this);
+        this.addEventListener(Mouse.START, this.down, this);
         this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
         this.stage.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
         this.render();
@@ -315,18 +315,26 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.pre = function (event) {
         if (this.pageIndex > 0) {
+            // this.reset();
             this.pageIndex--;
+            // this.renderResources(this.pageIndex);
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
-            e.data = { pageIndex: this.pageIndex };
+            e.data = {
+                pageIndex: this.pageIndex
+            };
             this.dispatchEvent(e);
         }
     };
     EditGroup.prototype.next = function (event) {
         if (this.pageIndex < this.pages.length - 1) {
+            // this.reset();
             this.pageIndex++;
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
-            e.data = { pageIndex: this.pageIndex };
+            e.data = {
+                pageIndex: this.pageIndex
+            };
             this.dispatchEvent(e);
+            // this.renderResources(this.pageIndex);
         }
     };
     EditGroup.prototype.go = function (event) {
@@ -578,7 +586,7 @@ var EditGroup = (function (_super) {
         var m = new Matrix(1, 0, 0, 1, 300, 300);
         var result = new UULabel();
         result.text = '请输入文本';
-        result.textColor = '0x000000';
+        result.textColor = 0x000000;
         result.size = 40;
         var eles = this.pages[this.pageIndex].elements;
         var id = (new Date()).valueOf();
@@ -612,3 +620,4 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
+//# sourceMappingURL=EditGroup.js.map

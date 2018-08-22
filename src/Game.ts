@@ -14,6 +14,8 @@ class Game extends eui.Component {
 
     private onAddToStageInit(event:egret.Event) {
         this.initEui();
+
+        // Object.keys(ILabel);
     }
 
     public editGroup: EditGroup = new EditGroup();
