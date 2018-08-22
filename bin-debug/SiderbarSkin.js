@@ -45,10 +45,10 @@ var SiderbarSkinBy = (function (_super) {
         this.gp_tabs.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchTabsClick, this);
     };
     SiderbarSkinBy.prototype.touchTabsClick = function (evt) {
+        this.scl_eventContainer.viewport.scrollV = 0;
         this.currentState = evt.target.parent.name;
     };
     SiderbarSkinBy._instance = null;
     return SiderbarSkinBy;
 }(eui.Component));
 __reflect(SiderbarSkinBy.prototype, "SiderbarSkinBy", ["IUUContainer"]);
-//# sourceMappingURL=SiderbarSkin.js.map
