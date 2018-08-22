@@ -10,6 +10,7 @@ declare class SiderbarSkinBy extends eui.Component implements IUUContainer {
     component_event: TabEvent;
     component_layer: LayerBox;
     private gp_tabs;
+    private scl_eventContainer;
     constructor();
     private onAddToStageInit(event);
     private init();

@@ -22,6 +22,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	public component_event: TabEvent;	
 	public component_layer: LayerBox;
 	private gp_tabs:eui.Group;
+	private scl_eventContainer: eui.Scroller;
 
 	public constructor() {
 		super();
@@ -44,6 +45,7 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 	}
 
 	private touchTabsClick(evt:egret.TouchEvent){
+		this.scl_eventContainer.viewport.scrollV = 0;
 		this.currentState = evt.target.parent.name;
 	}
 }

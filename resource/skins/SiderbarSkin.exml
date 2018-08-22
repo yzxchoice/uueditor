@@ -31,7 +31,7 @@
 		</e:layout>
 	</e:Group>
 	<e:Group id="gp_eventContainers" x="0" y="120" width.layer="500" height.layer="680">
-		<e:Scroller width="500" height="680" x="0" y="0" enabled="true" skinName="skins.ScrollerSkin">
+		<e:Scroller id="scl_eventContainer" width="500" height="680" x="0" y="0" enabled="true" skinName="skins.ScrollerSkin">
 			<e:Group width="500">
 				<ns1:LayerBox id="component_layer" width="500" x="0" y="0" includeIn="layer" scaleX="1" scaleY="1"/>
 				<ns1:PageBox width="500" height="680" x="0" y="0" includeIn="page"/>
