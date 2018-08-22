@@ -52,7 +52,7 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.init = function () {
         this.renderResources(this.pageIndex);
         this.setupTool();
-        this.stage.addEventListener(Mouse.START, this.down, this);
+        this.addEventListener(Mouse.START, this.down, this);
         this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
         this.stage.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
         this.render();
@@ -315,18 +315,26 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.pre = function (event) {
         if (this.pageIndex > 0) {
+            // this.reset();
             this.pageIndex--;
+            // this.renderResources(this.pageIndex);
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
-            e.data = { pageIndex: this.pageIndex };
+            e.data = {
+                pageIndex: this.pageIndex
+            };
             this.dispatchEvent(e);
         }
     };
     EditGroup.prototype.next = function (event) {
         if (this.pageIndex < this.pages.length - 1) {
+            // this.reset();
             this.pageIndex++;
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
-            e.data = { pageIndex: this.pageIndex };
+            e.data = {
+                pageIndex: this.pageIndex
+            };
             this.dispatchEvent(e);
+            // this.renderResources(this.pageIndex);
         }
     };
     EditGroup.prototype.go = function (event) {

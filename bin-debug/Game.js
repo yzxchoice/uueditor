@@ -27,6 +27,7 @@ var Game = (function (_super) {
     }
     Game.prototype.onAddToStageInit = function (event) {
         this.initEui();
+        // Object.keys(ILabel);
     };
     Game.prototype.initEui = function () {
         var wvw = new EventSetDome();

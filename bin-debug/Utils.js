@@ -38,3 +38,31 @@ var Utils = (function () {
     return Utils;
 }());
 __reflect(Utils.prototype, "Utils");
+var InputType;
+(function (InputType) {
+    InputType[InputType["TEXT"] = 1] = "TEXT";
+    InputType[InputType["COLOR"] = 2] = "COLOR";
+    InputType[InputType["SELECT"] = 3] = "SELECT";
+})(InputType || (InputType = {}));
+var FormItems = (_a = {},
+    _a[InputType.TEXT] = {
+        com: StyleInput
+    },
+    _a[InputType.COLOR] = {
+        com: StyleTextColor
+    },
+    _a[InputType.SELECT] = {
+        com: StyleSelect
+    },
+    _a);
+var _a;
+// interface FormItem {
+//     type: number,
+//     label: string,
+//     text: string
+// }
+// interface FormPanel {
+//     items: {
+//         [key: string]: FormItem
+//     }
+// } 

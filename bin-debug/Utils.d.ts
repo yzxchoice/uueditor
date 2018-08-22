@@ -12,3 +12,17 @@ declare class Utils {
         }[];
     };
 }
+declare enum InputType {
+    TEXT = 1,
+    COLOR = 2,
+    SELECT = 3,
+}
+declare var FormItems: {
+    [x: number]: {
+        com: typeof StyleInput;
+    } | {
+        com: typeof StyleTextColor;
+    } | {
+        com: typeof StyleSelect;
+    };
+};
