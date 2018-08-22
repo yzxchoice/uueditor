@@ -94,4 +94,3 @@ var LayerBox = (function (_super) {
     return LayerBox;
 }(eui.Group));
 __reflect(LayerBox.prototype, "LayerBox", ["IUUContainer"]);
-//# sourceMappingURL=LayerBox.js.map
