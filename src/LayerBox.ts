@@ -1,5 +1,6 @@
 class LayerBox extends eui.Group implements IUUContainer {
 	container: any;
+	editGroup: EditGroup;
 
     public layers = [];
     public displayList = []
@@ -15,7 +16,7 @@ class LayerBox extends eui.Group implements IUUContainer {
     
     draw(container: any): void{
         this.container = container;
-        this.container.addChild(this);
+        this.editGroup = this.container.editGroup;
     }
 
     private onAddedToStage(){
@@ -36,8 +37,7 @@ class LayerBox extends eui.Group implements IUUContainer {
     }
 
     private getPages () {
-        var g: Game = this.parent as Game;
-        this.displayList = g.editGroup.displayList;
+        this.displayList = this.editGroup.displayList;
     }
 
     private render (layerIndex: number = 0) {

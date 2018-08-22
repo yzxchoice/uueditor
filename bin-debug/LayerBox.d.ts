@@ -1,5 +1,6 @@
 declare class LayerBox extends eui.Group implements IUUContainer {
     container: any;
+    editGroup: EditGroup;
     layers: any[];
     displayList: any[];
     private pageIndex;

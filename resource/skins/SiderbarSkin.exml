@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="SiderbarSkin"  states="page,style,animation,event" width="500" height="800" currentState="event" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
+<e:Skin class="SiderbarSkin"  states="layer,page,style,animation,event" width="500" height="800" currentState="event" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
 	<e:Rect width="500" height="800" x="0" y="0" fillColor="0xf9f2f2" strokeColor="0xfffcfc" locked="true"/>
 	<e:Group width="500" height="60" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" locked="true">
 		<e:Label text="组件设置" x="21.33" y="15" textColor="0x160f0f" size="26"/>
 	</e:Group>
 	<e:Rect width="500" height="740" x="0" y="60" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xebf4f1" locked="true"/>
 	<e:Group id="gp_tabs" width="500" height="60" x="0" y="60" anchorOffsetX="0">
-		<e:Group id="gp_tab_page" width="25%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="page" x="0">
+		<e:Group id="gp_tab_layer" width="20%" height="60" y="10" anchorOffsetX="0" anchorOffsetY="0" name="layer" x="10">
+			<e:Label text="图层" width="100%" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.layer="0x009aff" name="label"/>
+			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160D0D" fillColor.layer="0x009aff"/>
+		</e:Group>
+		<e:Group id="gp_tab_page" width="20%" height="60" y="10" anchorOffsetX="0" anchorOffsetY="0" name="page" x="10">
 			<e:Label text="页面" width="100%" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.page="0x009aff" name="label"/>
 			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160D0D" fillColor.page="0x009aff"/>
 		</e:Group>
-		<e:Group id="gp_tab_style" width="25%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="style" x="125">
+		<e:Group id="gp_tab_style" width="20%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="style" x="125" width.layer="20%">
 			<e:Label text="样式" width="100%" height="59" top="0" horizontalCenter="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160d0d" textColor.style="0x009aff" name="label"/>
 			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.style="0x009aff"/>
 		</e:Group>
-		<e:Group id="gp_tab_animation" width="25%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="animation" x="250">
+		<e:Group id="gp_tab_animation" width="20%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" name="animation" x="250" width.layer="20%">
 			<e:Label text="动画" width="100%" height="59" top="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.animation="0x009aff" name="label" x="0"/>
 			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.animation="0x009aff"/>
 		</e:Group>
-		<e:Group id="gp_tab_event" width="25%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="375" name="event">
+		<e:Group id="gp_tab_event" width="20%" height="60" y="0" anchorOffsetX="0" anchorOffsetY="0" x="375" name="event" width.layer="20%">
 			<e:Label text="触发" width="100%" height="59" top="0" textAlign="center" verticalAlign="middle" size="24" textColor="0x160D0D" textColor.event="0x009aff" name="label" x="0"/>
 			<e:Rect width="100%" height="1" x="0" y="59" fillColor="0x160d0d" fillColor.event="0x009aff"/>
 		</e:Group>
 		<e:layout>
-			<e:TileLayout orientation="rows" horizontalGap="0" verticalGap="0" horizontalAlign="justify" requestedColumnCount="4" verticalAlign="top" rowAlign="justifyUsingGap" columnAlign="justifyUsingGap" requestedRowCount="1" columnWidth="125"/>
+			<e:TileLayout orientation="rows" horizontalGap="0" verticalGap="0" horizontalAlign="justify" verticalAlign="top" rowAlign="justifyUsingGap" columnAlign="justifyUsingGap" requestedRowCount="1" columnWidth="100" horizontalAlign.layer="justify" requestedColumnCount.layer="5" columnWidth.layer="100" requestedColumnCount="5"/>
 		</e:layout>
 	</e:Group>
-	<e:Group id="gp_eventContainers" x="0" y="120">
-		<ns1:PageBox width="500" height="680" x="0" y="0" includeIn="page"/>
-		<ns1:TabStyle id="component_style" width="100%" height="100%" x="0" y="0" skinName="TabStyleSkin" includeIn="style"/>
-		<ns1:TabAnimation id="component_animation" width="100%" height="100%" x="0" y="0" includeIn="animation" enabled="true" skinName="TabAnimationSkin"/>
-		<ns1:TabEvent id="component_event" width="100%" height="100%" x="0" y="0" skinName="TabEventSkin" includeIn="event"/>
+	<e:Group id="gp_eventContainers" x="0" y="120" width.layer="500" height.layer="680">
+		<e:Scroller width="500" height="680" x="0" y="0" enabled="true" skinName="skins.ScrollerSkin">
+			<e:Group width="500">
+				<ns1:LayerBox id="component_layer" width="500" x="0" y="0" includeIn="layer" scaleX="1" scaleY="1"/>
+				<ns1:PageBox width="500" height="680" x="0" y="0" includeIn="page"/>
+				<ns1:TabStyle id="component_style" width="100%" height="100%" x="0" y="0" skinName="TabStyleSkin" includeIn="style"/>
+				<ns1:TabAnimation id="component_animation" width="100%" height="100%" x="0" y="0" includeIn="animation" enabled="true" skinName="TabAnimationSkin"/>
+				<ns1:TabEvent id="component_event" width="100%" x="0" y="0" skinName="TabEventSkin" includeIn="event"/>
+			</e:Group>
+		</e:Scroller>
+
+
+
+
+
 	</e:Group>
 	<e:Group id="gp_container_addEvent" width="500" height="680" x="0" y="120" visible="false">
 		<e:Rect width="500" height="680" x="0" y="0" fillColor="0xffffff" locked="true"/>
