@@ -37,6 +37,11 @@ var LayerBox = (function (_super) {
         vLayout.gap = 0;
         this.layout = vLayout;
         this.stage.addEventListener(PageEvent.LAYER_ADD, this.layerAdd, this);
+        this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.pageChange, this);
+    };
+    LayerBox.prototype.pageChange = function (event) {
+        this.removeChildren();
+        this.render();
     };
     LayerBox.prototype.getPages = function () {
         this.displayList = this.editGroup.displayList;
@@ -89,3 +94,4 @@ var LayerBox = (function (_super) {
     return LayerBox;
 }(eui.Group));
 __reflect(LayerBox.prototype, "LayerBox", ["IUUContainer"]);
+//# sourceMappingURL=LayerBox.js.map

@@ -318,13 +318,19 @@ var EditGroup = (function (_super) {
             this.reset();
             this.pageIndex--;
             this.renderResources(this.pageIndex);
+            var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
+            e.data = { pageIndex: this.pageIndex };
+            this.dispatchEvent(e);
         }
     };
     EditGroup.prototype.next = function (event) {
         if (this.pageIndex < this.pages.length - 1) {
-            this.reset();
+            // this.reset();
             this.pageIndex++;
-            this.renderResources(this.pageIndex);
+            // this.renderResources(this.pageIndex);
+            var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
+            e.data = { pageIndex: this.pageIndex };
+            this.dispatchEvent(e);
         }
     };
     EditGroup.prototype.go = function (event) {
@@ -610,3 +616,4 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
+//# sourceMappingURL=EditGroup.js.map

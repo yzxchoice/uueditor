@@ -357,18 +357,20 @@ class EditGroup extends eui.Group {
 
     pre (event: egret.TouchEvent) {
         if(this.pageIndex > 0){
-            this.reset();
-            this.pageIndex --;
-            this.renderResources(this.pageIndex);
+            this.pageIndex ++;
+            var e: PageEvent = new PageEvent(PageEvent.PAGE_CHANGE, true);
+            e.data = { pageIndex: this.pageIndex }
+            this.dispatchEvent(e);
         }
         
     }
 
     next (event: egret.TouchEvent) {
         if(this.pageIndex < this.pages.length - 1){
-            this.reset();
             this.pageIndex ++;
-            this.renderResources(this.pageIndex);
+            var e: PageEvent = new PageEvent(PageEvent.PAGE_CHANGE, true);
+            e.data = { pageIndex: this.pageIndex }
+            this.dispatchEvent(e);
         }
     }
 
