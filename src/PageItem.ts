@@ -2,7 +2,7 @@
 class PageItem extends eui.Group implements IUUContainer {
 
     pageIndex: number = 0;
-    container: PageBox;
+    container: TabPage;
     selected: boolean = false;
     
     dispose(): void{

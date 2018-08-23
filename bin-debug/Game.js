@@ -20,7 +20,7 @@ var Game = (function (_super) {
         _this.editGroup = new EditGroup();
         _this.header = new Header();
         _this.imgBox = ImageBox.getInstance();
-        _this.siderbarSkinBy = SiderbarSkinBy.getInstance();
+        _this.Siderbar = Siderbar.getInstance();
         _this.skinName = "resource/skins/GameSkin.exml";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageInit, _this);
         return _this;
@@ -55,9 +55,9 @@ var Game = (function (_super) {
         this.drawBg(this.header);
         this.header.draw(this);
         // this.addChild(this.imgBox);
-        this.siderbarSkinBy.x = 1920 - 500;
-        this.siderbarSkinBy.y = this.header.height + 10;
-        this.siderbarSkinBy.draw(this);
+        this.Siderbar.x = 1920 - 500;
+        this.Siderbar.y = this.header.height + 10;
+        this.Siderbar.draw(this);
         var hLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;
         hLayout.horizontalAlign = egret.HorizontalAlign.CENTER;

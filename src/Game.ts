@@ -21,7 +21,7 @@ class Game extends eui.Component {
     public editGroup: EditGroup = new EditGroup();
     public header: Header = new Header();
     public imgBox: ImageBox = ImageBox.getInstance();
-    public siderbarSkinBy: SiderbarSkinBy = SiderbarSkinBy.getInstance();
+    public Siderbar: Siderbar = Siderbar.getInstance();
 
     private initEui() {
         var wvw = new EventSetDome();
@@ -54,9 +54,9 @@ class Game extends eui.Component {
         this.header.draw(this);
         // this.addChild(this.imgBox);
 
-        this.siderbarSkinBy.x = 1920 - 500;
-        this.siderbarSkinBy.y = this.header.height + 10;
-        this.siderbarSkinBy.draw(this);
+        this.Siderbar.x = 1920 - 500;
+        this.Siderbar.y = this.header.height + 10;
+        this.Siderbar.draw(this);
 
         var hLayout:eui.HorizontalLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;

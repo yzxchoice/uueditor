@@ -1,8 +1,8 @@
 declare var UUPanelConfig: {
-    1: ({
+    [x: number]: ({
         type: string;
         title: string;
-        componentType: string;
+        componentType: typeof StyleInput;
     } | {
         type: string;
         title: string;
@@ -10,6 +10,10 @@ declare var UUPanelConfig: {
         selectData: {
             content: string;
         }[];
+    } | {
+        type: string;
+        title: string;
+        componentType: string;
     })[];
     2: {
         type: string;

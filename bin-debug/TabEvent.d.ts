@@ -1,8 +1,8 @@
 declare class TabEvent extends eui.Component implements IUUContainer {
-    container: SiderbarSkinBy;
+    container: Siderbar;
     editGroup: EditGroup;
     dispose(): void;
-    draw(container: SiderbarSkinBy): void;
+    draw(container: Siderbar): void;
     private gp_selection_rect;
     private gp_selection;
     private gp_eventSetContainer;

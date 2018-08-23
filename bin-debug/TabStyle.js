@@ -40,23 +40,23 @@ var TabStyle = (function (_super) {
             input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);
         }
         ;
-        var type = GestureType.DOUBLE_TAP;
-        var event = GestureState.RECOGNIZED;
-        var config = {};
-        config[type] = {};
-        config[type][event] = this.onDoubleClick;
-        GestureManager.add(this.btn_update, config, false);
+        // 双击事件
+        // var type:string = GestureType.DOUBLE_TAP;
+        // var event:string = GestureState.RECOGNIZED;
+        // var config = {};
+        // config[type] = {};
+        // config[type][event] = this.onDoubleClick;
+        // GestureManager.add(this.btn_update, config, false);
     };
-    TabStyle.prototype.onDoubleClick = function () {
-        console.log("double_click");
-    };
+    // private onDoubleClick(){
+    // 	console.log("double_click");
+    // }
     TabStyle.prototype.createStyleType = function (data) {
         this.gp_diff.removeChildren();
         var type = data.type;
         var props = data.props;
         var styleType = new StyleType(type, props);
         styleType.draw(this.gp_diff);
-        styleType.setDataContainer(this);
     };
     TabStyle.prototype.setTarget = function () {
         this.tool = this.editGroup.tool;
@@ -151,7 +151,7 @@ var TabStyle = (function (_super) {
                 break;
         }
         this.tool.startMatrix.copyFrom(this.tool.endMatrix);
-        this.editGroup.renderOneDisplay();
+        this.container.renderOneDisplay();
     };
     return TabStyle;
 }(eui.Component));

@@ -1,5 +1,5 @@
 class TabStyle extends eui.Component implements IUUContainer{
-	container: SiderbarSkinBy;
+	container: Siderbar;
 	editGroup: EditGroup;
 	private kb:KeyBoard;
 	dispose (): void {
@@ -38,23 +38,23 @@ class TabStyle extends eui.Component implements IUUContainer{
 			input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);		
 			input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);							
 		};
-		var type:string = GestureType.DOUBLE_TAP;
-        var event:string = GestureState.RECOGNIZED;
-        var config = {};
-        config[type] = {};
-        config[type][event] = this.onDoubleClick;
-        GestureManager.add(this.btn_update, config, false);
+		// 双击事件
+		// var type:string = GestureType.DOUBLE_TAP;
+        // var event:string = GestureState.RECOGNIZED;
+        // var config = {};
+        // config[type] = {};
+        // config[type][event] = this.onDoubleClick;
+        // GestureManager.add(this.btn_update, config, false);
 	}
-	private onDoubleClick(){
-		console.log("double_click");
-	}
+	// private onDoubleClick(){
+	// 	console.log("double_click");
+	// }
 	private createStyleType(data){
 		this.gp_diff.removeChildren();				
 		let type = data.type;
 		let props = data.props;
 		let styleType: StyleType = new StyleType(type, props);
 		styleType.draw(this.gp_diff);
-		styleType.setDataContainer(this);		
 	}
 	public setTarget(){
 		this.tool = this.editGroup.tool;
@@ -146,6 +146,6 @@ class TabStyle extends eui.Component implements IUUContainer{
 				break;
 		}
 		this.tool.startMatrix.copyFrom(this.tool.endMatrix);
-		this.editGroup.renderOneDisplay();
+		this.container.renderOneDisplay();
 	}
 }

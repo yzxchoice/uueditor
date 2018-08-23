@@ -1,6 +1,6 @@
 declare class LayerItem extends eui.Group implements IUUContainer {
     layerIndex: number;
-    container: LayerBox;
+    container: TabLayer;
     selected: boolean;
     displayObj: Picture;
     bg: egret.Shape;

@@ -2,7 +2,7 @@
 class LayerItem extends eui.Group implements IUUContainer {
 
     layerIndex: number = 0;
-    container: LayerBox;
+    container: TabLayer;
     selected: boolean = false;
 	displayObj: Picture;
     bg: egret.Shape = new egret.Shape;
