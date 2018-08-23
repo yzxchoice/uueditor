@@ -82,7 +82,7 @@ class ImageBox extends eui.Panel {
         
         this.addChild( this._grpLayout );
         this._grpLayout.width = this.width;
-        this._grpLayout.height = this.height - 50;
+        this._grpLayout.height = this.height - 150;
 
         var tLayout:eui.TileLayout = new eui.TileLayout();
         tLayout.paddingTop = 30;

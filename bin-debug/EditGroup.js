@@ -283,7 +283,7 @@ var EditGroup = (function (_super) {
             return;
         var display = target.owner;
         this.clear();
-        display.draw(this);
+        display.draw(this.displayGroup);
         this.tool.draw();
     };
     EditGroup.prototype.clear = function () {
@@ -313,18 +313,26 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.pre = function (event) {
         if (this.pageIndex > 0) {
+            // this.reset();
             this.pageIndex--;
+            // this.renderResources(this.pageIndex);
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
-            e.data = { pageIndex: this.pageIndex };
+            e.data = {
+                pageIndex: this.pageIndex
+            };
             this.dispatchEvent(e);
         }
     };
     EditGroup.prototype.next = function (event) {
         if (this.pageIndex < this.pages.length - 1) {
+            // this.reset();
             this.pageIndex++;
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
-            e.data = { pageIndex: this.pageIndex };
+            e.data = {
+                pageIndex: this.pageIndex
+            };
             this.dispatchEvent(e);
+            // this.renderResources(this.pageIndex);
         }
     };
     EditGroup.prototype.go = function (event) {

@@ -122,7 +122,7 @@ var ImageBox = (function (_super) {
         this._grpLayout.verticalCenter = 0;
         this.addChild(this._grpLayout);
         this._grpLayout.width = this.width;
-        this._grpLayout.height = this.height - 50;
+        this._grpLayout.height = this.height - 150;
         var tLayout = new eui.TileLayout();
         tLayout.paddingTop = 30;
         tLayout.paddingLeft = 30;

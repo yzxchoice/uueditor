@@ -53,6 +53,7 @@ class EditGroup extends eui.Group {
         this.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
         this.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
 
+
         this.render();
     }
 
@@ -320,7 +321,7 @@ class EditGroup extends eui.Group {
         if(!target) return;
         let display: Picture = target.owner;
         this.clear();
-        display.draw(this);
+        display.draw(this.displayGroup);
         this.tool.draw();
     }
 
@@ -355,9 +356,13 @@ class EditGroup extends eui.Group {
 
     pre (event: egret.TouchEvent) {
         if(this.pageIndex > 0){
+            // this.reset();
             this.pageIndex --;
+            // this.renderResources(this.pageIndex);
             var e: PageEvent = new PageEvent(PageEvent.PAGE_CHANGE, true);
-            e.data = { pageIndex: this.pageIndex }
+            e.data = {
+                pageIndex: this.pageIndex
+            }
             this.dispatchEvent(e);
         }
         
@@ -365,10 +370,14 @@ class EditGroup extends eui.Group {
 
     next (event: egret.TouchEvent) {
         if(this.pageIndex < this.pages.length - 1){
+            // this.reset();
             this.pageIndex ++;
             var e: PageEvent = new PageEvent(PageEvent.PAGE_CHANGE, true);
-            e.data = { pageIndex: this.pageIndex }
+            e.data = {
+                pageIndex: this.pageIndex
+            }
             this.dispatchEvent(e);
+            // this.renderResources(this.pageIndex);
         }
     }
 

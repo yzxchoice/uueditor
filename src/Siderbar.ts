@@ -11,9 +11,6 @@ class Siderbar extends eui.Component implements IUUContainer {
 		this.editGroup = this.container.editGroup;
 		this.tool = this.editGroup.tool;
 		this.container.addChild(this);
-		console.log(UUComType);
-		console.log(UUComType.StyleSelect);
-		console.log(UUComType[UUComType.StyleSelect]);
 	}
 	private static _instance:Siderbar = null;
 	public static getInstance(){

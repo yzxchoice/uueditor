@@ -23,9 +23,6 @@ var Siderbar = (function (_super) {
         this.editGroup = this.container.editGroup;
         this.tool = this.editGroup.tool;
         this.container.addChild(this);
-        console.log(UUComType);
-        console.log(UUComType.StyleSelect);
-        console.log(UUComType[UUComType.StyleSelect]);
     };
     Siderbar.getInstance = function () {
         if (Siderbar._instance == null) {
