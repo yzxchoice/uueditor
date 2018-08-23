@@ -285,7 +285,7 @@ var EditGroup = (function (_super) {
             return;
         var display = target.owner;
         this.clear();
-        display.draw(this);
+        display.draw(this.displayGroup);
         this.tool.draw();
     };
     EditGroup.prototype.clear = function () {

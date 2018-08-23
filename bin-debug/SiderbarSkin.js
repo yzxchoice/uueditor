@@ -22,6 +22,12 @@ var SiderbarSkinBy = (function (_super) {
         this.container = container;
         this.editGroup = this.container.editGroup;
         this.container.addChild(this);
+        var x;
+        // y's inferred type is { name: string; location: string; }
+        var y = { data: '', text: '1', textColor: 0x000000, size: 16, lineSpacing: 2, textAlign: 'center', by: 'by' };
+        x = y;
+        console.log('x....');
+        console.log(x);
     };
     SiderbarSkinBy.getInstance = function () {
         if (SiderbarSkinBy._instance == null) {

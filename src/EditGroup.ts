@@ -322,7 +322,7 @@ class EditGroup extends eui.Group {
         if(!target) return;
         let display: Picture = target.owner;
         this.clear();
-        display.draw(this);
+        display.draw(this.displayGroup);
         this.tool.draw();
     }
 

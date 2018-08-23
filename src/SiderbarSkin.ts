@@ -9,6 +9,12 @@ class SiderbarSkinBy extends eui.Component implements IUUContainer {
 		this.container = container;
 		this.editGroup = this.container.editGroup;
 		this.container.addChild(this);
+		let x: ILabel;
+		// y's inferred type is { name: string; location: string; }
+		let y = { data: '',text: '1', textColor: 0x000000, size: 16, lineSpacing: 2, textAlign: 'center', by: 'by' };
+		x = y;
+		console.log('x....');
+		console.log(x);
 	}
 	private static _instance:SiderbarSkinBy = null;
 	public static getInstance(){

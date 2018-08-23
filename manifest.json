@@ -15,8 +15,8 @@
 	],
 	"game": [
 		"bin-debug/StyleInput.js",
-		"bin-debug/StyleSelect.js",
 		"bin-debug/StyleTextColor.js",
+		"bin-debug/StyleSelect.js",
 		"bin-debug/PageItem.js",
 		"bin-debug/ColorSelectBox.js",
 		"bin-debug/EditGroup.js",
@@ -32,7 +32,7 @@
 		"bin-debug/Main.js",
 		"bin-debug/PageBox.js",
 		"bin-debug/PageEvent.js",
-		"bin-debug/Api.js",
+		"bin-debug/UUPanelConfig.js",
 		"bin-debug/Platform.js",
 		"bin-debug/PreviewBox.js",
 		"bin-debug/Select.js",
@@ -49,6 +49,6 @@
 		"bin-debug/Utils.js",
 		"bin-debug/UUBorderContainer.js",
 		"bin-debug/UUMovieClip.js",
-		"bin-debug/UUPanelConfig.js"
+		"bin-debug/Api.js"
 	]
 }
