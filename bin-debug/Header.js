@@ -143,7 +143,7 @@ var Header = (function (_super) {
                             msg: "success",
                             list: g.editGroup.pages
                         };
-                        params = "id=" + Main.id + "&template=" + encodeURIComponent(JSON.stringify(obj)) + "&resource=" + encodeURIComponent(JSON.stringify(Utils.trans(g.editGroup.pages)));
+                        params = "id=" + Main.id + "&template=" + encodeURIComponent(JSON.stringify(obj)) + "&resource=" + encodeURIComponent(JSON.stringify(Utils.trans(g.editGroup.pages, Main.id)));
                         return [4 /*yield*/, Fetch.start('http://10.63.5.71:8002/template/updateTemplate', params, 'POST')];
                     case 1:
                         res = _a.sent();
@@ -154,7 +154,7 @@ var Header = (function (_super) {
     };
     Header.prototype.onAddText = function () {
         var editGroup = this.container.editGroup;
-        editGroup.addText();
+        editGroup.addResource1(UUType.TEXT);
     };
     Header.prototype.onAddPage = function (event) {
         var g = this.parent;

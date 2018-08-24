@@ -8,10 +8,6 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-// TypeScript file  
-/**
- * Game
- */
 var Game = (function (_super) {
     __extends(Game, _super);
     function Game() {
@@ -27,7 +23,12 @@ var Game = (function (_super) {
     }
     Game.prototype.onAddToStageInit = function (event) {
         this.initEui();
-        // Object.keys(ILabel);
+        var bigObject = {
+            name: '1'
+        };
+        Object.keys(bigObject).forEach(function (key) {
+            console.log(bigObject[key]);
+        });
     };
     Game.prototype.initEui = function () {
         var wvw = new EventSetDome();

@@ -1,6 +1,16 @@
 /**
  * Game
  */
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+interface PartialPerson {
+    name?: string;
+    age?: number;
+    location?: string;
+}
 declare class Game extends eui.Component {
     private borderColor;
     constructor();

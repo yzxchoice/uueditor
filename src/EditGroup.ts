@@ -9,6 +9,7 @@ class EditGroup extends eui.Group {
     // private bg: eui.Component = new eui.Component;
     private displayGroup: eui.Group = new eui.Group();
     private SiderbarSkinBy: SiderbarSkinBy = SiderbarSkinBy.getInstance();
+    
     public constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -114,15 +115,15 @@ class EditGroup extends eui.Group {
             this.addEventListener(Mouse.MOVE, this.move, this);
             this.addEventListener(Mouse.END, this.up, this);
 
-            this.SiderbarSkinBy.component_style.setTarget();
-            this.SiderbarSkinBy.component_event.getTargetItemId();            
-            this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+            // this.SiderbarSkinBy.component_style.setTarget();
+            // this.SiderbarSkinBy.component_event.getTargetItemId();            
+            // this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
 
             // AnimateSet.target = this.tool.target.owner.image;
             // AnimateSet.move();
         }
-        requestAnimationFrame(this.renderOneDisplay);        
-        // requestAnimationFrame(this.render);
+        // requestAnimationFrame(this.renderOneDisplay);        
+        requestAnimationFrame(this.render);
         event.preventDefault();
     }
 
@@ -131,10 +132,10 @@ class EditGroup extends eui.Group {
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
 
-        this.SiderbarSkinBy.component_style.updateTarget();    
+        // this.SiderbarSkinBy.component_style.updateTarget();    
         
-        requestAnimationFrame(this.renderOneDisplay);
-        // requestAnimationFrame(this.render);
+        // requestAnimationFrame(this.renderOneDisplay);
+        requestAnimationFrame(this.render);
         event.preventDefault();
     }
 
@@ -155,10 +156,10 @@ class EditGroup extends eui.Group {
         this.removeEventListener(Mouse.MOVE, this.move, this);
         this.removeEventListener(Mouse.END, this.up, this);
 
-        this.SiderbarSkinBy.component_style.updateTarget();
+        // this.SiderbarSkinBy.component_style.updateTarget();
 
-        requestAnimationFrame(this.renderOneDisplay);        
-        // requestAnimationFrame(this.render);
+        // requestAnimationFrame(this.renderOneDisplay);        
+        requestAnimationFrame(this.render);
         event.preventDefault();
     }
 
@@ -280,33 +281,26 @@ class EditGroup extends eui.Group {
         };
     }
 
-    private renderResources (index: number): void {
-
-        var list = [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground];
+    async renderResources (index: number) {
         
         var elements = this.pages[index].elements;
         var n = elements.length;
         for (let i=0; i<n; i++){
-
-            var t = LayerSet.getLayer(list, elements[i].type)[0];
-            var com = LayerSet.createInstance(t,elements[i].props);
             var texture:egret.Texture = RES.getRes(elements[i].name);
+                    
+            var t = LayerSet.getLayer(Utils.getComs(), elements[i].type)[0];
+            var com = LayerSet.createInstance(t,elements[i].props);
             com.name = elements[i].id;
             com.data = elements[i];
-            if(!texture && com.data.hasOwnProperty('src')){
-                RES.getResByUrl("resource/"+elements[i].src, function(texture:egret.Texture):void {
-                    com.texture = texture;
-                    
-                    this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==99?false:true));
-                }, this, RES.ResourceItem.TYPE_IMAGE);
+            if(!texture && (elements[i].type === UUType.IMAGE || elements[i].type === UUType.BACKGROUND)){
+                com.texture = await Utils.getTexture("resource/"+elements[i].src);
             }else {
                 com.texture = texture;
-                this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==99?false:true));
             }
+            this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==UUType.BACKGROUND?false:true));
+            requestAnimationFrame(this.render);
             
-        }   
-
-        requestAnimationFrame(this.render);
+        }    
     }
 
     render () {
@@ -373,12 +367,13 @@ class EditGroup extends eui.Group {
         if(this.pageIndex < this.pages.length - 1){
             // this.reset();
             this.pageIndex ++;
+            // this.renderResources(this.pageIndex);
             var e: PageEvent = new PageEvent(PageEvent.PAGE_CHANGE, true);
             e.data = {
                 pageIndex: this.pageIndex
             }
             this.dispatchEvent(e);
-            // this.renderResources(this.pageIndex);
+            
         }
     }
 
@@ -423,16 +418,10 @@ class EditGroup extends eui.Group {
     addResource (data: uiData, uutype: number) {
         switch (uutype) {
             case UUType.IMAGE:  
-                this.addSinglePicture(data)
-                break;
             case UUType.BACKGROUND:
-                this.changeBg(data)
-                break;
             case UUType.FRAME:  
-                this.addFrame(data)
-                break;
             case UUType.CIRCLE_SECTOR:
-                this.addComponent(data)
+                this.addResource1(uutype, data);
                 break;
             case UUType.SOUND:
                 this.addSound(data)
@@ -440,81 +429,7 @@ class EditGroup extends eui.Group {
         }
     }
 
-    addSinglePicture (data: uiData) {
-        RES.getResByUrl("resource/"+data.url, function(texture:egret.Texture):void {
-            var m = new Matrix(1,0,0,1,300,300);
-            var result: UUBitmap = new UUBitmap();
-            result.texture = texture;
-            var eles = this.pages[this.pageIndex].elements;
-            
-            data.id = data.id + '-'+ this.displayList.length;
-            eles.push({
-                "id": data.id,
-                "name": data.url.substring(data.url.lastIndexOf("/")+1).replace('.','_'),
-                "pageId": 201807311008,
-                "type": UUType.IMAGE,
-                "matrix": {
-                    "a": m.a,
-                    "b": m.b,
-                    "c": m.c,
-                    "d": m.d,
-                    "x": m.x,
-                    "y": m.y
-                },
-                "props": {},                
-                "src": data.url,
-                "sceneId": 1001
-            })
-            
-            
-            result.name = data.id;
-            result.data = data;
-            this.displayList.push(new Picture(result, m));
-            this.dispatchEvent(new PageEvent(PageEvent.LAYER_ADD, true));
-            requestAnimationFrame(this.render);
-        }, this, RES.ResourceItem.TYPE_IMAGE);
-
-    }
-
-    changeBg (data: uiData) {
-        RES.getResByUrl("resource/"+data.url, function(texture:egret.Texture):void {
-            var m = new Matrix(this.displayGroup.width/texture.bitmapData.width,0,0,this.displayGroup.width/texture.bitmapData.width,0,0);
-            var bg:UUBitmap = new UUBitmap();
-            bg.texture = texture;        
-
-            var eles = this.pages[this.pageIndex].elements;
-            data.id = data.id + '-'+ this.displayList.length;              
-            
-            if(eles.length > 0 && eles[0].type == 99){
-                this.displayList[0].undraw(this.displayGroup);
-                this.displayList.splice(0,1);
-                eles.splice(0,1);
-            }
-            eles.unshift({
-                "id": data.id,
-                "name": data.name,
-                "pageId": 201807311008,
-                "type": UUType.BACKGROUND,
-                "matrix": {
-                    "a": m.a,
-                    "b": m.b,
-                    "c": m.c,
-                    "d": m.d,
-                    "x": m.x,
-                    "y": m.y
-                },
-                "props": {},
-                "src": data.url,
-                "sceneId": 1001
-            })
-            bg.name = data.id;
-            bg.data = data; 
-            this.displayList.unshift(new Picture(bg, m, false));
-            requestAnimationFrame(this.render);
-
-        }, this, RES.ResourceItem.TYPE_IMAGE);
-    }
-
+    //TODO 
     addSound (data: uiData) {
         var m = new Matrix(1,0,0,1,300,500);
         var n = data.name;
@@ -568,74 +483,6 @@ class EditGroup extends eui.Group {
 
     }
 
-    addComponent (data: uiData) {
-        var m = new Matrix(1,0,0,1,0,0);
-        var n = data.name;
-        var eles = this.pages[this.pageIndex].elements;
-        // var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-        data.id = data.id + '-'+ this.displayList.length;
-        eles.push({
-            "id": data.id,
-            "name": n,
-            "pageId": 201807311008,
-            "type": UUType.CIRCLE_SECTOR,
-            "matrix": {
-                "a": m.a,
-                "b": m.b,
-                "c": m.c,
-                "d": m.d,
-                "x": m.x,
-                "y": m.y
-            },
-            "props": {
-                "width": 400,
-                "height": 400
-            },
-            "sceneId": 1001
-        })
-        
-        var circle:CircleSector = new CircleSector();
-        circle.data = data;
-        circle.width = 400;
-        circle.height = 400;
-        this.displayList.push(new Picture(circle, m));
-        requestAnimationFrame(this.render);
-    }
-
-    addFrame (data: uiData) {
-        var m = new Matrix(1,0,0,1,0,0);
-        var n = data.name;
-        var eles = this.pages[this.pageIndex].elements;
-        // var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-        data.id = data.id + '-'+ this.displayList.length;
-        eles.push({
-            "id": data.id,
-            "name": n,
-            "pageId": 201807311008,
-            "type": UUType.FRAME,
-            "matrix": {
-                "a": m.a,
-                "b": m.b,
-                "c": m.c,
-                "d": m.d,
-                "x": m.x,
-                "y": m.y
-            },
-            "props": {
-                "width": 300,
-                "height": 300
-            },
-            "sceneId": 1001
-        })
-        
-        var f: UUContainer = new UUContainer();
-        f.data = data;
-        f.width = 300;
-        f.height = 300;
-        this.displayList.push(new Picture(f, m));
-        requestAnimationFrame(this.render);
-    }
-
     addPage () {
         var pages = this.pages;
         pages.push({
@@ -647,39 +494,56 @@ class EditGroup extends eui.Group {
         })
     }
 
-    addText () {
-        var m = new Matrix(1,0,0,1,300,300);
-        var result: UULabel = new UULabel();
-        result.text = '请输入文本';
-        result.textColor = '0x000000';
-        result.size = 40;
-        var eles = this.pages[this.pageIndex].elements;
-        let id = (new Date()).valueOf();
-        let data = {
-            "id": id,
-            "name": `text${id}`,
-            "pageId": 201807311008,
-            "type": UUType.TEXT,
-            "matrix": {
-                "a": m.a,
-                "b": m.b,
-                "c": m.c,
-                "d": m.d,
-                "x": m.x,
-                "y": m.y
-            },
-            "props": {
-                text: '请输入文本',                                          
-                fontFamily: 'Arial',                
-                size: 40,
-                textColor: '0x000000',                
-            }, 
-            "sceneId": 1001
+    async addResource1 (type: number, d?: uiData) {
+        var t = LayerSet.getLayer(Utils.getComs(), type)[0];
+        var com: IUUBase = LayerSet.createInstance(t, {});
+
+        let id = (new Date()).valueOf().toString();
+        let data: UUData<any> = {
+            id: id,
+            /**
+             * 1.png  => 1_png  预加载资源
+             */
+            name: d?d.url.substring(d.url.lastIndexOf("/")+1).replace('.','_'):id,
+            pageId: 201807311008,
+            type: type,
+            matrix: new Matrix(1,0,0,1,300,300),
+            // src: d ? d.url : '',
+            props: com.getProps ? com.getProps() : {}
         }; 
-        eles.push(data)
-        result.name = id.toString();
-        result.data = data;
-        this.displayList.push(new Picture(result, m));
+        if(data.type === UUType.IMAGE || data.type === UUType.BACKGROUND){
+            data.src = d ? d.url : ''
+        }
+        
+        var eles = this.pages[this.pageIndex].elements;
+
+        var texture:egret.Texture = RES.getRes(data.name);
+        com.name = data.id;
+        com.data = data;
+        
+        if(!texture && (data.type === UUType.IMAGE || data.type === UUType.BACKGROUND)){
+            com.texture = await Utils.getTexture("resource/"+data.src);
+        }else {
+            com.texture = texture;
+        }
+
+        if(data.type == UUType.BACKGROUND){
+            if(eles.length > 0 && eles[0].type == UUType.BACKGROUND){
+                this.displayList[0].undraw(this.displayGroup);
+                this.displayList.splice(0,1);
+                eles.splice(0,1);
+            }
+            data.matrix = new Matrix(this.displayGroup.width/texture.bitmapData.width,0,0,this.displayGroup.width/texture.bitmapData.width,0,0);
+            eles.unshift(data);
+            this.displayList.unshift(new Picture(com, data.matrix, false));
+        }else {
+            eles.push(data)
+            this.displayList.push(new Picture(com, data.matrix, true));
+        }    
+
         requestAnimationFrame(this.render);
     }
+
+    
+
 }

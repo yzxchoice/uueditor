@@ -32,7 +32,7 @@ var Fetch = (function () {
             request.addEventListener(egret.ProgressEvent.PROGRESS, onPostProgress, _this);
             function onPostComplete(event) {
                 var request = event.currentTarget;
-                egret.log("post data : ", request.response);
+                // egret.log("post data : ",request.response);
                 resolve(JSON.parse(request.response));
             }
             function onPostIOError(event) {

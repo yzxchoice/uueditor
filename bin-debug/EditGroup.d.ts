@@ -26,7 +26,7 @@ declare class EditGroup extends eui.Group {
     containsPoint(x: number, y: number): boolean;
     select(event: PageEvent): void;
     selectImage(x: number, y: number): boolean;
-    private renderResources(index);
+    renderResources(index: number): Promise<void>;
     render(): void;
     renderOneDisplay(): void;
     clear(): void;
@@ -39,11 +39,7 @@ declare class EditGroup extends eui.Group {
     updateDisplayProps(display: Picture): void;
     triggerMaskById(imageId: any): void;
     addResource(data: uiData, uutype: number): void;
-    addSinglePicture(data: uiData): void;
-    changeBg(data: uiData): void;
     addSound(data: uiData): void;
-    addComponent(data: uiData): void;
-    addFrame(data: uiData): void;
     addPage(): void;
-    addText(): void;
+    addResource1(type: number, d?: uiData): Promise<void>;
 }

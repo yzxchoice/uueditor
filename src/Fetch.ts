@@ -26,7 +26,7 @@ class Fetch {
 
             function onPostComplete(event:egret.Event):void {
                 var request = <egret.HttpRequest>event.currentTarget;
-                egret.log("post data : ",request.response);
+                // egret.log("post data : ",request.response);
                 resolve(JSON.parse(request.response));
             }
 

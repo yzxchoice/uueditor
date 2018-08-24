@@ -8,6 +8,41 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 // TypeScript file
 var EditGroup = (function (_super) {
     __extends(EditGroup, _super);
@@ -108,23 +143,23 @@ var EditGroup = (function (_super) {
             // events for moving selection
             this.addEventListener(Mouse.MOVE, this.move, this);
             this.addEventListener(Mouse.END, this.up, this);
-            this.SiderbarSkinBy.component_style.setTarget();
-            this.SiderbarSkinBy.component_event.getTargetItemId();
-            this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+            // this.SiderbarSkinBy.component_style.setTarget();
+            // this.SiderbarSkinBy.component_event.getTargetItemId();            
+            // this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
             // AnimateSet.target = this.tool.target.owner.image;
             // AnimateSet.move();
         }
-        requestAnimationFrame(this.renderOneDisplay);
-        // requestAnimationFrame(this.render);
+        // requestAnimationFrame(this.renderOneDisplay);        
+        requestAnimationFrame(this.render);
         event.preventDefault();
     };
     EditGroup.prototype.move = function (event) {
         Mouse.get(event, this);
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
-        this.SiderbarSkinBy.component_style.updateTarget();
-        requestAnimationFrame(this.renderOneDisplay);
-        // requestAnimationFrame(this.render);
+        // this.SiderbarSkinBy.component_style.updateTarget();    
+        // requestAnimationFrame(this.renderOneDisplay);
+        requestAnimationFrame(this.render);
         event.preventDefault();
     };
     EditGroup.prototype.up = function (event) {
@@ -140,9 +175,9 @@ var EditGroup = (function (_super) {
         }
         this.removeEventListener(Mouse.MOVE, this.move, this);
         this.removeEventListener(Mouse.END, this.up, this);
-        this.SiderbarSkinBy.component_style.updateTarget();
-        requestAnimationFrame(this.renderOneDisplay);
-        // requestAnimationFrame(this.render);
+        // this.SiderbarSkinBy.component_style.updateTarget();
+        // requestAnimationFrame(this.renderOneDisplay);        
+        requestAnimationFrame(this.render);
         event.preventDefault();
     };
     EditGroup.prototype.setProperty = function (x, y) {
@@ -248,31 +283,42 @@ var EditGroup = (function (_super) {
         ;
     };
     EditGroup.prototype.renderResources = function (index) {
-        var list = [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground];
-        var elements = this.pages[index].elements;
-        var n = elements.length;
-        var _loop_1 = function (i) {
-            t = LayerSet.getLayer(list, elements[i].type)[0];
-            com = LayerSet.createInstance(t, elements[i].props);
-            texture = RES.getRes(elements[i].name);
-            com.name = elements[i].id;
-            com.data = elements[i];
-            if (!texture && com.data.hasOwnProperty('src')) {
-                RES.getResByUrl("resource/" + elements[i].src, function (texture) {
-                    com.texture = texture;
-                    this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == 99 ? false : true));
-                }, this_1, RES.ResourceItem.TYPE_IMAGE);
-            }
-            else {
-                com.texture = texture;
-                this_1.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == 99 ? false : true));
-            }
-        };
-        var this_1 = this, t, com, texture;
-        for (var i = 0; i < n; i++) {
-            _loop_1(i);
-        }
-        requestAnimationFrame(this.render);
+        return __awaiter(this, void 0, void 0, function () {
+            var elements, n, i, texture, t, com, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        elements = this.pages[index].elements;
+                        n = elements.length;
+                        i = 0;
+                        _b.label = 1;
+                    case 1:
+                        if (!(i < n)) return [3 /*break*/, 6];
+                        texture = RES.getRes(elements[i].name);
+                        t = LayerSet.getLayer(Utils.getComs(), elements[i].type)[0];
+                        com = LayerSet.createInstance(t, elements[i].props);
+                        com.name = elements[i].id;
+                        com.data = elements[i];
+                        if (!(!texture && (elements[i].type === UUType.IMAGE || elements[i].type === UUType.BACKGROUND))) return [3 /*break*/, 3];
+                        _a = com;
+                        return [4 /*yield*/, Utils.getTexture("resource/" + elements[i].src)];
+                    case 2:
+                        _a.texture = _b.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        com.texture = texture;
+                        _b.label = 4;
+                    case 4:
+                        this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == UUType.BACKGROUND ? false : true));
+                        requestAnimationFrame(this.render);
+                        _b.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 1];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
     };
     EditGroup.prototype.render = function () {
         this.clear();
@@ -329,12 +375,12 @@ var EditGroup = (function (_super) {
         if (this.pageIndex < this.pages.length - 1) {
             // this.reset();
             this.pageIndex++;
+            // this.renderResources(this.pageIndex);
             var e = new PageEvent(PageEvent.PAGE_CHANGE, true);
             e.data = {
                 pageIndex: this.pageIndex
             };
             this.dispatchEvent(e);
-            // this.renderResources(this.pageIndex);
         }
     };
     EditGroup.prototype.go = function (event) {
@@ -378,88 +424,17 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.addResource = function (data, uutype) {
         switch (uutype) {
             case UUType.IMAGE:
-                this.addSinglePicture(data);
-                break;
             case UUType.BACKGROUND:
-                this.changeBg(data);
-                break;
             case UUType.FRAME:
-                this.addFrame(data);
-                break;
             case UUType.CIRCLE_SECTOR:
-                this.addComponent(data);
+                this.addResource1(uutype, data);
                 break;
             case UUType.SOUND:
                 this.addSound(data);
                 break;
         }
     };
-    EditGroup.prototype.addSinglePicture = function (data) {
-        RES.getResByUrl("resource/" + data.url, function (texture) {
-            var m = new Matrix(1, 0, 0, 1, 300, 300);
-            var result = new UUBitmap();
-            result.texture = texture;
-            var eles = this.pages[this.pageIndex].elements;
-            data.id = data.id + '-' + this.displayList.length;
-            eles.push({
-                "id": data.id,
-                "name": data.url.substring(data.url.lastIndexOf("/") + 1).replace('.', '_'),
-                "pageId": 201807311008,
-                "type": UUType.IMAGE,
-                "matrix": {
-                    "a": m.a,
-                    "b": m.b,
-                    "c": m.c,
-                    "d": m.d,
-                    "x": m.x,
-                    "y": m.y
-                },
-                "props": {},
-                "src": data.url,
-                "sceneId": 1001
-            });
-            result.name = data.id;
-            result.data = data;
-            this.displayList.push(new Picture(result, m));
-            this.dispatchEvent(new PageEvent(PageEvent.LAYER_ADD, true));
-            requestAnimationFrame(this.render);
-        }, this, RES.ResourceItem.TYPE_IMAGE);
-    };
-    EditGroup.prototype.changeBg = function (data) {
-        RES.getResByUrl("resource/" + data.url, function (texture) {
-            var m = new Matrix(this.displayGroup.width / texture.bitmapData.width, 0, 0, this.displayGroup.width / texture.bitmapData.width, 0, 0);
-            var bg = new UUBitmap();
-            bg.texture = texture;
-            var eles = this.pages[this.pageIndex].elements;
-            data.id = data.id + '-' + this.displayList.length;
-            if (eles.length > 0 && eles[0].type == 99) {
-                this.displayList[0].undraw(this.displayGroup);
-                this.displayList.splice(0, 1);
-                eles.splice(0, 1);
-            }
-            eles.unshift({
-                "id": data.id,
-                "name": data.name,
-                "pageId": 201807311008,
-                "type": UUType.BACKGROUND,
-                "matrix": {
-                    "a": m.a,
-                    "b": m.b,
-                    "c": m.c,
-                    "d": m.d,
-                    "x": m.x,
-                    "y": m.y
-                },
-                "props": {},
-                "src": data.url,
-                "sceneId": 1001
-            });
-            bg.name = data.id;
-            bg.data = data;
-            this.displayList.unshift(new Picture(bg, m, false));
-            requestAnimationFrame(this.render);
-        }, this, RES.ResourceItem.TYPE_IMAGE);
-    };
+    //TODO 
     EditGroup.prototype.addSound = function (data) {
         var m = new Matrix(1, 0, 0, 1, 300, 500);
         var n = data.name;
@@ -508,70 +483,6 @@ var EditGroup = (function (_super) {
         this.displayList.push(new Picture(soundBtn, m));
         requestAnimationFrame(this.render);
     };
-    EditGroup.prototype.addComponent = function (data) {
-        var m = new Matrix(1, 0, 0, 1, 0, 0);
-        var n = data.name;
-        var eles = this.pages[this.pageIndex].elements;
-        // var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-        data.id = data.id + '-' + this.displayList.length;
-        eles.push({
-            "id": data.id,
-            "name": n,
-            "pageId": 201807311008,
-            "type": UUType.CIRCLE_SECTOR,
-            "matrix": {
-                "a": m.a,
-                "b": m.b,
-                "c": m.c,
-                "d": m.d,
-                "x": m.x,
-                "y": m.y
-            },
-            "props": {
-                "width": 400,
-                "height": 400
-            },
-            "sceneId": 1001
-        });
-        var circle = new CircleSector();
-        circle.data = data;
-        circle.width = 400;
-        circle.height = 400;
-        this.displayList.push(new Picture(circle, m));
-        requestAnimationFrame(this.render);
-    };
-    EditGroup.prototype.addFrame = function (data) {
-        var m = new Matrix(1, 0, 0, 1, 0, 0);
-        var n = data.name;
-        var eles = this.pages[this.pageIndex].elements;
-        // var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-        data.id = data.id + '-' + this.displayList.length;
-        eles.push({
-            "id": data.id,
-            "name": n,
-            "pageId": 201807311008,
-            "type": UUType.FRAME,
-            "matrix": {
-                "a": m.a,
-                "b": m.b,
-                "c": m.c,
-                "d": m.d,
-                "x": m.x,
-                "y": m.y
-            },
-            "props": {
-                "width": 300,
-                "height": 300
-            },
-            "sceneId": 1001
-        });
-        var f = new UUContainer();
-        f.data = data;
-        f.width = 300;
-        f.height = 300;
-        this.displayList.push(new Picture(f, m));
-        requestAnimationFrame(this.render);
-    };
     EditGroup.prototype.addPage = function () {
         var pages = this.pages;
         pages.push({
@@ -582,40 +493,63 @@ var EditGroup = (function (_super) {
             }
         });
     };
-    EditGroup.prototype.addText = function () {
-        var m = new Matrix(1, 0, 0, 1, 300, 300);
-        var result = new UULabel();
-        result.text = '请输入文本';
-        result.textColor = 0x000000;
-        result.size = 40;
-        var eles = this.pages[this.pageIndex].elements;
-        var id = (new Date()).valueOf();
-        var data = {
-            "id": id,
-            "name": "text" + id,
-            "pageId": 201807311008,
-            "type": UUType.TEXT,
-            "matrix": {
-                "a": m.a,
-                "b": m.b,
-                "c": m.c,
-                "d": m.d,
-                "x": m.x,
-                "y": m.y
-            },
-            "props": {
-                text: '请输入文本',
-                fontFamily: 'Arial',
-                size: 40,
-                textColor: '0x000000',
-            },
-            "sceneId": 1001
-        };
-        eles.push(data);
-        result.name = id.toString();
-        result.data = data;
-        this.displayList.push(new Picture(result, m));
-        requestAnimationFrame(this.render);
+    EditGroup.prototype.addResource1 = function (type, d) {
+        return __awaiter(this, void 0, void 0, function () {
+            var t, com, id, data, eles, texture, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        t = LayerSet.getLayer(Utils.getComs(), type)[0];
+                        com = LayerSet.createInstance(t, {});
+                        id = (new Date()).valueOf().toString();
+                        data = {
+                            id: id,
+                            /**
+                             * 1.png  => 1_png  预加载资源
+                             */
+                            name: d ? d.url.substring(d.url.lastIndexOf("/") + 1).replace('.', '_') : id,
+                            pageId: 201807311008,
+                            type: type,
+                            matrix: new Matrix(1, 0, 0, 1, 300, 300),
+                            // src: d ? d.url : '',
+                            props: com.getProps ? com.getProps() : {}
+                        };
+                        if (data.type === UUType.IMAGE || data.type === UUType.BACKGROUND) {
+                            data.src = d ? d.url : '';
+                        }
+                        eles = this.pages[this.pageIndex].elements;
+                        texture = RES.getRes(data.name);
+                        com.name = data.id;
+                        com.data = data;
+                        if (!(!texture && (data.type === UUType.IMAGE || data.type === UUType.BACKGROUND))) return [3 /*break*/, 2];
+                        _a = com;
+                        return [4 /*yield*/, Utils.getTexture("resource/" + data.src)];
+                    case 1:
+                        _a.texture = _b.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        com.texture = texture;
+                        _b.label = 3;
+                    case 3:
+                        if (data.type == UUType.BACKGROUND) {
+                            if (eles.length > 0 && eles[0].type == UUType.BACKGROUND) {
+                                this.displayList[0].undraw(this.displayGroup);
+                                this.displayList.splice(0, 1);
+                                eles.splice(0, 1);
+                            }
+                            data.matrix = new Matrix(this.displayGroup.width / texture.bitmapData.width, 0, 0, this.displayGroup.width / texture.bitmapData.width, 0, 0);
+                            eles.unshift(data);
+                            this.displayList.unshift(new Picture(com, data.matrix, false));
+                        }
+                        else {
+                            eles.push(data);
+                            this.displayList.push(new Picture(com, data.matrix, true));
+                        }
+                        requestAnimationFrame(this.render);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     return EditGroup;
 }(eui.Group));
