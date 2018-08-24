@@ -8,9 +8,9 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var LayerBox = (function (_super) {
-    __extends(LayerBox, _super);
-    function LayerBox() {
+var TabLayer = (function (_super) {
+    __extends(TabLayer, _super);
+    function TabLayer() {
         var _this = _super.call(this) || this;
         _this.layers = [];
         _this.displayList = [];
@@ -19,19 +19,19 @@ var LayerBox = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddedToStage, _this);
         return _this;
     }
-    LayerBox.prototype.dispose = function () {
+    TabLayer.prototype.dispose = function () {
     };
-    LayerBox.prototype.draw = function (container) {
+    TabLayer.prototype.draw = function (container) {
         this.container = container;
         this.editGroup = this.container.editGroup;
     };
-    LayerBox.prototype.onAddedToStage = function () {
+    TabLayer.prototype.onAddedToStage = function () {
         this.getPages();
         this.init();
         this.removeChildren();
         this.render();
     };
-    LayerBox.prototype.init = function () {
+    TabLayer.prototype.init = function () {
         var vLayout = new eui.VerticalLayout();
         vLayout.paddingTop = 0;
         vLayout.gap = 0;
@@ -39,15 +39,15 @@ var LayerBox = (function (_super) {
         this.stage.addEventListener(PageEvent.LAYER_ADD, this.layerAdd, this);
         this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.pageChange, this);
     };
-    LayerBox.prototype.pageChange = function (event) {
+    TabLayer.prototype.pageChange = function (event) {
         this.getPages();
         this.removeChildren();
         this.render();
     };
-    LayerBox.prototype.getPages = function () {
+    TabLayer.prototype.getPages = function () {
         this.displayList = this.editGroup.displayList;
     };
-    LayerBox.prototype.render = function (layerIndex) {
+    TabLayer.prototype.render = function (layerIndex) {
         if (layerIndex === void 0) { layerIndex = 0; }
         this.layers = [];
         var i = 0;
@@ -67,7 +67,7 @@ var LayerBox = (function (_super) {
             g.draw(this);
         }
     };
-    LayerBox.prototype.redraw = function (layerIndex) {
+    TabLayer.prototype.redraw = function (layerIndex) {
         if (layerIndex === void 0) { layerIndex = 0; }
         var i = 0;
         var n = this.layers.length;
@@ -81,7 +81,7 @@ var LayerBox = (function (_super) {
             this.layers[i].redraw(this);
         }
     };
-    LayerBox.prototype.layerAdd = function (event) {
+    TabLayer.prototype.layerAdd = function (event) {
         // var g: Game = this.parent as Game;
         // this.displayList = g.editGroup.displayList;
         var elements = this.displayList;
@@ -93,7 +93,7 @@ var LayerBox = (function (_super) {
         this.redraw(elements.length - 1);
         item.select(null);
     };
-    return LayerBox;
+    return TabLayer;
 }(eui.Group));
-__reflect(LayerBox.prototype, "LayerBox", ["IUUContainer"]);
-//# sourceMappingURL=LayerBox.js.map
+__reflect(TabLayer.prototype, "TabLayer", ["IUUContainer"]);
+//# sourceMappingURL=TabLayer.js.map

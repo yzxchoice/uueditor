@@ -8,8 +8,7 @@ class EditGroup extends eui.Group {
     private borderColor = 0xcccccc;
     // private bg: eui.Component = new eui.Component;
     private displayGroup: eui.Group = new eui.Group();
-    private SiderbarSkinBy: SiderbarSkinBy = SiderbarSkinBy.getInstance();
-    
+    private siderbar: Siderbar = Siderbar.getInstance();
     public constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -51,8 +50,9 @@ class EditGroup extends eui.Group {
         this.setupTool();
 
         this.addEventListener(Mouse.START, this.down, this);
-        this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
-        this.stage.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
+        this.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
+        this.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
+
 
         this.render();
     }
@@ -115,10 +115,7 @@ class EditGroup extends eui.Group {
             this.addEventListener(Mouse.MOVE, this.move, this);
             this.addEventListener(Mouse.END, this.up, this);
 
-            // this.SiderbarSkinBy.component_style.setTarget();
-            // this.SiderbarSkinBy.component_event.getTargetItemId();            
-            // this.SiderbarSkinBy.component_event.triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-
+            this.siderbar.selectTarget();
             // AnimateSet.target = this.tool.target.owner.image;
             // AnimateSet.move();
         }
@@ -132,7 +129,7 @@ class EditGroup extends eui.Group {
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
 
-        // this.SiderbarSkinBy.component_style.updateTarget();    
+        this.siderbar.moveTarget();    
         
         // requestAnimationFrame(this.renderOneDisplay);
         requestAnimationFrame(this.render);
@@ -156,7 +153,7 @@ class EditGroup extends eui.Group {
         this.removeEventListener(Mouse.MOVE, this.move, this);
         this.removeEventListener(Mouse.END, this.up, this);
 
-        // this.SiderbarSkinBy.component_style.updateTarget();
+        this.siderbar.upTarget(); 
 
         // requestAnimationFrame(this.renderOneDisplay);        
         requestAnimationFrame(this.render);
@@ -316,7 +313,7 @@ class EditGroup extends eui.Group {
         if(!target) return;
         let display: Picture = target.owner;
         this.clear();
-        display.draw(this);
+        display.draw(this.displayGroup);
         this.tool.draw();
     }
 
@@ -493,6 +490,7 @@ class EditGroup extends eui.Group {
             }
         })
     }
+
 
     async addResource1 (type: number, d?: uiData) {
         var t = LayerSet.getLayer(Utils.getComs(), type)[0];

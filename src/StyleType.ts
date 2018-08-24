@@ -7,18 +7,20 @@ class StyleType extends eui.Component implements IUUContainer{
 		this.container = container;
 		this.container.addChild(this);
 	}
+	private siderbar: Siderbar = Siderbar.getInstance();
 	private item: any;
 	private data : any;
 	private styleType: number;
 	private props: any;
 	private _props: any;
 	private gp_styleContainer: eui.Group;
-	private dataContainer: TabStyle;
 	public constructor(styleType, props) {
 		super();
 		this.styleType = styleType;
-		this.props = props;
-		this._props =  JSON.parse(JSON.stringify(props));
+		console.log('props...');
+		console.log(props);
+		this.props = props || {};
+		this._props =  JSON.parse(JSON.stringify(this.props));
 		this.observer(this.props);
 		this.skinName = 'resource/skins/StyleTypeSkin.exml';
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -36,6 +38,7 @@ class StyleType extends eui.Component implements IUUContainer{
 	}
 	private initPanel(){
 		let configList = UUPanelConfig[this.styleType];
+		if(!configList) return;
 		for(let i = 0, len = configList.length; i < len; i++){
 			let config = configList[i];
 			let com = this.createComponent(config, this.props);
@@ -48,11 +51,6 @@ class StyleType extends eui.Component implements IUUContainer{
 		let componentType = config.componentType;
 		let styleComponent = eval(componentType);
 		return new styleComponent(config, props);
-	}
-	setDataContainer(dataContainer: TabStyle){
-		this.dataContainer = dataContainer;
-		this.item = dataContainer.tool.target.owner.image;
-		this.data = this.item.data;
 	}
 	// 对props进行双向数据绑定
 	private observer(data) {
@@ -75,21 +73,23 @@ class StyleType extends eui.Component implements IUUContainer{
 		})
 	};
 	private refresh(){
-		let target: Transformable = this.dataContainer.tool.target;	
-		let picture:Picture = target.owner;
+		let tool = this.siderbar.tool;
+		let image = tool.target.owner.image;
+		let target: Transformable = tool.target;	
+		let picture: Picture = target.owner;
 		
-		this.dataContainer.tool.setTarget(null);  
-		this.dataContainer.editGroup.clear();
-		this.dataContainer.editGroup.updateDisplay(picture);		
+		tool.setTarget(null);  
+		this.siderbar.editGroup.clear();
+		this.siderbar.updateDisplay(picture);		
 
-		target.width = this.item.width;
-		target.height = this.item.height;
-		this.dataContainer.tool.setTarget(target);	
-		this.dataContainer.tool.draw();		
-		this.dataContainer.updateTarget();
+		target.width = image.width;
+		target.height = image.height;
+		tool.setTarget(target);	
+		tool.draw();		
+		this.siderbar.component_style.updateTarget();
 	}
 	private isTargetSelected(){
-		let tool = this.dataContainer.tool;
+		let tool = this.siderbar.editGroup.tool;
 		let target: Transformable = tool.target;
 		if(!(tool && target)) return false;	
 		return true;

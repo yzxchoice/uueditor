@@ -12,9 +12,12 @@ var StyleType = (function (_super) {
     __extends(StyleType, _super);
     function StyleType(styleType, props) {
         var _this = _super.call(this) || this;
+        _this.siderbar = Siderbar.getInstance();
         _this.styleType = styleType;
-        _this.props = props;
-        _this._props = JSON.parse(JSON.stringify(props));
+        console.log('props...');
+        console.log(props);
+        _this.props = props || {};
+        _this._props = JSON.parse(JSON.stringify(_this.props));
         _this.observer(_this.props);
         _this.skinName = 'resource/skins/StyleTypeSkin.exml';
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
@@ -38,6 +41,8 @@ var StyleType = (function (_super) {
     };
     StyleType.prototype.initPanel = function () {
         var configList = UUPanelConfig[this.styleType];
+        if (!configList)
+            return;
         for (var i = 0, len = configList.length; i < len; i++) {
             var config = configList[i];
             var com = this.createComponent(config, this.props);
@@ -50,11 +55,6 @@ var StyleType = (function (_super) {
         var componentType = config.componentType;
         var styleComponent = eval(componentType);
         return new styleComponent(config, props);
-    };
-    StyleType.prototype.setDataContainer = function (dataContainer) {
-        this.dataContainer = dataContainer;
-        this.item = dataContainer.tool.target.owner.image;
-        this.data = this.item.data;
     };
     // 对props进行双向数据绑定
     StyleType.prototype.observer = function (data) {
@@ -83,19 +83,21 @@ var StyleType = (function (_super) {
     };
     ;
     StyleType.prototype.refresh = function () {
-        var target = this.dataContainer.tool.target;
+        var tool = this.siderbar.tool;
+        var image = tool.target.owner.image;
+        var target = tool.target;
         var picture = target.owner;
-        this.dataContainer.tool.setTarget(null);
-        this.dataContainer.editGroup.clear();
-        this.dataContainer.editGroup.updateDisplay(picture);
-        target.width = this.item.width;
-        target.height = this.item.height;
-        this.dataContainer.tool.setTarget(target);
-        this.dataContainer.tool.draw();
-        this.dataContainer.updateTarget();
+        tool.setTarget(null);
+        this.siderbar.editGroup.clear();
+        this.siderbar.updateDisplay(picture);
+        target.width = image.width;
+        target.height = image.height;
+        tool.setTarget(target);
+        tool.draw();
+        this.siderbar.component_style.updateTarget();
     };
     StyleType.prototype.isTargetSelected = function () {
-        var tool = this.dataContainer.tool;
+        var tool = this.siderbar.editGroup.tool;
         var target = tool.target;
         if (!(tool && target))
             return false;

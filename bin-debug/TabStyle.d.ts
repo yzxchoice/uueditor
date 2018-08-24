@@ -1,5 +1,5 @@
 declare class TabStyle extends eui.Component implements IUUContainer {
-    container: SiderbarSkinBy;
+    container: Siderbar;
     editGroup: EditGroup;
     private kb;
     dispose(): void;
@@ -14,7 +14,6 @@ declare class TabStyle extends eui.Component implements IUUContainer {
     constructor();
     private onAddedToStage();
     private initEvent();
-    private onDoubleClick();
     private createStyleType(data);
     setTarget(): void;
     updateTarget(): void;

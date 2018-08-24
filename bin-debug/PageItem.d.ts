@@ -1,6 +1,6 @@
 declare class PageItem extends eui.Group implements IUUContainer {
     pageIndex: number;
-    container: PageBox;
+    container: TabPage;
     selected: boolean;
     dispose(): void;
     draw(container: any): void;

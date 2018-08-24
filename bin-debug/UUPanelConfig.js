@@ -1,10 +1,10 @@
 // TypeScript file
-var UUPanelConfig = {
-    1: [
+var UUPanelConfig = (_a = {},
+    _a[UUType.TEXT] = [
         {
             type: 'text',
             title: '文本',
-            componentType: 'StyleInput'
+            componentType: StyleInput
         },
         {
             type: 'fontFamily',
@@ -45,7 +45,7 @@ var UUPanelConfig = {
             componentType: 'StyleTextColor'
         },
     ],
-    2: [
+    _a[2] = [
         {
             type: 'size',
             title: '字号',
@@ -62,7 +62,8 @@ var UUPanelConfig = {
             componentType: 'StyleInput'
         },
     ],
-};
+    _a);
+var _a;
 // var UUPanelConfig = {
 //     1: [
 //         {

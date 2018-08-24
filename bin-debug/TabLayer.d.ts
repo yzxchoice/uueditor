@@ -1,4 +1,4 @@
-declare class LayerBox extends eui.Group implements IUUContainer {
+declare class TabLayer extends eui.Group implements IUUContainer {
     container: any;
     editGroup: EditGroup;
     layers: any[];
