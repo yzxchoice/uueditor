@@ -262,6 +262,9 @@ var EditGroup = (function (_super) {
                 if (this.tool.target !== t) {
                     // select
                     this.tool.setTarget(t);
+                    var e = new PageEvent(PageEvent.LAYER_CHANGE, true);
+                    e.data = { layerIndex: i };
+                    this.dispatchEvent(e);
                     // reorder for layer rendering
                     // this.displayList.splice(i,1);
                     // this.displayList.push(pic);
@@ -308,12 +311,13 @@ var EditGroup = (function (_super) {
                         _b.label = 4;
                     case 4:
                         this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == UUType.BACKGROUND ? false : true));
-                        requestAnimationFrame(this.render);
                         _b.label = 5;
                     case 5:
                         i++;
                         return [3 /*break*/, 1];
-                    case 6: return [2 /*return*/];
+                    case 6:
+                        requestAnimationFrame(this.render);
+                        return [2 /*return*/];
                 }
             });
         });
@@ -543,6 +547,7 @@ var EditGroup = (function (_super) {
                             eles.push(data);
                             this.displayList.push(new Picture(com, data.matrix, true));
                         }
+                        this.dispatchEvent(new PageEvent(PageEvent.LAYER_ADD, true));
                         requestAnimationFrame(this.render);
                         return [2 /*return*/];
                 }
@@ -552,3 +557,4 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
+//# sourceMappingURL=EditGroup.js.map

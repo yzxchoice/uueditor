@@ -2,12 +2,11 @@ declare class LayerItem extends eui.Group implements IUUContainer {
     layerIndex: number;
     container: TabLayer;
     selected: boolean;
-    displayObj: Picture;
     bg: egret.Shape;
     dispose(): void;
     draw(container: any): void;
     undraw(container: any): void;
-    constructor(layerIndex: number, displayObj: any);
+    constructor(layerIndex: number);
     private onAddedToStage();
     private init();
     private initEvent();

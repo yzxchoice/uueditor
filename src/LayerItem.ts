@@ -4,7 +4,6 @@ class LayerItem extends eui.Group implements IUUContainer {
     layerIndex: number = 0;
     container: TabLayer;
     selected: boolean = false;
-	displayObj: Picture;
     bg: egret.Shape = new egret.Shape;
     
     dispose(): void{
@@ -19,10 +18,9 @@ class LayerItem extends eui.Group implements IUUContainer {
         this.container.removeChild(this);
     }
 
-    constructor (layerIndex: number, displayObj: any) {
+    constructor (layerIndex: number) {
         super();
         this.layerIndex = layerIndex;
-		this.displayObj = displayObj;
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddedToStage, this);
     }
 
@@ -74,7 +72,7 @@ class LayerItem extends eui.Group implements IUUContainer {
         // gc.addChild(label);
 
         var label1: eui.Label = new eui.Label();
-        label1.text = `图层${(this.layerIndex+1)} ${this.displayObj.image.layerName}`;
+        label1.text = `图层${(this.layerIndex+1)}`;// ${this.container.editGroup.displayList[this.layerIndex].image.layerName}`;
         label1.textColor = 0x000000;
         label1.size = 28;
         label1.lineSpacing = 12;
@@ -87,10 +85,10 @@ class LayerItem extends eui.Group implements IUUContainer {
     }
 
     public select (event: egret.TouchEvent) {
-        if(!this.displayObj.b) return;
+        if(!this.container.editGroup.displayList[this.layerIndex].b) return;
         var e: PageEvent = new PageEvent(PageEvent.LAYER_SELECT, true);
         e.data = {
-            t: this.displayObj
+            t: this.container.editGroup.displayList[this.layerIndex]
         }
         this.dispatchEvent(e);
         this.container.redraw(this.layerIndex);

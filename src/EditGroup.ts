@@ -7,7 +7,7 @@ class EditGroup extends eui.Group {
     public pageIndex: number = 0;
     private borderColor = 0xcccccc;
     // private bg: eui.Component = new eui.Component;
-    private displayGroup: eui.Group = new eui.Group();
+    public displayGroup: eui.Group = new eui.Group();
     private siderbar: Siderbar = Siderbar.getInstance();
     public constructor () {
         super();
@@ -258,6 +258,9 @@ class EditGroup extends eui.Group {
                     
                     // select
                     this.tool.setTarget(t);
+                    var e: PageEvent = new PageEvent(PageEvent.LAYER_CHANGE, true);
+                    e.data = {layerIndex: i}
+                    this.dispatchEvent(e);
                     // reorder for layer rendering
                     // this.displayList.splice(i,1);
                     // this.displayList.push(pic);
@@ -295,9 +298,10 @@ class EditGroup extends eui.Group {
                 com.texture = texture;
             }
             this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type==UUType.BACKGROUND?false:true));
-            requestAnimationFrame(this.render);
+            
             
         }    
+        requestAnimationFrame(this.render);
     }
 
     render () {
@@ -538,6 +542,8 @@ class EditGroup extends eui.Group {
             eles.push(data)
             this.displayList.push(new Picture(com, data.matrix, true));
         }    
+
+        this.dispatchEvent(new PageEvent(PageEvent.LAYER_ADD, true));
 
         requestAnimationFrame(this.render);
     }

@@ -80,3 +80,4 @@ var ColorSelectBox = (function (_super) {
     return ColorSelectBox;
 }(eui.Component));
 __reflect(ColorSelectBox.prototype, "ColorSelectBox");
+//# sourceMappingURL=ColorSelectBox.js.map
