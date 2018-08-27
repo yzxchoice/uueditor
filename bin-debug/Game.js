@@ -27,10 +27,10 @@ var Game = (function (_super) {
     }
     Game.prototype.onAddToStageInit = function (event) {
         this.initEui();
+        mouse.enable(this.stage);
+        mouse.setMouseMoveEnabled(true);
     };
     Game.prototype.initEui = function () {
-        var wvw = new EventSetDome();
-        wvw.data = {};
         var editContaier = new eui.Group();
         editContaier.x = 0;
         editContaier.y = 110;
@@ -76,6 +76,7 @@ var Game = (function (_super) {
         button.x = 0;
         button.addEventListener(Mouse.START, this.editGroup.pre, this.editGroup);
         bottomGroup.addChild(button);
+        mouse.setButtonMode(button, true);
         var button2 = new eui.Button();
         button2.y = 50;
         button2.width = 100;
@@ -119,4 +120,3 @@ var Game = (function (_super) {
     return Game;
 }(eui.Component));
 __reflect(Game.prototype, "Game");
-//# sourceMappingURL=Game.js.map

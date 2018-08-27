@@ -14,6 +14,9 @@ class Game extends eui.Component {
 
     private onAddToStageInit(event:egret.Event) {
         this.initEui();
+        mouse.enable(this.stage);
+        mouse.setMouseMoveEnabled(true);
+        
     }
 
     public editGroup: EditGroup = new EditGroup();
@@ -22,8 +25,6 @@ class Game extends eui.Component {
     public Siderbar: Siderbar = Siderbar.getInstance();
 
     private initEui() {
-        var wvw = new EventSetDome();
-        wvw.data = {};
         
         var editContaier: eui.Group = new eui.Group();
         editContaier.x = 0;
@@ -76,6 +77,7 @@ class Game extends eui.Component {
         button.x = 0;
         button.addEventListener(Mouse.START, this.editGroup.pre, this.editGroup);
         bottomGroup.addChild(button);
+        mouse.setButtonMode(button, true);
         var button2 = new eui.Button();
         button2.y = 50;
         button2.width = 100;

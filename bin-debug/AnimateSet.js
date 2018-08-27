@@ -18,4 +18,3 @@ var AnimateSet = (function () {
     return AnimateSet;
 }());
 __reflect(AnimateSet.prototype, "AnimateSet");
-//# sourceMappingURL=AnimateSet.js.map

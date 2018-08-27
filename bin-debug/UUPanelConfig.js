@@ -89,4 +89,3 @@ var _a;
 //     ],
 //     2: [],
 // } 
-//# sourceMappingURL=UUPanelConfig.js.map

@@ -50,8 +50,8 @@ class EditGroup extends eui.Group {
         this.setupTool();
 
         this.addEventListener(Mouse.START, this.down, this);
-        this.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
-        this.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
+        this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
+        this.stage.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
 
 
         this.render();

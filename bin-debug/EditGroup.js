@@ -88,8 +88,8 @@ var EditGroup = (function (_super) {
         this.renderResources(this.pageIndex);
         this.setupTool();
         this.addEventListener(Mouse.START, this.down, this);
-        this.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
-        this.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
+        this.stage.addEventListener(PageEvent.PAGE_CHANGE, this.go, this);
+        this.stage.addEventListener(PageEvent.LAYER_SELECT, this.select, this);
         this.render();
     };
     EditGroup.prototype.setupTool = function () {
@@ -552,4 +552,3 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
-//# sourceMappingURL=EditGroup.js.map
