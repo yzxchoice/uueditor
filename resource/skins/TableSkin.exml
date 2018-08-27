@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="TableSkin" width="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group width="500" x="0" y="0">
+		<e:Group id="gp_box" width="100%" x="0" y="0" scaleX="1" scaleY="1">
+			<e:layout>
+				<e:VerticalLayout horizontalAlign="center" verticalAlign="top"/>
+			</e:layout>
+		</e:Group>
+		<e:Group id="gp_btnBox" width="100%" x="0" y="0" height="60" scaleX="1" scaleY="1">
+			<e:Button label="添加" x="56" y="95" width="80" height="40"/>
+			<e:Button label="添加" x="346" y="95" width="80" height="40"/>
+			<e:Button label="添加" x="194" y="95" width="80" height="40"/>
+			<e:layout>
+			<e:HorizontalLayout horizontalAlign="center" gap="20" verticalAlign="middle"/>
+			</e:layout>
+		</e:Group>
+		<e:layout>
+			<e:VerticalLayout gap="20" horizontalAlign="center" verticalAlign="top" paddingLeft="10" paddingRight="10"/>
+		</e:layout>
+	</e:Group>
+</e:Skin>

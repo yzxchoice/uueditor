@@ -28,6 +28,7 @@ class StyleSelect extends eui.Component{
 		this.gp_style_fontFamily_select.addChild(select);	
 		select.setDataContainer(this);	
 		select.setDefaultItem(this.props[this.inputType]);
+		select.listenSelectChange(this.getFontFamily.bind(this));
 	}
 	public getFontFamily(v){
 		console.log('fontFamily = ' + v);

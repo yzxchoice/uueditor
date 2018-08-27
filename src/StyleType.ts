@@ -49,8 +49,7 @@ class StyleType extends eui.Component implements IUUContainer{
 	}
 	private createComponent(config, props){
 		let componentType = config.componentType;
-		let styleComponent = eval(componentType);
-		return new styleComponent(config, props);
+		return new componentType(config, props);
 	}
 	// 对props进行双向数据绑定
 	private observer(data) {

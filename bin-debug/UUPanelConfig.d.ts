@@ -6,18 +6,21 @@ declare var UUPanelConfig: {
     } | {
         type: string;
         title: string;
-        componentType: string;
+        componentType: typeof StyleSelect;
         selectData: {
             content: string;
         }[];
     } | {
         type: string;
         title: string;
-        componentType: string;
-    })[];
-    2: {
+        componentType: typeof StyleTextColor;
+    })[] | ({
         type: string;
         title: string;
-        componentType: string;
-    }[];
+        componentType: typeof StyleInput;
+    } | {
+        type: string;
+        title: string;
+        componentType: typeof StyleCircleSector;
+    })[];
 };

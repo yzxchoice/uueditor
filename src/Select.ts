@@ -7,6 +7,7 @@ class Select extends eui.Component implements IUUContainer{
 	draw (container: any) {
 		
 	}
+	private cb: Function;
 	private selectData: any[];
 	private dataContainer: any;
 	private stateObj = {
@@ -14,15 +15,16 @@ class Select extends eui.Component implements IUUContainer{
 		selectedItem: 'default',
 	}
 	private isFirstSelect: boolean = true;	
-	public itemWidth: number = 190;
+	public itemWidth: number;
 	private itemHeight: number = 30;
 	private gp_selection_rect: eui.Label;
 	private gp_selection_box: eui.Group;
 	private gp_selection: eui.Group;
 	
-	public constructor(data) {
+	public constructor(data, width: number = 190) {
 		super();
-		this.selectData = data;		
+		this.selectData = data;	
+		this.itemWidth = width;
 		this.skinName = 'resource/skins/SelectSkin.exml'
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddedToStage, this);
 	}
@@ -42,7 +44,10 @@ class Select extends eui.Component implements IUUContainer{
 		this.stateObj.selectionVisible = false;
 	}
 	private output(){
-		this.dataContainer.getFontFamily(this.stateObj.selectedItem);
+		this.cb && this.cb(this.stateObj.selectedItem);
+	}
+	public listenSelectChange(cb: Function){
+		this.cb = cb;
 	}
 	private listenEvent(){
 		this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
