@@ -9,7 +9,7 @@ var UUPanelConfig = (_a = {},
         {
             type: 'fontFamily',
             title: '字体',
-            componentType: 'StyleSelect',
+            componentType: StyleSelect,
             selectData: [
                 {
                     content: 'Arial'
@@ -37,56 +37,33 @@ var UUPanelConfig = (_a = {},
         {
             type: 'size',
             title: '字号',
-            componentType: 'StyleInput'
+            componentType: StyleInput
         },
         {
             type: 'textColor',
             title: '颜色',
-            componentType: 'StyleTextColor'
+            componentType: StyleTextColor
         },
     ],
-    _a[2] = [
+    _a[UUType.IMAGE] = [
+        {
+            type: 'drag',
+            title: '可拖拽',
+            componentType: StyleInput
+        }
+    ],
+    _a[UUType.CIRCLE_SECTOR] = [
         {
             type: 'size',
             title: '字号',
-            componentType: 'StyleInput'
+            componentType: StyleInput,
         },
         {
-            type: 'drag',
-            title: '可拖拽',
-            componentType: 'StyleInput'
-        },
-        {
-            type: 'drag',
-            title: '可拖拽',
-            componentType: 'StyleInput'
+            type: 'awards',
+            title: '转盘',
+            componentType: StyleCircleSector,
         },
     ],
     _a);
 var _a;
-// var UUPanelConfig = {
-//     1: [
-//         {
-//             type: 'text',
-//             title: '文本',
-//             componentType: 'StyleInput'
-//         },
-//         {
-//             type: 'fontFamily',
-//             title: '字体',
-//             componentType: 'StyleInput'
-//         },
-//         {
-//             type: 'size',
-//             title: '字号',
-//             componentType: 'StyleInput'
-//         },
-//         {
-//             type: 'textColor',
-//             title: '颜色',
-//             componentType: 'StyleInput'
-//         },
-//     ],
-//     2: [],
-// } 
 //# sourceMappingURL=UUPanelConfig.js.map

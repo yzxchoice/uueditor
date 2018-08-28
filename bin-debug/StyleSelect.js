@@ -32,6 +32,7 @@ var StyleSelect = (function (_super) {
         this.gp_style_fontFamily_select.addChild(select);
         select.setDataContainer(this);
         select.setDefaultItem(this.props[this.inputType]);
+        select.listenSelectChange(this.getFontFamily.bind(this));
     };
     StyleSelect.prototype.getFontFamily = function (v) {
         console.log('fontFamily = ' + v);

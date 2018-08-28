@@ -30,10 +30,12 @@
 		"resource/skins/TabEventSkin.exml",
 		"resource/skins/SiderbarSkin.exml",
 		"resource/skins/StartSkin.exml",
+		"resource/skins/StyleCircleSectorSkin.exml",
 		"resource/skins/StyleInputSkin.exml",
 		"resource/skins/StyleSelect.exml",
 		"resource/skins/StyleTextColorSkin.exml",
-		"resource/skins/StyleTypeSkin.exml"
+		"resource/skins/StyleTypeSkin.exml",
+		"resource/skins/TableSkin.exml"
 	],
 	"path": "resource/default.thm.json"
 }

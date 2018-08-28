@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="Style" width="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+    <e:Group width="100%" height="70" x="0" y="0" scaleX="1" scaleY="1">
+        <e:Label text="{stateObj.title}" x="119" y="19" textColor="0x050000" size="24"/>
+        <e:Label id="lb_edit" text="编辑" x="301" y="34" size="16" textColor="0x1593ff"/>
+        <e:layout>
+        <e:HorizontalLayout verticalAlign="middle" horizontalAlign="left" paddingLeft="20" gap="20"/>
+        </e:layout>
+    </e:Group>
+</e:Skin>

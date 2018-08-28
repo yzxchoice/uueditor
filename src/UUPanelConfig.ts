@@ -9,7 +9,7 @@ var UUPanelConfig = {
         {
             type: 'fontFamily',
             title: '字体',
-            componentType: 'StyleSelect',
+            componentType: StyleSelect,
             selectData: [
                 {
                     content: 'Arial'
@@ -37,55 +37,31 @@ var UUPanelConfig = {
         {
             type: 'size',
             title: '字号',
-            componentType: 'StyleInput'
+            componentType: StyleInput
         },
         {
             type: 'textColor',
             title: '颜色',
-            componentType: 'StyleTextColor'
+            componentType: StyleTextColor
         },
     ],
-    2: [
+    [UUType.IMAGE]: [
+        {
+            type: 'drag',
+            title: '可拖拽',
+            componentType: StyleInput
+        }
+    ],
+    [UUType.CIRCLE_SECTOR]: [
         {
             type: 'size',
             title: '字号',
-            componentType: 'StyleInput'
+            componentType: StyleInput,
         },
         {
-            type: 'drag',
-            title: '可拖拽',
-            componentType: 'StyleInput'
+            type: 'awards',
+            title: '转盘',
+            componentType: StyleCircleSector,
         },
-        {
-            type: 'drag',
-            title: '可拖拽',
-            componentType: 'StyleInput'
-        },
-    ],
+    ]
 }
-
-// var UUPanelConfig = {
-//     1: [
-//         {
-//             type: 'text',
-//             title: '文本',
-//             componentType: 'StyleInput'
-//         },
-//         {
-//             type: 'fontFamily',
-//             title: '字体',
-//             componentType: 'StyleInput'
-//         },
-//         {
-//             type: 'size',
-//             title: '字号',
-//             componentType: 'StyleInput'
-//         },
-//         {
-//             type: 'textColor',
-//             title: '颜色',
-//             componentType: 'StyleInput'
-//         },
-//     ],
-//     2: [],
-// }

@@ -10,16 +10,17 @@ r.prototype = e.prototype, t.prototype = new r();
 };
 var Select = (function (_super) {
     __extends(Select, _super);
-    function Select(data) {
+    function Select(data, width) {
+        if (width === void 0) { width = 190; }
         var _this = _super.call(this) || this;
         _this.stateObj = {
             selectionVisible: false,
             selectedItem: 'default',
         };
         _this.isFirstSelect = true;
-        _this.itemWidth = 190;
         _this.itemHeight = 30;
         _this.selectData = data;
+        _this.itemWidth = width;
         _this.skinName = 'resource/skins/SelectSkin.exml';
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddedToStage, _this);
         return _this;
@@ -44,7 +45,10 @@ var Select = (function (_super) {
         this.stateObj.selectionVisible = false;
     };
     Select.prototype.output = function () {
-        this.dataContainer.getFontFamily(this.stateObj.selectedItem);
+        this.cb && this.cb(this.stateObj.selectedItem);
+    };
+    Select.prototype.listenSelectChange = function (cb) {
+        this.cb = cb;
     };
     Select.prototype.listenEvent = function () {
         this.gp_selection_rect.addEventListener(egret.TouchEvent.TOUCH_TAP, this.touchSelection2, this);
