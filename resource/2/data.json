@@ -113,12 +113,33 @@
                     }
                 ]
             }
+        },
+        {
+            "id": "1535104088454",
+            "name": "sideshow_png",
+            "pageId": 201807311030,
+            "type": 103,
+            "matrix": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "x": 300,
+                "y": 300
+            },
+            "props": {
+                "width": 800,
+                "height": 600,
+                "list": [
+                ]
+            }
         }
             ],
             "properties": {
                 "triggerGroup": []
             }
         },
+        
         {
             "id": 201807311009,
             "elements": [
