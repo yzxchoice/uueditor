@@ -1,4 +1,5 @@
 declare class StyleCircleSector extends eui.Component {
+    private siderbar;
     private stateObj;
     private config;
     private props;

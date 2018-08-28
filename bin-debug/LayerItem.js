@@ -11,13 +11,12 @@ r.prototype = e.prototype, t.prototype = new r();
 // TypeScript file
 var LayerItem = (function (_super) {
     __extends(LayerItem, _super);
-    function LayerItem(layerIndex, displayObj) {
+    function LayerItem(layerIndex) {
         var _this = _super.call(this) || this;
         _this.layerIndex = 0;
         _this.selected = false;
         _this.bg = new egret.Shape;
         _this.layerIndex = layerIndex;
-        _this.displayObj = displayObj;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddedToStage, _this);
         return _this;
     }
@@ -71,7 +70,7 @@ var LayerItem = (function (_super) {
         // label.verticalCenter = 0 ;
         // gc.addChild(label);
         var label1 = new eui.Label();
-        label1.text = "\u56FE\u5C42" + (this.layerIndex + 1) + " " + this.displayObj.image.layerName;
+        label1.text = "\u56FE\u5C42" + (this.layerIndex + 1); // ${this.container.editGroup.displayList[this.layerIndex].image.layerName}`;
         label1.textColor = 0x000000;
         label1.size = 28;
         label1.lineSpacing = 12;
@@ -82,11 +81,11 @@ var LayerItem = (function (_super) {
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.select, this);
     };
     LayerItem.prototype.select = function (event) {
-        if (!this.displayObj.b)
+        if (!this.container.editGroup.displayList[this.layerIndex].b)
             return;
         var e = new PageEvent(PageEvent.LAYER_SELECT, true);
         e.data = {
-            t: this.displayObj
+            t: this.container.editGroup.displayList[this.layerIndex]
         };
         this.dispatchEvent(e);
         this.container.redraw(this.layerIndex);

@@ -89,11 +89,27 @@
                 "list": [
                     {
                         "text": "文本1",
-                        "url": "img/a"
+                        "url": "/assets/1.png"
                     },
                     {
                         "text": "文本2",
-                        "url": "img/b"
+                        "url": "/assets/2.png"
+                    },
+                    {
+                        "text": "文本3",
+                        "url": "/assets/3.png"
+                    },
+                    {
+                        "text": "文本4",
+                        "url": "/assets/4.png"
+                    },
+                    {
+                        "text": "文本5",
+                        "url": "/assets/5.png"
+                    },
+                    {
+                        "text": "文本6",
+                        "url": "/assets/5.png"
                     }
                 ]
             }

@@ -72,12 +72,14 @@ class Table extends eui.Group {
 		this._data =  JSON.parse(JSON.stringify(this.data));
 		this.observer(this.data);
 		this.reload();
+		this.deliverMessage();
 	}
 	private btn_del_click(evt: egret.TouchEvent){
 		console.log('del...');
 		try {
 			this.gp_box.removeChild(this.activeRow);
 			this.data.splice(this.activeIndex, 1);
+			this.deliverMessage();
 		}catch(e){
 			console.log(e);
 		}
@@ -85,6 +87,7 @@ class Table extends eui.Group {
 	private btn_sure_click(){
 		console.log('sure...');
 		console.log(this.data);
+		this.deliverMessage();		
 	}
 	private createHead(): eui.Group {
 		let group = new eui.Group;
@@ -234,12 +237,15 @@ class Table extends eui.Group {
 							if(newValue === this._data[index][key].value) return;
 							this._data[index][key].value = newValue;
 							console.log('props key is change');
-							this.cb && this.cb();
-							// TODO: 通知外部组件数据已经变化
+							this.deliverMessage();
 						}
 					})
 				}
 			})
 		}));
 	};
+	// 将数据改变这一信息传递给外部组件
+	private deliverMessage(){
+		this.cb && this.cb();
+	}
 }

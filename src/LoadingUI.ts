@@ -47,22 +47,39 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
         this.textField.textAlign = "center";
         this.textField.textColor = 0x999999;
 
+        var bg = new egret.Shape();
+        bg.height = 30;
+        bg.width = 480;
+        bg.x = (1920 - 480) / 2;
+        bg.y = 350;
+        bg.graphics.beginFill(0xffffff, 1);
+        bg.graphics.drawRoundRect(0, 0, 480, 30, 30);
+        bg.graphics.endFill();
+        this.addChild(bg);
+
+        
+
         this.progressBar = new egret.Shape();
-        this.progressBar.height = 30;
-        this.progressBar.width = 480;
         this.progressBar.x = (1920 - 480) / 2;
         this.progressBar.y = 350;
-        this.progressBar.graphics.beginFill(0xcccccc, 1);
-        this.progressBar.graphics.drawRoundRect(0, 0, 480, 30, 30);
-        this.progressBar.graphics.endFill();
         this.addChild(this.progressBar);
+
+        var mask = new egret.Shape();
+        mask.height = 30;
+        mask.width = 480;
+        mask.x = (1920 - 480) / 2;
+        mask.y = 350;
+        mask.graphics.beginFill(0xcccccc, 1);
+        mask.graphics.drawRoundRect(0, 0, 480, 30, 30);
+        mask.graphics.endFill();
+        this.addChild(mask);
+        this.progressBar.mask = mask;
     }
 
     public onProgress(current: number, total: number): void {
         this.textField.text = `Loading...${current}/${total}`;
         // this.progressBar.value = Math.floor(current / total * 100);
         this.progressBar.graphics.beginFill(0x3fb0f5, 1);
-        // this.progressBar.graphics.lineStyle(1, 0xf2f2f2);
         this.progressBar.graphics.drawRoundRect(0, 0, 480 * current/total, 30, 30);
         this.progressBar.graphics.endFill();
     }

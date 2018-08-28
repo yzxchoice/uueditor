@@ -12,6 +12,7 @@ var StyleCircleSector = (function (_super) {
     __extends(StyleCircleSector, _super);
     function StyleCircleSector(config, props) {
         var _this = _super.call(this) || this;
+        _this.siderbar = Siderbar.getInstance();
         _this.config = config;
         _this.props = props;
         _this.inputType = config.type;
@@ -19,7 +20,9 @@ var StyleCircleSector = (function (_super) {
             title: config.title,
             content: props[_this.inputType]
         };
-        _this.initdata = props.list;
+        var image = _this.siderbar.tool.target.owner.image;
+        _this.initdata = image.getProps().awards;
+        // this.initdata = props.list;		
         // 表头字段
         _this.headData = ['文本', '图片'];
         _this.data = _this.exchangeInitdata(_this.initdata);
@@ -76,7 +79,6 @@ var StyleCircleSector = (function (_super) {
     };
     // 将Tabel需要的数据转换成data.json数据
     StyleCircleSector.prototype.exchangeData = function () {
-        console.log('exchangeData...');
         var arr = [];
         var _loop_2 = function (i, len) {
             var newObj = {};
@@ -91,8 +93,12 @@ var StyleCircleSector = (function (_super) {
             _loop_2(i, len);
         }
         ;
-        console.log(arr);
         this.initdata = this.props.list = arr;
+        var image = this.siderbar.tool.target.owner.image;
+        console.log('改变后的圆盘数据...');
+        console.log(this.initdata);
+        image.setProps(this.initdata);
+        image.redraw();
     };
     return StyleCircleSector;
 }(eui.Component));

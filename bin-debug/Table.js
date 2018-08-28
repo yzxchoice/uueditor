@@ -60,12 +60,14 @@ var Table = (function (_super) {
         this._data = JSON.parse(JSON.stringify(this.data));
         this.observer(this.data);
         this.reload();
+        this.deliverMessage();
     };
     Table.prototype.btn_del_click = function (evt) {
         console.log('del...');
         try {
             this.gp_box.removeChild(this.activeRow);
             this.data.splice(this.activeIndex, 1);
+            this.deliverMessage();
         }
         catch (e) {
             console.log(e);
@@ -74,6 +76,7 @@ var Table = (function (_super) {
     Table.prototype.btn_sure_click = function () {
         console.log('sure...');
         console.log(this.data);
+        this.deliverMessage();
     };
     Table.prototype.createHead = function () {
         var group = new eui.Group;
@@ -226,8 +229,7 @@ var Table = (function (_super) {
                                 return;
                             _this._data[index][key].value = newValue;
                             console.log('props key is change');
-                            _this.cb && _this.cb();
-                            // TODO: 通知外部组件数据已经变化
+                            _this.deliverMessage();
                         }
                     });
                 }
@@ -235,6 +237,10 @@ var Table = (function (_super) {
         }); });
     };
     ;
+    // 将数据改变这一信息传递给外部组件
+    Table.prototype.deliverMessage = function () {
+        this.cb && this.cb();
+    };
     return Table;
 }(eui.Group));
 __reflect(Table.prototype, "Table");

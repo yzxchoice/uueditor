@@ -1,4 +1,6 @@
 class StyleCircleSector extends eui.Component {
+	private siderbar: Siderbar = Siderbar.getInstance();
+
 	private stateObj: {title: string,content: string};
 	private config: any;
 	private props: any;
@@ -25,7 +27,9 @@ class StyleCircleSector extends eui.Component {
 			title: config.title,
 			content: props[this.inputType]
 		}
-		this.initdata = props.list;
+		let image = <CircleSector>this.siderbar.tool.target.owner.image;		
+		this.initdata = image.getProps().awards;
+		// this.initdata = props.list;		
 		// 表头字段
 		this.headData = ['文本','图片'];
 		this.data = this.exchangeInitdata(this.initdata);
@@ -77,7 +81,6 @@ class StyleCircleSector extends eui.Component {
 	}
 	// 将Tabel需要的数据转换成data.json数据
 	private exchangeData(){
-		console.log('exchangeData...');
 		let arr = [];
 		for(let i = 0, len = this.data.length; i < len; i++){
 			let newObj = {};
@@ -87,8 +90,12 @@ class StyleCircleSector extends eui.Component {
 			});
 			arr.push(newObj);
 		};
-		console.log(arr);
 		this.initdata = this.props.list = arr;
+		let image = <CircleSector>this.siderbar.tool.target.owner.image;
+		console.log('改变后的圆盘数据...');
+		console.log(this.initdata);
+		image.setProps(this.initdata);
+		image.redraw();
 	}
 
 }

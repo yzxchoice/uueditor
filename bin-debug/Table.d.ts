@@ -43,4 +43,5 @@ declare class Table extends eui.Group {
     private onFocusIn(evt);
     private onFocusOut(evt);
     private observer(data);
+    private deliverMessage();
 }
