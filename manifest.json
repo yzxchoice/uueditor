@@ -32,7 +32,7 @@
 		"bin-debug/PageItem.js",
 		"bin-debug/Platform.js",
 		"bin-debug/PreviewBox.js",
-		"bin-debug/UUPanelConfig.js",
+		"bin-debug/Api.js",
 		"bin-debug/Siderbar.js",
 		"bin-debug/AnimateSet.js",
 		"bin-debug/AssetAdapter.js",
@@ -50,6 +50,6 @@
 		"bin-debug/UUBorderContainer.js",
 		"bin-debug/UUComType.js",
 		"bin-debug/UUMovieClip.js",
-		"bin-debug/Api.js"
+		"bin-debug/UUPanelConfig.js"
 	]
 }
