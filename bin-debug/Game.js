@@ -93,9 +93,9 @@ var Game = (function (_super) {
         this.imgBox.open(this);
         this.imgBox.getResources(getImages, { tag: 102 }, UUType.FRAME);
     };
-    Game.prototype.openSoundePanel = function () {
-        this.imgBox.open(this);
-        this.imgBox.getResources(getImages, { tag: 18 }, UUType.SOUND);
+    Game.prototype.openSoundePanel = function (cb) {
+        this.imgBox.open(this, cb);
+        this.imgBox.getResources(getImages, { tag: 103 }, UUType.SOUND);
     };
     Game.prototype.openImagePanel = function () {
         this.imgBox.open(this);
@@ -104,6 +104,10 @@ var Game = (function (_super) {
     Game.prototype.openBgPanel = function () {
         this.imgBox.open(this);
         this.imgBox.getResources(getImages, { tag: 2 }, UUType.BACKGROUND);
+    };
+    Game.prototype.openSoundPanel = function () {
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, { tag: 103 }, UUType.SOUND);
     };
     Game.prototype.closeImagePanel = function () {
         this.imgBox.close();

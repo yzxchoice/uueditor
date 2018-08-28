@@ -10,7 +10,8 @@ declare class TabStyle extends eui.Component implements IUUContainer {
     tool: TransformTool;
     private gp_diff;
     private gp_inputContainer;
-    private btn_update;
+    private gp_container;
+    private soundPanel;
     constructor();
     private onAddedToStage();
     private initEvent();

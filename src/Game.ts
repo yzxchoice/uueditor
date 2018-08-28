@@ -97,9 +97,9 @@ class Game extends eui.Component {
         this.imgBox.getResources(getImages, {tag: 102}, UUType.FRAME);
     }
 
-    openSoundePanel () {
-        this.imgBox.open(this);
-        this.imgBox.getResources(getImages, {tag: 18}, UUType.SOUND);
+    openSoundePanel (cb?: Function) {
+        this.imgBox.open(this, cb);
+        this.imgBox.getResources(getImages, {tag: 103}, UUType.SOUND);
     }
 
     openImagePanel () {
@@ -110,6 +110,11 @@ class Game extends eui.Component {
     openBgPanel () {
         this.imgBox.open(this);
         this.imgBox.getResources(getImages, {tag: 2}, UUType.BACKGROUND);
+    }
+
+    openSoundPanel () {
+        this.imgBox.open(this);
+        this.imgBox.getResources(getImages, {tag: 103}, UUType.SOUND);
     }
 
     closeImagePanel () {

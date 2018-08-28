@@ -12,9 +12,10 @@ declare class Game extends eui.Component {
     private initEui();
     openComponentPanel(): void;
     openFramePanel(): void;
-    openSoundePanel(): void;
+    openSoundePanel(cb?: Function): void;
     openImagePanel(): void;
     openBgPanel(): void;
+    openSoundPanel(): void;
     closeImagePanel(): void;
     private drawBg(container, isborder?);
 }

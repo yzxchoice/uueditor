@@ -7,6 +7,7 @@ class ImageBox extends eui.Panel {
     private params: any;
     private uutype: number;
     private container: eui.Component;
+    private cb: Function;
     public constructor () {
         super();
         
@@ -31,11 +32,36 @@ class ImageBox extends eui.Panel {
         this.uutype = uutype;
         var res = await Fetch.start(this.url, this.params);
         this.imgList = res;
-        this.render();
+        if(uutype === UUType.SOUND){
+            this.renderSound();
+        }else {
+            this.render();
+        }
+        
     }
 
     private reset () {
         this._grpLayout.removeChildren();
+    }
+
+    renderSound () {
+        this.reset();
+        for(var i = 0; i<this.imgList.length;i++){
+            this.imgList[i].id = this.imgList[i]._id;
+            this.imgList[i].url = "/resource/"+this.imgList[i].img_path;
+            this.imgList[i].name = this.imgList[i].url.substring(this.imgList[i].url.lastIndexOf("/")+1).replace('.','_')
+            var borderGroup: eui.Group = new eui.Group();
+            // borderGroup.width = 100;
+            // borderGroup.height = 100;
+            this._grpLayout.addChild(borderGroup);
+
+            var lb = new UULabel();
+            lb.text = this.imgList[i].name;
+            lb.data = this.imgList[i];
+            lb.addEventListener(Mouse.START, this.addSound, this);
+            borderGroup.addChild(lb);
+            
+        }
     }
 
     render () {
@@ -92,6 +118,20 @@ class ImageBox extends eui.Panel {
         this._grpLayout.layout = tLayout;        
     }
 
+    addSound (event: egret.TouchEvent) {
+        var g: Game = this.parent as Game;
+        var d: UUData<any> = g.editGroup.tool.target.owner.image.data;
+        var s: IResource = event.currentTarget.data;
+        d.sound = {
+            id: s.id,
+            name: s.name,
+            url: s.url
+        }
+        let e: PageEvent = new PageEvent(PageEvent.SOUND_CHANGE, true);
+        e.data = d.sound;
+        this.dispatchEvent(e);
+    }
+
     private addImage (event: egret.TouchEvent) {
         var g: Game = this.parent as Game;
         // g.editGroup.addSinglePicture(event.currentTarget.data);
@@ -99,8 +139,9 @@ class ImageBox extends eui.Panel {
         // this.close();
     }
 
-    open (container: eui.Component) {
+    open (container: eui.Component, cb?: Function) {
         this.container = container;
+        this.cb = cb;
         this.container.addChild(this);
     }
 

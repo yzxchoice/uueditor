@@ -36,6 +36,7 @@
 		"bin-debug/Siderbar.js",
 		"bin-debug/AnimateSet.js",
 		"bin-debug/StyleSelect.js",
+		"bin-debug/StyleSound.js",
 		"bin-debug/StyleTextColor.js",
 		"bin-debug/StyleType.js",
 		"bin-debug/TabAnimation.js",

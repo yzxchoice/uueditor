@@ -1,1 +1,109 @@
-{"code":200,"msg":"success","list":[{"id":201807311008,"elements":[{"id":7401,"name":"scene_1_jpg","pageId":201807311008,"type":99,"matrix":{"a":1.171875,"b":0,"c":0,"d":1.171875,"x":0,"y":0},"props":{},"src":"assets/bg/scene_1.jpg","sceneId":1001},{"id":"1535088627487","name":"post_item_35_png","pageId":201807311008,"type":2,"matrix":{"a":1,"b":0,"c":0,"d":1,"x":504,"y":504},"props":{},"src":"/assets/pic/post_item_35.png"},{"id":"1535088627787","name":"post_item_36_png","pageId":201807311008,"type":2,"matrix":{"a":1,"b":0,"c":0,"d":1,"x":53,"y":-24},"props":{},"src":"/assets/pic/post_item_36.png"},{"id":"1535088628143","name":"post_item_37_png","pageId":201807311008,"type":2,"matrix":{"a":1,"b":0,"c":0,"d":1,"x":785,"y":43},"props":{},"src":"/assets/pic/post_item_37.png"}],"properties":{"triggerGroup":[]}},{"id":201807311009,"elements":[{"id":7401,"name":"scene_1_jpg","pageId":201807311008,"type":99,"matrix":{"a":1.171875,"b":0,"c":0,"d":1.171875,"x":0,"y":0},"props":{},"src":"assets/bg/scene_1.jpg","sceneId":1001}],"properties":{"triggerGroup":[]}}]}
+{
+    "code": 200,
+    "msg": "success",
+    "list": [
+        {
+            "id": 201807311008,
+            "elements": [
+                {
+                    "id": 7401,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 99,
+                    "matrix": {
+                        "a": 1.171875,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1.171875,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {},
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                },
+                {
+                    "id": "1535088627487",
+                    "name": "post_item_35_png",
+                    "pageId": 201807311008,
+                    "type": 2,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 504,
+                        "y": 504
+                    },
+                    "props": {},
+                    "src": "/assets/pic/post_item_35.png",
+                    "sound": {
+                        "id": 123,
+                        "name": "打字声.mp3",
+                        "url": "/resource/assets/test.mp3"
+                    }
+                },
+                {
+                    "id": "1535088627787",
+                    "name": "post_item_36_png",
+                    "pageId": 201807311008,
+                    "type": 2,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 53,
+                        "y": -24
+                    },
+                    "props": {},
+                    "src": "/assets/pic/post_item_36.png"
+                },
+                {
+                    "id": "1535088628143",
+                    "name": "post_item_37_png",
+                    "pageId": 201807311008,
+                    "type": 2,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 785,
+                        "y": 43
+                    },
+                    "props": {},
+                    "src": "/assets/pic/post_item_37.png"
+                }
+            ],
+            "properties": {
+                "triggerGroup": []
+            }
+        },
+        {
+            "id": 201807311009,
+            "elements": [
+                {
+                    "id": 7401,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 99,
+                    "matrix": {
+                        "a": 1.171875,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1.171875,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {},
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                }
+            ],
+            "properties": {
+                "triggerGroup": []
+            }
+        }
+    ]
+}
