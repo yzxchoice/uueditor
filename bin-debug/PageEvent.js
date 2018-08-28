@@ -21,6 +21,7 @@ var PageEvent = (function (_super) {
     PageEvent.LAYER_ADD = "layerAdd";
     PageEvent.LAYER_CHANGE = "layerChange";
     PageEvent.LAYER_SELECT = "layerSelect";
+    PageEvent.SOUND_CHANGE = "soundChange";
     return PageEvent;
 }(egret.Event));
 __reflect(PageEvent.prototype, "PageEvent");

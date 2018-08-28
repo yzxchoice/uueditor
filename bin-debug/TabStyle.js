@@ -19,6 +19,7 @@ var TabStyle = (function (_super) {
             y: 30,
             rotate: 10,
         };
+        _this.soundPanel = StyleSound.getInstance();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddedToStage, _this);
         return _this;
     }
@@ -63,6 +64,8 @@ var TabStyle = (function (_super) {
         console.log(this.tool);
         var data = this.tool.target.owner.image.data;
         this.createStyleType(data);
+        this.soundPanel.draw(this.gp_container);
+        this.soundPanel.setData(data.sound);
     };
     TabStyle.prototype.updateTarget = function () {
         var item = this.tool.target.owner.image;

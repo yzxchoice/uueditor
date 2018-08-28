@@ -37,6 +37,7 @@
 		"bin-debug/AnimateSet.js",
 		"bin-debug/AssetAdapter.js",
 		"bin-debug/checkItem.js",
+		"bin-debug/StyleSound.js",
 		"bin-debug/ColorSelectBox.js",
 		"bin-debug/StyleType.js",
 		"bin-debug/TabAnimation.js",

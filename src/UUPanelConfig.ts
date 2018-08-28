@@ -47,20 +47,10 @@ var UUPanelConfig = {
     ],
     [UUType.IMAGE]: [
         {
-            type: 'size',
-            title: '字号',
-            componentType: StyleInput
-        },
-        {
             type: 'drag',
             title: '可拖拽',
             componentType: StyleInput
-        },
-        {
-            type: 'drag',
-            title: '可拖拽',
-            componentType: StyleInput
-        },
+        }
     ],
     [UUType.CIRCLE_SECTOR]: [
         {

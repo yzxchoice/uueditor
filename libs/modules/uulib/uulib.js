@@ -1116,6 +1116,7 @@ var Slideshow = (function (_super) {
                 this.addChild(btn_left);
                 this.addChild(group);
                 this.addChild(btn_right);
+                this.mask = new egret.Rectangle(0, 0, this.width, this.height);
                 return [2 /*return*/];
             });
         });

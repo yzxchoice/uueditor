@@ -74,7 +74,12 @@ var ImageBox = (function (_super) {
                     case 1:
                         res = _a.sent();
                         this.imgList = res;
-                        this.render();
+                        if (uutype === UUType.SOUND) {
+                            this.renderSound();
+                        }
+                        else {
+                            this.render();
+                        }
                         return [2 /*return*/];
                 }
             });
@@ -82,6 +87,23 @@ var ImageBox = (function (_super) {
     };
     ImageBox.prototype.reset = function () {
         this._grpLayout.removeChildren();
+    };
+    ImageBox.prototype.renderSound = function () {
+        this.reset();
+        for (var i = 0; i < this.imgList.length; i++) {
+            this.imgList[i].id = this.imgList[i]._id;
+            this.imgList[i].url = "/resource/" + this.imgList[i].img_path;
+            this.imgList[i].name = this.imgList[i].url.substring(this.imgList[i].url.lastIndexOf("/") + 1).replace('.', '_');
+            var borderGroup = new eui.Group();
+            // borderGroup.width = 100;
+            // borderGroup.height = 100;
+            this._grpLayout.addChild(borderGroup);
+            var lb = new UULabel();
+            lb.text = this.imgList[i].name;
+            lb.data = this.imgList[i];
+            lb.addEventListener(Mouse.START, this.addSound, this);
+            borderGroup.addChild(lb);
+        }
     };
     ImageBox.prototype.render = function () {
         this.reset();
@@ -130,14 +152,28 @@ var ImageBox = (function (_super) {
         tLayout.paddingBottom = 30;
         this._grpLayout.layout = tLayout;
     };
+    ImageBox.prototype.addSound = function (event) {
+        var g = this.parent;
+        var d = g.editGroup.tool.target.owner.image.data;
+        var s = event.currentTarget.data;
+        d.sound = {
+            id: s.id,
+            name: s.name,
+            url: s.url
+        };
+        var e = new PageEvent(PageEvent.SOUND_CHANGE, true);
+        e.data = d.sound;
+        this.dispatchEvent(e);
+    };
     ImageBox.prototype.addImage = function (event) {
         var g = this.parent;
         // g.editGroup.addSinglePicture(event.currentTarget.data);
         g.editGroup.addResource(event.currentTarget.data, this.uutype);
         // this.close();
     };
-    ImageBox.prototype.open = function (container) {
+    ImageBox.prototype.open = function (container, cb) {
         this.container = container;
+        this.cb = cb;
         this.container.addChild(this);
     };
     ImageBox.prototype.close = function () {

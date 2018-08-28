@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="TabStyleSkin" width="500" height="680" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-    <e:Group id="gp_eventContainer_style" width="500" height="680" x="0" y="0">
+    <e:Group id="gp_eventContainer_style" width="500" x="0" y="0">
         <e:Rect width="100%" height="100%" x="0" y="0" fillColor="0xebf4f1"/>
-			<e:Group width="100%" height="100%" x="0" y="0">
+			<e:Group id="gp_container" width="100%" height="100%" x="0" y="0">
 				<e:Scroller width="100%" height="100%" x="252" y="334">
 					<e:Group>
 						<e:Group id="gp_diff" width="100%" x="0" y="0">
@@ -32,14 +32,14 @@
 							<e:TextInput id="input_width3" width="140" height="30" x="80" enabled="true" skinName="skins.TextInputSkin" textColor="0x000000" touchEnabled="true" verticalCenter="0" text="{data.rotate}" name="input_rotate"/>
 							</e:Group>
 						</e:Group>
-						<e:Button id="btn_update" label="update" x="195.5" y="250" enabled="true" visible="false"/>
+
 						<e:layout>
 							<e:VerticalLayout gap="0"/>
 						</e:layout>
 					</e:Group>
 				</e:Scroller>
 				<e:layout>
-					<e:VerticalLayout/>
+					<e:VerticalLayout horizontalAlign="center"/>
 				</e:layout>
 			</e:Group>
 			<e:layout>

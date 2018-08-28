@@ -22,7 +22,10 @@ class TabStyle extends eui.Component implements IUUContainer{
 	public tool: TransformTool;
 	private gp_diff: eui.Group;
 	private gp_inputContainer:eui.Group;
-	private btn_update: eui.Button;
+	// private btn_update: eui.Button;
+	private gp_container: eui.Group;
+
+	private soundPanel: StyleSound = StyleSound.getInstance();
 	public constructor() {
 		super();
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddedToStage, this);
@@ -49,7 +52,7 @@ class TabStyle extends eui.Component implements IUUContainer{
 	// private onDoubleClick(){
 	// 	console.log("double_click");
 	// }
-	private createStyleType(data){
+	private createStyleType(data: UUData<any>){
 		this.gp_diff.removeChildren();				
 		let type = data.type;
 		let props = data.props;
@@ -59,8 +62,10 @@ class TabStyle extends eui.Component implements IUUContainer{
 	public setTarget(){
 		this.tool = this.editGroup.tool;
 		console.log(this.tool);
-		let data = this.tool.target.owner.image.data;		
+		let data: UUData<any> = this.tool.target.owner.image.data;		
 		this.createStyleType(data);
+		this.soundPanel.draw(this.gp_container);
+		this.soundPanel.setData(data.sound);
 	}
 	public updateTarget(){
         let item = this.tool.target.owner.image;
