@@ -86,7 +86,7 @@
             "props": {
                 "width": 400,
                 "height": 400,
-                "list": [
+                "awards": [
                     {
                         "text": "文本1",
                         "url": "/assets/1.png"
@@ -129,9 +129,7 @@
             },
             "props": {
                 "width": 800,
-                "height": 600,
-                "list": [
-                ]
+                "height": 600
             }
         }
             ],
@@ -182,7 +180,7 @@
                         "y": 0
                     },
                     "props": {
-                        "list": [
+                        "awards": [
                             {
                                 "text": "文本1",
                                 "url": "img/a"

@@ -8,6 +8,7 @@ class ImageBox extends eui.Panel {
     private uutype: number;
     private container: eui.Component;
     private cb: Function;
+    private isForComponent: boolean = false;
     public constructor () {
         super();
         
@@ -88,7 +89,11 @@ class ImageBox extends eui.Panel {
             image.height = 100;
             image.name = this.imgList[i].id;
             image.data = this.imgList[i];
-            image.addEventListener(Mouse.START, this.addImage, this);
+            if(this.isForComponent){
+                image.addEventListener(Mouse.START, this.addImageForComponent, this);                
+            }else {
+                image.addEventListener(Mouse.START, this.addImage, this);
+            }
             borderGroup.addChild(image);
             
         }
@@ -139,9 +144,15 @@ class ImageBox extends eui.Panel {
         // this.close();
     }
 
-    open (container: eui.Component, cb?: Function) {
+    private addImageForComponent (event: egret.TouchEvent) {
+        var s: IResource = event.currentTarget.data;
+        this.cb && this.cb(s.url);
+    }
+
+    open (container: eui.Component, cb?: Function, isForComponent: boolean = false) {
         this.container = container;
         this.cb = cb;
+        this.isForComponent = isForComponent;
         this.container.addChild(this);
     }
 

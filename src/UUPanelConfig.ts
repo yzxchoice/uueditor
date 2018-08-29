@@ -1,4 +1,10 @@
 // TypeScript file
+interface ConfigItem {
+    type: string;
+    title: string;
+    componentType: any;
+    selectData?: {content: string}[];
+}
 var UUPanelConfig = {
     [UUType.TEXT]: [
         {
@@ -54,14 +60,16 @@ var UUPanelConfig = {
     ],
     [UUType.CIRCLE_SECTOR]: [
         {
-            type: 'size',
-            title: '字号',
-            componentType: StyleInput,
-        },
-        {
             type: 'awards',
             title: '转盘',
             componentType: StyleCircleSector,
+        },
+    ],
+     [UUType.SLIDESHOW]: [
+        {
+            type: 'awards',
+            title: '轮播图',
+            componentType: StyleSlideshow,
         },
     ]
 }
