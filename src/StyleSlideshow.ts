@@ -1,15 +1,15 @@
-class StyleCircleSector extends eui.Component {
+class StyleSlideshow extends eui.Component {
 	private siderbar: Siderbar = Siderbar.getInstance();
-	private image: CircleSector = this.siderbar.tool.target.owner.image;
+	private image: Slideshow = this.siderbar.tool.target.owner.image;
 
 	private stateObj: {title: string,content: string};
 	private config: ConfigItem;
-	private props: ICircleSector;
+	private props: ISlideshow;
 	private inputType: string;
 	private lb_edit: eui.Label;
 	private table: Table;
 	private headData: string[];
-	private initdata: CircleSectorItem[];
+	private initdata: SlideshowItem[];
 	private data: {
 		value: string,
 		componentType: any,
@@ -26,7 +26,7 @@ class StyleCircleSector extends eui.Component {
 		}
 		this.initdata = this.image.getProps().awards;
 		// 表头字段
-		this.headData = ['文本','图片'];
+		this.headData = ['图片'];
 		this.data = this.exchangeInitdata(this.initdata);
 		this.skinName = 'resource/skins/StyleCircleSectorSkin.exml';
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -86,7 +86,7 @@ class StyleCircleSector extends eui.Component {
 			arr.push(newObj);
 		};
 		this.initdata = this.props.awards = arr;
-		console.log('改变后的圆盘数据...');
+		console.log('改变后的轮播图数据...');
 		console.log(this.initdata);
 		this.image.setProps(this.initdata);
 		this.image.redraw();

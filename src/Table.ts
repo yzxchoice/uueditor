@@ -12,7 +12,7 @@ class Table extends eui.Group {
 	private columnNum: number;
 	private rowNum: number;
 	private lineHeight = 40;
-	private boxWidth: number = 500;
+	private boxWidth: number = 500 - 60;
 	private btn_add: eui.Button;
 	private btn_del: eui.Button;
 	private btn_sure: eui.Button;
@@ -62,8 +62,6 @@ class Table extends eui.Group {
 	}
 	private initEvent(){
 		this.btn_add.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btn_add_click, this);
-		this.btn_del.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btn_del_click, this);
-		this.btn_sure.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btn_sure_click, this);		
 	}
 	private btn_add_click(){
 		console.log('add...');
@@ -76,40 +74,52 @@ class Table extends eui.Group {
 	}
 	private btn_del_click(evt: egret.TouchEvent){
 		console.log('del...');
+		let targe: eui.Group = evt.target;
+		let row = targe.parent;		
+		let rowIndex;
+		for(let i = 0, len = this.gp_box.numChildren; i < len; i ++){
+			let item = this.gp_box.getChildAt(i);
+			if(item == row){
+				rowIndex = i;
+			}
+		};
+		console.log('rowIndex = ' + rowIndex);
 		try {
-			this.gp_box.removeChild(this.activeRow);
-			this.data.splice(this.activeIndex, 1);
+			this.gp_box.removeChild(row);
+			this.data.splice(rowIndex - 1, 1);
 			this.deliverMessage();
 		}catch(e){
 			console.log(e);
 		}
 	}
-	private btn_sure_click(){
-		console.log('sure...');
-		console.log(this.data);
-		this.deliverMessage();		
-	}
 	private createHead(): eui.Group {
 		let group = new eui.Group;
-		group.layout = this.createTileLayout(this.columnNum);
+		group.layout = this.createTileLayout(this.columnNum + 1);
 		for(let value of this.headData){
 			group.addChild(this.createTh(value));
 		}
+		let delIcon: eui.Group = this.createDelIcon();
+		delIcon.visible = false;
+		group.addChild(delIcon);
 		return group;
 	} 
 	private createRow(obj: Object, index: number): eui.Group{
 		console.log('index = ' + index);
 		let group = new eui.Group;
 		group.name = index.toString();
-		group.layout = this.createTileLayout(this.columnNum);
+		group.layout = this.createTileLayout(this.columnNum + 1);
 		for(let key in obj){
 			let td = this.createTd(key, obj[key]);
 			group.addChild(td);
 		};
+		let delIcon: eui.Group = this.createDelIcon();
+		group.addChild(delIcon);
 		return group;
 	}
 	private createTh(value: string){
 		let group = new eui.Group();
+		group.width = this.boxWidth / this.columnNum;
+		group.height = this.lineHeight;
 		let input: eui.EditableText | eui.Label;
 		input = new eui.Label();
 		input.textAlign = 'center';
@@ -118,8 +128,8 @@ class Table extends eui.Group {
 		input.text = value;
 		input.verticalAlign = 'middle';		
 		group.addChild(input);
-		input.width = this.boxWidth / this.columnNum;	
-		input.height = this.lineHeight;	
+		input.width = group.width;	
+		input.height = group.height;	
 		return group;
 	}
 	private createTd(key: string, value: Item): eui.Group {
@@ -150,8 +160,16 @@ class Table extends eui.Group {
 				input.listenSelectChange(callback);
 				break;
 			case eui.Button:
-				input = new com();
+				input = <eui.Button>new com();
 				input.label = value.value;
+				input.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+					//TODO: 存在潜在问题
+					let g: Game = this.container.siderbar.parent;
+					g.openImagePanel((url) => {
+						console.log(url);
+						input.label = value.value = url;
+					}, true);
+				}, this);
 				break;
 		}
 		group.addChild(input);
@@ -186,14 +204,9 @@ class Table extends eui.Group {
 		let hlayout = new eui.HorizontalLayout();
 		hlayout.verticalAlign = 'middle';
 		hlayout.horizontalAlign = 'center';
-		hlayout.gap = 40;
 		group.layout = hlayout;
 		this.btn_add = this.createBtn('添加');
-		this.btn_del = this.createBtn('删除');
-		this.btn_sure = this.createBtn('确定');
 		group.addChild(this.btn_add);
-		group.addChild(this.btn_del);
-		group.addChild(this.btn_sure);		
 		return group;
 	}
 	private createBtn(content: string): eui.Button{
@@ -202,6 +215,27 @@ class Table extends eui.Group {
 		btn.width = 80;
 		btn.label = content;
 		return btn;
+	}
+	private createDelIcon(){
+		let width = 30;
+		let height = 30;
+		let group = new eui.Group();
+		group.width = width;
+		group.height = height;
+		let circle = new egret.Shape();
+		circle.graphics.lineStyle(1, 0x000000);
+		circle.graphics.beginFill(0x000000, 0);
+		circle.graphics.drawCircle(width / 2, height / 2, width / 2);
+		circle.graphics.endFill();
+		let line = new egret.Shape();
+		line.graphics.lineStyle(1, 0x00000);
+		line.graphics.moveTo(width / 4, height / 2);
+		line.graphics.lineTo(width / 4 * 3, height / 2);
+		line.graphics.endFill();
+		group.addChild(circle);
+		group.addChild(line);
+		group.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btn_del_click, this);
+		return group;
 	}
 	private onFocusIn(evt:egret.FocusEvent){
 		console.log('onFocusIn...');

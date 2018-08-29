@@ -13,12 +13,13 @@ var StyleType = (function (_super) {
     function StyleType(styleType, props) {
         var _this = _super.call(this) || this;
         _this.siderbar = Siderbar.getInstance();
+        console.log('styleType...');
+        console.log(styleType);
         _this.styleType = styleType;
         console.log('props...');
         console.log(props);
         _this.props = props || {};
         _this._props = JSON.parse(JSON.stringify(_this.props));
-        _this.observer(_this.props);
         _this.skinName = 'resource/skins/StyleTypeSkin.exml';
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.removeFromStage, _this);
@@ -32,6 +33,7 @@ var StyleType = (function (_super) {
     };
     StyleType.prototype.onAddToStage = function () {
         this.initPanel();
+        this.bindData();
     };
     StyleType.prototype.removeFromStage = function () {
         this.clearPanel();
@@ -54,6 +56,13 @@ var StyleType = (function (_super) {
     StyleType.prototype.createComponent = function (config, props) {
         var componentType = config.componentType;
         return new componentType(config, props);
+    };
+    // 数据绑定，只对需要的组件如文本、图片等进行，自定义组件不需要此操作
+    StyleType.prototype.bindData = function () {
+        var arr = [UUType.TEXT, UUType.IMAGE];
+        if (arr.indexOf(this.styleType) !== -1) {
+            this.observer(this.props);
+        }
     };
     // 对props进行双向数据绑定
     StyleType.prototype.observer = function (data) {

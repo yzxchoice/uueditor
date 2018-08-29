@@ -7,6 +7,7 @@ declare class ImageBox extends eui.Panel {
     private uutype;
     private container;
     private cb;
+    private isForComponent;
     constructor();
     static getInstance(): ImageBox;
     private onAddToStage(event);
@@ -17,6 +18,7 @@ declare class ImageBox extends eui.Panel {
     private init();
     addSound(event: egret.TouchEvent): void;
     private addImage(event);
-    open(container: eui.Component, cb?: Function): void;
+    private addImageForComponent(event);
+    open(container: eui.Component, cb?: Function, isForComponent?: boolean): void;
     close(): void;
 }

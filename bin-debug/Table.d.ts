@@ -29,7 +29,6 @@ declare class Table extends eui.Group {
     private initEvent();
     private btn_add_click();
     private btn_del_click(evt);
-    private btn_sure_click();
     private createHead();
     private createRow(obj, index);
     private createTh(value);
@@ -40,6 +39,7 @@ declare class Table extends eui.Group {
     private createTileLayout(columnCount);
     private createBtnBox();
     private createBtn(content);
+    private createDelIcon();
     private onFocusIn(evt);
     private onFocusOut(evt);
     private observer(data);

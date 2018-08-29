@@ -102,8 +102,8 @@ class Game extends eui.Component {
         this.imgBox.getResources(getImages, {tag: 103}, UUType.SOUND);
     }
 
-    openImagePanel () {
-        this.imgBox.open(this);
+    openImagePanel (cb?: Function, isForComponent: boolean = false) {
+        this.imgBox.open(this, cb, isForComponent);
         this.imgBox.getResources(getImages, {tag: 1}, UUType.IMAGE);
     }
 

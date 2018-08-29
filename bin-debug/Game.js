@@ -97,8 +97,9 @@ var Game = (function (_super) {
         this.imgBox.open(this, cb);
         this.imgBox.getResources(getImages, { tag: 103 }, UUType.SOUND);
     };
-    Game.prototype.openImagePanel = function () {
-        this.imgBox.open(this);
+    Game.prototype.openImagePanel = function (cb, isForComponent) {
+        if (isForComponent === void 0) { isForComponent = false; }
+        this.imgBox.open(this, cb, isForComponent);
         this.imgBox.getResources(getImages, { tag: 1 }, UUType.IMAGE);
     };
     Game.prototype.openBgPanel = function () {
