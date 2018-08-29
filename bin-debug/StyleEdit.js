@@ -82,8 +82,11 @@ var StyleEdit = (function (_super) {
             _loop_2(i, len);
         }
         ;
-        this.initdata = this.props.awards = arr;
-        this.image.setProps(this.initdata);
+        // 改变initdata的同时改变data.json中props中的对应属性
+        this.initdata = this.props[this.propsKey] = arr;
+        var props = this.image.getProps();
+        props[this.propsKey] = arr;
+        this.image.setProps(props);
         this.image.redraw();
     };
     return StyleEdit;

@@ -1,16 +1,13 @@
-declare class StyleTextColor extends eui.Component {
+declare class StyleImage extends eui.Component {
     private siderbar;
     private image;
     private stateObj;
     private config;
     private props;
     private inputType;
-    private textInput_input;
-    private lb_selectColor;
-    private colorSelectBox;
+    private btn_image;
     constructor(config: any, props: any);
     private onAddToStage();
     private initEvent();
     private onClick();
-    changeColor(color: any): void;
 }

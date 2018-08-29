@@ -12,12 +12,15 @@ var StyleTextColor = (function (_super) {
     __extends(StyleTextColor, _super);
     function StyleTextColor(config, props) {
         var _this = _super.call(this) || this;
+        _this.siderbar = Siderbar.getInstance();
+        _this.image = _this.siderbar.tool.target.owner.image;
         _this.config = config;
         _this.props = props;
         _this.inputType = config.type;
         _this.stateObj = {
             title: config.title,
-            content: props[_this.inputType]
+            // content: props[this.inputType],
+            content: _this.image.getProps()[_this.inputType],
         };
         _this.skinName = 'resource/skins/StyleTextColorSkin.exml';
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
@@ -46,6 +49,10 @@ var StyleTextColor = (function (_super) {
         console.log('color = ' + color);
         this.stateObj.content = color;
         this.props[this.inputType] = color;
+        var props = this.image.getProps();
+        props[this.inputType] = color;
+        this.image.setProps(props);
+        this.image.redraw();
     };
     return StyleTextColor;
 }(eui.Component));

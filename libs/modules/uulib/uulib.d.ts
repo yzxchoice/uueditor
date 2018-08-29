@@ -74,6 +74,10 @@ declare enum UUType {
      * 轮播图组件
      */
     SLIDESHOW = 103,
+    /**
+     * 老虎机组件
+     */
+    SLOT_MACHINE = 104,
 }
 interface IUUBase {
     /**
@@ -114,6 +118,11 @@ interface SlideshowItem {
 }
 interface ISlideshow {
     awards: Array<SlideshowItem>;
+}
+interface ISlotMachine {
+    awards: Array<SlideshowItem>;
+    bgColor: number | string;
+    bdUrl: string;
 }
 interface ITrigger {
     delay: number;
@@ -190,37 +199,37 @@ declare class LayerSet {
 /**
  * 轮播图组件
  */
-declare class Slideshow extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
+declare class SlotMachine extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
     data: any;
     layerName: string;
     container: any;
     width: number;
     height: number;
     static uuType: UUType;
-    private _activeIndex;
-    activeIndex: number;
-    private btn_left;
-    private btn_right;
-    private duration;
-    private delayed;
+    private btn_start;
     private isAnimating;
     draw(): void;
     dispose(): void;
+    bgColor: string | number;
+    bdUrl: string;
     awards: Array<SlideshowItem>;
     private imgBox;
     constructor();
     getProps(): {
+        bgColor: string | number;
+        bdUrl: string;
         awards: SlideshowItem[];
     };
-    setProps(d: any): void;
+    setProps(d: ISlotMachine): void;
     redraw(): void;
     private onAddToStage(event);
     private onRemoveFromStage(event);
     private init();
-    private onclickLeft();
-    private onclickRight();
-    private resetLeft();
-    private resetRight();
+    createMainBox(): Promise<eui.Group>;
+    createItemBox(): Promise<eui.Group>;
+    createItem(url: any): Promise<eui.Group>;
+    createImg(url: any): Promise<egret.Bitmap>;
+    private createStartBtn();
     private resetImgBox();
 }
 /**
@@ -366,6 +375,42 @@ declare class Preview extends eui.Group {
     drawDisplayList(): void;
 }
 /**
+ * 轮播图组件
+ */
+declare class Slideshow extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
+    data: any;
+    layerName: string;
+    container: any;
+    width: number;
+    height: number;
+    static uuType: UUType;
+    private _activeIndex;
+    activeIndex: number;
+    private btn_left;
+    private btn_right;
+    private duration;
+    private delayed;
+    private isAnimating;
+    draw(): void;
+    dispose(): void;
+    awards: Array<SlideshowItem>;
+    private imgBox;
+    constructor();
+    getProps(): {
+        awards: SlideshowItem[];
+    };
+    setProps(d: ISlideshow): void;
+    redraw(): void;
+    private onAddToStage(event);
+    private onRemoveFromStage(event);
+    private init();
+    private onclickLeft();
+    private onclickRight();
+    private resetLeft();
+    private resetRight();
+    private resetImgBox();
+}
+/**
  * 转盘组件
  */
 declare class CircleSector extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
@@ -382,7 +427,7 @@ declare class CircleSector extends eui.Group implements IUUBase, IUUContainer, I
     getProps(): {
         awards: CircleSectorItem[];
     };
-    setProps(d: any): void;
+    setProps(d: ICircleSector): void;
     private onAddToStage(event);
     private onRemoveFromStage(event);
     private init();
@@ -490,7 +535,7 @@ declare class BaseUI {
 }
 declare class Utils {
     constructor();
-    static getComs(): (typeof Slideshow | typeof UULabel | typeof UUImage | typeof UUContainer | typeof SoundButton | typeof CircleSector)[];
+    static getComs(): (typeof SlotMachine | typeof UULabel | typeof UUImage | typeof UUContainer | typeof SoundButton | typeof CircleSector | typeof Slideshow)[];
     static getTexture(url: string): Promise<{}>;
     static getSound(url: string): Promise<{}>;
     static trans(arr: Array<any>, templateId: number): {

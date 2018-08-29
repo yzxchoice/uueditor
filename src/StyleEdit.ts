@@ -79,8 +79,11 @@ class StyleEdit extends eui.Component {
 			});
 			arr.push(newObj);
 		};
-		this.initdata = this.props.awards = arr;
-		this.image.setProps(this.initdata);
+		// 改变initdata的同时改变data.json中props中的对应属性
+		this.initdata = this.props[this.propsKey] = arr;
+		let props = this.image.getProps();
+		props[this.propsKey] = arr;
+		this.image.setProps(props);
 		this.image.redraw();
 	}
 

@@ -1,4 +1,7 @@
 class StyleTextColor extends eui.Component{
+	private siderbar: Siderbar = Siderbar.getInstance();
+	private image: IUUComponent = this.siderbar.tool.target.owner.image;
+
 	private stateObj: any;
 	private config: any;
 	private props: any;
@@ -13,7 +16,8 @@ class StyleTextColor extends eui.Component{
 		this.inputType = config.type;
 		this.stateObj = {
 			title: config.title,
-			content: props[this.inputType]
+			// content: props[this.inputType],
+			content: this.image.getProps()[this.inputType],
 		}
 		this.skinName = 'resource/skins/StyleTextColorSkin.exml';
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -43,5 +47,10 @@ class StyleTextColor extends eui.Component{
 		console.log('color = ' + color);
 		this.stateObj.content = color;
 		this.props[this.inputType] = color;
+		
+		let props = this.image.getProps();
+		props[this.inputType] = color;
+		this.image.setProps(props);
+		this.image.redraw();
 	}
 }

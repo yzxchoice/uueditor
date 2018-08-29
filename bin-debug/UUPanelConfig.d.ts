@@ -22,9 +22,17 @@ declare var UUPanelConfig: {
         type: string;
         title: string;
         componentType: typeof StyleTextColor;
-    })[] | {
+    })[] | ({
         type: string;
         title: string;
-        componentType: typeof StyleCircleSector;
-    }[];
+        componentType: typeof StyleTextColor;
+    } | {
+        type: string;
+        title: string;
+        componentType: typeof StyleImage;
+    } | {
+        type: string;
+        title: string;
+        componentType: typeof StyleSlideshow;
+    })[];
 };

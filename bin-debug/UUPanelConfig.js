@@ -65,5 +65,22 @@ var UUPanelConfig = (_a = {},
             componentType: StyleSlideshow,
         },
     ],
+    _a[UUType.SLOT_MACHINE] = [
+        {
+            type: 'bgColor',
+            title: '背景色',
+            componentType: StyleTextColor,
+        },
+        {
+            type: 'bdUrl',
+            title: '边框',
+            componentType: StyleImage,
+        },
+        {
+            type: 'awards',
+            title: '老虎机',
+            componentType: StyleSlideshow,
+        }
+    ],
     _a);
 var _a;

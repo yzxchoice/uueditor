@@ -32,7 +32,6 @@ var Table = (function (_super) {
     Table.prototype.init = function () {
         this.removeChildren();
         this.gp_box = new eui.Group();
-        var tLayout = new eui.TileLayout();
         this.gp_box.layout = this.createTileLayout(1);
         this.reload();
         var vLayout = new eui.VerticalLayout();
@@ -112,61 +111,60 @@ var Table = (function (_super) {
         var group = new eui.Group();
         group.width = this.boxWidth / this.columnNum;
         group.height = this.lineHeight;
-        var input;
-        input = new eui.Label();
-        input.textAlign = 'center';
-        input.textColor = 0x00000;
-        input.size = 26;
-        input.text = value;
-        input.verticalAlign = 'middle';
-        group.addChild(input);
-        input.width = group.width;
-        input.height = group.height;
+        var item;
+        item = new eui.Label();
+        item.textAlign = 'center';
+        item.textColor = 0x00000;
+        item.size = 26;
+        item.text = value;
+        item.verticalAlign = 'middle';
+        group.addChild(item);
+        item.width = group.width;
+        item.height = group.height;
         return group;
     };
     Table.prototype.createTd = function (key, value) {
         var _this = this;
         var group = new eui.Group();
         var com = value.componentType ? eval(value.componentType) : eui.EditableText;
-        var input;
+        var item;
         switch (com) {
             case eui.EditableText:
-                input = new com();
-                input.name = key;
-                input.background = true;
-                input.backgroundColor = 0xffffff;
-                input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);
-                input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
-                input.textColor = 0x00000;
-                input.size = 26;
-                input.text = value.value;
-                input.verticalAlign = 'middle';
+                item = new com();
+                item.name = key;
+                item.background = true;
+                item.backgroundColor = 0xffffff;
+                item.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);
+                item.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
+                item.textColor = 0x00000;
+                item.size = 26;
+                item.text = value.value;
+                item.verticalAlign = 'middle';
                 break;
             case Select:
                 var itemWidth = this.boxWidth / this.columnNum;
-                input = new com(value.selectData, itemWidth);
-                input.setDefaultItem(value.value);
+                item = new com(value.selectData, itemWidth);
+                item.setDefaultItem(value.value);
                 var callback = function (selectedVal) {
                     value.value = selectedVal;
                 };
-                input.listenSelectChange(callback);
+                item.listenSelectChange(callback);
                 break;
             case eui.Button:
-                input = new com();
-                input.label = value.value;
-                input.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                    //TODO: 存在潜在问题
+                item = new com();
+                item.label = value.value;
+                item.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                     var g = _this.container.siderbar.parent;
                     g.openImagePanel(function (url) {
                         console.log(url);
-                        input.label = value.value = url;
+                        item.label = value.value = url;
                     }, true);
                 }, this);
                 break;
         }
-        group.addChild(input);
-        input.width = this.boxWidth / this.columnNum;
-        input.height = this.lineHeight;
+        group.addChild(item);
+        item.width = this.boxWidth / this.columnNum;
+        item.height = this.lineHeight;
         return group;
     };
     Table.prototype.draw = function (container) {
