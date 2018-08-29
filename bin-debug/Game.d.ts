@@ -15,7 +15,6 @@ declare class Game extends eui.Component {
     openSoundePanel(cb?: Function): void;
     openImagePanel(): void;
     openBgPanel(): void;
-    openSoundPanel(): void;
     closeImagePanel(): void;
     private drawBg(container, isborder?);
 }

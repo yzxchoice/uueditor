@@ -425,7 +425,9 @@ class EditGroup extends eui.Group {
                 this.addResource1(uutype, data);
                 break;
             case UUType.SOUND:
-                this.addSound(data)
+                this.addSound(data);
+            default:
+                this.addResource1(uutype, data);
                 break;
         }
     }

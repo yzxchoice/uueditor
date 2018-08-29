@@ -105,10 +105,6 @@ var Game = (function (_super) {
         this.imgBox.open(this);
         this.imgBox.getResources(getImages, { tag: 2 }, UUType.BACKGROUND);
     };
-    Game.prototype.openSoundPanel = function () {
-        this.imgBox.open(this);
-        this.imgBox.getResources(getImages, { tag: 103 }, UUType.SOUND);
-    };
     Game.prototype.closeImagePanel = function () {
         this.imgBox.close();
     };

@@ -130,13 +130,19 @@ class ImageBox extends eui.Panel {
         let e: PageEvent = new PageEvent(PageEvent.SOUND_CHANGE, true);
         e.data = d.sound;
         this.dispatchEvent(e);
+        egret.setTimeout( () => {
+            this.close();
+        }, this, 0);
+        // requestAnimationFrame(this.close);
     }
 
     private addImage (event: egret.TouchEvent) {
         var g: Game = this.parent as Game;
         // g.editGroup.addSinglePicture(event.currentTarget.data);
         g.editGroup.addResource(event.currentTarget.data, this.uutype);
-        // this.close();
+        egret.setTimeout( () => {
+            this.close();
+        }, this, 0);
     }
 
     open (container: eui.Component, cb?: Function) {
@@ -146,6 +152,6 @@ class ImageBox extends eui.Panel {
     }
 
     close () {
-        this.container.removeChild(this);
+        this.parent.removeChild(this);
     }
 }
