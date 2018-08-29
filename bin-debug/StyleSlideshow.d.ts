@@ -1,4 +1,4 @@
-declare class StyleCircleSector extends eui.Component {
+declare class StyleSlideshow extends eui.Component {
     private siderbar;
     private image;
     private stateObj;

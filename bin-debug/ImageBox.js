@@ -49,6 +49,7 @@ var ImageBox = (function (_super) {
     function ImageBox() {
         var _this = _super.call(this) || this;
         _this.imgList = [];
+        _this.isForComponent = false;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -127,7 +128,12 @@ var ImageBox = (function (_super) {
             image.height = 100;
             image.name = this.imgList[i].id;
             image.data = this.imgList[i];
-            image.addEventListener(Mouse.START, this.addImage, this);
+            if (this.isForComponent) {
+                image.addEventListener(Mouse.START, this.addImageForComponent, this);
+            }
+            else {
+                image.addEventListener(Mouse.START, this.addImage, this);
+            }
             borderGroup.addChild(image);
         }
     };
@@ -179,9 +185,15 @@ var ImageBox = (function (_super) {
             _this.close();
         }, this, 0);
     };
-    ImageBox.prototype.open = function (container, cb) {
+    ImageBox.prototype.addImageForComponent = function (event) {
+        var s = event.currentTarget.data;
+        this.cb && this.cb(s.url);
+    };
+    ImageBox.prototype.open = function (container, cb, isForComponent) {
+        if (isForComponent === void 0) { isForComponent = false; }
         this.container = container;
         this.cb = cb;
+        this.isForComponent = isForComponent;
         this.container.addChild(this);
     };
     ImageBox.prototype.close = function () {

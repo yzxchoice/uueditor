@@ -14,7 +14,7 @@ var Table = (function (_super) {
         var _this = _super.call(this) || this;
         _this.isShow = false;
         _this.lineHeight = 40;
-        _this.boxWidth = 500;
+        _this.boxWidth = 500 - 60;
         _this.headData = headDate;
         _this.data = data;
         _this._data = JSON.parse(JSON.stringify(_this.data));
@@ -50,8 +50,6 @@ var Table = (function (_super) {
     };
     Table.prototype.initEvent = function () {
         this.btn_add.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btn_add_click, this);
-        this.btn_del.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btn_del_click, this);
-        this.btn_sure.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btn_sure_click, this);
     };
     Table.prototype.btn_add_click = function () {
         console.log('add...');
@@ -64,43 +62,56 @@ var Table = (function (_super) {
     };
     Table.prototype.btn_del_click = function (evt) {
         console.log('del...');
+        var targe = evt.target;
+        var row = targe.parent;
+        var rowIndex;
+        for (var i = 0, len = this.gp_box.numChildren; i < len; i++) {
+            var item = this.gp_box.getChildAt(i);
+            if (item == row) {
+                rowIndex = i;
+            }
+        }
+        ;
+        console.log('rowIndex = ' + rowIndex);
         try {
-            this.gp_box.removeChild(this.activeRow);
-            this.data.splice(this.activeIndex, 1);
+            this.gp_box.removeChild(row);
+            this.data.splice(rowIndex - 1, 1);
             this.deliverMessage();
         }
         catch (e) {
             console.log(e);
         }
     };
-    Table.prototype.btn_sure_click = function () {
-        console.log('sure...');
-        console.log(this.data);
-        this.deliverMessage();
-    };
     Table.prototype.createHead = function () {
         var group = new eui.Group;
-        group.layout = this.createTileLayout(this.columnNum);
+        group.layout = this.createTileLayout(this.columnNum + 1);
         for (var _i = 0, _a = this.headData; _i < _a.length; _i++) {
             var value = _a[_i];
             group.addChild(this.createTh(value));
         }
+        var delIcon = this.createDelIcon();
+        delIcon.visible = false;
+        group.addChild(delIcon);
         return group;
     };
     Table.prototype.createRow = function (obj, index) {
         console.log('index = ' + index);
         var group = new eui.Group;
         group.name = index.toString();
-        group.layout = this.createTileLayout(this.columnNum);
+        group.layout = this.createTileLayout(this.columnNum + 1);
         for (var key in obj) {
             var td = this.createTd(key, obj[key]);
             group.addChild(td);
         }
         ;
+        var delIcon = this.createDelIcon();
+        group.addChild(delIcon);
         return group;
     };
     Table.prototype.createTh = function (value) {
         var group = new eui.Group();
+        group.width = this.boxWidth / this.columnNum;
+        group.height = this.lineHeight;
         var input;
         input = new eui.Label();
         input.textAlign = 'center';
@@ -109,11 +120,12 @@ var Table = (function (_super) {
         input.text = value;
         input.verticalAlign = 'middle';
         group.addChild(input);
-        input.width = this.boxWidth / this.columnNum;
-        input.height = this.lineHeight;
+        input.width = group.width;
+        input.height = group.height;
         return group;
     };
     Table.prototype.createTd = function (key, value) {
+        var _this = this;
         var group = new eui.Group();
         var com = value.componentType ? eval(value.componentType) : eui.EditableText;
         var input;
@@ -142,6 +154,14 @@ var Table = (function (_super) {
             case eui.Button:
                 input = new com();
                 input.label = value.value;
+                input.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                    //TODO: 存在潜在问题
+                    var g = _this.container.siderbar.parent;
+                    g.openImagePanel(function (url) {
+                        console.log(url);
+                        input.label = value.value = url;
+                    }, true);
+                }, this);
                 break;
         }
         group.addChild(input);
@@ -176,14 +196,9 @@ var Table = (function (_super) {
         var hlayout = new eui.HorizontalLayout();
         hlayout.verticalAlign = 'middle';
         hlayout.horizontalAlign = 'center';
-        hlayout.gap = 40;
         group.layout = hlayout;
         this.btn_add = this.createBtn('添加');
-        this.btn_del = this.createBtn('删除');
-        this.btn_sure = this.createBtn('确定');
         group.addChild(this.btn_add);
-        group.addChild(this.btn_del);
-        group.addChild(this.btn_sure);
         return group;
     };
     Table.prototype.createBtn = function (content) {
@@ -192,6 +207,27 @@ var Table = (function (_super) {
         btn.width = 80;
         btn.label = content;
         return btn;
+    };
+    Table.prototype.createDelIcon = function () {
+        var width = 30;
+        var height = 30;
+        var group = new eui.Group();
+        group.width = width;
+        group.height = height;
+        var circle = new egret.Shape();
+        circle.graphics.lineStyle(1, 0x000000);
+        circle.graphics.beginFill(0x000000, 0);
+        circle.graphics.drawCircle(width / 2, height / 2, width / 2);
+        circle.graphics.endFill();
+        var line = new egret.Shape();
+        line.graphics.lineStyle(1, 0x00000);
+        line.graphics.moveTo(width / 4, height / 2);
+        line.graphics.lineTo(width / 4 * 3, height / 2);
+        line.graphics.endFill();
+        group.addChild(circle);
+        group.addChild(line);
+        group.addEventListener(egret.TouchEvent.TOUCH_TAP, this.btn_del_click, this);
+        return group;
     };
     Table.prototype.onFocusIn = function (evt) {
         console.log('onFocusIn...');

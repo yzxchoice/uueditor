@@ -15,6 +15,7 @@ declare class StyleType extends eui.Component implements IUUContainer {
     private clearPanel();
     private initPanel();
     private createComponent(config, props);
+    private bindData();
     private observer(data);
     private defineActive(data, key, value);
     private refresh();

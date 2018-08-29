@@ -13,7 +13,7 @@ declare class Game extends eui.Component {
     openComponentPanel(): void;
     openFramePanel(): void;
     openSoundePanel(cb?: Function): void;
-    openImagePanel(): void;
+    openImagePanel(cb?: Function, isForComponent?: boolean): void;
     openBgPanel(): void;
     closeImagePanel(): void;
     private drawBg(container, isborder?);

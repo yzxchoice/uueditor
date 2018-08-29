@@ -16,12 +16,13 @@ class StyleType extends eui.Component implements IUUContainer{
 	private gp_styleContainer: eui.Group;
 	public constructor(styleType, props) {
 		super();
+		console.log('styleType...');
+		console.log(styleType);
 		this.styleType = styleType;
 		console.log('props...');
 		console.log(props);
 		this.props = props || {};
 		this._props =  JSON.parse(JSON.stringify(this.props));
-		this.observer(this.props);
 		this.skinName = 'resource/skins/StyleTypeSkin.exml';
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
 		this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.removeFromStage, this);
@@ -29,6 +30,7 @@ class StyleType extends eui.Component implements IUUContainer{
 
 	private onAddToStage(){
 		this.initPanel();
+		this.bindData();
 	}
 	private removeFromStage(){
 		this.clearPanel();
@@ -40,7 +42,7 @@ class StyleType extends eui.Component implements IUUContainer{
 		let configList = UUPanelConfig[this.styleType];
 		if(!configList) return;
 		for(let i = 0, len = configList.length; i < len; i++){
-			let config = configList[i];
+			let config:ConfigItem = configList[i];
 			let com = this.createComponent(config, this.props);
 			com.y = 70 * i;
 			this.gp_styleContainer.addChild(com);
@@ -50,6 +52,13 @@ class StyleType extends eui.Component implements IUUContainer{
 	private createComponent(config, props){
 		let componentType = config.componentType;
 		return new componentType(config, props);
+	}
+	// 数据绑定，只对需要的组件如文本、图片等进行，自定义组件不需要此操作
+	private bindData(){
+		let arr = [UUType.TEXT, UUType.IMAGE];
+		if(arr.indexOf(this.styleType) !== -1){
+			this.observer(this.props);
+		}
 	}
 	// 对props进行双向数据绑定
 	private observer(data) {

@@ -1,4 +1,3 @@
-// TypeScript file
 var UUPanelConfig = (_a = {},
     _a[UUType.TEXT] = [
         {
@@ -54,14 +53,16 @@ var UUPanelConfig = (_a = {},
     ],
     _a[UUType.CIRCLE_SECTOR] = [
         {
-            type: 'size',
-            title: '字号',
-            componentType: StyleInput,
-        },
-        {
             type: 'awards',
             title: '转盘',
             componentType: StyleCircleSector,
+        },
+    ],
+    _a[UUType.SLIDESHOW] = [
+        {
+            type: 'awards',
+            title: '轮播图',
+            componentType: StyleSlideshow,
         },
     ],
     _a);

@@ -8,9 +8,9 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var StyleCircleSector = (function (_super) {
-    __extends(StyleCircleSector, _super);
-    function StyleCircleSector(config, props) {
+var StyleSlideshow = (function (_super) {
+    __extends(StyleSlideshow, _super);
+    function StyleSlideshow(config, props) {
         var _this = _super.call(this) || this;
         _this.siderbar = Siderbar.getInstance();
         _this.image = _this.siderbar.tool.target.owner.image;
@@ -23,19 +23,19 @@ var StyleCircleSector = (function (_super) {
         };
         _this.initdata = _this.image.getProps().awards;
         // 表头字段
-        _this.headData = ['文本', '图片'];
+        _this.headData = ['图片'];
         _this.data = _this.exchangeInitdata(_this.initdata);
         _this.skinName = 'resource/skins/StyleCircleSectorSkin.exml';
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
-    StyleCircleSector.prototype.onAddToStage = function () {
+    StyleSlideshow.prototype.onAddToStage = function () {
         this.initEvent();
     };
-    StyleCircleSector.prototype.initEvent = function () {
+    StyleSlideshow.prototype.initEvent = function () {
         this.lb_edit.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
     };
-    StyleCircleSector.prototype.onClick = function () {
+    StyleSlideshow.prototype.onClick = function () {
         if (!this.table || !this.table.isShow) {
             var table = new Table(this.headData, this.data);
             table.listenChange(this.exchangeData.bind(this));
@@ -49,7 +49,7 @@ var StyleCircleSector = (function (_super) {
         }
     };
     // 将data.json数据转换成Tabel需要的数据
-    StyleCircleSector.prototype.exchangeInitdata = function (initdata) {
+    StyleSlideshow.prototype.exchangeInitdata = function (initdata) {
         var arr = [];
         var _loop_1 = function (i, len) {
             var newObj = {};
@@ -77,7 +77,7 @@ var StyleCircleSector = (function (_super) {
         return arr;
     };
     // 将Tabel需要的数据转换成data.json数据
-    StyleCircleSector.prototype.exchangeData = function () {
+    StyleSlideshow.prototype.exchangeData = function () {
         var arr = [];
         var _loop_2 = function (i, len) {
             var newObj = {};
@@ -93,12 +93,12 @@ var StyleCircleSector = (function (_super) {
         }
         ;
         this.initdata = this.props.awards = arr;
-        console.log('改变后的圆盘数据...');
+        console.log('改变后的轮播图数据...');
         console.log(this.initdata);
         this.image.setProps(this.initdata);
         this.image.redraw();
     };
-    return StyleCircleSector;
+    return StyleSlideshow;
 }(eui.Component));
-__reflect(StyleCircleSector.prototype, "StyleCircleSector");
-//# sourceMappingURL=StyleCircleSector.js.map
+__reflect(StyleSlideshow.prototype, "StyleSlideshow");
+//# sourceMappingURL=StyleSlideshow.js.map
