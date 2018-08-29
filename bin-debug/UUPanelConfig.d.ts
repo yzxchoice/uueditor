@@ -26,9 +26,5 @@ declare var UUPanelConfig: {
         type: string;
         title: string;
         componentType: typeof StyleCircleSector;
-    }[] | {
-        type: string;
-        title: string;
-        componentType: typeof StyleSlideshow;
     }[];
 };

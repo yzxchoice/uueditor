@@ -187,21 +187,41 @@ declare class LayerSet {
     static getLayer(list: any, type: number): any;
     static identity<T>(arg: T): T;
 }
-interface uiData {
-    id: string;
-    name: string;
-    url?: string;
-}
 /**
- * 声音组件
+ * 轮播图组件
  */
-declare class SoundButton extends eui.Button implements IUUBase {
-    data: uiData;
+declare class Slideshow extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
+    data: any;
     layerName: string;
+    container: any;
+    width: number;
+    height: number;
     static uuType: UUType;
+    private _activeIndex;
+    activeIndex: number;
+    private btn_left;
+    private btn_right;
+    private duration;
+    private delayed;
+    private isAnimating;
+    draw(): void;
+    dispose(): void;
+    awards: Array<SlideshowItem>;
+    private imgBox;
     constructor();
+    getProps(): {
+        awards: SlideshowItem[];
+    };
+    setProps(d: any): void;
+    redraw(): void;
     private onAddToStage(event);
+    private onRemoveFromStage(event);
     private init();
+    private onclickLeft();
+    private onclickRight();
+    private resetLeft();
+    private resetRight();
+    private resetImgBox();
 }
 /**
  * 自定义操作框
@@ -220,6 +240,11 @@ declare class EgretControl extends Control {
     constructor(type: any, u?: any, v?: any, offsetX?: number, offsetY?: number, size?: number);
     undraw(): void;
     draw(container: any): void;
+}
+interface IUUComponent {
+    getProps: () => any;
+    setProps: (props: any) => void;
+    redraw: () => void;
 }
 interface IUUContainer {
     /**
@@ -341,45 +366,9 @@ declare class Preview extends eui.Group {
     drawDisplayList(): void;
 }
 /**
- * 轮播图组件
- */
-declare class Slideshow extends eui.Group implements IUUBase, IUUContainer {
-    data: any;
-    layerName: string;
-    container: any;
-    width: number;
-    height: number;
-    static uuType: UUType;
-    private _activeIndex;
-    activeIndex: number;
-    private btn_left;
-    private btn_right;
-    private duration;
-    private delayed;
-    private isAnimating;
-    draw(): void;
-    dispose(): void;
-    awards: Array<SlideshowItem>;
-    private imgBox;
-    constructor();
-    getProps(): {
-        awards: SlideshowItem[];
-    };
-    setProps(d: any): void;
-    redraw(): void;
-    private onAddToStage(event);
-    private onRemoveFromStage(event);
-    private init();
-    private onclickLeft();
-    private onclickRight();
-    private resetLeft();
-    private resetRight();
-    private resetImgBox();
-}
-/**
  * 转盘组件
  */
-declare class CircleSector extends eui.Group implements IUUBase, IUUContainer {
+declare class CircleSector extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
     data: any;
     layerName: string;
     container: any;
@@ -408,6 +397,22 @@ declare class CircleSector extends eui.Group implements IUUBase, IUUContainer {
      * 画弧形方法
      */
     drawArc(mc: egret.Shape, x?: number, y?: number, r?: number, angle?: number, startFrom?: number, color?: number): void;
+}
+interface uiData {
+    id: string;
+    name: string;
+    url?: string;
+}
+/**
+ * 声音组件
+ */
+declare class SoundButton extends eui.Button implements IUUBase {
+    data: uiData;
+    layerName: string;
+    static uuType: UUType;
+    constructor();
+    private onAddToStage(event);
+    private init();
 }
 declare class Transformable {
     width: number;
@@ -485,7 +490,7 @@ declare class BaseUI {
 }
 declare class Utils {
     constructor();
-    static getComs(): (typeof SoundButton | typeof UULabel | typeof UUImage | typeof UUContainer | typeof CircleSector | typeof Slideshow)[];
+    static getComs(): (typeof Slideshow | typeof UULabel | typeof UUImage | typeof UUContainer | typeof SoundButton | typeof CircleSector)[];
     static getTexture(url: string): Promise<{}>;
     static getSound(url: string): Promise<{}>;
     static trans(arr: Array<any>, templateId: number): {
