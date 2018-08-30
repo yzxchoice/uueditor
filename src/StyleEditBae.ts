@@ -1,4 +1,4 @@
-class StyleEdit extends eui.Component {
+class StyleEditBae extends eui.Component {
 	private siderbar: Siderbar = Siderbar.getInstance();
 	private image: IUUComponent = this.siderbar.tool.target.owner.image;
 

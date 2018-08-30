@@ -1,3 +1,3 @@
-declare class StyleCircleSector extends StyleEdit {
+declare class StyleCircleSector extends StyleEditBae {
     constructor(config: any, props: any);
 }

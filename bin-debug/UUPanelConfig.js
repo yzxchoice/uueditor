@@ -3,12 +3,12 @@ var UUPanelConfig = (_a = {},
         {
             type: 'text',
             title: '文本',
-            componentType: StyleInput
+            componentType: StyleTextInput
         },
         {
             type: 'fontFamily',
             title: '字体',
-            componentType: StyleSelect,
+            componentType: StyleTextSelect,
             selectData: [
                 {
                     content: 'Arial'
@@ -36,20 +36,13 @@ var UUPanelConfig = (_a = {},
         {
             type: 'size',
             title: '字号',
-            componentType: StyleInput
+            componentType: StyleTextInput
         },
         {
             type: 'textColor',
             title: '颜色',
             componentType: StyleTextColor
         },
-    ],
-    _a[UUType.IMAGE] = [
-        {
-            type: 'drag',
-            title: '可拖拽',
-            componentType: StyleInput
-        }
     ],
     _a[UUType.CIRCLE_SECTOR] = [
         {
@@ -69,7 +62,7 @@ var UUPanelConfig = (_a = {},
         {
             type: 'bgColor',
             title: '背景色',
-            componentType: StyleTextColor,
+            componentType: StyleColor,
         },
         {
             type: 'bdUrl',

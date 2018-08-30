@@ -1,12 +1,6 @@
-declare class StyleInput extends eui.Component {
-    private stateObj;
-    private config;
-    private props;
-    private inputType;
+declare class StyleInput extends StyleBase {
     private textInput_input;
     constructor(config: any, props: any);
-    private onAddToStage();
-    private initEvent();
-    private onFocusIn(evt);
+    protected initEvent(): void;
     private onFocusOut(evt);
 }

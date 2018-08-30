@@ -1,4 +1,4 @@
-class StyleSlideshow extends StyleEdit {
+class StyleSlideshow extends StyleEditBae {
 	
 	public constructor(config, props) {
 		super(config, props);

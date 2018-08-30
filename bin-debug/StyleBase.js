@@ -29,6 +29,14 @@ var StyleBase = (function (_super) {
     };
     StyleBase.prototype.initEvent = function () {
     };
+    StyleBase.prototype.updateValue = function (value) {
+        this.stateObj.content = value;
+        this.props[this.inputType] = value;
+        var props = this.image.getProps();
+        props[this.inputType] = value;
+        this.image.setProps(props);
+        this.image.redraw();
+    };
     return StyleBase;
 }(eui.Component));
 __reflect(StyleBase.prototype, "StyleBase");

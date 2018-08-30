@@ -1,29 +1,13 @@
-class StyleTextColor extends eui.Component{
-	private stateObj: any;
-	private config: any;
-	private props: any;
-	private inputType: string;
-	private textInput_input: eui.TextInput;
+class StyleColor extends StyleBase {
 	private lb_selectColor: eui.Label;
 	private colorSelectBox: ColorSelectBox;
+
 	public constructor(config, props) {
-		super();
-		this.config = config;
-		this.props = props;
-		this.inputType = config.type;
-		this.stateObj = {
-			title: config.title,
-			content: props[this.inputType],
-		}
+		super(config, props);
 		this.skinName = 'resource/skins/StyleTextColorSkin.exml';
-		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
 	}
 
-	private onAddToStage(){
-		this.initEvent();
-	}
-
-	private initEvent(){
+	protected initEvent(){
 		this.lb_selectColor.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
 	}
 
@@ -40,8 +24,6 @@ class StyleTextColor extends eui.Component{
 		}
 	}
 	public changeColor(color){
-		console.log('color = ' + color);
-		this.stateObj.content = color;
-		this.props[this.inputType] = color;
+		this.updateValue(color);
 	}
 }

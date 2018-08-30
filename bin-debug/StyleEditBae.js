@@ -8,9 +8,9 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var StyleEdit = (function (_super) {
-    __extends(StyleEdit, _super);
-    function StyleEdit(config, props) {
+var StyleEditBae = (function (_super) {
+    __extends(StyleEditBae, _super);
+    function StyleEditBae(config, props) {
         var _this = _super.call(this) || this;
         _this.siderbar = Siderbar.getInstance();
         _this.image = _this.siderbar.tool.target.owner.image;
@@ -24,15 +24,15 @@ var StyleEdit = (function (_super) {
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
-    StyleEdit.prototype.onAddToStage = function () {
+    StyleEditBae.prototype.onAddToStage = function () {
         this.initEvent();
         this.initdata = this.image.getProps()[this.propsKey];
         this.data = this.exchangeInitdata(this.initdata);
     };
-    StyleEdit.prototype.initEvent = function () {
+    StyleEditBae.prototype.initEvent = function () {
         this.lb_edit.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
     };
-    StyleEdit.prototype.onClick = function () {
+    StyleEditBae.prototype.onClick = function () {
         if (!this.table || !this.table.isShow) {
             var table = new Table(this.headData, this.data);
             table.listenChange(this.exchangeData.bind(this));
@@ -46,7 +46,7 @@ var StyleEdit = (function (_super) {
         }
     };
     // 将data.json数据转换成Tabel需要的数据
-    StyleEdit.prototype.exchangeInitdata = function (initdata) {
+    StyleEditBae.prototype.exchangeInitdata = function (initdata) {
         var componenntTypeConfig = this.componenntTypeConfig;
         var arr = [];
         var _loop_1 = function (i, len) {
@@ -67,7 +67,7 @@ var StyleEdit = (function (_super) {
         return arr;
     };
     // 将Tabel需要的数据转换成data.json数据
-    StyleEdit.prototype.exchangeData = function () {
+    StyleEditBae.prototype.exchangeData = function () {
         var arr = [];
         var _loop_2 = function (i, len) {
             var newObj = {};
@@ -89,6 +89,6 @@ var StyleEdit = (function (_super) {
         this.image.setProps(props);
         this.image.redraw();
     };
-    return StyleEdit;
+    return StyleEditBae;
 }(eui.Component));
-__reflect(StyleEdit.prototype, "StyleEdit");
+__reflect(StyleEditBae.prototype, "StyleEditBae");
