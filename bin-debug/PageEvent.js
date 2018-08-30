@@ -16,11 +16,29 @@ var PageEvent = (function (_super) {
         if (cancelable === void 0) { cancelable = false; }
         return _super.call(this, type, bubbles, cancelable) || this;
     }
+    /**
+     * 页面切换
+     */
     PageEvent.PAGE_CHANGE = "pageChange";
+    /**
+     * 增加页面
+     */
     PageEvent.PAGE_ADD = "pageAdd";
+    /**
+     * 增加图层
+     */
     PageEvent.LAYER_ADD = "layerAdd";
+    /**
+     * 图层切换
+     */
     PageEvent.LAYER_CHANGE = "layerChange";
+    /**
+     * 选择图层
+     */
     PageEvent.LAYER_SELECT = "layerSelect";
+    /**
+     * 改变音效
+     */
     PageEvent.SOUND_CHANGE = "soundChange";
     return PageEvent;
 }(egret.Event));

@@ -159,6 +159,7 @@ var ImageBox = (function (_super) {
         this._grpLayout.layout = tLayout;
     };
     ImageBox.prototype.addSound = function (event) {
+        var _this = this;
         var g = this.parent;
         var d = g.editGroup.tool.target.owner.image.data;
         var s = event.currentTarget.data;
@@ -170,12 +171,19 @@ var ImageBox = (function (_super) {
         var e = new PageEvent(PageEvent.SOUND_CHANGE, true);
         e.data = d.sound;
         this.dispatchEvent(e);
+        egret.setTimeout(function () {
+            _this.close();
+        }, this, 0);
+        // requestAnimationFrame(this.close);
     };
     ImageBox.prototype.addImage = function (event) {
+        var _this = this;
         var g = this.parent;
         // g.editGroup.addSinglePicture(event.currentTarget.data);
         g.editGroup.addResource(event.currentTarget.data, this.uutype);
-        // this.close();
+        egret.setTimeout(function () {
+            _this.close();
+        }, this, 0);
     };
     ImageBox.prototype.addImageForComponent = function (event) {
         var s = event.currentTarget.data;
@@ -189,7 +197,7 @@ var ImageBox = (function (_super) {
         this.container.addChild(this);
     };
     ImageBox.prototype.close = function () {
-        this.container.removeChild(this);
+        this.parent.removeChild(this);
     };
     return ImageBox;
 }(eui.Panel));

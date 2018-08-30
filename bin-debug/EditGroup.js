@@ -433,6 +433,8 @@ var EditGroup = (function (_super) {
                 break;
             case UUType.SOUND:
                 this.addSound(data);
+            default:
+                this.addResource1(uutype, data);
                 break;
         }
     };
