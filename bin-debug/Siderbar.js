@@ -71,4 +71,3 @@ var Siderbar = (function (_super) {
     return Siderbar;
 }(eui.Component));
 __reflect(Siderbar.prototype, "Siderbar", ["IUUContainer"]);
-//# sourceMappingURL=Siderbar.js.map

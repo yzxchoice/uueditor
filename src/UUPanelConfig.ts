@@ -10,12 +10,12 @@ var UUPanelConfig = {
         {
             type: 'text',
             title: '文本',
-            componentType: StyleInput
+            componentType: StyleTextInput
         },
         {
             type: 'fontFamily',
             title: '字体',
-            componentType: StyleSelect,
+            componentType: StyleTextSelect,
             selectData: [
                 {
                     content: 'Arial'
@@ -43,20 +43,13 @@ var UUPanelConfig = {
         {
             type: 'size',
             title: '字号',
-            componentType: StyleInput
+            componentType: StyleTextInput
         },
         {
             type: 'textColor',
             title: '颜色',
             componentType: StyleTextColor
         },
-    ],
-    [UUType.IMAGE]: [
-        {
-            type: 'drag',
-            title: '可拖拽',
-            componentType: StyleInput
-        }
     ],
     [UUType.CIRCLE_SECTOR]: [
         {
@@ -65,11 +58,28 @@ var UUPanelConfig = {
             componentType: StyleCircleSector,
         },
     ],
-     [UUType.SLIDESHOW]: [
+    [UUType.SLIDESHOW]: [
         {
             type: 'awards',
             title: '轮播图',
             componentType: StyleSlideshow,
         },
+    ],
+    [UUType.SLOT_MACHINE]: [
+        {
+            type: 'bgColor',
+            title: '背景色',
+            componentType: StyleColor,
+        },
+        {
+            type: 'bdUrl',
+            title: '边框',
+            componentType: StyleImage,
+        },
+        {
+            type: 'awards',
+            title: '老虎机',
+            componentType: StyleSlideshow,
+        }
     ]
 }

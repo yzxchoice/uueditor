@@ -103,4 +103,3 @@ var LayerItem = (function (_super) {
     return LayerItem;
 }(eui.Group));
 __reflect(LayerItem.prototype, "LayerItem", ["IUUContainer"]);
-//# sourceMappingURL=LayerItem.js.map

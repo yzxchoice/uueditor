@@ -10,11 +10,11 @@ declare var UUPanelConfig: {
     [x: number]: ({
         type: string;
         title: string;
-        componentType: typeof StyleInput;
+        componentType: typeof StyleTextInput;
     } | {
         type: string;
         title: string;
-        componentType: typeof StyleSelect;
+        componentType: typeof StyleTextSelect;
         selectData: {
             content: string;
         }[];
@@ -22,13 +22,17 @@ declare var UUPanelConfig: {
         type: string;
         title: string;
         componentType: typeof StyleTextColor;
-    })[] | {
+    })[] | ({
         type: string;
         title: string;
-        componentType: typeof StyleCircleSector;
-    }[] | {
+        componentType: typeof StyleColor;
+    } | {
+        type: string;
+        title: string;
+        componentType: typeof StyleImage;
+    } | {
         type: string;
         title: string;
         componentType: typeof StyleSlideshow;
-    }[];
+    })[];
 };

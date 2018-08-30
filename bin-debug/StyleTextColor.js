@@ -17,7 +17,7 @@ var StyleTextColor = (function (_super) {
         _this.inputType = config.type;
         _this.stateObj = {
             title: config.title,
-            content: props[_this.inputType]
+            content: props[_this.inputType],
         };
         _this.skinName = 'resource/skins/StyleTextColorSkin.exml';
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
@@ -50,4 +50,3 @@ var StyleTextColor = (function (_super) {
     return StyleTextColor;
 }(eui.Component));
 __reflect(StyleTextColor.prototype, "StyleTextColor");
-//# sourceMappingURL=StyleTextColor.js.map

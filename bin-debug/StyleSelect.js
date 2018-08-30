@@ -11,23 +11,12 @@ r.prototype = e.prototype, t.prototype = new r();
 var StyleSelect = (function (_super) {
     __extends(StyleSelect, _super);
     function StyleSelect(config, props) {
-        var _this = _super.call(this) || this;
-        _this.config = config;
-        _this.props = props;
+        var _this = _super.call(this, config, props) || this;
         _this.selectData = config.selectData;
-        _this.inputType = config.type;
-        _this.stateObj = {
-            title: config.title,
-            content: props[_this.inputType]
-        };
         _this.skinName = 'resource/skins/StyleSelect.exml';
-        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
-    StyleSelect.prototype.onAddToStage = function () {
-        this.initSelect();
-    };
-    StyleSelect.prototype.initSelect = function () {
+    StyleSelect.prototype.initEvent = function () {
         var select = new Select(this.selectData);
         this.gp_style_fontFamily_select.addChild(select);
         select.setDataContainer(this);
@@ -35,10 +24,8 @@ var StyleSelect = (function (_super) {
         select.listenSelectChange(this.getFontFamily.bind(this));
     };
     StyleSelect.prototype.getFontFamily = function (v) {
-        console.log('fontFamily = ' + v);
-        this.props[this.inputType] = v;
+        this.updateValue(v);
     };
     return StyleSelect;
-}(eui.Component));
+}(StyleBase));
 __reflect(StyleSelect.prototype, "StyleSelect");
-//# sourceMappingURL=StyleSelect.js.map

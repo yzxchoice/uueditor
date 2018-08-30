@@ -1,28 +1,13 @@
-class StyleSelect extends eui.Component{
-	private stateObj: any;
-	private config: any;
-	private props: any;
+class StyleSelect extends StyleBase {
+
 	private selectData: {content: string}[];
-	private inputType: string;
-	private textInput_input: eui.TextInput;
 	private gp_style_fontFamily_select: eui.Group;	
 	public constructor(config, props) {
-		super();
-		this.config = config;
-		this.props = props;
+		super(config, props);
 		this.selectData = config.selectData;
-		this.inputType = config.type;
-		this.stateObj = {
-			title: config.title,
-			content: props[this.inputType]
-		}
 		this.skinName = 'resource/skins/StyleSelect.exml';
-		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
 	}
-	private onAddToStage(){
-		this.initSelect();
-	}
-	private initSelect(){
+	protected initEvent(){
 		let select = new Select(this.selectData);
 		
 		this.gp_style_fontFamily_select.addChild(select);	
@@ -31,7 +16,6 @@ class StyleSelect extends eui.Component{
 		select.listenSelectChange(this.getFontFamily.bind(this));
 	}
 	public getFontFamily(v){
-		console.log('fontFamily = ' + v);
-		this.props[this.inputType] = v;
+		this.updateValue(v);
 	}
 }

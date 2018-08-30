@@ -13,7 +13,7 @@ class StyleTextColor extends eui.Component{
 		this.inputType = config.type;
 		this.stateObj = {
 			title: config.title,
-			content: props[this.inputType]
+			content: props[this.inputType],
 		}
 		this.skinName = 'resource/skins/StyleTextColorSkin.exml';
 		this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);

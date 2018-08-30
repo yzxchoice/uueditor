@@ -285,39 +285,37 @@ var EditGroup = (function (_super) {
     };
     EditGroup.prototype.renderResources = function (index) {
         return __awaiter(this, void 0, void 0, function () {
-            var s, elements, n, i, texture, t, com, _a;
+            var elements, n, i, texture, t, com, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, Utils.getScript(["https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"])];
-                    case 1:
-                        s = _b.sent();
+                    case 0:
                         elements = this.pages[index].elements;
                         n = elements.length;
                         i = 0;
-                        _b.label = 2;
-                    case 2:
-                        if (!(i < n)) return [3 /*break*/, 7];
+                        _b.label = 1;
+                    case 1:
+                        if (!(i < n)) return [3 /*break*/, 6];
                         texture = RES.getRes(elements[i].name);
                         t = LayerSet.getLayer(Utils.getComs(), elements[i].type)[0];
                         com = LayerSet.createInstance(t, elements[i].props);
                         com.name = elements[i].id;
                         com.data = elements[i];
-                        if (!(!texture && (elements[i].type === UUType.IMAGE || elements[i].type === UUType.BACKGROUND))) return [3 /*break*/, 4];
+                        if (!(!texture && (elements[i].type === UUType.IMAGE || elements[i].type === UUType.BACKGROUND))) return [3 /*break*/, 3];
                         _a = com;
                         return [4 /*yield*/, Utils.getTexture("resource/" + elements[i].src)];
-                    case 3:
+                    case 2:
                         _a.texture = _b.sent();
-                        return [3 /*break*/, 5];
-                    case 4:
+                        return [3 /*break*/, 4];
+                    case 3:
                         com.texture = texture;
+                        _b.label = 4;
+                    case 4:
+                        this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == UUType.BACKGROUND ? false : true));
                         _b.label = 5;
                     case 5:
-                        this.displayList.push(new Picture(com, elements[i].matrix, elements[i].type == UUType.BACKGROUND ? false : true));
-                        _b.label = 6;
-                    case 6:
                         i++;
-                        return [3 /*break*/, 2];
-                    case 7:
+                        return [3 /*break*/, 1];
+                    case 6:
                         requestAnimationFrame(this.render);
                         return [2 /*return*/];
                 }
@@ -561,4 +559,3 @@ var EditGroup = (function (_super) {
     return EditGroup;
 }(eui.Group));
 __reflect(EditGroup.prototype, "EditGroup");
-//# sourceMappingURL=EditGroup.js.map
