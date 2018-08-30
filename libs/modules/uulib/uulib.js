@@ -284,206 +284,173 @@ __reflect(LayerSet.prototype, "LayerSet");
 /**
  * 轮播图组件
  */
-var SlotMachine = (function (_super) {
-    __extends(SlotMachine, _super);
-    function SlotMachine() {
+var Slideshow = (function (_super) {
+    __extends(Slideshow, _super);
+    function Slideshow() {
         var _this = _super.call(this) || this;
-        _this.layerName = '老虎机';
-        _this.width = 800;
+        _this.layerName = '轮播图';
+        _this.width = 600;
         _this.height = 400;
+        _this._activeIndex = 0;
+        _this.duration = 500;
+        _this.delayed = 100;
         _this.isAnimating = false;
-        _this.bgColor = '0xff00ff';
-        _this.bdUrl = '/assets/pic/draw_card_bg.png';
         _this.awards = [
             {
-                url: '/assets/pic/post_item_2.png'
+                url: '/assets/pic/post_item_44.png'
             },
             {
-                url: '/assets/pic/post_item_3.png'
+                url: '/assets/pic/post_item_45.png'
             },
             {
-                url: '/assets/pic/post_item_1.png'
+                url: '/assets/pic/post_item_42.png'
             },
             {
-                url: '/assets/pic/post_item_4.png'
+                url: '/assets/pic/post_item_43.png'
             },
             {
-                url: '/assets/pic/post_item_6.png'
+                url: '/assets/pic/post_item_46.png'
             },
-            {
-                url: '/assets/pic/post_item_5.png'
-            }
         ];
         _this.touchEnabled = false;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.onRemoveFromStage, _this);
         return _this;
     }
-    SlotMachine.prototype.draw = function () {
+    Object.defineProperty(Slideshow.prototype, "activeIndex", {
+        get: function () {
+            return this._activeIndex;
+        },
+        set: function (v) {
+            this._activeIndex = v;
+            this.btn_left.visible = true;
+            this.btn_right.visible = true;
+            if (v == 0) {
+                this.btn_left.visible = false;
+            }
+            if (v == this.awards.length - 1) {
+                this.btn_right.visible = true;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Slideshow.prototype.draw = function () {
     };
-    SlotMachine.prototype.dispose = function () {
+    Slideshow.prototype.dispose = function () {
     };
-    SlotMachine.prototype.getProps = function () {
+    Slideshow.prototype.getProps = function () {
         return {
-            bgColor: this.bgColor,
-            bdUrl: this.bdUrl,
-            awards: this.awards,
+            awards: this.awards
         };
     };
-    SlotMachine.prototype.setProps = function (d) {
+    Slideshow.prototype.setProps = function (d) {
         this.awards = d.awards;
-        this.bdUrl = d.bdUrl;
-        this.bgColor = d.bgColor;
     };
-    SlotMachine.prototype.redraw = function () {
-        this.removeChildren();
-        this.init();
-        // this.resetImgBox();
+    Slideshow.prototype.redraw = function () {
+        this.resetImgBox();
     };
-    SlotMachine.prototype.onAddToStage = function (event) {
+    Slideshow.prototype.onAddToStage = function (event) {
         this.init();
     };
-    SlotMachine.prototype.onRemoveFromStage = function (event) {
+    Slideshow.prototype.onRemoveFromStage = function (event) {
     };
-    SlotMachine.prototype.init = function () {
+    Slideshow.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var vLayout, mainBox, btn;
+            var hLayout, btn_left, btn_right, group;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        vLayout = new eui.VerticalLayout();
-                        vLayout.horizontalAlign = 'center';
-                        this.layout = vLayout;
-                        return [4 /*yield*/, this.createMainBox()];
-                    case 1:
-                        mainBox = _a.sent();
-                        btn = this.createStartBtn();
-                        this.addChild(mainBox);
-                        this.addChild(btn);
-                        return [2 /*return*/];
-                }
+                console.log('Slideshow init ...');
+                hLayout = new eui.HorizontalLayout();
+                hLayout.gap = 10;
+                hLayout.paddingTop = 30;
+                hLayout.horizontalAlign = egret.HorizontalAlign.JUSTIFY;
+                hLayout.verticalAlign = egret.VerticalAlign.MIDDLE;
+                this.layout = hLayout; /// 水平布局
+                btn_left = new eui.Button();
+                btn_left.width = 80;
+                btn_left.label = 'left';
+                btn_left.enabled = true;
+                btn_left.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onclickLeft, this);
+                this.btn_left = btn_left;
+                btn_right = new eui.Button();
+                btn_right.width = 80;
+                btn_right.label = 'right';
+                btn_right.enabled = true;
+                btn_right.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onclickRight, this);
+                this.btn_right = btn_right;
+                group = new eui.Group();
+                group.width = 600;
+                group.height = 400;
+                this.imgBox = group;
+                this.resetImgBox();
+                this.addChild(btn_left);
+                this.addChild(group);
+                this.addChild(btn_right);
+                btn_left.visible = false;
+                this.mask = new egret.Rectangle(0, 0, this.width, this.height);
+                return [2 /*return*/];
             });
         });
     };
-    SlotMachine.prototype.createMainBox = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var group, shape, itemGroup, hLayout, i, len, itemBox;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        group = new eui.Group();
-                        group.width = this.width;
-                        group.height = 270;
-                        shape = new egret.Shape();
-                        shape.graphics.beginFill(this.bgColor, 1);
-                        shape.graphics.drawRect(0, 0, group.width, group.height);
-                        shape.graphics.endFill();
-                        itemGroup = new eui.Group();
-                        itemGroup.width = this.width;
-                        itemGroup.height = group.height;
-                        hLayout = new eui.HorizontalLayout();
-                        hLayout.gap = 10;
-                        hLayout.verticalAlign = 'middle';
-                        hLayout.horizontalAlign = 'center';
-                        itemGroup.layout = hLayout;
-                        itemGroup.mask = new egret.Rectangle(0, 0, itemGroup.width, itemGroup.height);
-                        i = 0, len = 3;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < len)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.createItemBox()];
-                    case 2:
-                        itemBox = _a.sent();
-                        itemGroup.addChild(itemBox);
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4:
-                        ;
-                        group.addChild(shape);
-                        group.addChild(itemGroup);
-                        return [2 /*return*/, group];
-                }
+    Slideshow.prototype.onclickLeft = function () {
+        var _this = this;
+        if (this.activeIndex <= 0)
+            return;
+        if (this.isAnimating)
+            return;
+        this.isAnimating = true;
+        var image = this.imgBox.getChildAt(0);
+        var tw = egret.Tween.get(image);
+        tw.to({ x: image.width }, this.duration)
+            .call(function () {
+            _this.imgBox.setChildIndex(image, _this.imgBox.numChildren);
+            tw.to({ x: 0 }, _this.duration)
+                .call(function () {
+                setTimeout(function () {
+                    _this.activeIndex -= 1;
+                    _this.resetLeft();
+                    _this.isAnimating = false;
+                }, 10);
             });
-        });
+        })
+            .wait(this.delayed);
     };
-    SlotMachine.prototype.createItemBox = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var group, vLayout, promiseArr, i, len;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        group = new eui.Group();
-                        group.width = 250;
-                        group.height = 250;
-                        vLayout = new eui.VerticalLayout();
-                        vLayout.gap = 10;
-                        vLayout.paddingTop = 0;
-                        group.layout = vLayout;
-                        promiseArr = [];
-                        for (i = 0, len = this.awards.length; i < len; i++) {
-                            promiseArr.push(this.createItem(this.awards[i].url));
-                        }
-                        ;
-                        return [4 /*yield*/, Promise.all(promiseArr).then(function (itemArr) {
-                                for (var i = 0, len = itemArr.length; i < len; i++) {
-                                    group.addChild(itemArr[i]);
-                                }
-                            })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, group];
-                }
+    Slideshow.prototype.onclickRight = function () {
+        var _this = this;
+        if (this.activeIndex >= this.awards.length - 1)
+            return;
+        if (this.isAnimating)
+            return;
+        this.isAnimating = true;
+        var image = this.imgBox.getChildAt(this.imgBox.numChildren - 1);
+        var tw = egret.Tween.get(image);
+        tw.to({ x: image.width }, this.duration)
+            .call(function () {
+            _this.imgBox.setChildIndex(image, 1);
+            tw.to({ x: 0 }, _this.duration)
+                .call(function () {
+                setTimeout(function () {
+                    _this.activeIndex += 1;
+                    _this.resetRight();
+                    _this.isAnimating = false;
+                }, 10);
             });
-        });
+        })
+            .wait(this.delayed);
     };
-    SlotMachine.prototype.createItem = function (url) {
-        return __awaiter(this, void 0, void 0, function () {
-            var group, bg, img;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        group = new eui.Group();
-                        group.width = 250;
-                        group.height = 250;
-                        return [4 /*yield*/, this.createImg(this.bdUrl)];
-                    case 1:
-                        bg = _a.sent();
-                        return [4 /*yield*/, this.createImg(url)];
-                    case 2:
-                        img = _a.sent();
-                        group.addChild(bg);
-                        group.addChild(img);
-                        return [2 /*return*/, group];
-                }
-            });
-        });
+    Slideshow.prototype.resetLeft = function () {
+        console.log('resetLeft...');
+        var item = this.awards.shift();
+        this.awards.push(item);
+        this.resetImgBox();
     };
-    SlotMachine.prototype.createImg = function (url) {
-        return __awaiter(this, void 0, void 0, function () {
-            var img, t;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        img = new egret.Bitmap();
-                        return [4 /*yield*/, Utils.getTexture("resource/" + url)];
-                    case 1:
-                        t = _a.sent();
-                        img.width = 250;
-                        img.height = 250;
-                        img.texture = t;
-                        return [2 /*return*/, img];
-                }
-            });
-        });
+    Slideshow.prototype.resetRight = function () {
+        console.log('resetRight..');
+        var item = this.awards.pop();
+        this.awards.unshift(item);
+        this.resetImgBox();
     };
-    SlotMachine.prototype.createStartBtn = function () {
-        var btn = new eui.Button();
-        btn.label = '开始';
-        return btn;
-    };
-    SlotMachine.prototype.resetImgBox = function () {
+    Slideshow.prototype.resetImgBox = function () {
         return __awaiter(this, void 0, void 0, function () {
             var i, len, img, t;
             return __generator(this, function (_a) {
@@ -511,10 +478,10 @@ var SlotMachine = (function (_super) {
             });
         });
     };
-    SlotMachine.uuType = UUType.SLOT_MACHINE;
-    return SlotMachine;
+    Slideshow.uuType = UUType.SLIDESHOW;
+    return Slideshow;
 }(eui.Group));
-__reflect(SlotMachine.prototype, "SlotMachine", ["IUUBase", "IUUContainer", "IUUComponent"]);
+__reflect(Slideshow.prototype, "Slideshow", ["IUUBase", "IUUContainer", "IUUComponent"]);
 /**
  * 自定义操作框
  */
@@ -1253,208 +1220,6 @@ var Preview = (function (_super) {
     return Preview;
 }(eui.Group));
 __reflect(Preview.prototype, "Preview");
-// TypeScript file
-/**
- * 轮播图组件
- */
-var Slideshow = (function (_super) {
-    __extends(Slideshow, _super);
-    function Slideshow() {
-        var _this = _super.call(this) || this;
-        _this.layerName = '轮播图';
-        _this.width = 600;
-        _this.height = 400;
-        _this._activeIndex = 0;
-        _this.duration = 500;
-        _this.delayed = 100;
-        _this.isAnimating = false;
-        _this.awards = [
-            {
-                url: '/assets/pic/post_item_44.png'
-            },
-            {
-                url: '/assets/pic/post_item_45.png'
-            },
-            {
-                url: '/assets/pic/post_item_42.png'
-            },
-            {
-                url: '/assets/pic/post_item_43.png'
-            },
-            {
-                url: '/assets/pic/post_item_46.png'
-            },
-        ];
-        _this.touchEnabled = false;
-        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
-        _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.onRemoveFromStage, _this);
-        return _this;
-    }
-    Object.defineProperty(Slideshow.prototype, "activeIndex", {
-        get: function () {
-            return this._activeIndex;
-        },
-        set: function (v) {
-            this._activeIndex = v;
-            this.btn_left.visible = true;
-            this.btn_right.visible = true;
-            if (v == 0) {
-                this.btn_left.visible = false;
-            }
-            if (v == this.awards.length - 1) {
-                this.btn_right.visible = true;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Slideshow.prototype.draw = function () {
-    };
-    Slideshow.prototype.dispose = function () {
-    };
-    Slideshow.prototype.getProps = function () {
-        return {
-            awards: this.awards
-        };
-    };
-    Slideshow.prototype.setProps = function (d) {
-        this.awards = d.awards;
-    };
-    Slideshow.prototype.redraw = function () {
-        this.resetImgBox();
-    };
-    Slideshow.prototype.onAddToStage = function (event) {
-        this.init();
-    };
-    Slideshow.prototype.onRemoveFromStage = function (event) {
-    };
-    Slideshow.prototype.init = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var hLayout, btn_left, btn_right, group;
-            return __generator(this, function (_a) {
-                console.log('Slideshow init ...');
-                hLayout = new eui.HorizontalLayout();
-                hLayout.gap = 10;
-                hLayout.paddingTop = 30;
-                hLayout.horizontalAlign = egret.HorizontalAlign.JUSTIFY;
-                hLayout.verticalAlign = egret.VerticalAlign.MIDDLE;
-                this.layout = hLayout; /// 水平布局
-                btn_left = new eui.Button();
-                btn_left.width = 80;
-                btn_left.label = 'left';
-                btn_left.enabled = true;
-                btn_left.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onclickLeft, this);
-                this.btn_left = btn_left;
-                btn_right = new eui.Button();
-                btn_right.width = 80;
-                btn_right.label = 'right';
-                btn_right.enabled = true;
-                btn_right.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onclickRight, this);
-                this.btn_right = btn_right;
-                group = new eui.Group();
-                group.width = 600;
-                group.height = 400;
-                this.imgBox = group;
-                this.resetImgBox();
-                this.addChild(btn_left);
-                this.addChild(group);
-                this.addChild(btn_right);
-                btn_left.visible = false;
-                this.mask = new egret.Rectangle(0, 0, this.width, this.height);
-                return [2 /*return*/];
-            });
-        });
-    };
-    Slideshow.prototype.onclickLeft = function () {
-        var _this = this;
-        if (this.activeIndex <= 0)
-            return;
-        if (this.isAnimating)
-            return;
-        this.isAnimating = true;
-        var image = this.imgBox.getChildAt(0);
-        var tw = egret.Tween.get(image);
-        tw.to({ x: image.width }, this.duration)
-            .call(function () {
-            _this.imgBox.setChildIndex(image, _this.imgBox.numChildren);
-            tw.to({ x: 0 }, _this.duration)
-                .call(function () {
-                setTimeout(function () {
-                    _this.activeIndex -= 1;
-                    _this.resetLeft();
-                    _this.isAnimating = false;
-                }, 10);
-            });
-        })
-            .wait(this.delayed);
-    };
-    Slideshow.prototype.onclickRight = function () {
-        var _this = this;
-        if (this.activeIndex >= this.awards.length - 1)
-            return;
-        if (this.isAnimating)
-            return;
-        this.isAnimating = true;
-        var image = this.imgBox.getChildAt(this.imgBox.numChildren - 1);
-        var tw = egret.Tween.get(image);
-        tw.to({ x: image.width }, this.duration)
-            .call(function () {
-            _this.imgBox.setChildIndex(image, 1);
-            tw.to({ x: 0 }, _this.duration)
-                .call(function () {
-                setTimeout(function () {
-                    _this.activeIndex += 1;
-                    _this.resetRight();
-                    _this.isAnimating = false;
-                }, 10);
-            });
-        })
-            .wait(this.delayed);
-    };
-    Slideshow.prototype.resetLeft = function () {
-        console.log('resetLeft...');
-        var item = this.awards.shift();
-        this.awards.push(item);
-        this.resetImgBox();
-    };
-    Slideshow.prototype.resetRight = function () {
-        console.log('resetRight..');
-        var item = this.awards.pop();
-        this.awards.unshift(item);
-        this.resetImgBox();
-    };
-    Slideshow.prototype.resetImgBox = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var i, len, img, t;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.imgBox.removeChildren();
-                        i = 0, len = this.awards.length;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < len)) return [3 /*break*/, 4];
-                        img = new egret.Bitmap();
-                        return [4 /*yield*/, Utils.getTexture("resource/" + this.awards[i].url)];
-                    case 2:
-                        t = _a.sent();
-                        img.width = this.imgBox.width;
-                        img.height = this.imgBox.height;
-                        img.texture = t;
-                        this.imgBox.addChild(img);
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Slideshow.uuType = UUType.SLIDESHOW;
-    return Slideshow;
-}(eui.Group));
-__reflect(Slideshow.prototype, "Slideshow", ["IUUBase", "IUUContainer", "IUUComponent"]);
 // TypeScript file
 /**
  * 转盘组件
