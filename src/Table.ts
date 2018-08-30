@@ -44,7 +44,6 @@ class Table extends eui.Group {
 	private init(){
 		this.removeChildren();
 		this.gp_box = new eui.Group();
-		var tLayout:eui.TileLayout = new eui.TileLayout();
 		this.gp_box.layout = this.createTileLayout(1);
 		this.reload();
 		let vLayout = new eui.VerticalLayout();
@@ -120,61 +119,60 @@ class Table extends eui.Group {
 		let group = new eui.Group();
 		group.width = this.boxWidth / this.columnNum;
 		group.height = this.lineHeight;
-		let input: eui.EditableText | eui.Label;
-		input = new eui.Label();
-		input.textAlign = 'center';
-		input.textColor = 0x00000;
-		input.size = 26;
-		input.text = value;
-		input.verticalAlign = 'middle';		
-		group.addChild(input);
-		input.width = group.width;	
-		input.height = group.height;	
+		let item: eui.EditableText | eui.Label;
+		item = new eui.Label();
+		item.textAlign = 'center';
+		item.textColor = 0x00000;
+		item.size = 26;
+		item.text = value;
+		item.verticalAlign = 'middle';		
+		group.addChild(item);
+		item.width = group.width;	
+		item.height = group.height;	
 		return group;
 	}
 	private createTd(key: string, value: Item): eui.Group {
 		let group = new eui.Group();
 		let com = value.componentType ? eval(value.componentType) : eui.EditableText;
-		let input;
+		let item;
 		switch(com){
 			case eui.EditableText:
-				input = new com();
-				input.name = key;
-				input.background = true;
-				input.backgroundColor = 0xffffff;
-				input.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);			
-				input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
+				item = new com();
+				item.name = key;
+				item.background = true;
+				item.backgroundColor = 0xffffff;
+				item.addEventListener(egret.FocusEvent.FOCUS_IN, this.onFocusIn, this);			
+				item.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
 
-				input.textColor = 0x00000;
-				input.size = 26;
-				input.text = value.value;
-				input.verticalAlign = 'middle';		
+				item.textColor = 0x00000;
+				item.size = 26;
+				item.text = value.value;
+				item.verticalAlign = 'middle';		
 				break;
 			case Select:
 				let itemWidth: number = this.boxWidth / this.columnNum;
-				input = new com(value.selectData, itemWidth);
-				input.setDefaultItem(value.value);
+				item = new com(value.selectData, itemWidth);
+				item.setDefaultItem(value.value);
 				let callback = function(selectedVal: string){
 					value.value = selectedVal;
 				}
-				input.listenSelectChange(callback);
+				item.listenSelectChange(callback);
 				break;
 			case eui.Button:
-				input = <eui.Button>new com();
-				input.label = value.value;
-				input.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-					//TODO: 存在潜在问题
+				item = <eui.Button>new com();
+				item.label = value.value;
+				item.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
 					let g: Game = this.container.siderbar.parent;
 					g.openImagePanel((url) => {
 						console.log(url);
-						input.label = value.value = url;
+						item.label = value.value = url;
 					}, true);
 				}, this);
 				break;
 		}
-		group.addChild(input);
-		input.width = this.boxWidth / this.columnNum;	
-		input.height = this.lineHeight;	
+		group.addChild(item);
+		item.width = this.boxWidth / this.columnNum;	
+		item.height = this.lineHeight;	
 		return group;
 	}
 	draw(container){
