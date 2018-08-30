@@ -6,7 +6,6 @@ class StyleTextColor extends eui.Component{
 	private config: any;
 	private props: any;
 	private inputType: string;
-	private textInput_input: eui.TextInput;
 	private lb_selectColor: eui.Label;
 	private colorSelectBox: ColorSelectBox;
 	public constructor(config, props) {

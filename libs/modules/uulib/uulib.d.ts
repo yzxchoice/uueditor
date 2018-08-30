@@ -78,6 +78,16 @@ declare enum UUType {
      * 老虎机组件
      */
     SLOT_MACHINE = 104,
+    CARD = 112,
+}
+/**
+ * 资源对象
+ */
+interface IResource {
+    id?: string;
+    name?: string;
+    text?: string;
+    url?: string;
 }
 interface IUUBase {
     /**
@@ -106,6 +116,14 @@ interface ILabel {
     textAlign?: string;
     lineSpacing?: number;
 }
+interface IQuestions {
+    items: Array<IQuestion>;
+    toItems: Array<IQuestion>;
+}
+interface IQuestion {
+    select: boolean | string;
+    resource: IResource;
+}
 interface CircleSectorItem {
     text: string;
     url: string;
@@ -124,6 +142,9 @@ interface ISlotMachine {
     bgColor: number | string;
     bdUrl: string;
 }
+interface IItems {
+    awards: Array<IResource>;
+}
 interface ITrigger {
     delay: number;
     eventType: number;
@@ -138,14 +159,6 @@ interface ITrigger {
     targetId: string;
     targetState?: number;
     targetType?: string;
-}
-/**
- * 资源对象
- */
-interface IResource {
-    id?: string;
-    name?: string;
-    url: string;
 }
 interface IProperty {
     /**
@@ -231,6 +244,15 @@ declare class Slideshow extends eui.Group implements IUUBase, IUUContainer, IUUC
     private resetLeft();
     private resetRight();
     private resetImgBox();
+}
+/**
+ * 组件基类
+ */
+declare class BaseUI {
+    /**
+     * 绑定数据
+     */
+    data: any;
 }
 /**
  * 自定义操作框
@@ -374,38 +396,67 @@ declare class Preview extends eui.Group {
     reset(): void;
     drawDisplayList(): void;
 }
-/**
- * 转盘组件
- */
-declare class CircleSector extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
+declare class Card extends eui.Group implements IUUBase, IUUContainer {
+    static uuType: UUType;
     data: any;
-    layerName: string;
     container: any;
     width: number;
     height: number;
+    ques: IQuestions;
+    private itemContainer;
+    private toitemContainer;
+    getProps(): {
+        ques: IQuestions;
+    };
+    setProps(d: any): void;
+    constructor();
+    private onAddToStage();
+    draw(): Promise<void>;
+    reset(): void;
+    dispose(): void;
+}
+/**
+ * 轮播图组件
+ */
+declare class SlotMachine extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
+    data: any;
+    layerName: string;
+    container: any;
     static uuType: UUType;
+    private btn_start;
+    private isAnimating;
     draw(): void;
-    awards: CircleSectorItem[];
-    private main;
+    dispose(): void;
+    private itemWidth;
+    private itemHeight;
+    private gap;
+    private tweenFlag;
+    private defaultWidth;
+    private defaultHeight;
+    bgColor: string | number;
+    bdUrl: string;
+    private awardsTotal;
+    private _awards;
+    awards: Array<SlideshowItem>;
+    private itemGroup;
     constructor();
     getProps(): {
-        awards: CircleSectorItem[];
+        bgColor: string | number;
+        bdUrl: string;
+        awards: SlideshowItem[];
     };
-    setProps(d: ICircleSector): void;
+    setProps(d: ISlotMachine): void;
+    redraw(): void;
     private onAddToStage(event);
     private onRemoveFromStage(event);
     private init();
-    redraw(): void;
-    drawSector(): Promise<void>;
-    private down(event);
-    private rnd(n, m);
-    rotateFn(item: number, txt: string): void;
-    dispose(): void;
-    private onComplete(param1);
-    /**
-     * 画弧形方法
-     */
-    drawArc(mc: egret.Shape, x?: number, y?: number, r?: number, angle?: number, startFrom?: number, color?: number): void;
+    private createMainBox();
+    private createItemBox();
+    private createItem(url);
+    private createImg(url);
+    private createStartBtn();
+    private onClick(evt);
+    private tween(item, step, duration?);
 }
 interface uiData {
     id: string;
@@ -489,17 +540,41 @@ declare class TransformTool {
     sanitizeStartMatrix(): void;
 }
 /**
- * 组件基类
+ * 转盘组件
  */
-declare class BaseUI {
-    /**
-     * 绑定数据
-     */
+declare class CircleSector extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
     data: any;
+    layerName: string;
+    container: any;
+    width: number;
+    height: number;
+    static uuType: UUType;
+    draw(): void;
+    awards: CircleSectorItem[];
+    private main;
+    constructor();
+    getProps(): {
+        awards: CircleSectorItem[];
+    };
+    setProps(d: ICircleSector): void;
+    private onAddToStage(event);
+    private onRemoveFromStage(event);
+    private init();
+    redraw(): void;
+    drawSector(): Promise<void>;
+    private down(event);
+    private rnd(n, m);
+    rotateFn(item: number, txt: string): void;
+    dispose(): void;
+    private onComplete(param1);
+    /**
+     * 画弧形方法
+     */
+    drawArc(mc: egret.Shape, x?: number, y?: number, r?: number, angle?: number, startFrom?: number, color?: number): void;
 }
 declare class Utils {
     constructor();
-    static getComs(): any[];
+    static getComs(): (typeof Slideshow | typeof UULabel | typeof UUImage | typeof UUContainer | typeof SoundButton | typeof CircleSector | typeof SlotMachine)[];
     static getTexture(url: string): Promise<{}>;
     static getSound(url: string): Promise<{}>;
     static trans(arr: Array<any>, templateId: number): {
@@ -568,6 +643,7 @@ declare class UULabel extends eui.Label implements IUUBase {
     constructor();
     getProps(): ILabel;
     setProps(data: UUData<ILabel>): void;
+    redraw(): void;
 }
 declare class UURequest {
     constructor();
