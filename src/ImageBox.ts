@@ -139,6 +139,7 @@ class ImageBox extends eui.Panel {
             this.close();
         }, this, 0);
         // requestAnimationFrame(this.close);
+        
     }
 
     private addImage (event: egret.TouchEvent) {

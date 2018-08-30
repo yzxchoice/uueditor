@@ -9,7 +9,7 @@ declare class Game extends eui.Component {
     header: Header;
     imgBox: ImageBox;
     Siderbar: Siderbar;
-    private initEui();
+    initEui(): Promise<void>;
     openComponentPanel(): void;
     openFramePanel(): void;
     openSoundePanel(cb?: Function): void;

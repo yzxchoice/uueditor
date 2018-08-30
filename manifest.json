@@ -14,10 +14,10 @@
 	],
 	"game": [
 		"bin-debug/StyleCircleSector.js",
-		"bin-debug/StyleInput.js",
-		"bin-debug/StyleSelect.js",
 		"bin-debug/StyleSlideshow.js",
 		"bin-debug/StyleTextColor.js",
+		"bin-debug/StyleInput.js",
+		"bin-debug/StyleSelect.js",
 		"bin-debug/Siderbar.js",
 		"bin-debug/EventSet.js",
 		"bin-debug/Fetch.js",

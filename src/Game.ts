@@ -24,7 +24,9 @@ class Game extends eui.Component {
     public imgBox: ImageBox = ImageBox.getInstance();
     public Siderbar: Siderbar = Siderbar.getInstance();
 
-    private initEui() {
+    async initEui() {
+
+        
         
         var editContaier: eui.Group = new eui.Group();
         editContaier.x = 0;
@@ -85,6 +87,8 @@ class Game extends eui.Component {
         button2.label = "下一页";
         button2.addEventListener(Mouse.START, this.editGroup.next, this.editGroup);
         bottomGroup.addChild(button2);
+
+        
     }
 
     openComponentPanel () {

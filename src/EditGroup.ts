@@ -282,6 +282,8 @@ class EditGroup extends eui.Group {
     }
 
     async renderResources (index: number) {
+        // let s = await Utils.getScript(["https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"]);
+        // _.each([1, 2, 3], alert);
         
         var elements = this.pages[index].elements;
         var n = elements.length;
