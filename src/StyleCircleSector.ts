@@ -1,4 +1,4 @@
-class StyleCircleSector extends StyleEdit {
+class StyleCircleSector extends StyleEditBae {
 	
 	public constructor(config, props) {
 		super(config, props);

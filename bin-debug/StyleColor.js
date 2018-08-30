@@ -8,28 +8,17 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var StyleTextColor = (function (_super) {
-    __extends(StyleTextColor, _super);
-    function StyleTextColor(config, props) {
-        var _this = _super.call(this) || this;
-        _this.config = config;
-        _this.props = props;
-        _this.inputType = config.type;
-        _this.stateObj = {
-            title: config.title,
-            content: props[_this.inputType],
-        };
+var StyleColor = (function (_super) {
+    __extends(StyleColor, _super);
+    function StyleColor(config, props) {
+        var _this = _super.call(this, config, props) || this;
         _this.skinName = 'resource/skins/StyleTextColorSkin.exml';
-        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
-    StyleTextColor.prototype.onAddToStage = function () {
-        this.initEvent();
-    };
-    StyleTextColor.prototype.initEvent = function () {
+    StyleColor.prototype.initEvent = function () {
         this.lb_selectColor.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
     };
-    StyleTextColor.prototype.onClick = function () {
+    StyleColor.prototype.onClick = function () {
         if (!this.colorSelectBox || !this.colorSelectBox.isShow) {
             var colorSelectBox = new ColorSelectBox();
             colorSelectBox.draw(this.parent);
@@ -42,11 +31,9 @@ var StyleTextColor = (function (_super) {
             this.colorSelectBox.undraw();
         }
     };
-    StyleTextColor.prototype.changeColor = function (color) {
-        console.log('color = ' + color);
-        this.stateObj.content = color;
-        this.props[this.inputType] = color;
+    StyleColor.prototype.changeColor = function (color) {
+        this.updateValue(color);
     };
-    return StyleTextColor;
-}(eui.Component));
-__reflect(StyleTextColor.prototype, "StyleTextColor");
+    return StyleColor;
+}(StyleBase));
+__reflect(StyleColor.prototype, "StyleColor");

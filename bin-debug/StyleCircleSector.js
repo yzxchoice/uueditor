@@ -24,5 +24,5 @@ var StyleCircleSector = (function (_super) {
         return _this;
     }
     return StyleCircleSector;
-}(StyleEdit));
+}(StyleEditBae));
 __reflect(StyleCircleSector.prototype, "StyleCircleSector");

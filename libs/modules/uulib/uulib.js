@@ -1371,7 +1371,7 @@ var SlotMachine = (function (_super) {
         _this.defaultWidth = 800;
         _this.defaultHeight = 400;
         // props中用到的参数
-        _this.bgColor = '0xff00ff';
+        _this.bgColor = '0x666699';
         _this.bdUrl = '/assets/pic/draw_card_bg.png';
         _this.awardsTotal = [
             {

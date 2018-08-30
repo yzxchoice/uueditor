@@ -1,4 +1,4 @@
-declare class StyleEdit extends eui.Component {
+declare class StyleEditBae extends eui.Component {
     private siderbar;
     private image;
     private stateObj;

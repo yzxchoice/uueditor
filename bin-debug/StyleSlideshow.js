@@ -23,5 +23,5 @@ var StyleSlideshow = (function (_super) {
         return _this;
     }
     return StyleSlideshow;
-}(StyleEdit));
+}(StyleEditBae));
 __reflect(StyleSlideshow.prototype, "StyleSlideshow");
