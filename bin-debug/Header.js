@@ -144,7 +144,7 @@ var Header = (function (_super) {
                             list: g.editGroup.pages
                         };
                         params = "id=" + Main.id + "&template=" + encodeURIComponent(JSON.stringify(obj)) + "&resource=" + encodeURIComponent(JSON.stringify(Utils.trans(g.editGroup.pages, Main.id)));
-                        return [4 /*yield*/, Fetch.start('http://10.63.5.71:8002/template/updateTemplate', params, 'POST')];
+                        return [4 /*yield*/, Fetch.start('http://10.63.5.131:8002/template/updateTemplate', params, 'POST')];
                     case 1:
                         res = _a.sent();
                         return [2 /*return*/];
@@ -190,3 +190,4 @@ var Header = (function (_super) {
     return Header;
 }(eui.Group));
 __reflect(Header.prototype, "Header", ["IUUContainer"]);
+//# sourceMappingURL=Header.js.map

@@ -1,5 +1,5 @@
 // TypeScript file
-const prefixApi: string = 'http://10.63.5.71:8002/'
+const prefixApi: string = 'http://10.63.5.131:8002/'
 /**
  * 获取图片资源列表
  */

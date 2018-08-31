@@ -43,3 +43,4 @@ var PageEvent = (function (_super) {
     return PageEvent;
 }(egret.Event));
 __reflect(PageEvent.prototype, "PageEvent");
+//# sourceMappingURL=PageEvent.js.map

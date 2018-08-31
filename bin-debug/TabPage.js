@@ -77,3 +77,4 @@ var TabPage = (function (_super) {
     return TabPage;
 }(eui.Group));
 __reflect(TabPage.prototype, "TabPage", ["IUUContainer"]);
+//# sourceMappingURL=TabPage.js.map

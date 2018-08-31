@@ -40,3 +40,4 @@ var StyleBase = (function (_super) {
     return StyleBase;
 }(eui.Component));
 __reflect(StyleBase.prototype, "StyleBase");
+//# sourceMappingURL=StyleBase.js.map

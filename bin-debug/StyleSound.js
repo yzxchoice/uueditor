@@ -57,3 +57,4 @@ var StyleSound = (function (_super) {
     return StyleSound;
 }(eui.Group));
 __reflect(StyleSound.prototype, "StyleSound");
+//# sourceMappingURL=StyleSound.js.map

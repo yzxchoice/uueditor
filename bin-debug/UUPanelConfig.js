@@ -77,3 +77,4 @@ var UUPanelConfig = (_a = {},
     ],
     _a);
 var _a;
+//# sourceMappingURL=UUPanelConfig.js.map

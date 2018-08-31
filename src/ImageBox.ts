@@ -135,9 +135,9 @@ class ImageBox extends eui.Panel {
         let e: PageEvent = new PageEvent(PageEvent.SOUND_CHANGE, true);
         e.data = d.sound;
         this.dispatchEvent(e);
-        egret.setTimeout( () => {
+        setTimeout( () => {
             this.close();
-        }, this, 0);
+        }, 0);
         // requestAnimationFrame(this.close);
         
     }
@@ -146,9 +146,9 @@ class ImageBox extends eui.Panel {
         var g: Game = this.parent as Game;
         // g.editGroup.addSinglePicture(event.currentTarget.data);
         g.editGroup.addResource(event.currentTarget.data, this.uutype);
-        egret.setTimeout( () => {
+        setTimeout( () => {
             this.close();
-        }, this, 0);
+        }, 0);
     }
 
     private addImageForComponent (event: egret.TouchEvent) {

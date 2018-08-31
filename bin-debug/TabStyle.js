@@ -159,3 +159,4 @@ var TabStyle = (function (_super) {
     return TabStyle;
 }(eui.Component));
 __reflect(TabStyle.prototype, "TabStyle", ["IUUContainer"]);
+//# sourceMappingURL=TabStyle.js.map

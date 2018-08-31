@@ -171,9 +171,9 @@ var ImageBox = (function (_super) {
         var e = new PageEvent(PageEvent.SOUND_CHANGE, true);
         e.data = d.sound;
         this.dispatchEvent(e);
-        egret.setTimeout(function () {
+        setTimeout(function () {
             _this.close();
-        }, this, 0);
+        }, 0);
         // requestAnimationFrame(this.close);
     };
     ImageBox.prototype.addImage = function (event) {
@@ -181,9 +181,9 @@ var ImageBox = (function (_super) {
         var g = this.parent;
         // g.editGroup.addSinglePicture(event.currentTarget.data);
         g.editGroup.addResource(event.currentTarget.data, this.uutype);
-        egret.setTimeout(function () {
+        setTimeout(function () {
             _this.close();
-        }, this, 0);
+        }, 0);
     };
     ImageBox.prototype.addImageForComponent = function (event) {
         var s = event.currentTarget.data;
@@ -202,3 +202,4 @@ var ImageBox = (function (_super) {
     return ImageBox;
 }(eui.Panel));
 __reflect(ImageBox.prototype, "ImageBox");
+//# sourceMappingURL=ImageBox.js.map
