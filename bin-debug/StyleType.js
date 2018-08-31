@@ -32,6 +32,8 @@ var StyleType = (function (_super) {
         this.container.addChild(this);
     };
     StyleType.prototype.onAddToStage = function () {
+        if (!this.isTargetSelected())
+            return;
         this.initPanel();
         this.bindData();
     };

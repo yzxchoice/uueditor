@@ -29,6 +29,7 @@ class StyleType extends eui.Component implements IUUContainer{
 	}
 
 	private onAddToStage(){
+		if(!this.isTargetSelected()) return;
 		this.initPanel();
 		this.bindData();
 	}
