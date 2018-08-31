@@ -68,6 +68,12 @@ var Header = (function (_super) {
         hLayout.verticalAlign = egret.VerticalAlign.MIDDLE;
         hLayout.paddingRight = 30;
         this.layout = hLayout;
+        var btnSlotMachine = this.createBtn('老虎机');
+        btnSlotMachine.addEventListener(Mouse.START, this.onAddSlotMachine, this);
+        this.addChild(btnSlotMachine);
+        var btnSlideShow = this.createBtn('轮播图');
+        btnSlideShow.addEventListener(Mouse.START, this.onAddSlideShow, this);
+        this.addChild(btnSlideShow);
         var btnAddText = new eui.Button();
         btnAddText.width = 100;
         btnAddText.height = 40;
@@ -129,6 +135,13 @@ var Header = (function (_super) {
         btnSave.addEventListener(Mouse.START, this.save, this);
         this.addChild(btnSave);
     };
+    Header.prototype.createBtn = function (label) {
+        var btn = new eui.Button();
+        btn.width = 100;
+        btn.height = 40;
+        btn.label = label;
+        return btn;
+    };
     Header.prototype.save = function (event) {
         return __awaiter(this, void 0, void 0, function () {
             var g, obj, params, res;
@@ -151,6 +164,14 @@ var Header = (function (_super) {
                 }
             });
         });
+    };
+    Header.prototype.onAddSlideShow = function () {
+        var editGroup = this.container.editGroup;
+        editGroup.addResource1(UUType.SLIDESHOW);
+    };
+    Header.prototype.onAddSlotMachine = function () {
+        var editGroup = this.container.editGroup;
+        editGroup.addResource1(UUType.SLOT_MACHINE);
     };
     Header.prototype.onAddText = function () {
         var editGroup = this.container.editGroup;

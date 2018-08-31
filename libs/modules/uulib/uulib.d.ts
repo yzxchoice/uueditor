@@ -216,8 +216,6 @@ declare class Slideshow extends eui.Group implements IUUBase, IUUContainer, IUUC
     data: any;
     layerName: string;
     container: any;
-    width: number;
-    height: number;
     static uuType: UUType;
     private _activeIndex;
     activeIndex: number;
@@ -228,6 +226,8 @@ declare class Slideshow extends eui.Group implements IUUBase, IUUContainer, IUUC
     private isAnimating;
     draw(): void;
     dispose(): void;
+    width: number;
+    height: number;
     awards: Array<SlideshowItem>;
     private imgBox;
     constructor();
@@ -431,8 +431,8 @@ declare class SlotMachine extends eui.Group implements IUUBase, IUUContainer, IU
     private itemHeight;
     private gap;
     private tweenFlag;
-    private defaultWidth;
-    private defaultHeight;
+    width: number;
+    height: number;
     bgColor: string | number;
     bdUrl: string;
     private awardsTotal;
@@ -577,7 +577,6 @@ declare class Utils {
     static getComs(): (typeof Slideshow | typeof UULabel | typeof UUImage | typeof UUContainer | typeof SoundButton | typeof CircleSector | typeof SlotMachine)[];
     static getTexture(url: string): Promise<{}>;
     static getSound(url: string): Promise<{}>;
-    static getScript(arr: Array<string>): Promise<{}>;
     static trans(arr: Array<any>, templateId: number): {
         "groups": {
             "keys": string;

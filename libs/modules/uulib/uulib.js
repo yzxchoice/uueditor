@@ -290,12 +290,12 @@ var Slideshow = (function (_super) {
     function Slideshow() {
         var _this = _super.call(this) || this;
         _this.layerName = '轮播图';
-        _this.width = 600;
-        _this.height = 400;
         _this._activeIndex = 0;
         _this.duration = 500;
         _this.delayed = 100;
         _this.isAnimating = false;
+        _this.width = 800;
+        _this.height = 600;
         _this.awards = [
             {
                 url: '/assets/pic/post_item_44.png'
@@ -1368,8 +1368,8 @@ var SlotMachine = (function (_super) {
         _this.gap = 10;
         _this.tweenFlag = 3; // 动画标记
         // 组件宽、高固定
-        _this.defaultWidth = 800;
-        _this.defaultHeight = 400;
+        _this.width = 800;
+        _this.height = 400;
         // props中用到的参数
         _this.bgColor = '0x666699';
         _this.bdUrl = '/assets/pic/draw_card_bg.png';
@@ -1464,8 +1464,6 @@ var SlotMachine = (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.width = this.defaultWidth;
-                        this.height = this.height;
                         vLayout = new eui.VerticalLayout();
                         vLayout.horizontalAlign = 'center';
                         this.layout = vLayout;
@@ -2230,8 +2228,6 @@ var CircleSector = (function (_super) {
                     case 2:
                         t = _a.sent();
                         img.texture = t;
-                        img.width = 80;
-                        img.height = 80;
                         img.x = -img.width / 2;
                         img.y = label.height + 20;
                         g.addChild(img);
@@ -2339,13 +2335,6 @@ var Utils = (function () {
                 resolve(event.target);
             }, _this);
             sound.load(url);
-        });
-    };
-    Utils.getScript = function (arr) {
-        return new Promise(function (resolve, reject) {
-            loadScript(arr, function () {
-                resolve();
-            });
         });
     };
     Utils.trans = function (arr, templateId) {
