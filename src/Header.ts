@@ -30,6 +30,14 @@ class Header extends eui.Group implements IUUContainer {
         hLayout.paddingRight = 30;
         this.layout = hLayout;
 
+        let btnSlotMachine = this.createBtn('老虎机');
+        btnSlotMachine.addEventListener(Mouse.START, this.onAddSlotMachine, this);     
+        this.addChild(btnSlotMachine);  
+
+        let btnSlideShow = this.createBtn('轮播图');
+        btnSlideShow.addEventListener(Mouse.START, this.onAddSlideShow, this);     
+        this.addChild(btnSlideShow);          
+        
         var btnAddText = new eui.Button();
         btnAddText.width = 100;
         btnAddText.height = 40;
@@ -92,6 +100,14 @@ class Header extends eui.Group implements IUUContainer {
         this.addChild(btnSave);
     }
 
+    private createBtn(label: string): eui.Button{
+        let btn = new eui.Button();
+        btn.width = 100;
+        btn.height = 40;
+        btn.label = label;
+        return btn;
+    }
+
     async save (event: egret.TouchEvent) {
         // egret.log(this.getQueryString()['id']);
         // var id = this.getQueryString()['id'];
@@ -106,6 +122,16 @@ class Header extends eui.Group implements IUUContainer {
         var params = "id="+Main.id+"&template="+encodeURIComponent(JSON.stringify(obj))+"&resource="+encodeURIComponent(JSON.stringify(Utils.trans(g.editGroup.pages, Main.id)));
         var res = await Fetch.start('http://10.63.5.71:8002/template/updateTemplate',params, 'POST');
         // egret.log(Utils.trans(g.editGroup.pages));
+    }
+
+    onAddSlideShow(){
+        let editGroup = this.container.editGroup;
+        editGroup.addResource1(UUType.SLIDESHOW);
+    }
+
+    onAddSlotMachine(){
+        let editGroup = this.container.editGroup;
+        editGroup.addResource1(UUType.SLOT_MACHINE);
     }
 
     onAddText(){
