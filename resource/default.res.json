@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "button_down_png,button_up_png,border_png,header_png,gameEui_json,test_mp3,test2_mp3,4_png,3_png,5_png,1_png,2_png,handle_png,off_png,on_png,checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,animation_json,animation_png,description_json,animation2_json,animation2_png,roundthumb_png,jt2_png,jt22_png,bg3_jpg,PreLoadingBg_png,scene_1_jpg,scene_2_jpg,scene_4_jpg,start_bg_png,start_f_bg_png",
+			"keys": "thumb_png,track_png,tracklight_png,track_sb_png,button_down_png,button_up_png,border_png,header_png,gameEui_json,test_mp3,test2_mp3,4_png,3_png,5_png,1_png,2_png,handle_png,off_png,on_png,checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,animation_json,animation_png,description_json,animation2_json,animation2_png,roundthumb_png,jt2_png,jt22_png,bg3_jpg,PreLoadingBg_png,scene_1_jpg,scene_2_jpg,scene_4_jpg,start_bg_png,start_f_bg_png",
 			"name": "preload"
 		}
 	],
@@ -10,6 +10,26 @@
 			"url": "assets/ScrollBar/roundthumb.png",
 			"type": "image",
 			"name": "roundthumb_png"
+		},
+		{
+			"url": "assets/Slider/thumb.png",
+			"type": "image",
+			"name": "thumb_png"
+		},
+		{
+			"url": "assets/Slider/track.png",
+			"type": "image",
+			"name": "track_png"
+		},
+		{
+			"url": "assets/Slider/tracklight.png",
+			"type": "image",
+			"name": "tracklight_png"
+		},
+		{
+			"url": "assets/ScrollBar/track_sb.png",
+			"type": "image",
+			"name": "track_sb_png"
 		},
 		{
 			"url": "assets/RadioButton/radiobutton_select_disabled.png",
