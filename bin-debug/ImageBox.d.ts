@@ -8,6 +8,7 @@ declare class ImageBox extends eui.Panel {
     private container;
     private cb;
     private isForComponent;
+    private errTxt;
     constructor();
     static getInstance(): ImageBox;
     private onAddToStage(event);

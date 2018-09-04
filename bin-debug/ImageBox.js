@@ -50,6 +50,7 @@ var ImageBox = (function (_super) {
         var _this = _super.call(this) || this;
         _this.imgList = [];
         _this.isForComponent = false;
+        _this.errTxt = new eui.Label();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -64,16 +65,25 @@ var ImageBox = (function (_super) {
     };
     ImageBox.prototype.getResources = function (url, params, uutype) {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var res, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.url = url;
                         this.params = params;
                         this.uutype = uutype;
-                        return [4 /*yield*/, Fetch.start(this.url, this.params)];
+                        _a.label = 1;
                     case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, Fetch.start(this.url, this.params)];
+                    case 2:
                         res = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _a.sent();
+                        egret.log(e_1);
+                        return [3 /*break*/, 4];
+                    case 4:
                         this.imgList = res;
                         if (uutype === UUType.SOUND) {
                             this.renderSound();
@@ -157,6 +167,7 @@ var ImageBox = (function (_super) {
         tLayout.paddingRight = 30;
         tLayout.paddingBottom = 30;
         this._grpLayout.layout = tLayout;
+        this._grpLayout.addChild(this.errTxt);
     };
     ImageBox.prototype.addSound = function (event) {
         var _this = this;
