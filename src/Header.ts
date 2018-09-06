@@ -120,7 +120,7 @@ class Header extends eui.Group implements IUUContainer {
             list: g.editGroup.pages
         }
         var params = "id="+Main.id+"&template="+encodeURIComponent(JSON.stringify(obj))+"&resource="+encodeURIComponent(JSON.stringify(Utils.trans(g.editGroup.pages, Main.id)));
-        var res = await Fetch.start('http://10.63.5.71:8002/template/updateTemplate',params, 'POST');
+        var res = await Fetch.start(`${prefixApi}template/updateTemplate`,params, 'POST');
         // egret.log(Utils.trans(g.editGroup.pages));
     }
 

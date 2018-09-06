@@ -9,6 +9,7 @@ class ImageBox extends eui.Panel {
     private container: eui.Component;
     private cb: Function;
     private isForComponent: boolean = false;
+    private errTxt: eui.Label = new eui.Label();
     public constructor () {
         super();
         
@@ -31,7 +32,14 @@ class ImageBox extends eui.Panel {
         this.url = url;
         this.params = params;
         this.uutype = uutype;
-        var res = await Fetch.start(this.url, this.params);
+        let res;
+        try {
+            res = await Fetch.start(this.url, this.params);
+        }catch(e) {
+            egret.log(e);
+            // this.errTxt.text = IOError;
+        }
+        
         this.imgList = res;
         if(uutype === UUType.SOUND){
             this.renderSound();
@@ -120,7 +128,9 @@ class ImageBox extends eui.Panel {
         tLayout.paddingLeft = 30;
         tLayout.paddingRight = 30;
         tLayout.paddingBottom = 30;
-        this._grpLayout.layout = tLayout;        
+        this._grpLayout.layout = tLayout;    
+
+        this._grpLayout.addChild(this.errTxt);    
     }
 
     addSound (event: egret.TouchEvent) {
@@ -135,9 +145,9 @@ class ImageBox extends eui.Panel {
         let e: PageEvent = new PageEvent(PageEvent.SOUND_CHANGE, true);
         e.data = d.sound;
         this.dispatchEvent(e);
-        egret.setTimeout( () => {
+        setTimeout( () => {
             this.close();
-        }, this, 0);
+        }, 0);
         // requestAnimationFrame(this.close);
         
     }
@@ -146,9 +156,9 @@ class ImageBox extends eui.Panel {
         var g: Game = this.parent as Game;
         // g.editGroup.addSinglePicture(event.currentTarget.data);
         g.editGroup.addResource(event.currentTarget.data, this.uutype);
-        egret.setTimeout( () => {
+        setTimeout( () => {
             this.close();
-        }, this, 0);
+        }, 0);
     }
 
     private addImageForComponent (event: egret.TouchEvent) {
