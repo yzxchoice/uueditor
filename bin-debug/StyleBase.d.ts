@@ -8,5 +8,5 @@ declare class StyleBase extends eui.Component {
     constructor(config: any, props: any);
     private onAddToStage();
     protected initEvent(): void;
-    protected updateValue(value: number | string): void;
+    protected updateValue(value: any): void;
 }

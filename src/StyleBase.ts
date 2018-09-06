@@ -23,7 +23,7 @@ class StyleBase extends eui.Component{
 	protected initEvent(){
 
 	}
-	protected updateValue(value: number | string){
+	protected updateValue(value: any){
 		this.stateObj.content = value;		
 		this.props[this.inputType] = value;
 		let props = this.image.getProps();

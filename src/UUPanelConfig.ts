@@ -4,6 +4,13 @@ interface ConfigItem {
     title: string;
     componentType: any;
     selectData?: {content: string}[];
+    radioData?: Array<RadioData>;
+    checkBoxData?: Array<RadioData>;    
+}
+interface RadioData {
+    label: string;
+    value?: number | string;
+    isSelected?: boolean;
 }
 var UUPanelConfig = {
     [UUType.TEXT]: [
