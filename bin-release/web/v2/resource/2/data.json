@@ -1,1 +1,185 @@
-{"code":200,"msg":"success","list":[{"id":201807311008,"elements":[{"id":7401,"name":"scene_1_jpg","pageId":201807311008,"type":99,"matrix":{"a":1.171875,"b":0,"c":0,"d":1.171875,"x":0,"y":0},"props":{},"src":"assets/bg/scene_1.jpg","sceneId":1001},{"id":"1535088627487","name":"post_item_35_png","pageId":201807311008,"type":2,"matrix":{"a":1,"b":0,"c":0,"d":1,"x":504,"y":504},"props":{},"src":"/assets/pic/post_item_35.png"},{"id":"1535088627787","name":"post_item_36_png","pageId":201807311008,"type":2,"matrix":{"a":1,"b":0,"c":0,"d":1,"x":53,"y":-24},"props":{},"src":"/assets/pic/post_item_36.png"},{"id":"1535088628143","name":"post_item_37_png","pageId":201807311008,"type":2,"matrix":{"a":1,"b":0,"c":0,"d":1,"x":785,"y":43},"props":{},"src":"/assets/pic/post_item_37.png"}],"properties":{"triggerGroup":[]}},{"id":201807311009,"elements":[{"id":7401,"name":"scene_1_jpg","pageId":201807311008,"type":99,"matrix":{"a":1.171875,"b":0,"c":0,"d":1.171875,"x":0,"y":0},"props":{},"src":"assets/bg/scene_1.jpg","sceneId":1001}],"properties":{"triggerGroup":[]}}]}
+{
+    "code": 200,
+    "msg": "success",
+    "list": [
+        {
+            "id": 201807311008,
+            "elements": [
+                   {
+            "id": 7401,
+            "name": "scene_1_jpg",
+            "pageId": 201807311008,
+            "type": 99,
+            "matrix": {
+                "a": 1.171875,
+                "b": 0,
+                "c": 0,
+                "d": 1.171875,
+                "x": 0,
+                "y": 0
+            },
+            "props": {},
+            "src": "assets/bg/scene_1.jpg",
+            "sceneId": 1001
+        },
+        {
+            "id": "1535088627487",
+            "name": "post_item_35_png",
+            "pageId": 201807311008,
+            "type": 2,
+            "matrix": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "x": 504,
+                "y": 504
+            },
+            "props": {},
+            "src": "/assets/pic/post_item_35.png"
+        },
+        {
+            "id": "1535088627787",
+            "name": "post_item_36_png",
+            "pageId": 201807311008,
+            "type": 2,
+            "matrix": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "x": 53,
+                "y": -24
+            },
+            "props": {},
+            "src": "/assets/pic/post_item_36.png"
+        },
+        {
+            "id": "1535088628143",
+            "name": "post_item_37_png",
+            "pageId": 201807311008,
+            "type": 2,
+            "matrix": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "x": 785,
+                "y": 43
+            },
+            "props": {},
+            "src": "/assets/pic/post_item_37.png"
+        },
+        {
+            "id": "1535104088483",
+            "name": "circle_png",
+            "pageId": 201807311008,
+            "type": 101,
+            "matrix": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "x": 300,
+                "y": 300
+            },
+            "props": {
+                "width": 400,
+                "height": 400,
+                "awards": [
+                    {
+                        "text": "文本1",
+                        "url": "/assets/1.png"
+                    },
+                    {
+                        "text": "文本2",
+                        "url": "/assets/2.png"
+                    },
+                    {
+                        "text": "文本3",
+                        "url": "/assets/3.png"
+                    },
+                    {
+                        "text": "文本4",
+                        "url": "/assets/4.png"
+                    },
+                    {
+                        "text": "文本5",
+                        "url": "/assets/5.png"
+                    },
+                    {
+                        "text": "文本6",
+                        "url": "/assets/5.png"
+                    }
+                ]
+            }
+        }
+            ],
+            "properties": {
+                "triggerGroup": []
+            }
+        },
+        
+        {
+            "id": 201807311009,
+            "elements": [
+                {
+                    "id": 7401,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 99,
+                    "matrix": {
+                        "a": 1.171875,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1.171875,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {},
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                }
+            ],
+            "properties": {
+                "triggerGroup": []
+            }
+        },
+        {
+            "id": 201807311009,
+            "elements": [
+                {
+                    "id": 7401,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 101,
+                    "matrix": {
+                        "a": 1.171875,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1.171875,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "awards": [
+                            {
+                                "text": "文本1",
+                                "url": "img/a"
+                            },
+                            {
+                                "text": "文本2",
+                                "url": "img/b"
+                            }
+                        ]
+                    },
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                }
+            ],
+            "properties": {
+                "triggerGroup": []
+            }
+        }
+    ]
+}

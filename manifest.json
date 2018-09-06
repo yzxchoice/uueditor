@@ -12,10 +12,10 @@
 		"libs/modules/gesture/gesture.js"
 	],
 	"game": [
-		"bin-debug/StyleEditBae.js",
 		"bin-debug/StyleBase.js",
-		"bin-debug/StyleCircleSector.js",
+		"bin-debug/StyleEditBae.js",
 		"bin-debug/StyleColor.js",
+		"bin-debug/StyleCircleSector.js",
 		"bin-debug/StyleImage.js",
 		"bin-debug/StyleSlideshow.js",
 		"bin-debug/StyleTextColor.js",
@@ -36,8 +36,8 @@
 		"bin-debug/AnimateSet.js",
 		"bin-debug/StyleCheckBox.js",
 		"bin-debug/AssetAdapter.js",
-		"bin-debug/checkItem.js",
 		"bin-debug/Api.js",
+		"bin-debug/checkItem.js",
 		"bin-debug/StyleHSlider.js",
 		"bin-debug/ColorSelectBox.js",
 		"bin-debug/StyleInput.js",
@@ -60,7 +60,6 @@
 		"bin-debug/TriggerPanel.js",
 		"bin-debug/UUBorderContainer.js",
 		"bin-debug/UUComType.js",
-		"bin-debug/UUMovieClip.js",
 		"bin-debug/UUPanelConfig.js"
 	]
 }

@@ -2,18 +2,17 @@
 	"initial": [
 		"js/egret.min_ffc81eea.js",
 		"js/egret.web.min_3e311c0e.js",
-		"js/game.min_45aa06f6.js",
 		"js/eui.min_22447123.js",
 		"js/assetsmanager.min_49f5417f.js",
 		"js/tween.min_6c5a88f9.js",
 		"js/promise.min_83a6a5d.js",
 		"js/mouse.min_c171ee8c.js",
-		"js/uulib.min_9f77773e.js",
+		"js/uulib.min_dc6b993b.js",
 		"js/keyboard.min_85f60ff8.js",
 		"js/gesture.min_29a92cc9.js"
 	],
 	"game": [
-		"js/default.thm_6588f142.js",
-		"js/main.min_c4569b0b.js"
+		"js/default.thm_123e77e6.js",
+		"js/main.min_7ec15ef2.js"
 	]
 }
