@@ -55,6 +55,7 @@ var EditGroup = (function (_super) {
         // private bg: eui.Component = new eui.Component;
         _this.displayGroup = new eui.Group();
         _this.siderbar = Siderbar.getInstance();
+        _this.tweenControl = new TweenControl();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -64,6 +65,7 @@ var EditGroup = (function (_super) {
     EditGroup.prototype.onAddToStage = function (event) {
         this.tool = new TransformTool(this);
         this.maskTool = new TransformTool(this);
+        this.uutween = new UUTween(this);
         this.bindHandlers();
         this.getPages();
         this.initEui();
@@ -262,6 +264,9 @@ var EditGroup = (function (_super) {
                 if (this.tool.target !== t) {
                     // select
                     this.tool.setTarget(t);
+                    // this.addAnimate();
+                    this.uutween.setTool(this.tool, this.tweenControl);
+                    this.tweenControl.setTarget(t.owner.image);
                     var e = new PageEvent(PageEvent.LAYER_CHANGE, true);
                     e.data = { layerIndex: i };
                     this.dispatchEvent(e);
@@ -279,6 +284,7 @@ var EditGroup = (function (_super) {
         var rect = new egret.Rectangle(0, 0, this.width, this.height);
         if (rect.containsPoint(point)) {
             this.tool.setTarget(null);
+            this.uutween.reset();
             return false;
         }
         ;
@@ -326,6 +332,8 @@ var EditGroup = (function (_super) {
         this.clear();
         this.drawDisplayList();
         this.tool.draw();
+        this.displayGroup.addChild(this.uutween);
+        this.displayGroup.addChild(this.tweenControl);
     };
     EditGroup.prototype.renderOneDisplay = function () {
         var target = this.tool.target;
@@ -497,6 +505,23 @@ var EditGroup = (function (_super) {
             }
         });
     };
+    EditGroup.prototype.addAnimate = function (animType) {
+        if (!this.tool.target)
+            return;
+        egret.log(this.tool.target.owner.image.data);
+        var t = {
+            type: animType,
+            start: null,
+            control: null,
+            end: null
+        };
+        var data = this.tool.target.owner.image.data;
+        if (!data.hasOwnProperty('properties')) {
+            data['properties'] = {};
+        }
+        data['properties']['anims'] = [];
+        data.properties.anims.push(t);
+    };
     EditGroup.prototype.addResource1 = function (type, d) {
         return __awaiter(this, void 0, void 0, function () {
             var t, com, id, data, eles, texture, _a;
@@ -516,7 +541,8 @@ var EditGroup = (function (_super) {
                             type: type,
                             matrix: new Matrix(1, 0, 0, 1, 300, 300),
                             // src: d ? d.url : '',
-                            props: com.getProps ? com.getProps() : {}
+                            props: com.getProps ? com.getProps() : {},
+                            properties: {}
                         };
                         if (data.type === UUType.IMAGE || data.type === UUType.BACKGROUND) {
                             data.src = d ? d.url : '';

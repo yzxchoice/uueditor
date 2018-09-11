@@ -9,6 +9,8 @@ class EditGroup extends eui.Group {
     // private bg: eui.Component = new eui.Component;
     public displayGroup: eui.Group = new eui.Group();
     private siderbar: Siderbar = Siderbar.getInstance();
+    public uutween: UUTween;
+    public tweenControl: TweenControl = new TweenControl();
     public constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -20,7 +22,8 @@ class EditGroup extends eui.Group {
 
     private onAddToStage (event:egret.Event) {
         this.tool = new TransformTool(this);
-        this.maskTool = new TransformTool(this);        
+        this.maskTool = new TransformTool(this);   
+        this.uutween = new UUTween(this);     
         this.bindHandlers();
         this.getPages();
         this.initEui();
@@ -258,8 +261,13 @@ class EditGroup extends eui.Group {
                     
                     // select
                     this.tool.setTarget(t);
+
+                    // this.addAnimate();
+                    this.uutween.setTool(this.tool, this.tweenControl);
+                    this.tweenControl.setTarget(t.owner.image);
+                    
                     var e: PageEvent = new PageEvent(PageEvent.LAYER_CHANGE, true);
-                    e.data = {layerIndex: i}
+                    e.data = { layerIndex: i }
                     this.dispatchEvent(e);
                     // reorder for layer rendering
                     // this.displayList.splice(i,1);
@@ -276,7 +284,8 @@ class EditGroup extends eui.Group {
         let point = new egret.Point(x,y);
         let rect = new egret.Rectangle(0,0,this.width,this.height);
         if(rect.containsPoint(point)){
-            this.tool.setTarget(null);            
+            this.tool.setTarget(null);  
+            this.uutween.reset();     
             return false;
         };
     }
@@ -311,7 +320,8 @@ class EditGroup extends eui.Group {
         this.drawDisplayList();
         this.tool.draw();
         
-        
+        this.displayGroup.addChild(this.uutween);
+        this.displayGroup.addChild(this.tweenControl);
     }
 
     renderOneDisplay(){
@@ -499,6 +509,23 @@ class EditGroup extends eui.Group {
         })
     }
 
+    addAnimate (animType: number) {
+        if(!this.tool.target)  return;
+        egret.log(this.tool.target.owner.image.data);
+        let t: ITween = {
+            type: animType,
+            start: null,
+            control: null,
+            end: null
+        }
+        let data = this.tool.target.owner.image.data;
+        if(!data.hasOwnProperty('properties')){
+            data['properties'] = {};
+        }
+        data['properties']['anims'] = [];
+        data.properties.anims.push(t);
+    }
+
 
     async addResource1 (type: number, d?: uiData) {
         var t = LayerSet.getLayer(Utils.getComs(), type)[0];
@@ -515,7 +542,8 @@ class EditGroup extends eui.Group {
             type: type,
             matrix: new Matrix(1,0,0,1,300,300),
             // src: d ? d.url : '',
-            props: com.getProps ? com.getProps() : {}
+            props: com.getProps ? com.getProps() : {},
+            properties: {}
         }; 
         if(data.type === UUType.IMAGE || data.type === UUType.BACKGROUND){
             data.src = d ? d.url : ''

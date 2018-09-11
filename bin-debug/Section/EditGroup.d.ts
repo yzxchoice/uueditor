@@ -7,6 +7,8 @@ declare class EditGroup extends eui.Group {
     private borderColor;
     displayGroup: eui.Group;
     private siderbar;
+    uutween: UUTween;
+    tweenControl: TweenControl;
     constructor();
     protected createChildren(): void;
     private onAddToStage(event);
@@ -41,5 +43,6 @@ declare class EditGroup extends eui.Group {
     addResource(data: uiData, uutype: number): void;
     addSound(data: uiData): void;
     addPage(): void;
+    addAnimate(animType: number): void;
     addResource1(type: number, d?: uiData): Promise<void>;
 }

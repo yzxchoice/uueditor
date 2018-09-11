@@ -1,5 +1,5 @@
 // TypeScript file
-const prefixApi: string = 'http://10.63.5.238:8002/'
+const prefixApi: string = 'http://10.63.4.48:8002/'
 
 const IOError: string = '调用接口失败'
 /**
