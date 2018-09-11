@@ -25,4 +25,3 @@ var StyleSlideshow = (function (_super) {
     return StyleSlideshow;
 }(StyleEditBae));
 __reflect(StyleSlideshow.prototype, "StyleSlideshow");
-//# sourceMappingURL=StyleSlideshow.js.map

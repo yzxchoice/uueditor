@@ -8,20 +8,21 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var StyleInput = (function (_super) {
-    __extends(StyleInput, _super);
-    function StyleInput(config, props) {
+var StyleHSlider = (function (_super) {
+    __extends(StyleHSlider, _super);
+    function StyleHSlider(config, props) {
         var _this = _super.call(this, config, props) || this;
-        _this.skinName = 'resource/skins/StyleInputSkin.exml';
+        _this.skinName = 'resource/skins/StyleHSliderSkin.exml';
         return _this;
     }
-    StyleInput.prototype.initEvent = function () {
-        this.textInput_input.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onFocusOut, this);
+    StyleHSlider.prototype.initEvent = function () {
+        this.sd_hSlider.addEventListener(eui.UIEvent.CHANGE, this.changeHandler, this);
     };
-    StyleInput.prototype.onFocusOut = function (evt) {
-        var value = evt.target.text;
+    StyleHSlider.prototype.changeHandler = function (evt) {
+        var value = evt.target.value;
+        console.log('value = ' + value);
         this.updateValue(value);
     };
-    return StyleInput;
+    return StyleHSlider;
 }(StyleBase));
-__reflect(StyleInput.prototype, "StyleInput");
+__reflect(StyleHSlider.prototype, "StyleHSlider");

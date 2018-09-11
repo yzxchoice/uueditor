@@ -28,4 +28,3 @@ var StyleImage = (function (_super) {
     return StyleImage;
 }(StyleBase));
 __reflect(StyleImage.prototype, "StyleImage");
-//# sourceMappingURL=StyleImage.js.map

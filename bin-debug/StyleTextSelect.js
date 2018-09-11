@@ -41,4 +41,3 @@ var StyleTextSelect = (function (_super) {
     return StyleTextSelect;
 }(eui.Component));
 __reflect(StyleTextSelect.prototype, "StyleTextSelect");
-//# sourceMappingURL=StyleTextSelect.js.map

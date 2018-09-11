@@ -64,4 +64,3 @@ var TabAnimation = (function (_super) {
     return TabAnimation;
 }(eui.Component));
 __reflect(TabAnimation.prototype, "TabAnimation", ["IUUContainer"]);
-//# sourceMappingURL=TabAnimation.js.map

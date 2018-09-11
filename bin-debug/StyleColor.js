@@ -37,4 +37,3 @@ var StyleColor = (function (_super) {
     return StyleColor;
 }(StyleBase));
 __reflect(StyleColor.prototype, "StyleColor");
-//# sourceMappingURL=StyleColor.js.map

@@ -50,4 +50,3 @@ var StyleTextColor = (function (_super) {
     return StyleTextColor;
 }(eui.Component));
 __reflect(StyleTextColor.prototype, "StyleTextColor");
-//# sourceMappingURL=StyleTextColor.js.map

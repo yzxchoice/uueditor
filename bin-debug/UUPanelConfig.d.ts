@@ -5,6 +5,13 @@ interface ConfigItem {
     selectData?: {
         content: string;
     }[];
+    radioData?: Array<RadioData>;
+    checkBoxData?: Array<RadioData>;
+}
+interface RadioData {
+    label: string;
+    value?: number | string;
+    isSelected?: boolean;
 }
 declare var UUPanelConfig: {
     [x: number]: ({

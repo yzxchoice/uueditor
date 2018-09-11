@@ -26,4 +26,3 @@ var StyleCircleSector = (function (_super) {
     return StyleCircleSector;
 }(StyleEditBae));
 __reflect(StyleCircleSector.prototype, "StyleCircleSector");
-//# sourceMappingURL=StyleCircleSector.js.map

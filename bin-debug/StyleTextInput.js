@@ -42,4 +42,3 @@ var StyleTextInput = (function (_super) {
     return StyleTextInput;
 }(eui.Component));
 __reflect(StyleTextInput.prototype, "StyleTextInput");
-//# sourceMappingURL=StyleTextInput.js.map
