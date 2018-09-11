@@ -34,7 +34,7 @@
 		"bin-debug/UUPanelConfig.js",
 		"bin-debug/Component/ColorSelectBox.js",
 		"bin-debug/Component/Select.js",
-		"bin-debug/Unity/Fetch.js",
+		"bin-debug/ImagesLoader.js",
 		"bin-debug/Component/Table.js",
 		"bin-debug/Style/StyleInput.js",
 		"bin-debug/Style/StyleRadio.js",
@@ -56,6 +56,6 @@
 		"bin-debug/Tab/TabPage/PageEvent.js",
 		"bin-debug/Tab/TabPage/PageItem.js",
 		"bin-debug/Tab/TabPage/TabPage.js",
-		"bin-debug/ImagesLoader.js"
+		"bin-debug/Unity/Fetch.js"
 	]
 }
