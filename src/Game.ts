@@ -24,6 +24,8 @@ class Game extends eui.Component {
     public imgBox: ImageBox = ImageBox.getInstance();
     public Siderbar: Siderbar = Siderbar.getInstance();
 
+    
+
     async initEui() {
 
         
