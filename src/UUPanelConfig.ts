@@ -39,6 +39,13 @@ var StyleTypeConfig: StyleTypeConfigTotal = {
         eventName: egret.FocusEvent.FOCUS_OUT,
         skinName: 'resource/skins/StyleInputSkin.exml'
     },
+    [LabelStyleType.StyleSelect]: {
+        skinName: 'resource/skins/StyleSelect.exml'
+    },
+    [LabelStyleType.StyleImage]: {
+        eventName: egret.TouchEvent.TOUCH_TAP,
+        skinName: 'resource/skins/StyleImageSkin.exml'
+    },
     [LabelStyleType.StyleToggleSwitch]: {
         eventName: eui.UIEvent.CHANGE,
         skinName: 'resource/skins/StyleToggleSwitchSkin.exml'
@@ -46,13 +53,17 @@ var StyleTypeConfig: StyleTypeConfigTotal = {
     [LabelStyleType.StyleHSlider]: {
         eventName: eui.UIEvent.CHANGE,
         skinName: 'resource/skins/StyleHSliderSkin.exml'
-    }
+    },
+    [LabelStyleType.StyleColor]: {
+        eventName: egret.TouchEvent.TOUCH_TAP,
+        skinName: 'resource/skins/StyleTextColorSkin.exml'
+    },
 }
 interface StyleTypeConfigTotal {
     [key :number]: StyleTypeConfigItem
 }
 interface StyleTypeConfigItem {
-     eventName: string;
+     eventName?: string;
      skinName: string;
 }
 var UUPanelConfig: ConfigTotal = {
@@ -64,21 +75,10 @@ var UUPanelConfig: ConfigTotal = {
             styleType: LabelStyleType.StyleInput,
         },
         {
-            type: 'text',
-            title: '文本',
-            componentType: StyleCommon,
-            styleType: LabelStyleType.StyleToggleSwitch,
-        },
-        {
-            type: 'text',
-            title: '文本',
-            componentType: StyleCommon,
-            styleType: LabelStyleType.StyleHSlider,
-        },
-        {
             type: 'fontFamily',
             title: '字体',
-            componentType: StyleSelect,
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleSelect,
             selectData: [
                 {
                     content: 'Arial'
@@ -112,7 +112,8 @@ var UUPanelConfig: ConfigTotal = {
         {
             type: 'textColor',
             title: '颜色',
-            componentType: StyleColor
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleColor,  
         },
     ],
     [UUType.CIRCLE_SECTOR]: [
@@ -148,12 +149,14 @@ var UUPanelConfig: ConfigTotal = {
         {
             type: 'bgColor',
             title: '背景色',
-            componentType: StyleColor,
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleColor,
         },
         {
             type: 'bdUrl',
             title: '边框',
-            componentType: StyleImage,
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleImage,  
         },
         {
             type: 'awards',

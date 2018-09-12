@@ -14,6 +14,13 @@ var StyleTypeConfig = (_a = {},
         eventName: egret.FocusEvent.FOCUS_OUT,
         skinName: 'resource/skins/StyleInputSkin.exml'
     },
+    _a[LabelStyleType.StyleSelect] = {
+        skinName: 'resource/skins/StyleSelect.exml'
+    },
+    _a[LabelStyleType.StyleImage] = {
+        eventName: egret.TouchEvent.TOUCH_TAP,
+        skinName: 'resource/skins/StyleImageSkin.exml'
+    },
     _a[LabelStyleType.StyleToggleSwitch] = {
         eventName: eui.UIEvent.CHANGE,
         skinName: 'resource/skins/StyleToggleSwitchSkin.exml'
@@ -21,6 +28,10 @@ var StyleTypeConfig = (_a = {},
     _a[LabelStyleType.StyleHSlider] = {
         eventName: eui.UIEvent.CHANGE,
         skinName: 'resource/skins/StyleHSliderSkin.exml'
+    },
+    _a[LabelStyleType.StyleColor] = {
+        eventName: egret.TouchEvent.TOUCH_TAP,
+        skinName: 'resource/skins/StyleTextColorSkin.exml'
     },
     _a);
 var UUPanelConfig = (_b = {},
@@ -32,21 +43,10 @@ var UUPanelConfig = (_b = {},
             styleType: LabelStyleType.StyleInput,
         },
         {
-            type: 'text',
-            title: '文本',
-            componentType: StyleCommon,
-            styleType: LabelStyleType.StyleToggleSwitch,
-        },
-        {
-            type: 'text',
-            title: '文本',
-            componentType: StyleCommon,
-            styleType: LabelStyleType.StyleHSlider,
-        },
-        {
             type: 'fontFamily',
             title: '字体',
-            componentType: StyleSelect,
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleSelect,
             selectData: [
                 {
                     content: 'Arial'
@@ -80,7 +80,8 @@ var UUPanelConfig = (_b = {},
         {
             type: 'textColor',
             title: '颜色',
-            componentType: StyleColor
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleColor,
         },
     ],
     _b[UUType.CIRCLE_SECTOR] = [
@@ -116,12 +117,14 @@ var UUPanelConfig = (_b = {},
         {
             type: 'bgColor',
             title: '背景色',
-            componentType: StyleColor,
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleColor,
         },
         {
             type: 'bdUrl',
             title: '边框',
-            componentType: StyleImage,
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleImage,
         },
         {
             type: 'awards',

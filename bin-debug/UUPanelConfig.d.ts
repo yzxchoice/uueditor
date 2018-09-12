@@ -40,7 +40,7 @@ interface StyleTypeConfigTotal {
     [key: number]: StyleTypeConfigItem;
 }
 interface StyleTypeConfigItem {
-    eventName: string;
+    eventName?: string;
     skinName: string;
 }
 declare var UUPanelConfig: ConfigTotal;

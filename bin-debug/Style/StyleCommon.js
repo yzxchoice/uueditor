@@ -21,11 +21,23 @@ var StyleCommon = (function (_super) {
     }
     StyleCommon.prototype.onAddToStage = function () {
         this.initEvent();
+        this.initComponent();
     };
     StyleCommon.prototype.initEvent = function () {
+        if (!this.styleTypeConfig.eventName)
+            return;
         this.form_component.addEventListener(this.styleTypeConfig.eventName, this.event, this);
     };
+    StyleCommon.prototype.initComponent = function () {
+        switch (this.styleType) {
+            case LabelStyleType.StyleSelect:
+                this.initSelect();
+                break;
+        }
+        ;
+    };
     StyleCommon.prototype.event = function (evt) {
+        var _this = this;
         var value;
         switch (this.styleType) {
             case LabelStyleType.StyleInput:
@@ -37,10 +49,39 @@ var StyleCommon = (function (_super) {
             case LabelStyleType.StyleHSlider:
                 value = evt.target.value;
                 break;
+            case LabelStyleType.StyleImage:
+                var g = this.siderbar.parent;
+                g.openImagePanel(function (url) {
+                    _this.updateValue(url);
+                }, true);
+                return;
+            case LabelStyleType.StyleColor:
+                this.StyleColorEvent();
+                return;
         }
         ;
         console.log('value = ' + value);
         this.updateValue(value);
+    };
+    StyleCommon.prototype.StyleColorEvent = function () {
+        if (!this.colorSelectBox || !this.colorSelectBox.isShow) {
+            var colorSelectBox = new ColorSelectBox();
+            colorSelectBox.draw(this.parent);
+            colorSelectBox.x = 280;
+            colorSelectBox.y = 100;
+            this.colorSelectBox = colorSelectBox;
+            this.colorSelectBox.listenColorChange(this.updateValue.bind(this));
+        }
+        else {
+            this.colorSelectBox.undraw();
+        }
+    };
+    StyleCommon.prototype.initSelect = function () {
+        var select = new Select(this.config.selectData);
+        this.form_component.addChild(select);
+        select.setDataContainer(this);
+        select.setDefaultItem(this.props[this.inputType]);
+        select.listenSelectChange(this.updateValue.bind(this));
     };
     return StyleCommon;
 }(StyleBase));
