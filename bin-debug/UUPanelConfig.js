@@ -1,14 +1,52 @@
-var UUPanelConfig = (_a = {},
-    _a[UUType.TEXT] = [
+var LabelStyleType;
+(function (LabelStyleType) {
+    LabelStyleType[LabelStyleType["StyleInput"] = 1] = "StyleInput";
+    LabelStyleType[LabelStyleType["StyleSelect"] = 2] = "StyleSelect";
+    LabelStyleType[LabelStyleType["StyleImage"] = 3] = "StyleImage";
+    LabelStyleType[LabelStyleType["StyleRadio"] = 4] = "StyleRadio";
+    LabelStyleType[LabelStyleType["StyleCheckBox"] = 5] = "StyleCheckBox";
+    LabelStyleType[LabelStyleType["StyleToggleSwitch"] = 6] = "StyleToggleSwitch";
+    LabelStyleType[LabelStyleType["StyleHSlider"] = 7] = "StyleHSlider";
+    LabelStyleType[LabelStyleType["StyleColor"] = 8] = "StyleColor";
+})(LabelStyleType || (LabelStyleType = {}));
+var StyleTypeConfig = (_a = {},
+    _a[LabelStyleType.StyleInput] = {
+        eventName: egret.FocusEvent.FOCUS_OUT,
+        skinName: 'resource/skins/StyleInputSkin.exml'
+    },
+    _a[LabelStyleType.StyleToggleSwitch] = {
+        eventName: eui.UIEvent.CHANGE,
+        skinName: 'resource/skins/StyleToggleSwitchSkin.exml'
+    },
+    _a[LabelStyleType.StyleHSlider] = {
+        eventName: eui.UIEvent.CHANGE,
+        skinName: 'resource/skins/StyleHSliderSkin.exml'
+    },
+    _a);
+var UUPanelConfig = (_b = {},
+    _b[UUType.TEXT] = [
         {
             type: 'text',
             title: '文本',
-            componentType: StyleTextInput
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleInput,
+        },
+        {
+            type: 'text',
+            title: '文本',
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleToggleSwitch,
+        },
+        {
+            type: 'text',
+            title: '文本',
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleHSlider,
         },
         {
             type: 'fontFamily',
             title: '字体',
-            componentType: StyleTextSelect,
+            componentType: StyleSelect,
             selectData: [
                 {
                     content: 'Arial'
@@ -36,15 +74,16 @@ var UUPanelConfig = (_a = {},
         {
             type: 'size',
             title: '字号',
-            componentType: StyleTextInput
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleInput,
         },
         {
             type: 'textColor',
             title: '颜色',
-            componentType: StyleTextColor
+            componentType: StyleColor
         },
     ],
-    _a[UUType.CIRCLE_SECTOR] = [
+    _b[UUType.CIRCLE_SECTOR] = [
         {
             type: 'awards',
             title: '转盘',
@@ -59,7 +98,7 @@ var UUPanelConfig = (_a = {},
             }
         },
     ],
-    _a[UUType.SLIDESHOW] = [
+    _b[UUType.SLIDESHOW] = [
         {
             type: 'awards',
             title: '轮播图',
@@ -73,7 +112,7 @@ var UUPanelConfig = (_a = {},
             }
         },
     ],
-    _a[UUType.SLOT_MACHINE] = [
+    _b[UUType.SLOT_MACHINE] = [
         {
             type: 'bgColor',
             title: '背景色',
@@ -97,5 +136,5 @@ var UUPanelConfig = (_a = {},
             }
         }
     ],
-    _a);
-var _a;
+    _b);
+var _a, _b;

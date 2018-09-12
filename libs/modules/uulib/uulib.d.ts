@@ -682,7 +682,7 @@ declare class UULabel extends eui.Label implements IUUBase {
     static uuType: UUType;
     constructor();
     getProps(): ILabel;
-    setProps(data: UUData<ILabel>): void;
+    setProps(props: ILabel): void;
     redraw(): void;
 }
 /**

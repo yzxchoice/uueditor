@@ -2288,11 +2288,11 @@ var UULabel = (function (_super) {
             // lineSpacing: this.lineSpacing
         };
     };
-    UULabel.prototype.setProps = function (data) {
-        this.text = data.props.text;
-        this.textColor = data.props.textColor;
-        this.size = data.props.size;
-        this.fontFamily = data.props.fontFamily;
+    UULabel.prototype.setProps = function (props) {
+        this.text = props.text;
+        this.textColor = props.textColor;
+        this.size = props.size;
+        this.fontFamily = props.fontFamily;
     };
     UULabel.prototype.redraw = function () {
     };

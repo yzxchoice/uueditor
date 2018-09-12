@@ -6,6 +6,7 @@ interface ConfigItem {
     type: string;
     title: string;
     componentType: any;
+    styleType?: number;
     selectData?: {content: string}[];
     radioData?: Array<RadioData>;
     checkBoxData?: Array<RadioData>;    
@@ -23,17 +24,61 @@ interface EditConfig {
         [key: string]: string;
     }
 }
+enum LabelStyleType {
+    StyleInput = 1,
+    StyleSelect = 2,
+    StyleImage = 3,
+    StyleRadio = 4,
+    StyleCheckBox = 5,
+    StyleToggleSwitch = 6,
+    StyleHSlider = 7,
+    StyleColor = 8,
+}
+var StyleTypeConfig: StyleTypeConfigTotal = {
+    [LabelStyleType.StyleInput]: {
+        eventName: egret.FocusEvent.FOCUS_OUT,
+        skinName: 'resource/skins/StyleInputSkin.exml'
+    },
+    [LabelStyleType.StyleToggleSwitch]: {
+        eventName: eui.UIEvent.CHANGE,
+        skinName: 'resource/skins/StyleToggleSwitchSkin.exml'
+    },
+    [LabelStyleType.StyleHSlider]: {
+        eventName: eui.UIEvent.CHANGE,
+        skinName: 'resource/skins/StyleHSliderSkin.exml'
+    }
+}
+interface StyleTypeConfigTotal {
+    [key :number]: StyleTypeConfigItem
+}
+interface StyleTypeConfigItem {
+     eventName: string;
+     skinName: string;
+}
 var UUPanelConfig: ConfigTotal = {
     [UUType.TEXT]: [
         {
             type: 'text',
             title: '文本',
-            componentType: StyleTextInput
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleInput,
+        },
+        {
+            type: 'text',
+            title: '文本',
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleToggleSwitch,
+        },
+        {
+            type: 'text',
+            title: '文本',
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleHSlider,
         },
         {
             type: 'fontFamily',
             title: '字体',
-            componentType: StyleTextSelect,
+            componentType: StyleSelect,
             selectData: [
                 {
                     content: 'Arial'
@@ -61,12 +106,13 @@ var UUPanelConfig: ConfigTotal = {
         {
             type: 'size',
             title: '字号',
-            componentType: StyleTextInput
+            componentType: StyleCommon,
+            styleType: LabelStyleType.StyleInput,            
         },
         {
             type: 'textColor',
             title: '颜色',
-            componentType: StyleTextColor
+            componentType: StyleColor
         },
     ],
     [UUType.CIRCLE_SECTOR]: [
