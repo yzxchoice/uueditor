@@ -14,7 +14,7 @@ var Table = (function (_super) {
         var _this = _super.call(this) || this;
         _this.isShow = false;
         _this.lineHeight = 40;
-        _this.boxWidth = 500 - 60;
+        _this.boxWidth = 500 - 60 - 20;
         _this.headData = headDate;
         _this.data = data;
         _this._data = JSON.parse(JSON.stringify(_this.data));
@@ -35,6 +35,8 @@ var Table = (function (_super) {
         this.gp_box.layout = this.createTileLayout(1);
         this.reload();
         var vLayout = new eui.VerticalLayout();
+        vLayout.paddingLeft = 10;
+        vLayout.paddingRight = 10;
         this.layout = vLayout;
         this.addChild(this.gp_box);
         this.addChild(this.createBtnBox());
