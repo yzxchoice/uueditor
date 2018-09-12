@@ -10,12 +10,9 @@ declare class StyleEditBae extends eui.Component {
     private data;
     protected headData: string[];
     protected propsKey: string;
-    protected componenntTypeConfig: {
-        [key: string]: string;
-    };
-    constructor(config: ConfigItem, props: any);
+    protected componenntTypeConfig: Object;
+    constructor(config: any, props: any);
     private onAddToStage();
-    private initConfig();
     private initEvent();
     private onClick();
     protected exchangeInitdata(initdata: any): any[];
