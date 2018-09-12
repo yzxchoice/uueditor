@@ -26,8 +26,15 @@ var StyleEditBae = (function (_super) {
     }
     StyleEditBae.prototype.onAddToStage = function () {
         this.initEvent();
+        this.initConfig();
         this.initdata = this.image.getProps()[this.propsKey];
         this.data = this.exchangeInitdata(this.initdata);
+    };
+    StyleEditBae.prototype.initConfig = function () {
+        var _a = this.config.editConfig, headData = _a.headData, propsKey = _a.propsKey, componenntTypeConfig = _a.componenntTypeConfig;
+        this.headData = headData;
+        this.propsKey = propsKey;
+        this.componenntTypeConfig = componenntTypeConfig;
     };
     StyleEditBae.prototype.initEvent = function () {
         this.lb_edit.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);

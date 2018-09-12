@@ -1,3 +1,6 @@
+interface ConfigTotal {
+    [key: number]: ConfigItem[];
+}
 interface ConfigItem {
     type: string;
     title: string;
@@ -7,39 +10,18 @@ interface ConfigItem {
     }[];
     radioData?: Array<RadioData>;
     checkBoxData?: Array<RadioData>;
+    editConfig?: EditConfig;
 }
 interface RadioData {
     label: string;
     value?: number | string;
     isSelected?: boolean;
 }
-declare var UUPanelConfig: {
-    [x: number]: ({
-        type: string;
-        title: string;
-        componentType: typeof StyleTextInput;
-    } | {
-        type: string;
-        title: string;
-        componentType: typeof StyleTextSelect;
-        selectData: {
-            content: string;
-        }[];
-    } | {
-        type: string;
-        title: string;
-        componentType: typeof StyleTextColor;
-    })[] | ({
-        type: string;
-        title: string;
-        componentType: typeof StyleColor;
-    } | {
-        type: string;
-        title: string;
-        componentType: typeof StyleImage;
-    } | {
-        type: string;
-        title: string;
-        componentType: typeof StyleSlideshow;
-    })[];
-};
+interface EditConfig {
+    headData: string[];
+    propsKey: string;
+    componenntTypeConfig: {
+        [key: string]: string;
+    };
+}
+declare var UUPanelConfig: ConfigTotal;

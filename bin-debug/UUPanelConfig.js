@@ -48,14 +48,29 @@ var UUPanelConfig = (_a = {},
         {
             type: 'awards',
             title: '转盘',
-            componentType: StyleCircleSector,
+            componentType: StyleEditBae,
+            editConfig: {
+                headData: ['文本', '图片'],
+                propsKey: 'awards',
+                componenntTypeConfig: {
+                    text: '',
+                    url: 'eui.Button'
+                },
+            }
         },
     ],
     _a[UUType.SLIDESHOW] = [
         {
             type: 'awards',
             title: '轮播图',
-            componentType: StyleSlideshow,
+            componentType: StyleEditBae,
+            editConfig: {
+                headData: ['图片'],
+                propsKey: 'awards',
+                componenntTypeConfig: {
+                    url: 'eui.Button'
+                },
+            }
         },
     ],
     _a[UUType.SLOT_MACHINE] = [
@@ -72,7 +87,14 @@ var UUPanelConfig = (_a = {},
         {
             type: 'awards',
             title: '老虎机',
-            componentType: StyleSlideshow,
+            componentType: StyleEditBae,
+            editConfig: {
+                headData: ['图片'],
+                propsKey: 'awards',
+                componenntTypeConfig: {
+                    url: 'eui.Button'
+                },
+            }
         }
     ],
     _a);

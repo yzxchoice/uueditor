@@ -13,14 +13,12 @@
 	],
 	"game": [
 		"bin-debug/Style/StyleBase.js",
-		"bin-debug/Style/StyleEditBae.js",
-		"bin-debug/Style/StyleCircleSector.js",
-		"bin-debug/Style/StyleColor.js",
 		"bin-debug/Style/StyleImage.js",
-		"bin-debug/Style/StyleSlideshow.js",
 		"bin-debug/Style/StyleTextColor.js",
 		"bin-debug/Style/StyleTextInput.js",
 		"bin-debug/Style/StyleTextSelect.js",
+		"bin-debug/Style/StyleEditBae.js",
+		"bin-debug/Style/StyleColor.js",
 		"bin-debug/Style/StyleHSlider.js",
 		"bin-debug/Section/Header.js",
 		"bin-debug/Section/ImageBox.js",
@@ -35,7 +33,7 @@
 		"bin-debug/UUPanelConfig.js",
 		"bin-debug/UUTween.js",
 		"bin-debug/Component/ColorSelectBox.js",
-		"bin-debug/ImagesLoader.js",
+		"bin-debug/Unity/Fetch.js",
 		"bin-debug/Component/Select.js",
 		"bin-debug/Style/StyleInput.js",
 		"bin-debug/Style/StyleRadio.js",
@@ -57,6 +55,6 @@
 		"bin-debug/Tab/TabPage/PageEvent.js",
 		"bin-debug/Tab/TabPage/PageItem.js",
 		"bin-debug/Tab/TabPage/TabPage.js",
-		"bin-debug/Unity/Fetch.js"
+		"bin-debug/ImagesLoader.js"
 	]
 }

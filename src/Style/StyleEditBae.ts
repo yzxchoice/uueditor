@@ -16,9 +16,11 @@ class StyleEditBae extends eui.Component {
 
 	protected headData: string[];
 	protected propsKey: string;
-	protected componenntTypeConfig: Object;
+	protected componenntTypeConfig: {
+        [key: string]: string;
+    };
 
-	public constructor(config, props) {
+	public constructor(config: ConfigItem, props) {
 		super();
 		this.config = config;
 		this.props = props;
@@ -31,8 +33,16 @@ class StyleEditBae extends eui.Component {
 	}
 	private onAddToStage(){
 		this.initEvent();
+		this.initConfig();
 		this.initdata = this.image.getProps()[this.propsKey];
 		this.data = this.exchangeInitdata(this.initdata);
+	}
+
+	private initConfig(){
+		let { headData, propsKey, componenntTypeConfig } = this.config.editConfig;
+		this.headData = headData;
+		this.propsKey = propsKey;
+		this.componenntTypeConfig = componenntTypeConfig;
 	}
 
 	private initEvent(){
