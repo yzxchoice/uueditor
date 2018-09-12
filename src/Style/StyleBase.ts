@@ -3,7 +3,7 @@ class StyleBase extends eui.Component{
 	protected image: any = this.siderbar.tool.target.owner.image;
 
 	private stateObj: any;
-	private config: ConfigItem;
+	protected config: ConfigItem;
 	protected props: any;
 	protected inputType: string;
 	public constructor(config, props) {

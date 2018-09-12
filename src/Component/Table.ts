@@ -12,7 +12,7 @@ class Table extends eui.Group {
 	private columnNum: number;
 	private rowNum: number;
 	private lineHeight = 40;
-	private boxWidth: number = 500 - 60;
+	private boxWidth: number = 500 - 60 - 20;
 	private btn_add: eui.Button;
 	private btn_del: eui.Button;
 	private btn_sure: eui.Button;
@@ -47,6 +47,8 @@ class Table extends eui.Group {
 		this.gp_box.layout = this.createTileLayout(1);
 		this.reload();
 		let vLayout = new eui.VerticalLayout();
+		vLayout.paddingLeft = 10;
+		vLayout.paddingRight = 10;
 		this.layout = vLayout;	
 		this.addChild(this.gp_box);
 		this.addChild(this.createBtnBox());		
