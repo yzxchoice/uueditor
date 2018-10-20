@@ -22,6 +22,29 @@
                     "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 },
+                {
+                    "id": 1001,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 1001,
+                    "matrix": {
+                        "a": 1.171875,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1.171875,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "title": "comment",
+                        "content": {
+                            "type": "image",
+                            "message": "assets/Pic/post_item_1.png"
+                        }
+                    },
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                },
                  {
                     "id": 1002,
                     "name": "scene_2_jpg",
@@ -62,52 +85,6 @@
                         }
                     },
                     "src": "assets/bg/scene_1.jpg",
-                    "sceneId": 1001
-                },
-                {
-                    "id": 2001,
-                    "name": "scene_33_jpg",
-                    "pageId": 2018073110012,
-                    "type": 2001,
-                    "matrix": {
-                        "a": 1.171875,
-                        "b": 0,
-                        "c": 0,
-                        "d": 1.171875,
-                        "x": 0,
-                        "y": 0
-                    },
-                    "props": {
-                        "award": [
-                            {
-                                "id": 1,
-                                "url": "resource/assets/Pic/1.png"
-                            },
-                            {
-                                "id": 2,                                
-                                "url": "resource/assets/Pic/2.png"
-                            },
-                            {
-                                "id": 3,                                                                
-                                "url": "resource/assets/Pic/3.png"
-                            }
-                        ],
-                        "toAward": [
-                            {
-                                "id": 1,
-                                "url": "resource/assets/Pic/border1.png"
-                            },
-                            {
-                                "id": 2,                                
-                                "url": "resource/assets/Pic/border2.png"
-                            },
-                            {
-                                "id": 3,                                                                
-                                "url": "resource/assets/Pic/border3.png"
-                            }
-                        ]
-                    },
-                    "src": "assets/bg/scene_3.jpg",
                     "sceneId": 1001
                 },
                 {

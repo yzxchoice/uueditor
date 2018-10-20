@@ -93,6 +93,18 @@ declare enum UUType {
      */
     SLOT_MACHINE = 104,
     CARD = 112,
+    /**
+     * 弹出框卡片组件
+     */
+    CARDALERT = 1001,
+    /**
+     * 图片单选
+     */
+    SELECT_IMAGE = 1002,
+    /**
+     * 图片拖拽1
+     */
+    DRAW_ONE = 2001,
 }
 /**
  * 动画类型
@@ -396,6 +408,9 @@ declare class Picture {
  */
 declare class Preview extends eui.Group {
     private displayList;
+    private drawTarget;
+    private distanceX;
+    private distanceY;
     tool: any;
     pages: any[];
     private pageIndex;
@@ -414,6 +429,9 @@ declare class Preview extends eui.Group {
     down(event: egret.TouchEvent): boolean;
     move(event: egret.TouchEvent): void;
     up(event: egret.TouchEvent): void;
+    down2(evt: egret.TouchEvent): void;
+    move2(evt: egret.TouchEvent): void;
+    up2(evt: egret.TouchEvent): void;
     findControlByType(type: any): any;
     applyDynamicControls(event: any): void;
     getDynamicControl(): any;
@@ -574,7 +592,7 @@ declare class TweenControl extends eui.Group {
     private tweener;
     constructor();
     private onAddToStage();
-    start(): void;
+    start(): Promise<{}>;
     private moveOver();
     factor: number;
     setTarget(target: any): void;
@@ -613,7 +631,7 @@ declare class CircleSector extends BaseComponent implements IUUBase, IUUComponen
 }
 declare class Utils {
     constructor();
-    static getComs(): (typeof UULabel | typeof UUContainer | typeof SoundButton | typeof CircleSector | typeof UUBackground | typeof Slideshow | typeof SlotMachine)[];
+    static getComs(): any[];
     static getTexture(url: string): Promise<{}>;
     static getSound(url: string): Promise<{}>;
     static getScript(arr: Array<string>): Promise<{}>;
@@ -665,6 +683,7 @@ declare class UUImage extends eui.Image implements IUUBase {
     data: UUData<IResource>;
     layerName: string;
     static uuType: UUType;
+    isDraw?: boolean;
 }
 /**
  * 文字组件
@@ -688,15 +707,13 @@ declare class UULabel extends eui.Label implements IUUBase {
 /**
  * 轮播图组件
  */
-declare class SlotMachine extends eui.Group implements IUUBase, IUUContainer, IUUComponent {
+declare class SlotMachine extends eui.Group implements IUUBase {
     data: any;
     layerName: string;
     container: any;
     static uuType: UUType;
     private btn_start;
     private isAnimating;
-    draw(): void;
-    dispose(): void;
     private itemWidth;
     private itemHeight;
     private gap;
@@ -709,14 +726,7 @@ declare class SlotMachine extends eui.Group implements IUUBase, IUUContainer, IU
     private _awards;
     awards: Array<SlideshowItem>;
     private itemGroup;
-    constructor();
-    getProps(): {
-        bgColor: string | number;
-        bdUrl: string;
-        awards: SlideshowItem[];
-    };
-    setProps(d: ISlotMachine): void;
-    redraw(): void;
+    constructor(props: any);
     private onAddToStage(event);
     private onRemoveFromStage(event);
     private init();

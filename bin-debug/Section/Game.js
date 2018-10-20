@@ -87,14 +87,14 @@ var Game = (function (_super) {
                 editContaier.addChild(this.editGroup);
                 this.header.x = 0;
                 this.header.y = 0;
-                this.header.width = 1920;
+                // this.header.width = 1920;
+                this.header.width = 1200;
                 this.header.height = 100;
                 this.drawBg(this.header);
                 this.header.draw(this);
                 // this.addChild(this.imgBox);
                 this.Siderbar.x = 1920 - 500;
                 this.Siderbar.y = this.header.height + 10;
-                this.Siderbar.draw(this);
                 hLayout = new eui.HorizontalLayout();
                 hLayout.gap = 30;
                 hLayout.horizontalAlign = egret.HorizontalAlign.CENTER;

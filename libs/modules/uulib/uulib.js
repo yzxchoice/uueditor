@@ -286,6 +286,18 @@ var UUType;
      */
     UUType[UUType["SLOT_MACHINE"] = 104] = "SLOT_MACHINE";
     UUType[UUType["CARD"] = 112] = "CARD";
+    /**
+     * 弹出框卡片组件
+     */
+    UUType[UUType["CARDALERT"] = 1001] = "CARDALERT";
+    /**
+     * 图片单选
+     */
+    UUType[UUType["SELECT_IMAGE"] = 1002] = "SELECT_IMAGE";
+    /**
+     * 图片拖拽1
+     */
+    UUType[UUType["DRAW_ONE"] = 2001] = "DRAW_ONE";
 })(UUType || (UUType = {}));
 /**
  * 动画类型
@@ -818,7 +830,8 @@ var Preview = (function (_super) {
         this.renderResources(this.pageIndex);
         this.setupTool();
         // selects pictures on mouse down
-        this.addEventListener(Mouse.START, this.down, this);
+        // this.addEventListener(Mouse.START, this.down, this);
+        this.addEventListener(Mouse.START, this.down2, this);
         this.render();
     };
     Preview.prototype.setupTool = function () {
@@ -837,38 +850,36 @@ var Preview = (function (_super) {
         return temp;
     };
     Preview.prototype.down = function (event) {
-        var _this = this;
         console.log(event.target);
         var d = event.target.data;
-        if (d && d.sound) {
-            Utils.getSound(d.sound.url).then(function (res) {
-                var sound = res;
-                sound.play(0, 1);
-            });
-        }
-        if (event.target.data.hasOwnProperty("properties") && event.target.data.properties.hasOwnProperty('anims')) {
-            this.tweenControl.setTarget(event.target);
-            var tweener = event.target.data.properties.anims[0];
-            this.tweenControl.setValue(tweener.start, tweener.control, tweener.end);
-            this.tweenControl.start();
-        }
-        if (this.pages[this.pageIndex].hasOwnProperty("properties") && this.pages[this.pageIndex].properties.hasOwnProperty("triggerGroup")) {
-            var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
-            console.log('triggerGroup...');
-            console.log(JSON.stringify(triggerGroup));
-            triggerGroup.forEach(function (item) {
-                if (item.sourceId == event.target.name) {
-                    if (event.target.data.hasOwnProperty("sound")) {
-                        var sound = RES.getRes(event.target.data.name);
-                        sound.play(0, 1);
-                    }
-                    else {
-                        console.log('item.targetId = ' + item.targetId);
-                        egret.Tween.get(_this.getDisplayByName(item.targetId)[0].image).to({ alpha: 0 }, 300, egret.Ease.sineIn);
-                    }
-                }
-            });
-        }
+        // if(d && d.sound) {
+        //     Utils.getSound(d.sound.url).then( (res) => {
+        //         var sound: egret.Sound = <egret.Sound>res;
+        //         sound.play(0, 1);
+        //     });
+        // }
+        // if(event.target.data.hasOwnProperty("properties") && event.target.data.properties.hasOwnProperty('anims')){
+        //     this.tweenControl.setTarget(event.target);
+        //     let tweener: ITween = event.target.data.properties.anims[0];
+        //     this.tweenControl.setValue(tweener.start, tweener.control, tweener.end);
+        //     this.tweenControl.start();
+        // }
+        // if(this.pages[this.pageIndex].hasOwnProperty("properties") && this.pages[this.pageIndex].properties.hasOwnProperty("triggerGroup")){
+        //     var triggerGroup = this.pages[this.pageIndex].properties.triggerGroup;
+        //     console.log('triggerGroup...');
+        //     console.log(JSON.stringify(triggerGroup));
+        //     triggerGroup.forEach( (item) => {
+        //         if(item.sourceId == event.target.name){
+        //             if(event.target.data.hasOwnProperty("sound")){
+        //                 var sound:egret.Sound = RES.getRes(event.target.data.name);
+        //                 sound.play(0, 1);
+        //             }else {
+        //                 console.log('item.targetId = ' + item.targetId);
+        //                 egret.Tween.get( this.getDisplayByName(item.targetId)[0].image ).to( {alpha: 0}, 300, egret.Ease.sineIn );
+        //             }
+        //         }
+        //     })
+        // }
         Mouse.get(event, this);
         var controlled = this.tool.start(Mouse.x, Mouse.y);
         if (!this.containsPoint(Mouse.x, Mouse.y)) {
@@ -901,6 +912,38 @@ var Preview = (function (_super) {
         this.removeEventListener(Mouse.END, this.up, this);
         requestAnimationFrame(this.render);
         event.preventDefault();
+    };
+    Preview.prototype.down2 = function (evt) {
+        var target = evt.target;
+        var isDraw = target.isDraw;
+        if (isDraw) {
+            this.drawTarget = target;
+            this.addEventListener(Mouse.MOVE, this.move2, this);
+            this.addEventListener(Mouse.END, this.up2, this);
+            var targetPoint = target.localToGlobal(0, 0);
+            console.log('targetPoint x = ' + targetPoint.x);
+            console.log('target x = ' + target.x);
+            console.log('evt stageX = ' + evt.stageX);
+            this.distanceX = evt.stageX - targetPoint.x;
+            this.distanceY = evt.stageY - targetPoint.y;
+        }
+        evt.preventDefault();
+    };
+    Preview.prototype.move2 = function (evt) {
+        var _this = this;
+        var targetPoint = this.drawTarget.parent.globalToLocal(evt.stageX - this.distanceX, evt.stageY - this.distanceY);
+        requestAnimationFrame(function () {
+            _this.drawTarget.x = targetPoint.x;
+            _this.drawTarget.y = targetPoint.y;
+            console.log('x = ' + _this.drawTarget.x);
+            console.log('y = ' + _this.drawTarget.y);
+        });
+        evt.preventDefault();
+    };
+    Preview.prototype.up2 = function (evt) {
+        this.removeEventListener(Mouse.MOVE, this.move2, this);
+        this.removeEventListener(Mouse.END, this.up2, this);
+        evt.preventDefault();
     };
     Preview.prototype.findControlByType = function (type) {
         var i = 0;
@@ -1866,11 +1909,19 @@ var TweenControl = (function (_super) {
         this.addChild(btn);
     };
     TweenControl.prototype.start = function () {
+        var _this = this;
         if (this.isMoving) {
             return;
         }
         this.isMoving = true;
-        egret.Tween.get(this).to({ factor: 1 }, 2000).call(this.moveOver, this);
+        return new Promise(function (resolve) {
+            egret.Tween.get(_this)
+                .to({ factor: 1 }, 2000)
+                .call(function () {
+                resolve('finish');
+            });
+        });
+        // egret.Tween.get(this).to({factor: 1}, 2000).call(this.moveOver, this);
     };
     TweenControl.prototype.moveOver = function () {
         this.isMoving = false;
@@ -1889,6 +1940,10 @@ var TweenControl = (function (_super) {
                 case animType.curve:
                     this.target.x = (1 - value) * (1 - value) * this._start.x + 2 * value * (1 - value) * this._control.x + value * value * this._anchor.x;
                     this.target.y = (1 - value) * (1 - value) * this._start.y + 2 * value * (1 - value) * this._control.y + value * value * this._anchor.y;
+                    break;
+                case animType.line:
+                    this.target.x = this._start.x + (this._control.x - this._start.x) * value;
+                    this.target.y = this._start.y + (this._control.y - this._start.y) * value;
                     break;
             }
         },
@@ -2122,7 +2177,7 @@ var Utils = (function () {
     function Utils() {
     }
     Utils.getComs = function () {
-        return [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground, Slideshow, SlotMachine];
+        return [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground, Slideshow, SlotMachine, CardAlert, SelectImage, DrawOne];
     };
     Utils.getTexture = function (url) {
         var _this = this;
@@ -2306,7 +2361,7 @@ __reflect(UULabel.prototype, "UULabel", ["IUUBase"]);
  */
 var SlotMachine = (function (_super) {
     __extends(SlotMachine, _super);
-    function SlotMachine() {
+    function SlotMachine(props) {
         var _this = _super.call(this) || this;
         _this.layerName = '老虎机';
         _this.isAnimating = false;
@@ -2320,58 +2375,16 @@ var SlotMachine = (function (_super) {
         // props中用到的参数
         _this.bgColor = '0x666699';
         _this.bdUrl = '/assets/pic/draw_card_bg.png';
-        _this.awardsTotal = [
-            {
-                url: '/assets/pic/post_item_2.png'
-            },
-            {
-                url: '/assets/pic/post_item_3.png'
-            },
-            {
-                url: '/assets/pic/post_item_1.png'
-            },
-            {
-                url: '/assets/pic/post_item_4.png'
-            },
-            {
-                url: '/assets/pic/post_item_6.png'
-            },
-            {
-                url: '/assets/pic/post_item_5.png'
-            },
-            {
-                url: '/assets/pic/post_item_2.png'
-            },
-        ];
-        _this._awards = [
-            {
-                url: '/assets/pic/post_item_2.png'
-            },
-            {
-                url: '/assets/pic/post_item_3.png'
-            },
-            {
-                url: '/assets/pic/post_item_1.png'
-            },
-            {
-                url: '/assets/pic/post_item_4.png'
-            },
-            {
-                url: '/assets/pic/post_item_6.png'
-            },
-            {
-                url: '/assets/pic/post_item_5.png'
-            },
-        ];
+        _this.awardsTotal = [];
+        _this._awards = [];
+        _this.awards = props.awards;
+        _this.bgColor = props.bgColor;
+        _this.bdUrl = props.bdUrl;
         _this.touchEnabled = false;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.onRemoveFromStage, _this);
         return _this;
     }
-    SlotMachine.prototype.draw = function () {
-    };
-    SlotMachine.prototype.dispose = function () {
-    };
     Object.defineProperty(SlotMachine.prototype, "awards", {
         get: function () {
             return this._awards;
@@ -2384,22 +2397,6 @@ var SlotMachine = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    SlotMachine.prototype.getProps = function () {
-        return {
-            bgColor: this.bgColor,
-            bdUrl: this.bdUrl,
-            awards: this.awards,
-        };
-    };
-    SlotMachine.prototype.setProps = function (d) {
-        this.awards = d.awards;
-        this.bdUrl = d.bdUrl;
-        this.bgColor = d.bgColor;
-    };
-    SlotMachine.prototype.redraw = function () {
-        this.removeChildren();
-        this.init();
-    };
     SlotMachine.prototype.onAddToStage = function (event) {
         this.init();
     };
@@ -2606,4 +2603,4 @@ var SlotMachine = (function (_super) {
     SlotMachine.uuType = UUType.SLOT_MACHINE;
     return SlotMachine;
 }(eui.Group));
-__reflect(SlotMachine.prototype, "SlotMachine", ["IUUBase", "IUUContainer", "IUUComponent"]);
+__reflect(SlotMachine.prototype, "SlotMachine", ["IUUBase"]);

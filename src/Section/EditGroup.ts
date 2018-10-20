@@ -118,7 +118,7 @@ class EditGroup extends eui.Group {
             this.addEventListener(Mouse.MOVE, this.move, this);
             this.addEventListener(Mouse.END, this.up, this);
 
-            this.siderbar.selectTarget();
+            // this.siderbar.selectTarget();
             // AnimateSet.target = this.tool.target.owner.image;
             // AnimateSet.move();
         }
@@ -132,7 +132,7 @@ class EditGroup extends eui.Group {
         this.applyDynamicControls(event);
         this.tool.move(Mouse.x, Mouse.y);
 
-        this.siderbar.moveTarget();    
+        // this.siderbar.moveTarget();    
         
         // requestAnimationFrame(this.renderOneDisplay);
         requestAnimationFrame(this.render);
@@ -156,7 +156,7 @@ class EditGroup extends eui.Group {
         this.removeEventListener(Mouse.MOVE, this.move, this);
         this.removeEventListener(Mouse.END, this.up, this);
 
-        this.siderbar.upTarget(); 
+        // this.siderbar.upTarget(); 
 
         // requestAnimationFrame(this.renderOneDisplay);        
         requestAnimationFrame(this.render);
@@ -301,8 +301,12 @@ class EditGroup extends eui.Group {
                     
             var t = LayerSet.getLayer(Utils.getComs(), elements[i].type)[0];
             var com = LayerSet.createInstance(t,elements[i].props);
+            console.log('组件实例...');
+            console.log(com);
             com.name = elements[i].id;
             com.data = elements[i];
+            console.log('组件实例...');
+            console.log(com);
             if(!texture && (elements[i].type === UUType.IMAGE || elements[i].type === UUType.BACKGROUND)){
                 com.texture = await Utils.getTexture("resource/"+elements[i].src);
             }else {
@@ -320,8 +324,8 @@ class EditGroup extends eui.Group {
         this.drawDisplayList();
         this.tool.draw();
         
-        this.displayGroup.addChild(this.uutween);
-        this.displayGroup.addChild(this.tweenControl);
+        // this.displayGroup.addChild(this.uutween);
+        // this.displayGroup.addChild(this.tweenControl);
     }
 
     renderOneDisplay(){

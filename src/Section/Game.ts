@@ -51,7 +51,8 @@ class Game extends eui.Component {
         
         this.header.x = 0;
         this.header.y = 0;
-        this.header.width = 1920;
+        // this.header.width = 1920;
+        this.header.width = 1200;
         this.header.height = 100;
         this.drawBg(this.header);
         this.header.draw(this);
@@ -59,7 +60,7 @@ class Game extends eui.Component {
 
         this.Siderbar.x = 1920 - 500;
         this.Siderbar.y = this.header.height + 10;
-        this.Siderbar.draw(this);
+        // this.Siderbar.draw(this);
 
         var hLayout:eui.HorizontalLayout = new eui.HorizontalLayout();
         hLayout.gap = 30;
