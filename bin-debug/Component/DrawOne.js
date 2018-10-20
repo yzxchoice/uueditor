@@ -32,10 +32,14 @@ var DrawOne = (function (_super) {
         var layout = LayoutFactory.main(LayoutType.VLayout, GapType.Big);
         layout.horizontalAlign = egret.HorizontalAlign.CENTER;
         this.layout = layout;
-        this.addChild(this.createBorderBox());
-        this.addChild(this.createImageBox());
-        this.width = 800;
-        this.height = 600;
+        var borderBox = this.createBorderBox();
+        var imageBox = this.createImageBox();
+        this.addChild(borderBox);
+        this.addChild(imageBox);
+        this.width = borderBox.width > imageBox.width ? borderBox.width + 10 * 2 : imageBox.width + 10 * 2;
+        this.height = borderBox.height + imageBox.height + 10 * 2 + 30;
+        //  this.width = 800;
+        //  this.height = 600;
     };
     DrawOne.prototype.createBorderBox = function () {
         var group = new eui.Group();

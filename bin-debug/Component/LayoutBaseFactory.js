@@ -8,6 +8,13 @@ var LayoutBaseFactory = (function () {
         switch (layoutType) {
             case LayoutType.HLayout:
                 this.createHLayout(group, itemArr, gapType);
+                break;
+            case LayoutType.VLayout:
+                this.createVLayout(group, itemArr, gapType);
+                break;
+            case LayoutType.TLayout:
+                this.createTLayout(group, itemArr, gapType, columnCount);
+                break;
         }
     };
     LayoutBaseFactory.createHLayout = function (group, itemArr, gapType) {
@@ -24,20 +31,18 @@ var LayoutBaseFactory = (function () {
         for (var i = 0, len = itemArr.length; i < len; i++) {
             var item = itemArr[i];
             item.x = this.padding;
-            item.y = 10;
+            item.y = this.padding + (item.height + gap) * i;
             group.addChild(item);
         }
     };
-    LayoutBaseFactory.createTLayout = function (group, gapType, columnCount) {
-        var tLayout = new eui.TileLayout();
-        tLayout.horizontalGap = this.getGap(gapType);
-        tLayout.verticalGap = this.getGap(gapType);
-        tLayout.requestedColumnCount = columnCount;
-        tLayout.paddingTop = this.padding;
-        tLayout.paddingRight = this.padding;
-        tLayout.paddingBottom = this.padding;
-        tLayout.paddingLeft = this.padding;
-        return tLayout;
+    LayoutBaseFactory.createTLayout = function (group, itemArr, gapType, columnCount) {
+        var gap = this.getGap(gapType);
+        for (var i = 0, len = itemArr.length; i < len; i++) {
+            var item = itemArr[i];
+            item.x = this.padding + (i % columnCount) * (item.width + gap);
+            item.y = this.padding + Math.floor(i / columnCount) * (item.width + gap);
+            group.addChild(item);
+        }
     };
     LayoutBaseFactory.getGap = function (gap) {
         switch (gap) {
@@ -48,29 +53,6 @@ var LayoutBaseFactory = (function () {
             case GapType.Big:
                 return 30;
         }
-    };
-    LayoutBaseFactory.setGroupSize = function (itemNum, itemWidth, itemHeight, layoutType, gap, columnCount) {
-        var width;
-        var height;
-        gap = this.getGap(gap);
-        switch (layoutType) {
-            case LayoutType.HLayout:
-                width = this.padding * 2 + itemNum * itemWidth + (itemNum - 1) * gap;
-                height = this.padding * 2 + itemHeight;
-                break;
-            case LayoutType.VLayout:
-                width = this.padding * 2 + itemWidth;
-                height = this.padding * 2 + itemNum * itemHeight + (itemNum - 1) * gap;
-                break;
-            case LayoutType.TLayout:
-                width = this.padding * 2 + columnCount * itemWidth + (columnCount - 1) * gap;
-                height = this.padding * 2 + Math.ceil(itemNum / columnCount) * itemHeight + Math.ceil(itemNum / columnCount - 1) * gap;
-                break;
-        }
-        return {
-            width: width,
-            height: height,
-        };
     };
     LayoutBaseFactory.padding = 10;
     return LayoutBaseFactory;
