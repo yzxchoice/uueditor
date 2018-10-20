@@ -831,7 +831,7 @@ var Preview = (function (_super) {
         this.setupTool();
         // selects pictures on mouse down
         // this.addEventListener(Mouse.START, this.down, this);
-        this.addEventListener(Mouse.START, this.down2, this);
+        // this.addEventListener(Mouse.START, this.down2, this);
         this.render();
     };
     Preview.prototype.setupTool = function () {
@@ -921,9 +921,6 @@ var Preview = (function (_super) {
             this.addEventListener(Mouse.MOVE, this.move2, this);
             this.addEventListener(Mouse.END, this.up2, this);
             var targetPoint = target.localToGlobal(0, 0);
-            console.log('targetPoint x = ' + targetPoint.x);
-            console.log('target x = ' + target.x);
-            console.log('evt stageX = ' + evt.stageX);
             this.distanceX = evt.stageX - targetPoint.x;
             this.distanceY = evt.stageY - targetPoint.y;
         }
@@ -935,8 +932,6 @@ var Preview = (function (_super) {
         requestAnimationFrame(function () {
             _this.drawTarget.x = targetPoint.x;
             _this.drawTarget.y = targetPoint.y;
-            console.log('x = ' + _this.drawTarget.x);
-            console.log('y = ' + _this.drawTarget.y);
         });
         evt.preventDefault();
     };

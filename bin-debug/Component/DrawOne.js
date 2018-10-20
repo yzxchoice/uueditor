@@ -26,6 +26,7 @@ var DrawOne = (function (_super) {
         _this.award = props.award;
         _this.toAward = props.toAward;
         _this.init();
+        _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.down, _this);
         return _this;
     }
     DrawOne.prototype.init = function () {
@@ -33,13 +34,13 @@ var DrawOne = (function (_super) {
         layout.horizontalAlign = egret.HorizontalAlign.CENTER;
         this.layout = layout;
         var borderBox = this.createBorderBox();
+        this.borderBox = borderBox;
         var imageBox = this.createImageBox();
+        this.imageBox = imageBox;
         this.addChild(borderBox);
         this.addChild(imageBox);
         this.width = borderBox.width > imageBox.width ? borderBox.width + 10 * 2 : imageBox.width + 10 * 2;
         this.height = borderBox.height + imageBox.height + 10 * 2 + 30;
-        //  this.width = 800;
-        //  this.height = 600;
     };
     DrawOne.prototype.createBorderBox = function () {
         var group = new eui.Group();
@@ -49,7 +50,9 @@ var DrawOne = (function (_super) {
             img.name = this.toAward[i].id;
             img.width = 240;
             img.height = 240;
-            group.addChild(img);
+            var imgGroup = UIFactory.createGroup(img.width, img.height);
+            imgGroup.addChild(img);
+            group.addChild(imgGroup);
         }
         var sizeObj = LayoutFactory.setGroupSize(this.toAward.length, 240, 240, LayoutType.HLayout, GapType.Big);
         group.width = sizeObj.width;
@@ -71,6 +74,60 @@ var DrawOne = (function (_super) {
         }
         LayoutBaseFactory.main(group, imgArr, LayoutType.HLayout, GapType.Middle);
         return group;
+    };
+    DrawOne.prototype.down = function (evt) {
+        var target = evt.target;
+        var isDraw = target.isDraw;
+        if (isDraw) {
+            this.drawTarget = target;
+            this.addEventListener(Mouse.MOVE, this.move, this);
+            this.addEventListener(Mouse.END, this.up, this);
+            var targetPoint = target.localToGlobal(0, 0);
+            this.distanceX = evt.stageX - targetPoint.x;
+            this.distanceY = evt.stageY - targetPoint.y;
+        }
+        evt.preventDefault();
+    };
+    DrawOne.prototype.move = function (evt) {
+        var _this = this;
+        var targetPoint = this.drawTarget.parent.globalToLocal(evt.stageX - this.distanceX, evt.stageY - this.distanceY);
+        requestAnimationFrame(function () {
+            _this.drawTarget.x = targetPoint.x;
+            _this.drawTarget.y = targetPoint.y;
+        });
+        evt.preventDefault();
+    };
+    DrawOne.prototype.up = function (evt) {
+        // drawTarget 舞台坐标
+        var drawTargeGlobalX = evt.stageX - this.distanceX;
+        var drawTargeGlobalY = evt.stageY - this.distanceY;
+        // drawTarget中心的 舞台坐标
+        var drawTargeGlobalCenterX = drawTargeGlobalX + this.drawTarget.width / 2;
+        var drawTargeGlobalCenterY = drawTargeGlobalY + this.drawTarget.height / 2;
+        // 遍历border对象进行碰撞检测
+        for (var i = 0, len = this.borderBox.numChildren; i < len; i++) {
+            var borderItem = this.borderBox.getChildAt(i);
+            var isHit = borderItem.hitTestPoint(drawTargeGlobalCenterX, drawTargeGlobalCenterY);
+            if (isHit) {
+                // borderItem中心 相对坐标 相对于borderBox
+                var borderItemCenterX = borderItem.x + borderItem.width / 2;
+                var borderItemCenterY = borderItem.y + borderItem.height / 2;
+                // drawTarget 相对于borderBox的坐标
+                var drawTargetToX = borderItemCenterX - this.drawTarget.width / 2;
+                var drawTargetToY = borderItemCenterY - this.drawTarget.height / 2;
+                // drawTarget 舞台坐标
+                var globalPoint = this.borderBox.localToGlobal(drawTargetToX, drawTargetToY);
+                // drawTarget 相对于imageBox的坐标
+                var localPoint = this.imageBox.globalToLocal(globalPoint.x, globalPoint.y);
+                this.drawTarget.x = localPoint.x;
+                this.drawTarget.y = localPoint.y;
+                break;
+            }
+            console.log('isHit = ' + isHit);
+        }
+        this.removeEventListener(Mouse.MOVE, this.move, this);
+        this.removeEventListener(Mouse.END, this.up, this);
+        evt.preventDefault();
     };
     DrawOne.uuType = UUType.DRAW_ONE;
     return DrawOne;

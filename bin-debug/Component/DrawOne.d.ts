@@ -9,8 +9,16 @@ declare class DrawOne extends eui.Group {
     private award;
     private toAward;
     private layoutType;
+    private drawTarget;
+    private distanceX;
+    private distanceY;
+    private borderBox;
+    private imageBox;
     constructor(props: any);
     private init();
     private createBorderBox();
     private createImageBox();
+    down(evt: egret.TouchEvent): void;
+    move(evt: egret.TouchEvent): void;
+    up(evt: egret.TouchEvent): void;
 }
