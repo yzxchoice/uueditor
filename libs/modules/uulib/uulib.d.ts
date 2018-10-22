@@ -105,6 +105,14 @@ declare enum UUType {
      * 图片拖拽1
      */
     DRAW_ONE = 2001,
+    /**
+     * 拖拽组件 border盒组件
+     */
+    DRAG_BORDER_BOX = 3001,
+    /**
+     * 拖拽组件 image盒组件
+     */
+    DRAG_IMAGE_BOX = 3002,
 }
 /**
  * 动画类型

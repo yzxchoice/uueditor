@@ -304,12 +304,10 @@ var EditGroup = (function (_super) {
                         texture = RES.getRes(elements[i].name);
                         t = LayerSet.getLayer(Utils.getComs(), elements[i].type)[0];
                         com = LayerSet.createInstance(t, elements[i].props);
-                        console.log('组件实例...');
-                        console.log(com);
+                        // console.log('组件实例...');
+                        // console.log(com);
                         com.name = elements[i].id;
                         com.data = elements[i];
-                        console.log('组件实例...');
-                        console.log(com);
                         if (!(!texture && (elements[i].type === UUType.IMAGE || elements[i].type === UUType.BACKGROUND))) return [3 /*break*/, 3];
                         _a = com;
                         return [4 /*yield*/, Utils.getTexture("resource/" + elements[i].src)];

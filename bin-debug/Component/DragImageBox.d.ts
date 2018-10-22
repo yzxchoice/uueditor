@@ -6,34 +6,25 @@
  * 4、一框一图功能：一个框不能放置多张图片
  * 5、调整拖拽图片的层级：被拖拽的图片层级永远最高
  */
-declare enum DrawOneLayoutType {
-    topToBottom = 1,
-    BottomTo = 2,
-    LeftToRight = 3,
-    RightToLeft = 4,
-}
-declare class DrawOne extends eui.Group {
+declare class DragImageBox extends eui.Group {
     static uuType: UUType;
     private award;
-    private toAward;
+    private dragBorderBoxId;
     private layoutType;
+    private gap;
+    private columnCount;
     private isRestore;
+    private dragBorderBox;
     private drawTarget;
     private distanceX;
     private distanceY;
-    private borderBox;
-    private imageBox;
-    private boxLayoutType;
     private imageDefaultPosition;
     private mapArr;
     private timer;
     private topImage;
     constructor(props: any);
     private init();
-    private getBoxLayoutType();
-    private createLayout();
-    private createSize();
-    private createBorderBox();
+    private getDragBorderBox();
     private createImageBox();
     private getImageDefaultPosition();
     private down(evt);

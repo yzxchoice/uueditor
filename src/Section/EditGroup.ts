@@ -301,12 +301,12 @@ class EditGroup extends eui.Group {
                     
             var t = LayerSet.getLayer(Utils.getComs(), elements[i].type)[0];
             var com = LayerSet.createInstance(t,elements[i].props);
-            console.log('组件实例...');
-            console.log(com);
+            // console.log('组件实例...');
+            // console.log(com);
             com.name = elements[i].id;
             com.data = elements[i];
-            console.log('组件实例...');
-            console.log(com);
+            // console.log('组件实例...');
+            // console.log(com);
             if(!texture && (elements[i].type === UUType.IMAGE || elements[i].type === UUType.BACKGROUND)){
                 com.texture = await Utils.getTexture("resource/"+elements[i].src);
             }else {

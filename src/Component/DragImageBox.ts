@@ -7,132 +7,77 @@
  * 5、调整拖拽图片的层级：被拖拽的图片层级永远最高 
  */
 
-// 四种布局方式
-enum DrawOneLayoutType {
-    topToBottom = 1,
-    BottomTo = 2,
-    LeftToRight = 3,
-    RightToLeft = 4,
-}
 
-class DrawOne extends eui.Group {
+class DragImageBox extends eui.Group {
 
-    static uuType = UUType.DRAW_ONE;
+    static uuType = UUType.DRAG_IMAGE_BOX;
     // props
     private award: IResource[] = []; // 图片列表
-    private toAward: IResource[] = []; // 框图片列表
-    private layoutType: DrawOneLayoutType = 1; // 布局方式
+    private dragBorderBoxId: number; // 框图片盒ID
+    private layoutType: LayoutType = 1; // 布局方式
+    private gap: GapType = GapType.Middle;
+    private columnCount: number = 3;
     private isRestore: boolean = true; // 是否开启图片复位功能
 
+    // 框图片盒
+    private dragBorderBox: DragBorderBox;
     // draw event 
     private drawTarget; // 被拖拽的图片
     private distanceX: number; // 拖拽时 鼠标位置到被拖拽图片的X距离
     private distanceY: number; // 拖拽时 鼠标位置到被拖拽图片的Y距离
 
     // other
-    private borderBox: eui.Group; // 边框容器
-    private imageBox: eui.Group; // 图片容器
-    private boxLayoutType: LayoutType = LayoutType.HLayout; // 边框、图片容器的布局方式
     private imageDefaultPosition: [number, number][] = []; // 图片初始位置，用于图片复位功能
     private mapArr: {borderId: string, imageId: string}[] = []; // 记录框、图匹配关系 用于一框一图功能
     private timer; // 用于up事件节流
     private topImage: UUImage; // 指向层级最高的image 用于 调整拖拽图片的层级功能
 
      constructor(props) {
-         super();
-         if(props.layoutType) {
-            this.layoutType = props.layoutType;
+        super();
+        this.dragBorderBoxId = props.dragBorderBoxId;
+
+        if(props.layoutSet.layoutType) {
+            this.layoutType = props.layoutSet.layoutType;
+         }
+         if(props.layoutSet.gap) {
+            this.gap = props.layoutSet.gap;
+         }
+         if(props.layoutSet.columnCount) {
+            this.columnCount = props.layoutSet.columnCount;
          }
          if(props.isRestore) {
             this.isRestore = props.isRestore;             
          }
          this.award = props.award;
-         this.toAward = props.toAward;
          this.init();
          this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.down, this);
+         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.getDragBorderBox, this);
      }
 
      private init() {
-         this.getBoxLayoutType();
-
-         this.borderBox = this.createBorderBox();
-         this.imageBox = this.createImageBox();
-
-         this.createLayout();           
-         this.createSize();
+         this.createImageBox();
          if(this.isRestore) {
              this.getImageDefaultPosition();
          }
-         this.topImage = <UUImage>this.imageBox.getChildAt(this.imageBox.numChildren - 1);
+         this.topImage = <UUImage>this.getChildAt(this.numChildren - 1);
      }
 
-     private getBoxLayoutType(): void {
-        switch(this.layoutType) {
-             case DrawOneLayoutType.topToBottom:
-             case DrawOneLayoutType.BottomTo:
-                this.boxLayoutType = LayoutType.HLayout;
-                break;
-            case DrawOneLayoutType.LeftToRight:
-            case DrawOneLayoutType.RightToLeft:
-                this.boxLayoutType = LayoutType.VLayout;                
-                break;
-         } 
+     private getDragBorderBox() {
+        let parent = this.parent;
+        console.log('parent...');
+        console.log(parent);
+        let dragBorderBox = parent.getChildAt(1);
+        console.log('dragBorderBox...');
+        console.log(dragBorderBox);
+        this.dragBorderBox = <DragBorderBox>dragBorderBox;
      }
 
-     private createLayout(): void {
-         switch(this.layoutType) {
-             case DrawOneLayoutType.topToBottom:
-                LayoutBaseFactory.main(this, [this.borderBox, this.imageBox], LayoutType.VLayout, GapType.Big);            
-                break;
-             case DrawOneLayoutType.BottomTo:
-                LayoutBaseFactory.main(this, [this.imageBox, this.borderBox], LayoutType.VLayout, GapType.Big);            
-                this.swapChildren(this.borderBox, this.imageBox);
-                break;
-            case DrawOneLayoutType.LeftToRight:
-                LayoutBaseFactory.main(this, [this.borderBox, this.imageBox], LayoutType.HLayout, GapType.Big);            
-                break;
-            case DrawOneLayoutType.RightToLeft:
-                LayoutBaseFactory.main(this, [this.imageBox, this.borderBox], LayoutType.HLayout, GapType.Big);            
-                this.swapChildren(this.borderBox, this.imageBox);                                                                
-                break;
-         }
-     }
 
-     private createSize(): void {
-         switch(this.boxLayoutType) {
-             case LayoutType.HLayout:
-                this.width = this.borderBox.width > this.imageBox.width ? this.borderBox.width + 10 * 2: this.imageBox.width + 10 * 2; 
-                this.height = this.borderBox.height + this.imageBox.height + 10 * 2 + 30;
-                break;  
-             case LayoutType.VLayout:
-                this.width = this.borderBox.width + this.imageBox.width + 10 * 2 + 30; 
-                this.height = this.borderBox.height > this.imageBox.height ? this.borderBox.height + 10 * 2: this.imageBox.height + 10 * 2;
-                break; 
-         }
-     }
+     private createImageBox(): void {
 
-     private createBorderBox(): eui.Group {
-         let group = new eui.Group();
-         group.layout = LayoutFactory.main(this.boxLayoutType, GapType.Middle);
-         for(let i = 0, len = this.toAward.length; i < len; i++) {
-             let img = <eui.Image>UIFactory.createImage(this.toAward[i].url);
-             img.width = 240;
-             img.height = 240;
-             let imgGroup = UIFactory.createGroup(img.width, img.height);
-             imgGroup.name = this.toAward[i].id.toString();             
-             imgGroup.addChild(img);
-             group.addChild(imgGroup);
-         }
-         let sizeObj = LayoutFactory.setGroupSize(this.toAward.length, 240, 240, this.boxLayoutType, GapType.Big);
-         group.width = sizeObj.width;
-         group.height = sizeObj.height;
-         return group;
-     }
-
-     private createImageBox(): eui.Group {
-
-         let sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.boxLayoutType, GapType.Big);         
-         let group = UIFactory.createGroup(sizeObj.width, sizeObj.height);
+         let sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.layoutType, this.gap, this.columnCount);     
+         this.width = sizeObj.width;
+         this.height = sizeObj.height;    
 
          let imgArr: UUImage[] = []
          for(let i = 0, len = this.award.length; i < len; i++) {
@@ -145,13 +90,12 @@ class DrawOne extends eui.Group {
             
              imgArr.push(img);
          }
-         LayoutBaseFactory.main( group, imgArr, this.boxLayoutType, GapType.Middle );
-         return group;
+         LayoutBaseFactory.main( this, imgArr, this.layoutType, this.gap, this.columnCount );
      }
 
      private getImageDefaultPosition(): void {
-         for(let i = 0, len = this.imageBox.numChildren; i < len; i++) {
-             let imageItem = this.imageBox.getChildAt(i);
+         for(let i = 0, len = this.numChildren; i < len; i++) {
+             let imageItem = this.getChildAt(i);
              this.imageDefaultPosition[imageItem.name] = [imageItem.x, imageItem.y];
          }
      }
@@ -200,9 +144,13 @@ class DrawOne extends eui.Group {
         let drawTargeGlobalCenterY = drawTargeGlobalY + this.drawTarget.height / 2;
         // 标记
         let flag = false;
+        let borderScaleX = this.dragBorderBox.scaleX;
+        let borderScaleY = this.dragBorderBox.scaleY;
+        let imageScaleX = this.scaleY;
+        let imageScaleY = this.scaleY;
         // 遍历border对象进行碰撞检测
-        for(let i = 0, len = this.borderBox.numChildren; i < len; i++) {
-            let borderItem = <eui.Group>this.borderBox.getChildAt(i);
+        for(let i = 0, len = this.dragBorderBox.numChildren; i < len; i++) {
+            let borderItem = <eui.Group>this.dragBorderBox.getChildAt(i);
             let isHit:boolean = borderItem.hitTestPoint( drawTargeGlobalCenterX, drawTargeGlobalCenterY );
             if(isHit) {
                 // 排斥校验
@@ -215,15 +163,15 @@ class DrawOne extends eui.Group {
                 this.mapArr.push({borderId: borderId, imageId: imageId});
                 // image中心与border中心重合
                 // borderItem中心 相对坐标 相对于borderBox
-                let borderItemCenterX = borderItem.x + borderItem.width / 2;
-                let borderItemCenterY = borderItem.y + borderItem.height / 2;
-                // drawTarget 相对于borderBox的坐标
-                let drawTargetToX = borderItemCenterX - this.drawTarget.width / 2;
-                let drawTargetToY = borderItemCenterY - this.drawTarget.height / 2;
+                let borderItemCenterX = borderItem.x * borderScaleX + borderItem.width * borderScaleX / 2;
+                let borderItemCenterY = borderItem.y * borderScaleY + borderItem.height * borderScaleY / 2;
+                // drawTarget 相对于borderBox的坐标, ps: 需要将缩放后的坐标除以borderScale， 因为dragBorderBox中的坐标为自动乘以borderScale
+                let drawTargetToX = (borderItemCenterX - this.drawTarget.width * imageScaleX / 2) / borderScaleX;
+                let drawTargetToY = (borderItemCenterY - this.drawTarget.height * imageScaleY / 2) / borderScaleY;
                 // drawTarget 舞台坐标
-                let globalPoint = this.borderBox.localToGlobal(drawTargetToX, drawTargetToY);
+                let globalPoint = this.dragBorderBox.localToGlobal(drawTargetToX, drawTargetToY);
                 // drawTarget 相对于imageBox的坐标
-                let localPoint = this.imageBox.globalToLocal(globalPoint.x, globalPoint.y)
+                let localPoint = this.globalToLocal(globalPoint.x, globalPoint.y)
                 this.drawTarget.x = localPoint.x;
                 this.drawTarget.y = localPoint.y;
                 flag = true;

@@ -16,111 +16,58 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-// 四种布局方式
-var DrawOneLayoutType;
-(function (DrawOneLayoutType) {
-    DrawOneLayoutType[DrawOneLayoutType["topToBottom"] = 1] = "topToBottom";
-    DrawOneLayoutType[DrawOneLayoutType["BottomTo"] = 2] = "BottomTo";
-    DrawOneLayoutType[DrawOneLayoutType["LeftToRight"] = 3] = "LeftToRight";
-    DrawOneLayoutType[DrawOneLayoutType["RightToLeft"] = 4] = "RightToLeft";
-})(DrawOneLayoutType || (DrawOneLayoutType = {}));
-var DrawOne = (function (_super) {
-    __extends(DrawOne, _super);
-    function DrawOne(props) {
+var DragImageBox = (function (_super) {
+    __extends(DragImageBox, _super);
+    function DragImageBox(props) {
         var _this = _super.call(this) || this;
         // props
         _this.award = []; // 图片列表
-        _this.toAward = []; // 框图片列表
         _this.layoutType = 1; // 布局方式
+        _this.gap = GapType.Middle;
+        _this.columnCount = 3;
         _this.isRestore = true; // 是否开启图片复位功能
-        _this.boxLayoutType = LayoutType.HLayout; // 边框、图片容器的布局方式
+        // other
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
         _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
-        if (props.layoutType) {
-            _this.layoutType = props.layoutType;
+        _this.dragBorderBoxId = props.dragBorderBoxId;
+        if (props.layoutSet.layoutType) {
+            _this.layoutType = props.layoutSet.layoutType;
+        }
+        if (props.layoutSet.gap) {
+            _this.gap = props.layoutSet.gap;
+        }
+        if (props.layoutSet.columnCount) {
+            _this.columnCount = props.layoutSet.columnCount;
         }
         if (props.isRestore) {
             _this.isRestore = props.isRestore;
         }
         _this.award = props.award;
-        _this.toAward = props.toAward;
         _this.init();
         _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.down, _this);
+        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.getDragBorderBox, _this);
         return _this;
     }
-    DrawOne.prototype.init = function () {
-        this.getBoxLayoutType();
-        this.borderBox = this.createBorderBox();
-        this.imageBox = this.createImageBox();
-        this.createLayout();
-        this.createSize();
+    DragImageBox.prototype.init = function () {
+        this.createImageBox();
         if (this.isRestore) {
             this.getImageDefaultPosition();
         }
-        this.topImage = this.imageBox.getChildAt(this.imageBox.numChildren - 1);
+        this.topImage = this.getChildAt(this.numChildren - 1);
     };
-    DrawOne.prototype.getBoxLayoutType = function () {
-        switch (this.layoutType) {
-            case DrawOneLayoutType.topToBottom:
-            case DrawOneLayoutType.BottomTo:
-                this.boxLayoutType = LayoutType.HLayout;
-                break;
-            case DrawOneLayoutType.LeftToRight:
-            case DrawOneLayoutType.RightToLeft:
-                this.boxLayoutType = LayoutType.VLayout;
-                break;
-        }
+    DragImageBox.prototype.getDragBorderBox = function () {
+        var parent = this.parent;
+        console.log('parent...');
+        console.log(parent);
+        var dragBorderBox = parent.getChildAt(1);
+        console.log('dragBorderBox...');
+        console.log(dragBorderBox);
+        this.dragBorderBox = dragBorderBox;
     };
-    DrawOne.prototype.createLayout = function () {
-        switch (this.layoutType) {
-            case DrawOneLayoutType.topToBottom:
-                LayoutBaseFactory.main(this, [this.borderBox, this.imageBox], LayoutType.VLayout, GapType.Big);
-                break;
-            case DrawOneLayoutType.BottomTo:
-                LayoutBaseFactory.main(this, [this.imageBox, this.borderBox], LayoutType.VLayout, GapType.Big);
-                this.swapChildren(this.borderBox, this.imageBox);
-                break;
-            case DrawOneLayoutType.LeftToRight:
-                LayoutBaseFactory.main(this, [this.borderBox, this.imageBox], LayoutType.HLayout, GapType.Big);
-                break;
-            case DrawOneLayoutType.RightToLeft:
-                LayoutBaseFactory.main(this, [this.imageBox, this.borderBox], LayoutType.HLayout, GapType.Big);
-                this.swapChildren(this.borderBox, this.imageBox);
-                break;
-        }
-    };
-    DrawOne.prototype.createSize = function () {
-        switch (this.boxLayoutType) {
-            case LayoutType.HLayout:
-                this.width = this.borderBox.width > this.imageBox.width ? this.borderBox.width + 10 * 2 : this.imageBox.width + 10 * 2;
-                this.height = this.borderBox.height + this.imageBox.height + 10 * 2 + 30;
-                break;
-            case LayoutType.VLayout:
-                this.width = this.borderBox.width + this.imageBox.width + 10 * 2 + 30;
-                this.height = this.borderBox.height > this.imageBox.height ? this.borderBox.height + 10 * 2 : this.imageBox.height + 10 * 2;
-                break;
-        }
-    };
-    DrawOne.prototype.createBorderBox = function () {
-        var group = new eui.Group();
-        group.layout = LayoutFactory.main(this.boxLayoutType, GapType.Middle);
-        for (var i = 0, len = this.toAward.length; i < len; i++) {
-            var img = UIFactory.createImage(this.toAward[i].url);
-            img.width = 240;
-            img.height = 240;
-            var imgGroup = UIFactory.createGroup(img.width, img.height);
-            imgGroup.name = this.toAward[i].id.toString();
-            imgGroup.addChild(img);
-            group.addChild(imgGroup);
-        }
-        var sizeObj = LayoutFactory.setGroupSize(this.toAward.length, 240, 240, this.boxLayoutType, GapType.Big);
-        group.width = sizeObj.width;
-        group.height = sizeObj.height;
-        return group;
-    };
-    DrawOne.prototype.createImageBox = function () {
-        var sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.boxLayoutType, GapType.Big);
-        var group = UIFactory.createGroup(sizeObj.width, sizeObj.height);
+    DragImageBox.prototype.createImageBox = function () {
+        var sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.layoutType, this.gap, this.columnCount);
+        this.width = sizeObj.width;
+        this.height = sizeObj.height;
         var imgArr = [];
         for (var i = 0, len = this.award.length; i < len; i++) {
             var img = new UUImage();
@@ -131,16 +78,15 @@ var DrawOne = (function (_super) {
             img.height = 240;
             imgArr.push(img);
         }
-        LayoutBaseFactory.main(group, imgArr, this.boxLayoutType, GapType.Middle);
-        return group;
+        LayoutBaseFactory.main(this, imgArr, this.layoutType, this.gap, this.columnCount);
     };
-    DrawOne.prototype.getImageDefaultPosition = function () {
-        for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
-            var imageItem = this.imageBox.getChildAt(i);
+    DragImageBox.prototype.getImageDefaultPosition = function () {
+        for (var i = 0, len = this.numChildren; i < len; i++) {
+            var imageItem = this.getChildAt(i);
             this.imageDefaultPosition[imageItem.name] = [imageItem.x, imageItem.y];
         }
     };
-    DrawOne.prototype.down = function (evt) {
+    DragImageBox.prototype.down = function (evt) {
         var target = evt.target;
         var isDraw = target.isDraw;
         if (isDraw) {
@@ -154,7 +100,7 @@ var DrawOne = (function (_super) {
         }
         evt.preventDefault();
     };
-    DrawOne.prototype.move = function (evt) {
+    DragImageBox.prototype.move = function (evt) {
         var _this = this;
         var targetPoint = this.drawTarget.parent.globalToLocal(evt.stageX - this.distanceX, evt.stageY - this.distanceY);
         requestAnimationFrame(function () {
@@ -163,14 +109,14 @@ var DrawOne = (function (_super) {
         });
         evt.preventDefault();
     };
-    DrawOne.prototype.up = function (evt) {
+    DragImageBox.prototype.up = function (evt) {
         var _this = this;
         clearTimeout(this.timer);
         this.timer = setTimeout(function () {
             _this.up2(evt);
         }, 50);
     };
-    DrawOne.prototype.up2 = function (evt) {
+    DragImageBox.prototype.up2 = function (evt) {
         console.log('up...');
         // drawTarget 舞台坐标
         var drawTargeGlobalX = evt.stageX - this.distanceX;
@@ -180,8 +126,12 @@ var DrawOne = (function (_super) {
         var drawTargeGlobalCenterY = drawTargeGlobalY + this.drawTarget.height / 2;
         // 标记
         var flag = false;
+        var borderScaleX = this.dragBorderBox.scaleX;
+        var borderScaleY = this.dragBorderBox.scaleY;
+        var imageScaleX = this.scaleY;
+        var imageScaleY = this.scaleY;
         var _loop_1 = function (i, len) {
-            var borderItem = this_1.borderBox.getChildAt(i);
+            var borderItem = this_1.dragBorderBox.getChildAt(i);
             var isHit = borderItem.hitTestPoint(drawTargeGlobalCenterX, drawTargeGlobalCenterY);
             if (isHit) {
                 // 排斥校验
@@ -194,15 +144,15 @@ var DrawOne = (function (_super) {
                 this_1.mapArr.push({ borderId: borderId_1, imageId: imageId_1 });
                 // image中心与border中心重合
                 // borderItem中心 相对坐标 相对于borderBox
-                var borderItemCenterX = borderItem.x + borderItem.width / 2;
-                var borderItemCenterY = borderItem.y + borderItem.height / 2;
-                // drawTarget 相对于borderBox的坐标
-                var drawTargetToX = borderItemCenterX - this_1.drawTarget.width / 2;
-                var drawTargetToY = borderItemCenterY - this_1.drawTarget.height / 2;
+                var borderItemCenterX = borderItem.x * borderScaleX + borderItem.width * borderScaleX / 2;
+                var borderItemCenterY = borderItem.y * borderScaleY + borderItem.height * borderScaleY / 2;
+                // drawTarget 相对于borderBox的坐标, ps: 需要将缩放后的坐标除以borderScale， 因为dragBorderBox中的坐标为自动乘以borderScale
+                var drawTargetToX = (borderItemCenterX - this_1.drawTarget.width * imageScaleX / 2) / borderScaleX;
+                var drawTargetToY = (borderItemCenterY - this_1.drawTarget.height * imageScaleY / 2) / borderScaleY;
                 // drawTarget 舞台坐标
-                var globalPoint = this_1.borderBox.localToGlobal(drawTargetToX, drawTargetToY);
+                var globalPoint = this_1.dragBorderBox.localToGlobal(drawTargetToX, drawTargetToY);
                 // drawTarget 相对于imageBox的坐标
-                var localPoint = this_1.imageBox.globalToLocal(globalPoint.x, globalPoint.y);
+                var localPoint = this_1.globalToLocal(globalPoint.x, globalPoint.y);
                 this_1.drawTarget.x = localPoint.x;
                 this_1.drawTarget.y = localPoint.y;
                 flag = true;
@@ -211,7 +161,7 @@ var DrawOne = (function (_super) {
         };
         var this_1 = this;
         // 遍历border对象进行碰撞检测
-        for (var i = 0, len = this.borderBox.numChildren; i < len; i++) {
+        for (var i = 0, len = this.dragBorderBox.numChildren; i < len; i++) {
             var state_1 = _loop_1(i, len);
             if (state_1 === "break")
                 break;
@@ -228,7 +178,7 @@ var DrawOne = (function (_super) {
         evt.preventDefault();
     };
     // 检查目标image是否在mapArr中，是则从mapArr中删除
-    DrawOne.prototype.checkoutImage = function (imageId) {
+    DragImageBox.prototype.checkoutImage = function (imageId) {
         if (this.mapArr.some(function (item) { return item.imageId == imageId; })) {
             var mapArrIndex = void 0;
             for (var i = 0, len = this.mapArr.length; i < len; i++) {
@@ -240,11 +190,11 @@ var DrawOne = (function (_super) {
         }
     };
     // 装换image的层级
-    DrawOne.prototype.swapImageIndex = function (target) {
+    DragImageBox.prototype.swapImageIndex = function (target) {
         this.topImage.parent.swapChildren(target, this.topImage);
         this.topImage = target;
     };
-    DrawOne.uuType = UUType.DRAW_ONE;
-    return DrawOne;
+    DragImageBox.uuType = UUType.DRAG_IMAGE_BOX;
+    return DragImageBox;
 }(eui.Group));
-__reflect(DrawOne.prototype, "DrawOne");
+__reflect(DragImageBox.prototype, "DragImageBox");

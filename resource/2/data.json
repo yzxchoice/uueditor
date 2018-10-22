@@ -23,19 +23,58 @@
                     "sceneId": 1001
                 },
                 {
-                    "id": 2001,
+                    "id": 3001,
                     "name": "scene_33_jpg",
-                    "pageId": 2018073110012,
-                    "type": 2001,
+                    "pageId": 2018073110432,
+                    "type": 3001,
                     "matrix": {
-                        "a": 1.171875,
+                        "a": 1,
                         "b": 0,
                         "c": 0,
-                        "d": 1.171875,
+                        "d": 1,
                         "x": 0,
                         "y": 0
                     },
                     "props": {
+                        "toAward": [
+                            {
+                                "id": 1,
+                                "url": "resource/assets/Pic/border1.png"
+                            },
+                            {
+                                "id": 2,                                
+                                "url": "resource/assets/Pic/border2.png"
+                            },
+                            {
+                                "id": 3,
+                                "url": "resource/assets/Pic/border1.png"
+                            }
+                      
+                        ],
+                        "layoutSet": {
+                            "layoutType": 3,
+                            "gap": 3,
+                            "columnCount": 2
+                        }
+                    },
+                    "src": "assets/bg/scene_3.jpg",
+                    "sceneId": 1001
+                },
+                 {
+                    "id": 3002,
+                    "name": "scene_23_jpg",
+                    "pageId": 2018073110555,
+                    "type": 3002,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "dragBorderBoxId": 3001,
                         "award": [
                             {
                                 "id": 1,
@@ -50,18 +89,11 @@
                                 "url": "resource/assets/Pic/3.png"
                             }
                         ],
-                        "toAward": [
-                            {
-                                "id": 1,
-                                "url": "resource/assets/Pic/border1.png"
-                            },
-                            {
-                                "id": 2,                                
-                                "url": "resource/assets/Pic/border2.png"
-                            }
-                        ],
-                        "layoutType": 1,
-                        "isRestore": true
+                        "layoutSet": {
+                            "layoutType": 1,
+                            "gap": 3,
+                            "columnCount": 3
+                        }
                     },
                     "src": "assets/bg/scene_3.jpg",
                     "sceneId": 1001

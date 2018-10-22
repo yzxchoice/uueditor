@@ -250,7 +250,6 @@ var Control = (function () {
     return Control;
 }());
 __reflect(Control.prototype, "Control");
-// TypeScript file
 var UUType;
 (function (UUType) {
     /**
@@ -298,6 +297,14 @@ var UUType;
      * 图片拖拽1
      */
     UUType[UUType["DRAW_ONE"] = 2001] = "DRAW_ONE";
+    /**
+     * 拖拽组件 border盒组件
+     */
+    UUType[UUType["DRAG_BORDER_BOX"] = 3001] = "DRAG_BORDER_BOX";
+    /**
+     * 拖拽组件 image盒组件
+     */
+    UUType[UUType["DRAG_IMAGE_BOX"] = 3002] = "DRAG_IMAGE_BOX";
 })(UUType || (UUType = {}));
 /**
  * 动画类型
@@ -2172,7 +2179,7 @@ var Utils = (function () {
     function Utils() {
     }
     Utils.getComs = function () {
-        return [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground, Slideshow, SlotMachine, CardAlert, SelectImage, DrawOne];
+        return [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground, Slideshow, SlotMachine, CardAlert, SelectImage, DrawOne, DragBorderBox, DragImageBox];
     };
     Utils.getTexture = function (url) {
         var _this = this;

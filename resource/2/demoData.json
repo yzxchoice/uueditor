@@ -23,6 +23,22 @@
                     "sceneId": 1001
                 },
                 {
+                    "id": "15350886281556",
+                    "name": "post_item_30_png",
+                    "pageId": 201807311008,
+                    "type": 1,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 785,
+                        "y": 43
+                    },
+                    "props": {},
+                    "src": "/assets/pic/post_item_37.png"
+                },
+                {
                     "id": 1001,
                     "name": "scene_1_jpg",
                     "pageId": 201807311008,
@@ -102,6 +118,50 @@
                     },
                     "props": {},
                     "src": "/assets/pic/post_item_37.png"
+                },
+                  {
+                    "id": 2001,
+                    "name": "scene_33_jpg",
+                    "pageId": 2018073110012,
+                    "type": 2001,
+                    "matrix": {
+                        "a": 1.171875,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1.171875,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "award": [
+                            {
+                                "id": 1,
+                                "url": "resource/assets/Pic/1.png"
+                            },
+                            {
+                                "id": 2,                                
+                                "url": "resource/assets/Pic/2.png"
+                            },
+                            {
+                                "id": 3,                                                                
+                                "url": "resource/assets/Pic/3.png"
+                            }
+                        ],
+                        "toAward": [
+                            {
+                                "id": 1,
+                                "url": "resource/assets/Pic/border1.png"
+                            },
+                            {
+                                "id": 2,                                
+                                "url": "resource/assets/Pic/border2.png"
+                            }
+                        ],
+                        "layoutType": 1,
+                        "isRestore": true
+                    },
+                    "src": "assets/bg/scene_3.jpg",
+                    "sceneId": 1001
                 }
             ],
             "properties": {
