@@ -24,10 +24,12 @@ class DragImageBox extends eui.Group {
     private gap: GapType = GapType.Middle;
     private columnCount: number = 3;
     private imagePosition: ImagePosition = ImagePosition.MIDDLE;
+    private placeholder: boolean = true;
     private isRestore: boolean = true; // 是否开启图片复位功能
 
-    // 框图片盒
-    private dragBorderBox: DragBorderBox;
+    private dragBorderBox: DragBorderBox; // 框图片盒
+    private placeholderImageBox: eui.Group; // 占位图片盒
+    private imageBox: eui.Group; // 拖拽图片盒
     // draw event 
     private drawTarget; // 被拖拽的图片
     private distanceX: number; // 拖拽时 鼠标位置到被拖拽图片的X距离
@@ -55,6 +57,9 @@ class DragImageBox extends eui.Group {
          if(props.imagePosition) {
             this.imagePosition = props.imagePosition;
          }
+         if(props.placeholder) {
+            this.placeholder = props.placeholder;
+         }
          if(props.isRestore) {
             this.isRestore = props.isRestore;             
          }
@@ -65,11 +70,17 @@ class DragImageBox extends eui.Group {
      }
 
      private init() {
-         this.createImageBox();
+         this.imageBox = this.createImageBox();
+         this.width = this.imageBox.width;
+         this.height = this.imageBox.height;
+         if(this.placeholder) {
+             this.addChild(this.createPlaceholderImageBox());
+         }
+         this.addChild(this.imageBox);
          if(this.isRestore) {
              this.getImageDefaultPosition();
          }
-         this.topImage = <UUImage>this.getChildAt(this.numChildren - 1);
+         this.topImage = <UUImage>this.imageBox.getChildAt(this.imageBox.numChildren - 1);
      }
 
      private getDragBorderBox() {
@@ -82,12 +93,11 @@ class DragImageBox extends eui.Group {
      }
 
 
-     private createImageBox(): void {
+     private createImageBox(): eui.Group {
 
          let sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.layoutType, this.gap, this.columnCount);     
-         this.width = sizeObj.width;
-         this.height = sizeObj.height;    
-
+         let imageBox = UIFactory.createGroup(sizeObj.width, sizeObj.height);
+  
          let imgArr: UUImage[] = []
          for(let i = 0, len = this.award.length; i < len; i++) {
              let img = new UUImage();
@@ -96,17 +106,39 @@ class DragImageBox extends eui.Group {
              img.name = this.award[i].id.toString();
              img.width = 240;
              img.height = 240;
+             img.filters = [ FilterFactory.createGlodFilter() ];
             
              imgArr.push(img);
          }
-         LayoutBaseFactory.main( this, imgArr, this.layoutType, this.gap, this.columnCount );
+         LayoutBaseFactory.main( imageBox, imgArr, this.layoutType, this.gap, this.columnCount );
+         return imageBox;
+     }
+
+     private createPlaceholderImageBox(): eui.Group {
+         let sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.layoutType, this.gap, this.columnCount);     
+         let placeholderImageBox = UIFactory.createGroup(sizeObj.width, sizeObj.height);
+
+         let imgArr: UUImage[] = []
+         for(let i = 0, len = this.award.length; i < len; i++) {
+             let img = new UUImage();
+             img.isDraw = false;
+             img.source = this.award[i].url;
+             img.name = this.award[i].id.toString();
+             img.width = 240;
+             img.height = 240;
+             img.filters = [ FilterFactory.createShadowFilter() ];
+             imgArr.push(img);
+         }
+         LayoutBaseFactory.main( placeholderImageBox, imgArr, this.layoutType, this.gap, this.columnCount );
+         return placeholderImageBox;
      }
 
      private getImageDefaultPosition(): void {
-         for(let i = 0, len = this.numChildren; i < len; i++) {
-             let imageItem = this.getChildAt(i);
+         for(let i = 0, len = this.imageBox.numChildren; i < len; i++) {
+             let imageItem = this.imageBox.getChildAt(i);
              this.imageDefaultPosition[imageItem.name] = [imageItem.x, imageItem.y];
          }
+         console.log(this.imageDefaultPosition);
      }
 
      private down(evt: egret.TouchEvent) {
@@ -170,6 +202,7 @@ class DragImageBox extends eui.Group {
                 }
                 this.checkoutImage(imageId);
                 this.mapArr.push({borderId: borderId, imageId: imageId});
+                this.drawTarget.filters = [ ];                
                 // image中心与border中心重合
                 // borderItem中心 相对坐标 相对于borderBox
                 let borderItemCenterX = borderItem.x * borderScaleX + borderItem.width * borderScaleX / 2;
@@ -218,6 +251,7 @@ class DragImageBox extends eui.Group {
     // 检查目标image是否在mapArr中，是则从mapArr中删除
     private checkoutImage(imageId: string) {
         if(this.mapArr.some(item => item.imageId == imageId)) {
+            this.drawTarget.filters = [ FilterFactory.createGlodFilter() ];
             let mapArrIndex;
             for(let i = 0, len = this.mapArr.length; i < len; i++) {
                 if(this.mapArr[i].imageId == imageId) {

@@ -76,6 +76,7 @@
                     "props": {
                         "dragBorderBoxId": 3001,
                         "imagePosition": 3,
+                        "placeholder": false,
                         "award": [
                             {
                                 "id": 1,

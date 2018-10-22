@@ -19,8 +19,11 @@ declare class DragImageBox extends eui.Group {
     private gap;
     private columnCount;
     private imagePosition;
+    private placeholder;
     private isRestore;
     private dragBorderBox;
+    private placeholderImageBox;
+    private imageBox;
     private drawTarget;
     private distanceX;
     private distanceY;
@@ -32,6 +35,7 @@ declare class DragImageBox extends eui.Group {
     private init();
     private getDragBorderBox();
     private createImageBox();
+    private createPlaceholderImageBox();
     private getImageDefaultPosition();
     private down(evt);
     private move(evt);

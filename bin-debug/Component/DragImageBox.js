@@ -32,6 +32,7 @@ var DragImageBox = (function (_super) {
         _this.gap = GapType.Middle;
         _this.columnCount = 3;
         _this.imagePosition = ImagePosition.MIDDLE;
+        _this.placeholder = true;
         _this.isRestore = true; // 是否开启图片复位功能
         // other
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
@@ -49,6 +50,9 @@ var DragImageBox = (function (_super) {
         if (props.imagePosition) {
             _this.imagePosition = props.imagePosition;
         }
+        if (props.placeholder) {
+            _this.placeholder = props.placeholder;
+        }
         if (props.isRestore) {
             _this.isRestore = props.isRestore;
         }
@@ -59,11 +63,17 @@ var DragImageBox = (function (_super) {
         return _this;
     }
     DragImageBox.prototype.init = function () {
-        this.createImageBox();
+        this.imageBox = this.createImageBox();
+        this.width = this.imageBox.width;
+        this.height = this.imageBox.height;
+        if (this.placeholder) {
+            this.addChild(this.createPlaceholderImageBox());
+        }
+        this.addChild(this.imageBox);
         if (this.isRestore) {
             this.getImageDefaultPosition();
         }
-        this.topImage = this.getChildAt(this.numChildren - 1);
+        this.topImage = this.imageBox.getChildAt(this.imageBox.numChildren - 1);
     };
     DragImageBox.prototype.getDragBorderBox = function () {
         var parent = this.parent;
@@ -75,8 +85,7 @@ var DragImageBox = (function (_super) {
     };
     DragImageBox.prototype.createImageBox = function () {
         var sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.layoutType, this.gap, this.columnCount);
-        this.width = sizeObj.width;
-        this.height = sizeObj.height;
+        var imageBox = UIFactory.createGroup(sizeObj.width, sizeObj.height);
         var imgArr = [];
         for (var i = 0, len = this.award.length; i < len; i++) {
             var img = new UUImage();
@@ -85,15 +94,35 @@ var DragImageBox = (function (_super) {
             img.name = this.award[i].id.toString();
             img.width = 240;
             img.height = 240;
+            img.filters = [FilterFactory.createGlodFilter()];
             imgArr.push(img);
         }
-        LayoutBaseFactory.main(this, imgArr, this.layoutType, this.gap, this.columnCount);
+        LayoutBaseFactory.main(imageBox, imgArr, this.layoutType, this.gap, this.columnCount);
+        return imageBox;
+    };
+    DragImageBox.prototype.createPlaceholderImageBox = function () {
+        var sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.layoutType, this.gap, this.columnCount);
+        var placeholderImageBox = UIFactory.createGroup(sizeObj.width, sizeObj.height);
+        var imgArr = [];
+        for (var i = 0, len = this.award.length; i < len; i++) {
+            var img = new UUImage();
+            img.isDraw = false;
+            img.source = this.award[i].url;
+            img.name = this.award[i].id.toString();
+            img.width = 240;
+            img.height = 240;
+            img.filters = [FilterFactory.createShadowFilter()];
+            imgArr.push(img);
+        }
+        LayoutBaseFactory.main(placeholderImageBox, imgArr, this.layoutType, this.gap, this.columnCount);
+        return placeholderImageBox;
     };
     DragImageBox.prototype.getImageDefaultPosition = function () {
-        for (var i = 0, len = this.numChildren; i < len; i++) {
-            var imageItem = this.getChildAt(i);
+        for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
+            var imageItem = this.imageBox.getChildAt(i);
             this.imageDefaultPosition[imageItem.name] = [imageItem.x, imageItem.y];
         }
+        console.log(this.imageDefaultPosition);
     };
     DragImageBox.prototype.down = function (evt) {
         var target = evt.target;
@@ -151,6 +180,7 @@ var DragImageBox = (function (_super) {
                 }
                 this_1.checkoutImage(imageId_1);
                 this_1.mapArr.push({ borderId: borderId_1, imageId: imageId_1 });
+                this_1.drawTarget.filters = [];
                 // image中心与border中心重合
                 // borderItem中心 相对坐标 相对于borderBox
                 var borderItemCenterX = borderItem.x * borderScaleX + borderItem.width * borderScaleX / 2;
@@ -204,6 +234,7 @@ var DragImageBox = (function (_super) {
     // 检查目标image是否在mapArr中，是则从mapArr中删除
     DragImageBox.prototype.checkoutImage = function (imageId) {
         if (this.mapArr.some(function (item) { return item.imageId == imageId; })) {
+            this.drawTarget.filters = [FilterFactory.createGlodFilter()];
             var mapArrIndex = void 0;
             for (var i = 0, len = this.mapArr.length; i < len; i++) {
                 if (this.mapArr[i].imageId == imageId) {
