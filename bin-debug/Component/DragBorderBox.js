@@ -32,7 +32,7 @@ var DragBorderBox = (function (_super) {
     }
     DragBorderBox.prototype.init = function () {
         this.layout = LayoutFactory.main(this.layoutType, this.gap, this.columnCount);
-        var size = LayoutFactory.setGroupSize(this.toAward.length, 240, 240, this.layoutType, this.gap, this.columnCount);
+        var size = LayoutFactory.setGroupSize(this.toAward.length, 240, 300, this.layoutType, this.gap, this.columnCount);
         this.width = size.width;
         this.height = size.height;
         this.createBorderBox();
@@ -41,7 +41,7 @@ var DragBorderBox = (function (_super) {
         for (var i = 0, len = this.toAward.length; i < len; i++) {
             var img = UIFactory.createImage(this.toAward[i].url);
             img.width = 240;
-            img.height = 240;
+            img.height = 300;
             var imgGroup = UIFactory.createGroup(img.width, img.height);
             imgGroup.name = this.toAward[i].id.toString();
             imgGroup.addChild(img);

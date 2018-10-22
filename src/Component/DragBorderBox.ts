@@ -25,7 +25,7 @@ class DragBorderBox extends eui.Group {
 
      private init() {
          this.layout = LayoutFactory.main(this.layoutType, this.gap, this.columnCount);
-         let size = LayoutFactory.setGroupSize(this.toAward.length, 240, 240, this.layoutType, this.gap, this.columnCount);
+         let size = LayoutFactory.setGroupSize(this.toAward.length, 240, 300, this.layoutType, this.gap, this.columnCount);
          this.width = size.width;
          this.height = size.height;
          this.createBorderBox();
@@ -35,7 +35,7 @@ class DragBorderBox extends eui.Group {
          for(let i = 0, len = this.toAward.length; i < len; i++) {
              let img = <eui.Image>UIFactory.createImage(this.toAward[i].url);
              img.width = 240;
-             img.height = 240;
+             img.height = 300;
              let imgGroup = UIFactory.createGroup(img.width, img.height);
              imgGroup.name = this.toAward[i].id.toString();             
              imgGroup.addChild(img);

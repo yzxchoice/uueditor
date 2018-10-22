@@ -1,11 +1,3 @@
-/**
- * 该组件包含的功能
- * 1、支持四种布局：上/下、下/上、左/右、右/上、左
- * 2、拖拽功能
- * 3、图片复位功能：未入框则恢复到初始的位置
- * 4、一框一图功能：一个框不能放置多张图片
- * 5、调整拖拽图片的层级：被拖拽的图片层级永远最高
- */
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
@@ -16,6 +8,20 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+var ImagePosition;
+(function (ImagePosition) {
+    ImagePosition[ImagePosition["TOP"] = 1] = "TOP";
+    ImagePosition[ImagePosition["MIDDLE"] = 2] = "MIDDLE";
+    ImagePosition[ImagePosition["BOTTOM"] = 3] = "BOTTOM";
+})(ImagePosition || (ImagePosition = {}));
+/**
+ * 该组件包含的功能
+ * 1、支持四种布局：上/下、下/上、左/右、右/上、左
+ * 2、拖拽功能
+ * 3、图片复位功能：未入框则恢复到初始的位置
+ * 4、一框一图功能：一个框不能放置多张图片
+ * 5、调整拖拽图片的层级：被拖拽的图片层级永远最高
+ */
 var DragImageBox = (function (_super) {
     __extends(DragImageBox, _super);
     function DragImageBox(props) {
@@ -25,6 +31,7 @@ var DragImageBox = (function (_super) {
         _this.layoutType = 1; // 布局方式
         _this.gap = GapType.Middle;
         _this.columnCount = 3;
+        _this.imagePosition = ImagePosition.MIDDLE;
         _this.isRestore = true; // 是否开启图片复位功能
         // other
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
@@ -38,6 +45,9 @@ var DragImageBox = (function (_super) {
         }
         if (props.layoutSet.columnCount) {
             _this.columnCount = props.layoutSet.columnCount;
+        }
+        if (props.imagePosition) {
+            _this.imagePosition = props.imagePosition;
         }
         if (props.isRestore) {
             _this.isRestore = props.isRestore;
@@ -57,12 +67,11 @@ var DragImageBox = (function (_super) {
     };
     DragImageBox.prototype.getDragBorderBox = function () {
         var parent = this.parent;
-        console.log('parent...');
-        console.log(parent);
-        var dragBorderBox = parent.getChildAt(1);
-        console.log('dragBorderBox...');
-        console.log(dragBorderBox);
-        this.dragBorderBox = dragBorderBox;
+        for (var i = 0; i < parent.numChildren; i++) {
+            if (parent.getChildAt(i) instanceof DragBorderBox) {
+                this.dragBorderBox = parent.getChildAt(i);
+            }
+        }
     };
     DragImageBox.prototype.createImageBox = function () {
         var sizeObj = LayoutFactory.setGroupSize(this.award.length, 240, 240, this.layoutType, this.gap, this.columnCount);
@@ -148,7 +157,22 @@ var DragImageBox = (function (_super) {
                 var borderItemCenterY = borderItem.y * borderScaleY + borderItem.height * borderScaleY / 2;
                 // drawTarget 相对于borderBox的坐标, ps: 需要将缩放后的坐标除以borderScale， 因为dragBorderBox中的坐标为自动乘以borderScale
                 var drawTargetToX = (borderItemCenterX - this_1.drawTarget.width * imageScaleX / 2) / borderScaleX;
-                var drawTargetToY = (borderItemCenterY - this_1.drawTarget.height * imageScaleY / 2) / borderScaleY;
+                // 根据props字段 imagePosition 实现Y轴对齐方式
+                // TOP: 距框顶部10
+                // MIDDLE: 居中
+                // BOTTOM: 距离框底部10
+                var drawTargetToY = void 0;
+                switch (this_1.imagePosition) {
+                    case ImagePosition.TOP:
+                        drawTargetToY = borderItem.y + 10;
+                        break;
+                    case ImagePosition.MIDDLE:
+                        drawTargetToY = (borderItemCenterY - this_1.drawTarget.height * imageScaleY / 2) / borderScaleY;
+                        break;
+                    case ImagePosition.BOTTOM:
+                        drawTargetToY = ((borderItem.y + borderItem.height) * borderScaleY - this_1.drawTarget.height * imageScaleY) / borderScaleY - 10;
+                        break;
+                }
                 // drawTarget 舞台坐标
                 var globalPoint = this_1.dragBorderBox.localToGlobal(drawTargetToX, drawTargetToY);
                 // drawTarget 相对于imageBox的坐标

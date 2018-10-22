@@ -75,6 +75,7 @@
                     },
                     "props": {
                         "dragBorderBoxId": 3001,
+                        "imagePosition": 3,
                         "award": [
                             {
                                 "id": 1,
@@ -92,7 +93,7 @@
                         "layoutSet": {
                             "layoutType": 1,
                             "gap": 3,
-                            "columnCount": 3
+                            "columnCount": 2
                         }
                     },
                     "src": "assets/bg/scene_3.jpg",

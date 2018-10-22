@@ -1,3 +1,9 @@
+enum ImagePosition {
+    TOP = 1,
+    MIDDLE = 2,
+    BOTTOM = 3,
+}
+
 /**
  * 该组件包含的功能
  * 1、支持四种布局：上/下、下/上、左/右、右/上、左
@@ -17,6 +23,7 @@ class DragImageBox extends eui.Group {
     private layoutType: LayoutType = 1; // 布局方式
     private gap: GapType = GapType.Middle;
     private columnCount: number = 3;
+    private imagePosition: ImagePosition = ImagePosition.MIDDLE;
     private isRestore: boolean = true; // 是否开启图片复位功能
 
     // 框图片盒
@@ -45,6 +52,9 @@ class DragImageBox extends eui.Group {
          if(props.layoutSet.columnCount) {
             this.columnCount = props.layoutSet.columnCount;
          }
+         if(props.imagePosition) {
+            this.imagePosition = props.imagePosition;
+         }
          if(props.isRestore) {
             this.isRestore = props.isRestore;             
          }
@@ -64,12 +74,11 @@ class DragImageBox extends eui.Group {
 
      private getDragBorderBox() {
         let parent = this.parent;
-        console.log('parent...');
-        console.log(parent);
-        let dragBorderBox = parent.getChildAt(1);
-        console.log('dragBorderBox...');
-        console.log(dragBorderBox);
-        this.dragBorderBox = <DragBorderBox>dragBorderBox;
+        for(let i = 0; i < parent.numChildren; i++) {
+            if(parent.getChildAt(i) instanceof DragBorderBox){
+                this.dragBorderBox = <DragBorderBox>parent.getChildAt(i);      
+            }
+        }
      }
 
 
@@ -167,7 +176,22 @@ class DragImageBox extends eui.Group {
                 let borderItemCenterY = borderItem.y * borderScaleY + borderItem.height * borderScaleY / 2;
                 // drawTarget 相对于borderBox的坐标, ps: 需要将缩放后的坐标除以borderScale， 因为dragBorderBox中的坐标为自动乘以borderScale
                 let drawTargetToX = (borderItemCenterX - this.drawTarget.width * imageScaleX / 2) / borderScaleX;
-                let drawTargetToY = (borderItemCenterY - this.drawTarget.height * imageScaleY / 2) / borderScaleY;
+                // 根据props字段 imagePosition 实现Y轴对齐方式
+                // TOP: 距框顶部10
+                // MIDDLE: 居中
+                // BOTTOM: 距离框底部10
+                let drawTargetToY;
+                switch(this.imagePosition) {
+                    case ImagePosition.TOP:
+                        drawTargetToY = borderItem.y + 10;
+                        break;
+                    case ImagePosition.MIDDLE:
+                        drawTargetToY = (borderItemCenterY - this.drawTarget.height * imageScaleY / 2) / borderScaleY;
+                        break;
+                    case ImagePosition.BOTTOM:
+                        drawTargetToY = ((borderItem.y + borderItem.height) * borderScaleY - this.drawTarget.height * imageScaleY) / borderScaleY - 10;
+                        break;
+                }
                 // drawTarget 舞台坐标
                 let globalPoint = this.dragBorderBox.localToGlobal(drawTargetToX, drawTargetToY);
                 // drawTarget 相对于imageBox的坐标
