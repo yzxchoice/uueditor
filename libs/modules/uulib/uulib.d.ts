@@ -113,6 +113,10 @@ declare enum UUType {
      * 拖拽组件 image盒组件
      */
     DRAG_IMAGE_BOX = 3002,
+    /**
+     * 点击组件 image盒组件
+     */
+    CLICK_IMAGE_BOX = 3003,
 }
 /**
  * 动画类型

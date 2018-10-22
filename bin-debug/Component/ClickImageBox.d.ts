@@ -1,7 +1,6 @@
-declare enum ImagePosition {
-    TOP = 1,
-    MIDDLE = 2,
-    BOTTOM = 3,
+declare enum ClickMode {
+    MuchToMuch = 1,
+    MuchToOne = 2,
 }
 /**
  * 该组件包含的功能
@@ -15,7 +14,7 @@ declare enum ImagePosition {
  * 8、支持图片可选状态的开启与关闭
  * 9、支持背景图的设置
  */
-declare class DragImageBox extends eui.Group {
+declare class ClickImageBox extends eui.Group {
     static uuType: UUType;
     private award;
     private layoutType;
@@ -25,15 +24,14 @@ declare class DragImageBox extends eui.Group {
     private placeholder;
     private hasBorder;
     private isRestore;
+    private clickMode;
     private dragBorderBox;
     private imageBox;
     private drawTarget;
-    private distanceX;
-    private distanceY;
     private imageDefaultPosition;
     private mapArr;
     private timer;
-    private topImage;
+    private SelectedImage;
     constructor(props: any);
     private init();
     private getDragBorderBox();
@@ -42,9 +40,8 @@ declare class DragImageBox extends eui.Group {
     private createImage(item);
     private getImageDefaultPosition();
     private down(evt);
-    private move(evt);
-    private up(evt);
-    private up2(evt);
-    private checkoutImage(imageId);
-    private swapImageIndex(target);
+    private mapBorder();
+    private addImageToBorder(borderItem);
+    private judgeBorderisFull();
+    private down2(evt);
 }
