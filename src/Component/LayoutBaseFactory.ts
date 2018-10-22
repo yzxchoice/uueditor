@@ -2,7 +2,7 @@
 class LayoutBaseFactory {
     private static padding: number = 10;
 
-    static main(group: eui.Group, itemArr: UUImage[], layoutType: LayoutType, gapType: GapType, columnCount?: number): void {
+    static main(group: eui.Group, itemArr: UUImage[] | eui.Group[], layoutType: LayoutType, gapType: GapType, columnCount?: number): void {
         switch(layoutType) {
             case LayoutType.HLayout:
                 this.createHLayout(group, itemArr, gapType);
@@ -16,7 +16,7 @@ class LayoutBaseFactory {
         }
     }
 
-    private static createHLayout(group: eui.Group, itemArr: UUImage[], gapType: GapType): void {
+    private static createHLayout(group: eui.Group, itemArr: UUImage[] | eui.Group[], gapType: GapType): void {
         let gap = this.getGap(gapType);
         for(let i = 0, len = itemArr.length; i < len; i++) {
              let item = itemArr[i];
@@ -26,7 +26,7 @@ class LayoutBaseFactory {
          }
     }
 
-    private static createVLayout(group: eui.Group, itemArr: UUImage[], gapType: GapType): void {
+    private static createVLayout(group: eui.Group, itemArr: UUImage[] | eui.Group[], gapType: GapType): void {
         let gap = this.getGap(gapType);
         for(let i = 0, len = itemArr.length; i < len; i++) {
              let item = itemArr[i];
@@ -36,7 +36,7 @@ class LayoutBaseFactory {
          }
     }
 
-    private static createTLayout(group: eui.Group, itemArr: UUImage[], gapType: GapType, columnCount: number): void {
+    private static createTLayout(group: eui.Group, itemArr: UUImage[] | eui.Group[], gapType: GapType, columnCount: number): void {
         let gap = this.getGap(gapType);
         for(let i = 0, len = itemArr.length; i < len; i++) {
              let item = itemArr[i];

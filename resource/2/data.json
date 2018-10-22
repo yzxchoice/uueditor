@@ -22,48 +22,6 @@
                     "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 },
-                 {
-                    "id": 1002,
-                    "name": "scene_2_jpg",
-                    "pageId": 201807311009,
-                    "type": 1002,
-                    "matrix": {
-                        "a": 1.171875,
-                        "b": 0,
-                        "c": 0,
-                        "d": 1.171875,
-                        "x": 0,
-                        "y": 0
-                    },
-                    "props": {
-                        "notSelectState": "resource/assets/Pic/post_item_8.png",
-                        "selectState": "resource/assets/Pic/post_item_9.png",
-                        "award": [
-                            {
-                                "url": "resource/assets/Pic/post_item_16.png"
-                            },
-                            {
-                                "url": "resource/assets/Pic/post_item_16.png"
-                            },
-                            {
-                                "url": "resource/assets/Pic/post_item_16.png"
-                            },
-                            {
-                                "url": "resource/assets/Pic/post_item_16.png"
-                            },
-                            {
-                                "url": "resource/assets/Pic/post_item_16.png"
-                            }
-                        ],
-                        "layoutSet": {
-                            "layoutType": 3,
-                            "gap": 3,
-                            "columnCount": 3
-                        }
-                    },
-                    "src": "assets/bg/scene_1.jpg",
-                    "sceneId": 1001
-                },
                 {
                     "id": 2001,
                     "name": "scene_33_jpg",
@@ -101,26 +59,12 @@
                                 "id": 2,                                
                                 "url": "resource/assets/Pic/border2.png"
                             }
-                        ]
+                        ],
+                        "layoutType": 1,
+                        "isRestore": true
                     },
                     "src": "assets/bg/scene_3.jpg",
                     "sceneId": 1001
-                },
-                {
-                    "id": "1535088628143",
-                    "name": "post_item_37_png",
-                    "pageId": 201807311008,
-                    "type": 2,
-                    "matrix": {
-                        "a": 1,
-                        "b": 0,
-                        "c": 0,
-                        "d": 1,
-                        "x": 785,
-                        "y": 43
-                    },
-                    "props": {},
-                    "src": "/assets/pic/post_item_37.png"
                 }
             ],
             "properties": {
