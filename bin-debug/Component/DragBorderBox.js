@@ -13,26 +13,28 @@ var DragBorderBox = (function (_super) {
     function DragBorderBox(props) {
         var _this = _super.call(this) || this;
         // props
+        _this.bgWidth = 300;
+        _this.bgHeight = 300;
         _this.toAward = []; // 框图片列表
         _this.layoutType = 1; // 布局方式
         _this.gap = GapType.Middle;
         _this.columnCount = 3;
-        if (props.layoutSet.layoutType) {
-            _this.layoutType = props.layoutSet.layoutType;
+        for (var key in props) {
+            if (props[key] !== undefined) {
+                _this[key] = props[key];
+            }
         }
-        if (props.layoutSet.gap) {
-            _this.gap = props.layoutSet.gap;
+        for (var key in props.layoutSet) {
+            if (props[key] !== undefined) {
+                _this[key] = props[key];
+            }
         }
-        if (props.layoutSet.columnCount) {
-            _this.columnCount = props.layoutSet.columnCount;
-        }
-        _this.toAward = props.toAward;
         _this.init();
         return _this;
     }
     DragBorderBox.prototype.init = function () {
         this.layout = LayoutFactory.main(this.layoutType, this.gap, this.columnCount);
-        var size = LayoutFactory.setGroupSize(this.toAward.length, 240, 300, this.layoutType, this.gap, this.columnCount);
+        var size = LayoutFactory.setGroupSize(this.toAward.length, this.bgWidth, this.bgHeight, this.layoutType, this.gap, this.columnCount);
         this.width = size.width;
         this.height = size.height;
         this.createBorderBox();
@@ -40,8 +42,8 @@ var DragBorderBox = (function (_super) {
     DragBorderBox.prototype.createBorderBox = function () {
         for (var i = 0, len = this.toAward.length; i < len; i++) {
             var img = UIFactory.createImage(this.toAward[i].url);
-            img.width = 240;
-            img.height = 300;
+            img.width = this.bgWidth;
+            img.height = this.bgHeight;
             var imgGroup = UIFactory.createGroup(img.width, img.height);
             imgGroup.name = this.toAward[i].id.toString();
             imgGroup.addChild(img);

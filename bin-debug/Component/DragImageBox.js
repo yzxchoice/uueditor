@@ -23,146 +23,14 @@ r.prototype = e.prototype, t.prototype = new r();
 var DragImageBox = (function (_super) {
     __extends(DragImageBox, _super);
     function DragImageBox(props) {
-        var _this = _super.call(this) || this;
-        // props
-        _this.award = []; // 图片列表
-        _this.layoutType = 1; // 布局方式
-        _this.gap = GapType.Middle;
-        _this.columnCount = 3;
-        _this.imagePosition = ImagePosition.MIDDLE; // 拖拽图在边框图中放置的位置：TOP/MIDDLE/BOTTOM
-        _this.placeholder = true; // 是否带占位图
-        _this.hasBorder = true; // 是否带背景图
-        _this.isRestore = true; // 是否开启图片复位功能
-        _this.resourceType = ResourceType.Text; // 资源类型 文字/图片
-        // other
-        _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
-        _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
-        if (props.layoutSet.layoutType) {
-            _this.layoutType = props.layoutSet.layoutType;
-        }
-        if (props.layoutSet.gap) {
-            _this.gap = props.layoutSet.gap;
-        }
-        if (props.layoutSet.columnCount) {
-            _this.columnCount = props.layoutSet.columnCount;
-        }
-        if (props.imagePosition) {
-            _this.imagePosition = props.imagePosition;
-        }
-        _this.placeholder = props.placeholder ? props.placeholder : false;
-        _this.hasBorder = props.hasBorder ? props.hasBorder : false;
-        if (props.isRestore) {
-            _this.isRestore = props.isRestore;
-        }
-        _this.award = props.award;
-        _this.init();
-        _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.down, _this);
+        var _this = _super.call(this, props) || this;
+        _this.listenEvent();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.getDragBorderBox, _this);
         return _this;
     }
-    DragImageBox.prototype.init = function () {
-        this.imageBox = this.createIamgeGroupBox();
-        this.width = this.imageBox.width;
-        this.height = this.imageBox.height;
-        this.addChild(this.imageBox);
-        if (this.isRestore) {
-            this.getImageDefaultPosition();
-        }
-        this.topImage = this.imageBox.getChildAt(this.imageBox.numChildren - 1);
-    };
-    DragImageBox.prototype.getDragBorderBox = function () {
-        var parent = this.parent;
-        for (var i = 0; i < parent.numChildren; i++) {
-            if (parent.getChildAt(i) instanceof DragBorderBox) {
-                this.dragBorderBox = parent.getChildAt(i);
-            }
-        }
-    };
-    DragImageBox.prototype.createIamgeGroupBox = function () {
-        var groupWidth = 240;
-        var groupHeight = 240;
-        var x = 0;
-        var y = 0;
-        if (this.hasBorder) {
-            groupWidth = 300;
-            groupHeight = 300;
-            x = 30;
-            y = 30;
-        }
-        var sizeObj = LayoutFactory.setGroupSize(this.award.length, groupWidth, groupHeight, this.layoutType, this.gap, this.columnCount);
-        var imageGroupBox = UIFactory.createGroup(sizeObj.width, sizeObj.height);
-        var imageGroupArr = [];
-        for (var i = 0, len = this.award.length; i < len; i++) {
-            var group = UIFactory.createGroup(groupWidth, groupHeight);
-            if (this.hasBorder) {
-                var img = new UUImage();
-                img.isDraw = false;
-                img.source = 'resource/assets/Pic/draw_card_bg.png';
-                img.width = group.width;
-                img.height = group.height;
-                group.addChild(img);
-            }
-            if (this.placeholder) {
-                var img = this.createPlaceholderImage(this.award[i].url);
-                img.x = x;
-                img.y = y;
-                group.addChild(img);
-            }
-            if (this.resourceType == 1) {
-                var label = this.createText(this.award[i]);
-                label.x = x;
-                label.y = y;
-                group.addChild(label);
-            }
-            else {
-                var img = this.createImage(this.award[i]);
-                img.x = x;
-                img.y = y;
-                group.addChild(img);
-            }
-            imageGroupArr.push(group);
-        }
-        LayoutBaseFactory.main(imageGroupBox, imageGroupArr, this.layoutType, this.gap, this.columnCount);
-        return imageGroupBox;
-    };
-    DragImageBox.prototype.createPlaceholderImage = function (url) {
-        var img = new UUImage();
-        img.isDraw = false;
-        img.source = url;
-        img.width = 240;
-        img.height = 240;
-        img.filters = [FilterFactory.createShadowFilter()];
-        return img;
-    };
-    DragImageBox.prototype.createImage = function (item) {
-        var img = new UUImage();
-        img.isDraw = true;
-        img.source = item.url;
-        img.name = item.id.toString();
-        img.width = 240;
-        img.height = 240;
-        img.filters = [FilterFactory.createGlodFilter()];
-        return img;
-    };
-    DragImageBox.prototype.createText = function (item) {
-        var label = new UULabel();
-        label.isDraw = true;
-        label.name = item.id.toString();
-        label.text = item.text;
-        label.width = 240;
-        label.height = 240;
-        label.textAlign = 'center';
-        label.verticalAlign = 'middle';
-        label.filters = [FilterFactory.createGlodFilterForText()];
-        return label;
-    };
-    DragImageBox.prototype.getImageDefaultPosition = function () {
-        for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
-            var group = this.imageBox.getChildAt(i);
-            var imageItem = group.getChildAt(group.numChildren - 1);
-            this.imageDefaultPosition[imageItem.name] = [imageItem.x, imageItem.y];
-        }
-        console.log(this.imageDefaultPosition);
+    // 监听事件
+    DragImageBox.prototype.listenEvent = function () {
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.down, this);
     };
     DragImageBox.prototype.down = function (evt) {
         var target = evt.target;
@@ -204,10 +72,6 @@ var DragImageBox = (function (_super) {
         var drawTargeGlobalCenterY = drawTargeGlobalY + this.drawTarget.height / 2;
         // 标记
         var flag = false;
-        var borderScaleX = this.dragBorderBox.scaleX;
-        var borderScaleY = this.dragBorderBox.scaleY;
-        var imageScaleX = this.scaleY;
-        var imageScaleY = this.scaleY;
         var _loop_1 = function (i, len) {
             var borderItem = this_1.dragBorderBox.getChildAt(i);
             var isHit = borderItem.hitTestPoint(drawTargeGlobalCenterX, drawTargeGlobalCenterY);
@@ -215,45 +79,18 @@ var DragImageBox = (function (_super) {
                 // 排斥校验
                 var borderId_1 = borderItem.name;
                 var imageId_1 = this_1.drawTarget.name;
-                console.log('this.mapArr...');
-                console.log(this_1.mapArr);
-                console.log('borderId = ' + borderId_1);
-                console.log('imageId = ' + imageId_1);
                 if (this_1.mapArr.some(function (item) { return (item.borderId == borderId_1 && item.imageId != imageId_1); })) {
                     return "break";
                 }
                 this_1.checkoutImage(imageId_1);
                 this_1.mapArr.push({ borderId: borderId_1, imageId: imageId_1 });
-                this_1.judgeBorderisFull();
-                this_1.drawTarget.filters = [];
-                // image中心与border中心重合
-                // borderItem中心 相对坐标 相对于borderBox
-                var borderItemCenterX = borderItem.x * borderScaleX + borderItem.width * borderScaleX / 2;
-                var borderItemCenterY = borderItem.y * borderScaleY + borderItem.height * borderScaleY / 2;
-                // drawTarget 相对于borderBox的坐标, ps: 需要将缩放后的坐标除以borderScale， 因为dragBorderBox中的坐标为自动乘以borderScale
-                var drawTargetToX = (borderItemCenterX - this_1.drawTarget.width * imageScaleX / 2) / borderScaleX;
-                // 根据props字段 imagePosition 实现Y轴对齐方式
-                // TOP: 距框顶部10
-                // MIDDLE: 居中
-                // BOTTOM: 距离框底部10
-                var drawTargetToY = void 0;
-                switch (this_1.imagePosition) {
-                    case ImagePosition.TOP:
-                        drawTargetToY = borderItem.y + 10;
-                        break;
-                    case ImagePosition.MIDDLE:
-                        drawTargetToY = (borderItemCenterY - this_1.drawTarget.height * imageScaleY / 2) / borderScaleY;
-                        break;
-                    case ImagePosition.BOTTOM:
-                        drawTargetToY = ((borderItem.y + borderItem.height) * borderScaleY - this_1.drawTarget.height * imageScaleY) / borderScaleY - 10;
-                        break;
+                if (this_1.judgeBorderisFull()) {
+                    this_1.removeAllEleClickState();
                 }
-                // drawTarget 舞台坐标
-                var globalPoint = this_1.dragBorderBox.localToGlobal(drawTargetToX, drawTargetToY);
-                // drawTarget 相对于imageBox的坐标
-                var localPoint = this_1.drawTarget.parent.globalToLocal(globalPoint.x, globalPoint.y);
-                this_1.drawTarget.x = localPoint.x;
-                this_1.drawTarget.y = localPoint.y;
+                this_1.removeMapState(this_1.drawTarget);
+                var point = this_1.getDrawTargetPointToparent(borderItem);
+                this_1.drawTarget.x = point.x;
+                this_1.drawTarget.y = point.y;
                 flag = true;
                 return "break";
             }
@@ -267,9 +104,7 @@ var DragImageBox = (function (_super) {
         }
         if (!flag && this.isRestore) {
             var index = this.drawTarget.name;
-            var defaultPosition = this.imageDefaultPosition[index];
-            this.drawTarget.x = defaultPosition[0];
-            this.drawTarget.y = defaultPosition[1];
+            this.recoverPosition(this.drawTarget);
             this.checkoutImage(index);
         }
         this.stage.removeEventListener(Mouse.MOVE, this.move, this);
@@ -279,12 +114,7 @@ var DragImageBox = (function (_super) {
     // 检查目标image是否在mapArr中，是则从mapArr中删除
     DragImageBox.prototype.checkoutImage = function (imageId) {
         if (this.mapArr.some(function (item) { return item.imageId == imageId; })) {
-            if (this.resourceType == 1) {
-                this.drawTarget.filters = [FilterFactory.createGlodFilterForText()];
-            }
-            else {
-                this.drawTarget.filters = [FilterFactory.createGlodFilter()];
-            }
+            this.removeMapState(this.drawTarget);
             var mapArrIndex = void 0;
             for (var i = 0, len = this.mapArr.length; i < len; i++) {
                 if (this.mapArr[i].imageId == imageId) {
@@ -294,22 +124,7 @@ var DragImageBox = (function (_super) {
             this.mapArr.splice(mapArrIndex, 1);
         }
     };
-    DragImageBox.prototype.judgeBorderisFull = function () {
-        if (this.mapArr.length !== this.dragBorderBox.numChildren) {
-            return;
-        }
-        for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
-            var group = this.imageBox.getChildAt(i);
-            var dragImg = group.getChildAt(group.numChildren - 1);
-            dragImg.filters = [];
-        }
-    };
-    // 装换image的层级
-    DragImageBox.prototype.swapImageIndex = function (target) {
-        this.imageBox.swapChildren(target.parent, this.topImage);
-        this.topImage = target.parent;
-    };
     DragImageBox.uuType = UUType.DRAG_IMAGE_BOX;
     return DragImageBox;
-}(eui.Group));
+}(MapEleBoxFactory));
 __reflect(DragImageBox.prototype, "DragImageBox");

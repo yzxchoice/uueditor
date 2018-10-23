@@ -10,39 +10,16 @@
  * 8、支持图片可选状态的开启与关闭
  * 9、支持背景图的设置
  */
-declare class DragImageBox extends eui.Group {
+declare class DragImageBox extends MapEleBoxFactory {
     static uuType: UUType;
-    private award;
-    private layoutType;
-    private gap;
-    private columnCount;
-    private imagePosition;
-    private placeholder;
-    private hasBorder;
-    private isRestore;
-    private resourceType;
-    private dragBorderBox;
-    private imageBox;
-    private drawTarget;
     private distanceX;
     private distanceY;
-    private imageDefaultPosition;
-    private mapArr;
     private timer;
-    private topImage;
     constructor(props: any);
-    private init();
-    private getDragBorderBox();
-    private createIamgeGroupBox();
-    private createPlaceholderImage(url);
-    private createImage(item);
-    private createText(item);
-    private getImageDefaultPosition();
+    listenEvent(): void;
     private down(evt);
     private move(evt);
     private up(evt);
     private up2(evt);
     private checkoutImage(imageId);
-    private judgeBorderisFull();
-    private swapImageIndex(target);
 }

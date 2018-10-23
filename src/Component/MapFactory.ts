@@ -34,12 +34,20 @@ interface ILayout {
 
 interface IMapEle {
     award: IResource[],
+    resourceType: ResourceType,
+    bgWidth: number,
+    bgHeight: number,
+    imgWidth: number,
+    imgHeight: number,
+    fontStyle: {
+        textColor: string,
+        size: number,
+    }
     layoutSet: ILayout,
     imagePosition: ImagePosition,
     placeholder: boolean,
     hasBorder: boolean,
     isRestore: boolean,
-    resourceType: ResourceType,
     clickMode?: ClickMode,
 }
 
@@ -58,6 +66,12 @@ interface MapElmBox extends IMapEle {
 abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
      // props
     award: IResource[] = []; // 图片列表
+    resourceType: ResourceType = ResourceType.Text; // 资源类型 文字/图片
+    bgWidth: number = 300;     
+    bgHeight: number = 300;     
+    imgWidth: number = 240;     
+    imgHeight: number = 240;     
+    fontStyle: { textColor: string, size: number } = { textColor: '0x000000', size: 40 };
     layoutSet: ILayout = {
         layoutType: 1,
         gap: 2,
@@ -67,19 +81,15 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     placeholder: boolean = true; // 是否带占位图
     hasBorder: boolean = true; // 是否带背景图
     isRestore: boolean = true; // 是否开启图片复位功能
-    resourceType: ResourceType = ResourceType.Text; // 资源类型 文字/图片
 
     dragBorderBox: DragBorderBox; // 框图片盒
     imageBox: eui.Group; // 拖拽图片盒
     // draw event 
     drawTarget; // 被拖拽的图片
-    distanceX: number; // 拖拽时 鼠标位置到被拖拽图片的X距离
-    distanceY: number; // 拖拽时 鼠标位置到被拖拽图片的Y距离
 
     // other
     imageDefaultPosition: [number, number][] = []; // 图片初始位置，用于图片复位功能
     mapArr: {borderId: string, imageId: string}[] = []; // 记录框、图匹配关系 用于一框一图功能
-    timer; // 用于up事件节流
     topImage: eui.Group; // 指向层级最高的image 用于 调整拖拽图片的层级功能
 
     // layout 
@@ -88,33 +98,22 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     private columnCount: number = 3;
 
     constructor(props) {
-        super();
-        if(props.layoutSet.layoutType) {
-            this.layoutType = props.layoutSet.layoutType;
+         super();
+         for(let key in props) {
+             if(props[key] !== undefined) {
+                 this[key] = props[key];
+             }
          }
-         if(props.layoutSet.gap) {
-            this.gap = props.layoutSet.gap;
+         for(let key in props.layoutSet) {
+             if(props[key] !== undefined) {
+                 this[key] = props[key];
+             }
          }
-         if(props.layoutSet.columnCount) {
-            this.columnCount = props.layoutSet.columnCount;
-         }
-         if(props.imagePosition) {
-            this.imagePosition = props.imagePosition;
-         }
-         this.placeholder = props.placeholder ? props.placeholder : false;
-         this.hasBorder = props.hasBorder ? props.hasBorder : false;
-         this.isRestore = props.isRestore ? props.isRestore : true;
-         if(props.resourceType) {
-            this.resourceType = props.resourceType;
-         }
-         this.award = props.award;
          this.renderUI();
-         this.listenEvent();
-         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.getDragBorderBox, this);
      }
 
      // 初始化UI
-     private renderUI() {
+     protected renderUI() {
          this.imageBox = this.createTotalGroupBox();
          this.width = this.imageBox.width;
          this.height = this.imageBox.height;
@@ -126,11 +125,8 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
          this.topImage = <eui.Group>this.imageBox.getChildAt(this.imageBox.numChildren - 1);
      }
 
-     // 监听事件
-     abstract listenEvent(): void
-
      // 获取对应的匹配框组件
-     private getDragBorderBox() {
+     protected getDragBorderBox() {
         let parent = this.parent;
         for(let i = 0; i < parent.numChildren; i++) {
             if(parent.getChildAt(i) instanceof DragBorderBox){
@@ -140,17 +136,17 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
      }
 
      // 创建最外层的容器
-     private createTotalGroupBox(): eui.Group {
+     protected createTotalGroupBox(): eui.Group {
          // 每个item的容器的尺寸 及 内部目标元素的尺寸与位置
-         let groupWidth: number = 240;
-         let groupHeight: number = 240;
+         let groupWidth: number = this.imgWidth;
+         let groupHeight: number = this.imgHeight;
          let x: number = 0;
          let y: number = 0;
          if(this.hasBorder) {
-             groupWidth = 300;
-             groupHeight = 300;
-             x = 30;
-             y = 30;
+             groupWidth = this.bgWidth;
+             groupHeight = this.bgHeight;
+             x = (this.bgWidth - this.imgWidth) / 2;
+             y = (this.bgHeight - this.imgHeight) / 2;
          }
          let sizeObj = LayoutFactory.setGroupSize(this.award.length, groupWidth, groupHeight, this.layoutType, this.gap, this.columnCount);     
          let imageGroupBox = UIFactory.createGroup(sizeObj.width, sizeObj.height);   
@@ -193,41 +189,42 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
          return imageGroupBox;
      }
 
-     private createPlaceholderImage(url: string): UUImage {
+     protected createPlaceholderImage(url: string): UUImage {
         let img = new UUImage();
         img.isDraw = false;
         img.source = url
-        img.width = 240;
-        img.height = 240;
+        img.width = this.imgWidth;
+        img.height = this.imgHeight;
         img.filters = [ FilterFactory.createShadowFilter() ];
         return img;
      }
 
-     private createImage(item: IResource): UUImage {
+     protected createImage(item: IResource): UUImage {
         let img = new UUImage();
         img.isDraw = true;
         img.source = item.url;
         img.name = item.id.toString();
-        img.width = 240;
-        img.height = 240;
+        img.width = this.imgWidth;
+        img.height = this.imgHeight;
         img.filters = [ FilterFactory.createGlodFilter() ];
         return img;
      }
 
-     private createText(item: IResource): UULabel {
+     protected createText(item: IResource): UULabel {
          let label = new UULabel();
          label.isDraw = true;
          label.name = item.id.toString();         
          label.text = item.text;
-         label.width = 240;
-         label.height = 240;
+         label.size = this.fontStyle.size;
+         label.width = this.imgWidth;
+         label.height = this.imgHeight;
          label.textAlign = 'center';
          label.verticalAlign = 'middle';
          label.filters = [ FilterFactory.createGlodFilterForText() ];         
          return label;
      }
 
-     private getImageDefaultPosition(): void {
+     protected getImageDefaultPosition(): void {
          for(let i = 0, len = this.imageBox.numChildren; i < len; i++) {
              let group = <eui.Group>this.imageBox.getChildAt(i);
              let imageItem = group.getChildAt(group.numChildren - 1);
@@ -237,7 +234,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
      }
 
     // 将匹配元素与匹配框进行匹配
-    private mapBorder() {
+    protected mapBorder() {
         let borderIndex = this.mapArr.length;
         let borderItem = this.dragBorderBox.getChildAt(borderIndex);
         let borderId = borderItem.name;
@@ -255,7 +252,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     }
 
     // 匹配元素在匹配框中的位置
-    private getDrawTargetPointToparent(borderItem) : egret.Point {
+    protected getDrawTargetPointToparent(borderItem) : egret.Point {
         let borderScaleX = this.dragBorderBox.scaleX;
         let borderScaleY = this.dragBorderBox.scaleY;
         let imageScaleX = this.scaleY;
@@ -289,27 +286,28 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     }
     
     // 判断匹配框是否已经满了
-    private judgeBorderisFull(): boolean {
+    protected judgeBorderisFull(): boolean {
         return this.mapArr.length === this.dragBorderBox.numChildren
     }
 
     // 移除所有匹配元素的可点击状态
-    private removeAllEleClickState(): void {
+    protected removeAllEleClickState(): void {
         for(let i = 0, len = this.imageBox.numChildren; i < len; i++) {
             let group = <eui.Group>this.imageBox.getChildAt(i);
-            let dragImg = group.getChildAt(group.numChildren - 1);
+            let dragImg = <UUImage | UULabel>group.getChildAt(group.numChildren - 1);
             dragImg.filters = [];
+            dragImg.isDraw = false;
         }
     }
 
     // 移除某个匹配元素的可匹配状态
-    private removeMapState(target: UUImage | UULabel): void {
+    protected removeMapState(target: UUImage | UULabel): void {
         target.isDraw = false;
         target.filters = [];
     }
 
     // 添加某个匹配元素的可匹配状态
-    private addMapState(target: UUImage | UULabel): void {
+    protected addMapState(target: UUImage | UULabel): void {
         target.isDraw = true;
         if(this.resourceType == 1) {
             target.filters = [ FilterFactory.createGlodFilterForText() ];
@@ -319,14 +317,14 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     }
 
     // 复原某个匹配元素的位置
-    private recoverPosition(target: UUImage | UULabel): void {
+    protected recoverPosition(target: UUImage | UULabel): void {
         let defaultPosition = this.imageDefaultPosition[target.name];
         target.x = defaultPosition[0];
         target.y = defaultPosition[1];
     }
 
     // 转换匹配元素的层级
-    private swapImageIndex(target: UUImage) {
+    protected swapImageIndex(target: UUImage) {
         this.imageBox.swapChildren(target.parent, this.topImage);
         this.topImage = <eui.Group>target.parent;
     }

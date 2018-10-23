@@ -28,12 +28,20 @@ interface ILayout {
 }
 interface IMapEle {
     award: IResource[];
+    resourceType: ResourceType;
+    bgWidth: number;
+    bgHeight: number;
+    imgWidth: number;
+    imgHeight: number;
+    fontStyle: {
+        textColor: string;
+        size: number;
+    };
     layoutSet: ILayout;
     imagePosition: ImagePosition;
     placeholder: boolean;
     hasBorder: boolean;
     isRestore: boolean;
-    resourceType: ResourceType;
     clickMode?: ClickMode;
 }
 interface MapElmBox extends IMapEle {
@@ -52,42 +60,46 @@ interface MapElmBox extends IMapEle {
 }
 declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     award: IResource[];
+    resourceType: ResourceType;
+    bgWidth: number;
+    bgHeight: number;
+    imgWidth: number;
+    imgHeight: number;
+    fontStyle: {
+        textColor: string;
+        size: number;
+    };
     layoutSet: ILayout;
     imagePosition: ImagePosition;
     placeholder: boolean;
     hasBorder: boolean;
     isRestore: boolean;
-    resourceType: ResourceType;
     dragBorderBox: DragBorderBox;
     imageBox: eui.Group;
     drawTarget: any;
-    distanceX: number;
-    distanceY: number;
     imageDefaultPosition: [number, number][];
     mapArr: {
         borderId: string;
         imageId: string;
     }[];
-    timer: any;
     topImage: eui.Group;
     private layoutType;
     private gap;
     private columnCount;
     constructor(props: any);
-    private renderUI();
-    abstract listenEvent(): void;
-    private getDragBorderBox();
-    private createTotalGroupBox();
-    private createPlaceholderImage(url);
-    private createImage(item);
-    private createText(item);
-    private getImageDefaultPosition();
-    private mapBorder();
-    private getDrawTargetPointToparent(borderItem);
-    private judgeBorderisFull();
-    private removeAllEleClickState();
-    private removeMapState(target);
-    private addMapState(target);
-    private recoverPosition(target);
-    private swapImageIndex(target);
+    protected renderUI(): void;
+    protected getDragBorderBox(): void;
+    protected createTotalGroupBox(): eui.Group;
+    protected createPlaceholderImage(url: string): UUImage;
+    protected createImage(item: IResource): UUImage;
+    protected createText(item: IResource): UULabel;
+    protected getImageDefaultPosition(): void;
+    protected mapBorder(): void;
+    protected getDrawTargetPointToparent(borderItem: any): egret.Point;
+    protected judgeBorderisFull(): boolean;
+    protected removeAllEleClickState(): void;
+    protected removeMapState(target: UUImage | UULabel): void;
+    protected addMapState(target: UUImage | UULabel): void;
+    protected recoverPosition(target: UUImage | UULabel): void;
+    protected swapImageIndex(target: UUImage): void;
 }

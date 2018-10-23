@@ -1,5 +1,7 @@
 declare class DragBorderBox extends eui.Group {
     static uuType: UUType;
+    private bgWidth;
+    private bgHeight;
     private toAward;
     private layoutType;
     private gap;

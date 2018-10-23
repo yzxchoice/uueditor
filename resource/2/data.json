@@ -36,6 +36,8 @@
                         "y": 0
                     },
                     "props": {
+                        "bgWidth": 280,
+                        "bgHeight": 280,
                         "toAward": [
                             {
                                 "id": 1,
@@ -45,7 +47,7 @@
                                 "id": 2,                                
                                 "url": "resource/assets/Pic/border2.png"
                             }
-                        ],
+                          ],
                         "layoutSet": {
                             "layoutType": 1,
                             "gap": 3,
@@ -56,10 +58,10 @@
                     "sceneId": 1001
                 },
                 {
-                    "id": 3003,
+                    "id": 3002,
                     "name": "scene_23_jpg",
                     "pageId": 2018073110588,
-                    "type": 3003,
+                    "type": 3002,
                     "matrix": {
                         "a": 1,
                         "b": 0,
@@ -69,12 +71,20 @@
                         "y": 0
                     },
                     "props": {
-                        "imagePosition": 3,
+                        "resourceType": 1,
+                        "bgWidth": 280,
+                        "bgHeight": 280,
+                        "imgWidth": 220,
+                        "imgHeight": 220,
+                        "fontStyle": {
+                            "textColor": "0x00000",
+                            "size": 80
+                        },
+                        "imagePosition": 2,
                         "placeholder": false,
                         "hasBorder": true,
                         "isRestore": true,
                         "clickMode": 2,
-                        "resourceType": 1,
                         "award": [
                             {
                                 "id": 1,

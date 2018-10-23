@@ -42,6 +42,12 @@ var MapEleBoxFactory = (function (_super) {
         var _this = _super.call(this) || this;
         // props
         _this.award = []; // 图片列表
+        _this.resourceType = ResourceType.Text; // 资源类型 文字/图片
+        _this.bgWidth = 300;
+        _this.bgHeight = 300;
+        _this.imgWidth = 240;
+        _this.imgHeight = 240;
+        _this.fontStyle = { textColor: '0x000000', size: 40 };
         _this.layoutSet = {
             layoutType: 1,
             gap: 2,
@@ -51,7 +57,6 @@ var MapEleBoxFactory = (function (_super) {
         _this.placeholder = true; // 是否带占位图
         _this.hasBorder = true; // 是否带背景图
         _this.isRestore = true; // 是否开启图片复位功能
-        _this.resourceType = ResourceType.Text; // 资源类型 文字/图片
         // other
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
         _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
@@ -59,28 +64,17 @@ var MapEleBoxFactory = (function (_super) {
         _this.layoutType = 1; // 布局方式
         _this.gap = GapType.Middle;
         _this.columnCount = 3;
-        if (props.layoutSet.layoutType) {
-            _this.layoutType = props.layoutSet.layoutType;
+        for (var key in props) {
+            if (props[key] !== undefined) {
+                _this[key] = props[key];
+            }
         }
-        if (props.layoutSet.gap) {
-            _this.gap = props.layoutSet.gap;
+        for (var key in props.layoutSet) {
+            if (props[key] !== undefined) {
+                _this[key] = props[key];
+            }
         }
-        if (props.layoutSet.columnCount) {
-            _this.columnCount = props.layoutSet.columnCount;
-        }
-        if (props.imagePosition) {
-            _this.imagePosition = props.imagePosition;
-        }
-        _this.placeholder = props.placeholder ? props.placeholder : false;
-        _this.hasBorder = props.hasBorder ? props.hasBorder : false;
-        _this.isRestore = props.isRestore ? props.isRestore : true;
-        if (props.resourceType) {
-            _this.resourceType = props.resourceType;
-        }
-        _this.award = props.award;
         _this.renderUI();
-        _this.listenEvent();
-        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.getDragBorderBox, _this);
         return _this;
     }
     // 初始化UI
@@ -106,15 +100,15 @@ var MapEleBoxFactory = (function (_super) {
     // 创建最外层的容器
     MapEleBoxFactory.prototype.createTotalGroupBox = function () {
         // 每个item的容器的尺寸 及 内部目标元素的尺寸与位置
-        var groupWidth = 240;
-        var groupHeight = 240;
+        var groupWidth = this.imgWidth;
+        var groupHeight = this.imgHeight;
         var x = 0;
         var y = 0;
         if (this.hasBorder) {
-            groupWidth = 300;
-            groupHeight = 300;
-            x = 30;
-            y = 30;
+            groupWidth = this.bgWidth;
+            groupHeight = this.bgHeight;
+            x = (this.bgWidth - this.imgWidth) / 2;
+            y = (this.bgHeight - this.imgHeight) / 2;
         }
         var sizeObj = LayoutFactory.setGroupSize(this.award.length, groupWidth, groupHeight, this.layoutType, this.gap, this.columnCount);
         var imageGroupBox = UIFactory.createGroup(sizeObj.width, sizeObj.height);
@@ -156,8 +150,8 @@ var MapEleBoxFactory = (function (_super) {
         var img = new UUImage();
         img.isDraw = false;
         img.source = url;
-        img.width = 240;
-        img.height = 240;
+        img.width = this.imgWidth;
+        img.height = this.imgHeight;
         img.filters = [FilterFactory.createShadowFilter()];
         return img;
     };
@@ -166,8 +160,8 @@ var MapEleBoxFactory = (function (_super) {
         img.isDraw = true;
         img.source = item.url;
         img.name = item.id.toString();
-        img.width = 240;
-        img.height = 240;
+        img.width = this.imgWidth;
+        img.height = this.imgHeight;
         img.filters = [FilterFactory.createGlodFilter()];
         return img;
     };
@@ -176,8 +170,9 @@ var MapEleBoxFactory = (function (_super) {
         label.isDraw = true;
         label.name = item.id.toString();
         label.text = item.text;
-        label.width = 240;
-        label.height = 240;
+        label.size = this.fontStyle.size;
+        label.width = this.imgWidth;
+        label.height = this.imgHeight;
         label.textAlign = 'center';
         label.verticalAlign = 'middle';
         label.filters = [FilterFactory.createGlodFilterForText()];
@@ -248,6 +243,7 @@ var MapEleBoxFactory = (function (_super) {
             var group = this.imageBox.getChildAt(i);
             var dragImg = group.getChildAt(group.numChildren - 1);
             dragImg.filters = [];
+            dragImg.isDraw = false;
         }
     };
     // 移除某个匹配元素的可匹配状态

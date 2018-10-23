@@ -10,43 +10,13 @@
  * 8、支持图片可选状态的开启与关闭
  * 9、支持背景图的设置
  */
-declare class ClickImageBox extends eui.Group {
+declare class ClickImageBox extends MapEleBoxFactory {
     static uuType: UUType;
-    private award;
-    private layoutType;
-    private gap;
-    private columnCount;
-    private imagePosition;
-    private placeholder;
-    private hasBorder;
-    private isRestore;
-    private clickMode;
-    private resourceType;
-    private dragBorderBox;
-    private imageBox;
-    private drawTarget;
-    private imageDefaultPosition;
-    private mapArr;
-    private topImage;
+    clickMode: ClickMode;
     private selectedImage;
     private isTweening;
     constructor(props: any);
-    private renderUI();
-    private listenEvent();
-    private getDragBorderBox();
-    private createTotalGroupBox();
-    private createPlaceholderImage(url);
-    private createImage(item);
-    private createText(item);
-    private getImageDefaultPosition();
+    listenEvent(): void;
     private downForClickMode1(evt);
-    private downForClickMode2(evt);
-    private mapBorder();
-    private getDrawTargetPointToparent(borderItem);
-    private judgeBorderisFull();
-    private removeAllEleClickState();
-    private removeMapState(target);
-    private addMapState(target);
-    private recoverPosition(target);
-    private swapImageIndex(target);
+    downForClickMode2(evt: egret.TouchEvent): void;
 }
