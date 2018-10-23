@@ -25,8 +25,8 @@ var DragBorderBox = (function (_super) {
             }
         }
         for (var key in props.layoutSet) {
-            if (props[key] !== undefined) {
-                _this[key] = props[key];
+            if (props.layoutSet[key] !== undefined) {
+                _this[key] = props.layoutSet[key];
             }
         }
         _this.init();

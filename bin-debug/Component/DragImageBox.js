@@ -72,35 +72,41 @@ var DragImageBox = (function (_super) {
         var drawTargeGlobalCenterY = drawTargeGlobalY + this.drawTarget.height / 2;
         // 标记
         var flag = false;
-        var _loop_1 = function (i, len) {
-            var borderItem = this_1.dragBorderBox.getChildAt(i);
-            var isHit = borderItem.hitTestPoint(drawTargeGlobalCenterX, drawTargeGlobalCenterY);
-            if (isHit) {
-                // 排斥校验
-                var borderId_1 = borderItem.name;
-                var imageId_1 = this_1.drawTarget.name;
-                if (this_1.mapArr.some(function (item) { return (item.borderId == borderId_1 && item.imageId != imageId_1); })) {
-                    return "break";
-                }
-                this_1.checkoutImage(imageId_1);
-                this_1.mapArr.push({ borderId: borderId_1, imageId: imageId_1 });
-                if (this_1.judgeBorderisFull()) {
-                    this_1.removeAllEleClickState();
-                }
-                this_1.removeMapState(this_1.drawTarget);
-                var point = this_1.getDrawTargetPointToparent(borderItem);
-                this_1.drawTarget.x = point.x;
-                this_1.drawTarget.y = point.y;
-                flag = true;
-                return "break";
-            }
-        };
-        var this_1 = this;
         // 遍历border对象进行碰撞检测
-        for (var i = 0, len = this.dragBorderBox.numChildren; i < len; i++) {
-            var state_1 = _loop_1(i, len);
-            if (state_1 === "break")
-                break;
+        outermost: for (var j = 0, len = this.dragBorderBox.length; j < len; j++) {
+            var _loop_1 = function (i, len_1) {
+                var borderItem = this_1.dragBorderBox[j].getChildAt(i);
+                var isHit = borderItem.hitTestPoint(drawTargeGlobalCenterX, drawTargeGlobalCenterY);
+                if (isHit) {
+                    console.log('borderItem........');
+                    console.log(borderItem);
+                    // 排斥校验
+                    var borderId_1 = borderItem.name;
+                    var imageId_1 = this_1.drawTarget.name;
+                    if (this_1.mapArr.some(function (item) { return (item.borderId == borderId_1 && item.imageId != imageId_1); })) {
+                        return "break-outermost";
+                    }
+                    this_1.checkoutImage(imageId_1);
+                    this_1.mapArr.push({ borderId: borderId_1, imageId: imageId_1 });
+                    if (this_1.judgeBorderisFull()) {
+                        this_1.removeAllEleClickState();
+                    }
+                    this_1.removeMapState(this_1.drawTarget);
+                    this_1.dragBorderBoxIndex = j;
+                    var point = this_1.getDrawTargetPointToparent(borderItem);
+                    this_1.drawTarget.x = point.x;
+                    this_1.drawTarget.y = point.y;
+                    flag = true;
+                    return "break-outermost";
+                }
+            };
+            var this_1 = this;
+            for (var i = 0, len_1 = this.dragBorderBox[j].numChildren; i < len_1; i++) {
+                var state_1 = _loop_1(i, len_1);
+                switch (state_1) {
+                    case "break-outermost": break outermost;
+                }
+            }
         }
         if (!flag && this.isRestore) {
             var index = this.drawTarget.name;

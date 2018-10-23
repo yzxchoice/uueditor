@@ -52,7 +52,7 @@ interface IMapEle {
 }
 
 interface MapElmBox extends IMapEle {
-    dragBorderBox: DragBorderBox,
+    dragBorderBox: DragBorderBox[],
     imageBox: eui.Group,
     drawTarget: UUImage | UULabel,
     imageDefaultPosition: [number, number][],
@@ -82,7 +82,8 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     hasBorder: boolean = true; // 是否带背景图
     isRestore: boolean = true; // 是否开启图片复位功能
 
-    dragBorderBox: DragBorderBox; // 框图片盒
+    dragBorderBox: DragBorderBox[] = []; // 框图片盒
+    dragBorderBoxIndex: number = 0;
     imageBox: eui.Group; // 拖拽图片盒
     // draw event 
     drawTarget; // 被拖拽的图片
@@ -105,8 +106,8 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
              }
          }
          for(let key in props.layoutSet) {
-             if(props[key] !== undefined) {
-                 this[key] = props[key];
+             if(props.layoutSet[key] !== undefined) {
+                 this[key] = props.layoutSet[key];
              }
          }
          this.renderUI();
@@ -130,7 +131,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
         let parent = this.parent;
         for(let i = 0; i < parent.numChildren; i++) {
             if(parent.getChildAt(i) instanceof DragBorderBox){
-                this.dragBorderBox = <DragBorderBox>parent.getChildAt(i);      
+                this.dragBorderBox.push(<DragBorderBox>parent.getChildAt(i))
             }
         }
      }
@@ -236,7 +237,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     // 将匹配元素与匹配框进行匹配
     protected mapBorder() {
         let borderIndex = this.mapArr.length;
-        let borderItem = this.dragBorderBox.getChildAt(borderIndex);
+        let borderItem = this.getBorderItem(borderIndex);
         let borderId = borderItem.name;
         let imageId = this.drawTarget.name;
         
@@ -251,10 +252,27 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
         this.drawTarget.y = point.y;
     }
 
+    protected getBorderItem(borderIndex: number) {
+        let dragBorderBoxIndex = 0;
+        let addNum = 0;
+        let borderItem;
+        while(true) {
+            let len = this.dragBorderBox[dragBorderBoxIndex].numChildren;
+            addNum += len;
+            if(addNum > borderIndex) {
+                borderItem = this.dragBorderBox[dragBorderBoxIndex].getChildAt(borderIndex - (addNum - len));
+                this.dragBorderBoxIndex = dragBorderBoxIndex;
+                break;
+            }
+            dragBorderBoxIndex += 1;
+        }
+        return borderItem;
+    }
+
     // 匹配元素在匹配框中的位置
     protected getDrawTargetPointToparent(borderItem) : egret.Point {
-        let borderScaleX = this.dragBorderBox.scaleX;
-        let borderScaleY = this.dragBorderBox.scaleY;
+        let borderScaleX = this.dragBorderBox[this.dragBorderBoxIndex].scaleX;
+        let borderScaleY = this.dragBorderBox[this.dragBorderBoxIndex].scaleY;
         let imageScaleX = this.scaleY;
         let imageScaleY = this.scaleY;
 
@@ -279,7 +297,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
                 break;
         }
         // drawTarget 舞台坐标
-        let globalPoint = this.dragBorderBox.localToGlobal(drawTargetToX, drawTargetToY);
+        let globalPoint = this.dragBorderBox[this.dragBorderBoxIndex].localToGlobal(drawTargetToX, drawTargetToY);
         // drawTarget 相对于imageBox的坐标
         let localPoint = this.drawTarget.parent.globalToLocal(globalPoint.x, globalPoint.y);
         return localPoint;
@@ -287,7 +305,9 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     
     // 判断匹配框是否已经满了
     protected judgeBorderisFull(): boolean {
-        return this.mapArr.length === this.dragBorderBox.numChildren
+        let borderItemNum = 0;
+        this.dragBorderBox.forEach(item => borderItemNum += item.numChildren);
+        return this.mapArr.length === borderItemNum;
     }
 
     // 移除所有匹配元素的可点击状态

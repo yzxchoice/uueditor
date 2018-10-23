@@ -45,7 +45,7 @@ interface IMapEle {
     clickMode?: ClickMode;
 }
 interface MapElmBox extends IMapEle {
-    dragBorderBox: DragBorderBox;
+    dragBorderBox: DragBorderBox[];
     imageBox: eui.Group;
     drawTarget: UUImage | UULabel;
     imageDefaultPosition: [number, number][];
@@ -74,7 +74,8 @@ declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     placeholder: boolean;
     hasBorder: boolean;
     isRestore: boolean;
-    dragBorderBox: DragBorderBox;
+    dragBorderBox: DragBorderBox[];
+    dragBorderBoxIndex: number;
     imageBox: eui.Group;
     drawTarget: any;
     imageDefaultPosition: [number, number][];
@@ -95,6 +96,7 @@ declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     protected createText(item: IResource): UULabel;
     protected getImageDefaultPosition(): void;
     protected mapBorder(): void;
+    protected getBorderItem(borderIndex: number): any;
     protected getDrawTargetPointToparent(borderItem: any): egret.Point;
     protected judgeBorderisFull(): boolean;
     protected removeAllEleClickState(): void;

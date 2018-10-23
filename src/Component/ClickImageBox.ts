@@ -57,7 +57,7 @@ class ClickImageBox extends MapEleBoxFactory {
     // 多对一模式的事件监听
     downForClickMode2(evt: egret.TouchEvent) {
         evt.preventDefault();  
-        let borderItem = this.dragBorderBox.getChildAt(0);
+        let borderItem = this.dragBorderBox[0].getChildAt(0);
         let target = evt.target;
         if(!target.isDraw) return;
         if(this.isTweening) return;

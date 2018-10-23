@@ -57,6 +57,8 @@ var MapEleBoxFactory = (function (_super) {
         _this.placeholder = true; // 是否带占位图
         _this.hasBorder = true; // 是否带背景图
         _this.isRestore = true; // 是否开启图片复位功能
+        _this.dragBorderBox = []; // 框图片盒
+        _this.dragBorderBoxIndex = 0;
         // other
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
         _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
@@ -70,8 +72,8 @@ var MapEleBoxFactory = (function (_super) {
             }
         }
         for (var key in props.layoutSet) {
-            if (props[key] !== undefined) {
-                _this[key] = props[key];
+            if (props.layoutSet[key] !== undefined) {
+                _this[key] = props.layoutSet[key];
             }
         }
         _this.renderUI();
@@ -93,7 +95,7 @@ var MapEleBoxFactory = (function (_super) {
         var parent = this.parent;
         for (var i = 0; i < parent.numChildren; i++) {
             if (parent.getChildAt(i) instanceof DragBorderBox) {
-                this.dragBorderBox = parent.getChildAt(i);
+                this.dragBorderBox.push(parent.getChildAt(i));
             }
         }
     };
@@ -189,7 +191,7 @@ var MapEleBoxFactory = (function (_super) {
     // 将匹配元素与匹配框进行匹配
     MapEleBoxFactory.prototype.mapBorder = function () {
         var borderIndex = this.mapArr.length;
-        var borderItem = this.dragBorderBox.getChildAt(borderIndex);
+        var borderItem = this.getBorderItem(borderIndex);
         var borderId = borderItem.name;
         var imageId = this.drawTarget.name;
         this.removeMapState(this.drawTarget);
@@ -201,10 +203,26 @@ var MapEleBoxFactory = (function (_super) {
         this.drawTarget.x = point.x;
         this.drawTarget.y = point.y;
     };
+    MapEleBoxFactory.prototype.getBorderItem = function (borderIndex) {
+        var dragBorderBoxIndex = 0;
+        var addNum = 0;
+        var borderItem;
+        while (true) {
+            var len = this.dragBorderBox[dragBorderBoxIndex].numChildren;
+            addNum += len;
+            if (addNum > borderIndex) {
+                borderItem = this.dragBorderBox[dragBorderBoxIndex].getChildAt(borderIndex - (addNum - len));
+                this.dragBorderBoxIndex = dragBorderBoxIndex;
+                break;
+            }
+            dragBorderBoxIndex += 1;
+        }
+        return borderItem;
+    };
     // 匹配元素在匹配框中的位置
     MapEleBoxFactory.prototype.getDrawTargetPointToparent = function (borderItem) {
-        var borderScaleX = this.dragBorderBox.scaleX;
-        var borderScaleY = this.dragBorderBox.scaleY;
+        var borderScaleX = this.dragBorderBox[this.dragBorderBoxIndex].scaleX;
+        var borderScaleY = this.dragBorderBox[this.dragBorderBoxIndex].scaleY;
         var imageScaleX = this.scaleY;
         var imageScaleY = this.scaleY;
         var borderItemCenterX = borderItem.x * borderScaleX + borderItem.width * borderScaleX / 2;
@@ -228,14 +246,16 @@ var MapEleBoxFactory = (function (_super) {
                 break;
         }
         // drawTarget 舞台坐标
-        var globalPoint = this.dragBorderBox.localToGlobal(drawTargetToX, drawTargetToY);
+        var globalPoint = this.dragBorderBox[this.dragBorderBoxIndex].localToGlobal(drawTargetToX, drawTargetToY);
         // drawTarget 相对于imageBox的坐标
         var localPoint = this.drawTarget.parent.globalToLocal(globalPoint.x, globalPoint.y);
         return localPoint;
     };
     // 判断匹配框是否已经满了
     MapEleBoxFactory.prototype.judgeBorderisFull = function () {
-        return this.mapArr.length === this.dragBorderBox.numChildren;
+        var borderItemNum = 0;
+        this.dragBorderBox.forEach(function (item) { return borderItemNum += item.numChildren; });
+        return this.mapArr.length === borderItemNum;
     };
     // 移除所有匹配元素的可点击状态
     MapEleBoxFactory.prototype.removeAllEleClickState = function () {

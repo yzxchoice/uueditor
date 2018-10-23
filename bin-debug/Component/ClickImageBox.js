@@ -62,7 +62,7 @@ var ClickImageBox = (function (_super) {
     ClickImageBox.prototype.downForClickMode2 = function (evt) {
         var _this = this;
         evt.preventDefault();
-        var borderItem = this.dragBorderBox.getChildAt(0);
+        var borderItem = this.dragBorderBox[0].getChildAt(0);
         var target = evt.target;
         if (!target.isDraw)
             return;

@@ -46,6 +46,45 @@
                             {
                                 "id": 2,                                
                                 "url": "resource/assets/Pic/border2.png"
+                            },
+                            {
+                                "id": 3,                                
+                                "url": "resource/assets/Pic/border2.png"
+                            },
+                            {
+                                "id": 4,                                
+                                "url": "resource/assets/Pic/border2.png"
+                            }
+                          ],
+                        "layoutSet": {
+                            "layoutType": 3,
+                            "gap": 3,
+                            "columnCount": 2
+                        }
+                    },
+                    "src": "assets/bg/scene_3.jpg",
+                    "sceneId": 1001
+                },
+                {
+                    "id": 30011,
+                    "name": "scene_33_jpg",
+                    "pageId": 2018073110432,
+                    "type": 3001,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "bgWidth": 280,
+                        "bgHeight": 280,
+                        "toAward": [
+                            {
+                                "id": 5,                                
+                                "url": "resource/assets/Pic/border2.png"
                             }
                           ],
                         "layoutSet": {
@@ -58,7 +97,7 @@
                     "sceneId": 1001
                 },
                 {
-                    "id": 3002,
+                    "id": 3003,
                     "name": "scene_23_jpg",
                     "pageId": 2018073110588,
                     "type": 3002,
@@ -84,7 +123,7 @@
                         "placeholder": false,
                         "hasBorder": true,
                         "isRestore": true,
-                        "clickMode": 2,
+                        "clickMode": 1,
                         "award": [
                             {
                                 "id": 1,
@@ -100,12 +139,27 @@
                                 "id": 3,                                                                
                                 "url": "resource/assets/Pic/3.png",
                                 "text": "y"
+                            },
+                            {
+                                "id": 4,
+                                "url": "resource/assets/Pic/1.png",
+                                "text": "l"
+                            },
+                            {
+                                "id": 5,                                
+                                "url": "resource/assets/Pic/2.png",
+                                "text": "b"
+                            },
+                            {
+                                "id": 6,                                                                
+                                "url": "resource/assets/Pic/3.png",
+                                "text": "y"
                             }
                         ],
                         "layoutSet": {
-                            "layoutType": 1,
+                            "layoutType": 3,
                             "gap": 3,
-                            "columnCount": 2
+                            "columnCount": 3
                         }
                     },
                     "src": "assets/bg/scene_3.jpg",

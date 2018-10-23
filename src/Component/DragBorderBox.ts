@@ -17,9 +17,9 @@ class DragBorderBox extends eui.Group {
                  this[key] = props[key];
              }
          }
-         for(let key in props.layoutSet) {
-             if(props[key] !== undefined) {
-                 this[key] = props[key];
+          for(let key in props.layoutSet) {
+             if(props.layoutSet[key] !== undefined) {
+                 this[key] = props.layoutSet[key];
              }
          }
          this.init();

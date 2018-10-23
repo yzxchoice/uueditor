@@ -80,30 +80,37 @@ class DragImageBox extends MapEleBoxFactory {
         // 标记
         let flag = false;
         // 遍历border对象进行碰撞检测
-        for(let i = 0, len = this.dragBorderBox.numChildren; i < len; i++) {
-            let borderItem = <eui.Group>this.dragBorderBox.getChildAt(i);
-            let isHit:boolean = borderItem.hitTestPoint( drawTargeGlobalCenterX, drawTargeGlobalCenterY );
-            if(isHit) {
-                // 排斥校验
-                let borderId = borderItem.name;                
-                let imageId = this.drawTarget.name;   
-                if(this.mapArr.some(item => (item.borderId == borderId && item.imageId != imageId))) {
-                    break;
+        outermost:
+        for(let j = 0, len = this.dragBorderBox.length; j < len; j++){
+            for(let i = 0, len = this.dragBorderBox[j].numChildren; i < len; i++) {
+                let borderItem = <eui.Group>this.dragBorderBox[j].getChildAt(i);
+                let isHit:boolean = borderItem.hitTestPoint( drawTargeGlobalCenterX, drawTargeGlobalCenterY );
+                if(isHit) {
+                    console.log('borderItem........');
+                    console.log(borderItem);
+                    // 排斥校验
+                    let borderId = borderItem.name;                
+                    let imageId = this.drawTarget.name;   
+                    if(this.mapArr.some(item => (item.borderId == borderId && item.imageId != imageId))) {
+                        break outermost;
+                    }
+                    this.checkoutImage(imageId);
+                    this.mapArr.push({borderId: borderId, imageId: imageId});
+                    if(this.judgeBorderisFull()) {
+                        this.removeAllEleClickState();
+                    }
+                    this.removeMapState(this.drawTarget);
+                
+                    this.dragBorderBoxIndex = j;
+                    let point: egret.Point = this.getDrawTargetPointToparent(borderItem);
+                    this.drawTarget.x = point.x;
+                    this.drawTarget.y = point.y;
+                    flag = true;
+                    break outermost;
                 }
-                this.checkoutImage(imageId);
-                this.mapArr.push({borderId: borderId, imageId: imageId});
-                if(this.judgeBorderisFull()) {
-                    this.removeAllEleClickState();
-                }
-                this.removeMapState(this.drawTarget);
-              
-                let point: egret.Point = this.getDrawTargetPointToparent(borderItem);
-                this.drawTarget.x = point.x;
-                this.drawTarget.y = point.y;
-                flag = true;
-                break;
             }
         }
+      
 
         if(!flag && this.isRestore) {
             let index = this.drawTarget.name;
