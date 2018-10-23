@@ -25,6 +25,7 @@
 		"bin-debug/Component/FilterFactory.js",
 		"bin-debug/Component/LayoutBaseFactory.js",
 		"bin-debug/Component/LayoutFactory.js",
+		"bin-debug/Component/MapFactory.js",
 		"bin-debug/Component/Select.js",
 		"bin-debug/Component/SelectImage.js",
 		"bin-debug/Component/Table.js",

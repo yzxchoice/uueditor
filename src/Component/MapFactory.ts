@@ -1,46 +1,93 @@
+enum LayoutType {
+    HLayout = 1,
+    VLayout = 2,
+    TLayout = 3,
+}
 
-/**
- * 该组件包含的功能
- * 1、支持四种布局：上/下、下/上、左/右、右/上、左
- * 2、拖拽功能
- * 3、图片复位功能：未入框则恢复到初始的位置
- * 4、一框一图功能：一个框不能放置多张图片
- * 5、调整拖拽图片的层级：被拖拽的图片层级永远最高 
- * 6、支持选择图片放置在框中的位置：TOP/MIDDLE/BOTTOM
- * 7、支持占位图功能
- * 8、支持图片可选状态的开启与关闭
- * 9、支持背景图的设置
- */
+enum GapType {
+    Small = 1,
+    Middle = 2,
+    Big = 3,
+}
 
+enum ImagePosition {
+    TOP = 1,
+    MIDDLE = 2,
+    BOTTOM = 3,
+}
 
-class ClickImageBox extends eui.Group {
+enum ClickMode {
+    MuchToMuch = 1,
+    MuchToOne = 2,
+}
 
-    static uuType = UUType.CLICK_IMAGE_BOX;
-    // props
-    private award: IResource[] = []; // 图片列表
+enum ResourceType {
+    Text = 1,
+    Image = 2,
+}
+
+interface ILayout {
+    layoutType: LayoutType,
+    gap: GapType,
+    columnCount?: number,
+}
+
+interface IMapEle {
+    award: IResource[],
+    layoutSet: ILayout,
+    imagePosition: ImagePosition,
+    placeholder: boolean,
+    hasBorder: boolean,
+    isRestore: boolean,
+    resourceType: ResourceType,
+    clickMode?: ClickMode,
+}
+
+interface MapElmBox extends IMapEle {
+    dragBorderBox: DragBorderBox,
+    imageBox: eui.Group,
+    drawTarget: UUImage | UULabel,
+    imageDefaultPosition: [number, number][],
+    mapArr: {borderId: string, imageId: string}[],
+    topImage: eui.Group,
+    timer?: any,
+    selectedImage?: UUImage | null,
+    isTweening?: boolean,
+}
+
+abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
+     // props
+    award: IResource[] = []; // 图片列表
+    layoutSet: ILayout = {
+        layoutType: 1,
+        gap: 2,
+        columnCount: 3,
+    };  
+    imagePosition: ImagePosition = ImagePosition.MIDDLE; // 拖拽图在边框图中放置的位置：TOP/MIDDLE/BOTTOM
+    placeholder: boolean = true; // 是否带占位图
+    hasBorder: boolean = true; // 是否带背景图
+    isRestore: boolean = true; // 是否开启图片复位功能
+    resourceType: ResourceType = ResourceType.Text; // 资源类型 文字/图片
+
+    dragBorderBox: DragBorderBox; // 框图片盒
+    imageBox: eui.Group; // 拖拽图片盒
+    // draw event 
+    drawTarget; // 被拖拽的图片
+    distanceX: number; // 拖拽时 鼠标位置到被拖拽图片的X距离
+    distanceY: number; // 拖拽时 鼠标位置到被拖拽图片的Y距离
+
+    // other
+    imageDefaultPosition: [number, number][] = []; // 图片初始位置，用于图片复位功能
+    mapArr: {borderId: string, imageId: string}[] = []; // 记录框、图匹配关系 用于一框一图功能
+    timer; // 用于up事件节流
+    topImage: eui.Group; // 指向层级最高的image 用于 调整拖拽图片的层级功能
+
+    // layout 
     private layoutType: LayoutType = 1; // 布局方式
     private gap: GapType = GapType.Middle;
     private columnCount: number = 3;
-    private imagePosition: ImagePosition = ImagePosition.MIDDLE; // 拖拽图在边框图中放置的位置：TOP/MIDDLE/BOTTOM
-    private placeholder: boolean = false; // 是否带占位图
-    private hasBorder: boolean = false; // 是否带背景图
-    private isRestore: boolean = true; // 是否开启图片复位功能
-    private clickMode: ClickMode = ClickMode.MuchToMuch; // 点击模式 多对多/多对一
-    private resourceType: ResourceType = ResourceType.Text; // 资源类型 文字/图片
 
-    private dragBorderBox: DragBorderBox; // 框图片盒
-    private imageBox: eui.Group; // 拖拽图片盒
-    // draw event 
-    private drawTarget: UUImage | UULabel; // 被拖拽的图片
-
-    // other
-    private imageDefaultPosition: [number, number][] = []; // 图片初始位置，用于图片复位功能
-    private mapArr: {borderId: string, imageId: string}[] = []; // 记录框、图匹配关系 用于一框一图功能
-    private topImage: eui.Group; // 指向层级最高的image 用于 调整拖拽图片的层级功能
-    private selectedImage: UUImage | null = null; // 多对一模式 框内的dragImage
-    private isTweening: boolean = false; // 多对一模式 动画是否正在进行的标记
-
-     constructor(props) {
+    constructor(props) {
         super();
         if(props.layoutSet.layoutType) {
             this.layoutType = props.layoutSet.layoutType;
@@ -59,9 +106,6 @@ class ClickImageBox extends eui.Group {
          this.isRestore = props.isRestore ? props.isRestore : true;
          if(props.resourceType) {
             this.resourceType = props.resourceType;
-         }
-         if(props.clickMode) {
-            this.clickMode = props.clickMode;             
          }
          this.award = props.award;
          this.renderUI();
@@ -83,13 +127,7 @@ class ClickImageBox extends eui.Group {
      }
 
      // 监听事件
-     private listenEvent() {
-        if(this.clickMode == 1) {
-            this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.downForClickMode1, this);
-         }else {
-            this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.downForClickMode2, this);             
-         }
-     }
+     abstract listenEvent(): void
 
      // 获取对应的匹配框组件
      private getDragBorderBox() {
@@ -198,42 +236,6 @@ class ClickImageBox extends eui.Group {
          console.log(this.imageDefaultPosition);
      }
 
-     // 多对多模式的事件监听
-     private downForClickMode1(evt: egret.TouchEvent) {
-        evt.preventDefault();         
-        let target = evt.target;
-        let isDraw = target.isDraw;
-        if(this.judgeBorderisFull()) return;
-        if(isDraw) {
-            this.drawTarget = target;
-            this.mapBorder();
-        }
-    }
-
-    // 多对一模式的事件监听
-    private downForClickMode2(evt: egret.TouchEvent) {
-        evt.preventDefault();  
-        let borderItem = this.dragBorderBox.getChildAt(0);
-        let target = evt.target;
-        if(!target.isDraw) return;
-        if(this.isTweening) return;
-        this.drawTarget = target;
-        this.swapImageIndex(target);
-        if(this.selectedImage) {
-            this.recoverPosition(this.selectedImage);
-            this.addMapState(this.selectedImage);  
-        }
-        let point: egret.Point = this.getDrawTargetPointToparent(borderItem);
-        this.isTweening = true;
-        egret.Tween.get( target )
-            .to({ x: point.x, y: point.y }, 1000)
-            .call(() => {
-                this.isTweening = false;
-                this.selectedImage = target;
-                this.removeMapState(target);
-            })
-    }
-
     // 将匹配元素与匹配框进行匹配
     private mapBorder() {
         let borderIndex = this.mapArr.length;
@@ -328,4 +330,4 @@ class ClickImageBox extends eui.Group {
         this.imageBox.swapChildren(target.parent, this.topImage);
         this.topImage = <eui.Group>target.parent;
     }
-}   
+}

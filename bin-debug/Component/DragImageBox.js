@@ -1,19 +1,3 @@
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
-var __extends = this && this.__extends || function __extends(t, e) { 
- function r() { 
- this.constructor = t;
-}
-for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
-r.prototype = e.prototype, t.prototype = new r();
-};
-var ImagePosition;
-(function (ImagePosition) {
-    ImagePosition[ImagePosition["TOP"] = 1] = "TOP";
-    ImagePosition[ImagePosition["MIDDLE"] = 2] = "MIDDLE";
-    ImagePosition[ImagePosition["BOTTOM"] = 3] = "BOTTOM";
-})(ImagePosition || (ImagePosition = {}));
 /**
  * 该组件包含的功能
  * 1、支持四种布局：上/下、下/上、左/右、右/上、左
@@ -26,6 +10,16 @@ var ImagePosition;
  * 8、支持图片可选状态的开启与关闭
  * 9、支持背景图的设置
  */
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = this && this.__extends || function __extends(t, e) { 
+ function r() { 
+ this.constructor = t;
+}
+for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
+r.prototype = e.prototype, t.prototype = new r();
+};
 var DragImageBox = (function (_super) {
     __extends(DragImageBox, _super);
     function DragImageBox(props) {
@@ -39,6 +33,7 @@ var DragImageBox = (function (_super) {
         _this.placeholder = true; // 是否带占位图
         _this.hasBorder = true; // 是否带背景图
         _this.isRestore = true; // 是否开启图片复位功能
+        _this.resourceType = ResourceType.Text; // 资源类型 文字/图片
         // other
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
         _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
@@ -54,9 +49,8 @@ var DragImageBox = (function (_super) {
         if (props.imagePosition) {
             _this.imagePosition = props.imagePosition;
         }
-        if (props.placeholder) {
-            _this.placeholder = props.placeholder;
-        }
+        _this.placeholder = props.placeholder ? props.placeholder : false;
+        _this.hasBorder = props.hasBorder ? props.hasBorder : false;
         if (props.isRestore) {
             _this.isRestore = props.isRestore;
         }
@@ -101,23 +95,31 @@ var DragImageBox = (function (_super) {
         for (var i = 0, len = this.award.length; i < len; i++) {
             var group = UIFactory.createGroup(groupWidth, groupHeight);
             if (this.hasBorder) {
-                var img_1 = new UUImage();
-                img_1.isDraw = false;
-                img_1.source = 'resource/assets/Pic/draw_card_bg.png';
-                img_1.width = group.width;
-                img_1.height = group.height;
-                group.addChild(img_1);
+                var img = new UUImage();
+                img.isDraw = false;
+                img.source = 'resource/assets/Pic/draw_card_bg.png';
+                img.width = group.width;
+                img.height = group.height;
+                group.addChild(img);
             }
             if (this.placeholder) {
-                var img_2 = this.createPlaceholderImage(this.award[i].url);
-                img_2.x = x;
-                img_2.y = y;
-                group.addChild(img_2);
+                var img = this.createPlaceholderImage(this.award[i].url);
+                img.x = x;
+                img.y = y;
+                group.addChild(img);
             }
-            var img = this.createImage(this.award[i]);
-            img.x = x;
-            img.y = y;
-            group.addChild(img);
+            if (this.resourceType == 1) {
+                var label = this.createText(this.award[i]);
+                label.x = x;
+                label.y = y;
+                group.addChild(label);
+            }
+            else {
+                var img = this.createImage(this.award[i]);
+                img.x = x;
+                img.y = y;
+                group.addChild(img);
+            }
             imageGroupArr.push(group);
         }
         LayoutBaseFactory.main(imageGroupBox, imageGroupArr, this.layoutType, this.gap, this.columnCount);
@@ -141,6 +143,18 @@ var DragImageBox = (function (_super) {
         img.height = 240;
         img.filters = [FilterFactory.createGlodFilter()];
         return img;
+    };
+    DragImageBox.prototype.createText = function (item) {
+        var label = new UULabel();
+        label.isDraw = true;
+        label.name = item.id.toString();
+        label.text = item.text;
+        label.width = 240;
+        label.height = 240;
+        label.textAlign = 'center';
+        label.verticalAlign = 'middle';
+        label.filters = [FilterFactory.createGlodFilterForText()];
+        return label;
     };
     DragImageBox.prototype.getImageDefaultPosition = function () {
         for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
@@ -201,11 +215,16 @@ var DragImageBox = (function (_super) {
                 // 排斥校验
                 var borderId_1 = borderItem.name;
                 var imageId_1 = this_1.drawTarget.name;
+                console.log('this.mapArr...');
+                console.log(this_1.mapArr);
+                console.log('borderId = ' + borderId_1);
+                console.log('imageId = ' + imageId_1);
                 if (this_1.mapArr.some(function (item) { return (item.borderId == borderId_1 && item.imageId != imageId_1); })) {
                     return "break";
                 }
                 this_1.checkoutImage(imageId_1);
                 this_1.mapArr.push({ borderId: borderId_1, imageId: imageId_1 });
+                this_1.judgeBorderisFull();
                 this_1.drawTarget.filters = [];
                 // image中心与border中心重合
                 // borderItem中心 相对坐标 相对于borderBox
@@ -260,7 +279,12 @@ var DragImageBox = (function (_super) {
     // 检查目标image是否在mapArr中，是则从mapArr中删除
     DragImageBox.prototype.checkoutImage = function (imageId) {
         if (this.mapArr.some(function (item) { return item.imageId == imageId; })) {
-            this.drawTarget.filters = [FilterFactory.createGlodFilter()];
+            if (this.resourceType == 1) {
+                this.drawTarget.filters = [FilterFactory.createGlodFilterForText()];
+            }
+            else {
+                this.drawTarget.filters = [FilterFactory.createGlodFilter()];
+            }
             var mapArrIndex = void 0;
             for (var i = 0, len = this.mapArr.length; i < len; i++) {
                 if (this.mapArr[i].imageId == imageId) {
@@ -268,6 +292,16 @@ var DragImageBox = (function (_super) {
                 }
             }
             this.mapArr.splice(mapArrIndex, 1);
+        }
+    };
+    DragImageBox.prototype.judgeBorderisFull = function () {
+        if (this.mapArr.length !== this.dragBorderBox.numChildren) {
+            return;
+        }
+        for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
+            var group = this.imageBox.getChildAt(i);
+            var dragImg = group.getChildAt(group.numChildren - 1);
+            dragImg.filters = [];
         }
     };
     // 装换image的层级

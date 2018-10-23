@@ -1,8 +1,3 @@
-declare enum ImagePosition {
-    TOP = 1,
-    MIDDLE = 2,
-    BOTTOM = 3,
-}
 /**
  * 该组件包含的功能
  * 1、支持四种布局：上/下、下/上、左/右、右/上、左
@@ -25,6 +20,7 @@ declare class DragImageBox extends eui.Group {
     private placeholder;
     private hasBorder;
     private isRestore;
+    private resourceType;
     private dragBorderBox;
     private imageBox;
     private drawTarget;
@@ -40,11 +36,13 @@ declare class DragImageBox extends eui.Group {
     private createIamgeGroupBox();
     private createPlaceholderImage(url);
     private createImage(item);
+    private createText(item);
     private getImageDefaultPosition();
     private down(evt);
     private move(evt);
     private up(evt);
     private up2(evt);
     private checkoutImage(imageId);
+    private judgeBorderisFull();
     private swapImageIndex(target);
 }

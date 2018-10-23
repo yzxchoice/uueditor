@@ -1,7 +1,3 @@
-declare enum ClickMode {
-    MuchToMuch = 1,
-    MuchToOne = 2,
-}
 /**
  * 该组件包含的功能
  * 1、支持四种布局：上/下、下/上、左/右、右/上、左
@@ -25,23 +21,32 @@ declare class ClickImageBox extends eui.Group {
     private hasBorder;
     private isRestore;
     private clickMode;
+    private resourceType;
     private dragBorderBox;
     private imageBox;
     private drawTarget;
     private imageDefaultPosition;
     private mapArr;
-    private timer;
-    private SelectedImage;
+    private topImage;
+    private selectedImage;
+    private isTweening;
     constructor(props: any);
-    private init();
+    private renderUI();
+    private listenEvent();
     private getDragBorderBox();
-    private createIamgeGroupBox();
+    private createTotalGroupBox();
     private createPlaceholderImage(url);
     private createImage(item);
+    private createText(item);
     private getImageDefaultPosition();
-    private down(evt);
+    private downForClickMode1(evt);
+    private downForClickMode2(evt);
     private mapBorder();
-    private addImageToBorder(borderItem);
+    private getDrawTargetPointToparent(borderItem);
     private judgeBorderisFull();
-    private down2(evt);
+    private removeAllEleClickState();
+    private removeMapState(target);
+    private addMapState(target);
+    private recoverPosition(target);
+    private swapImageIndex(target);
 }

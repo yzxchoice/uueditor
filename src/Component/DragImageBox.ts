@@ -1,8 +1,4 @@
-enum ImagePosition {
-    TOP = 1,
-    MIDDLE = 2,
-    BOTTOM = 3,
-}
+
 /**
  * 该组件包含的功能
  * 1、支持四种布局：上/下、下/上、左/右、右/上、左
@@ -29,6 +25,7 @@ class DragImageBox extends eui.Group {
     private placeholder: boolean = true; // 是否带占位图
     private hasBorder: boolean = true; // 是否带背景图
     private isRestore: boolean = true; // 是否开启图片复位功能
+    private resourceType: ResourceType = ResourceType.Text; // 资源类型 文字/图片
 
     private dragBorderBox: DragBorderBox; // 框图片盒
     private imageBox: eui.Group; // 拖拽图片盒
@@ -57,9 +54,8 @@ class DragImageBox extends eui.Group {
          if(props.imagePosition) {
             this.imagePosition = props.imagePosition;
          }
-         if(props.placeholder) {
-            this.placeholder = props.placeholder;
-         }
+         this.placeholder = props.placeholder ? props.placeholder : false;
+         this.hasBorder = props.hasBorder ? props.hasBorder : false;
          if(props.isRestore) {
             this.isRestore = props.isRestore;             
          }
@@ -123,10 +119,18 @@ class DragImageBox extends eui.Group {
                 group.addChild(img);
              }
 
-             let img = this.createImage(this.award[i]);
-             img.x = x;
-             img.y = y;
-             group.addChild(img);
+            if(this.resourceType == 1) {
+                let label = this.createText(this.award[i]);
+                label.x = x;
+                label.y = y;
+                group.addChild(label);
+             }else {
+                let img = this.createImage(this.award[i]);
+                img.x = x;
+                img.y = y;
+                group.addChild(img);
+             }
+
              imageGroupArr.push(group);
          }
          LayoutBaseFactory.main( imageGroupBox, imageGroupArr, this.layoutType, this.gap, this.columnCount );
@@ -152,6 +156,19 @@ class DragImageBox extends eui.Group {
         img.height = 240;
         img.filters = [ FilterFactory.createGlodFilter() ];
         return img;
+     }
+
+     private createText(item: IResource): UULabel {
+         let label = new UULabel();
+         label.isDraw = true;
+         label.name = item.id.toString();         
+         label.text = item.text;
+         label.width = 240;
+         label.height = 240;
+         label.textAlign = 'center';
+         label.verticalAlign = 'middle';
+         label.filters = [ FilterFactory.createGlodFilterForText() ];         
+         return label;
      }
 
      private getImageDefaultPosition(): void {
@@ -218,12 +235,17 @@ class DragImageBox extends eui.Group {
             if(isHit) {
                 // 排斥校验
                 let borderId = borderItem.name;                
-                let imageId = this.drawTarget.name;                
+                let imageId = this.drawTarget.name;   
+                console.log('this.mapArr...');
+                console.log(this.mapArr);
+                console.log('borderId = ' + borderId);
+                console.log('imageId = ' + imageId);
                 if(this.mapArr.some(item => (item.borderId == borderId && item.imageId != imageId))) {
                     break;
                 }
                 this.checkoutImage(imageId);
                 this.mapArr.push({borderId: borderId, imageId: imageId});
+                this.judgeBorderisFull();
                 this.drawTarget.filters = [ ];                
                 // image中心与border中心重合
                 // borderItem中心 相对坐标 相对于borderBox
@@ -273,7 +295,11 @@ class DragImageBox extends eui.Group {
     // 检查目标image是否在mapArr中，是则从mapArr中删除
     private checkoutImage(imageId: string) {
         if(this.mapArr.some(item => item.imageId == imageId)) {
-            this.drawTarget.filters = [ FilterFactory.createGlodFilter() ];
+            if(this.resourceType == 1) {
+                this.drawTarget.filters = [ FilterFactory.createGlodFilterForText() ];                                
+            } else {
+                this.drawTarget.filters = [ FilterFactory.createGlodFilter() ];                
+            }
             let mapArrIndex;
             for(let i = 0, len = this.mapArr.length; i < len; i++) {
                 if(this.mapArr[i].imageId == imageId) {
@@ -283,10 +309,23 @@ class DragImageBox extends eui.Group {
             this.mapArr.splice(mapArrIndex, 1);
         }
     }
+
+    private judgeBorderisFull() {
+        if(this.mapArr.length !== this.dragBorderBox.numChildren) {
+            return;
+        }
+        for(let i = 0, len = this.imageBox.numChildren; i < len; i++) {
+            let group = <eui.Group>this.imageBox.getChildAt(i);
+            let dragImg = group.getChildAt(group.numChildren - 1);
+            dragImg.filters = [];
+        }
+    }
+
     // 装换image的层级
     private swapImageIndex(target: UUImage) {
         this.imageBox.swapChildren(target.parent, this.topImage);
         this.topImage = <eui.Group>target.parent;
     }
+
 
 }

@@ -710,6 +710,7 @@ declare class UULabel extends eui.Label implements IUUBase {
     lineSpacing: 12;
     textAlign: string;
     name: string;
+    isDraw?: boolean;
     static uuType: UUType;
     constructor();
     getProps(): ILabel;

@@ -1,13 +1,3 @@
-declare enum LayoutType {
-    HLayout = 1,
-    VLayout = 2,
-    TLayout = 3,
-}
-declare enum GapType {
-    Small = 1,
-    Middle = 2,
-    Big = 3,
-}
 declare class LayoutFactory {
     private static padding;
     static main(layoutType: LayoutType, gapType: GapType, columnCount?: number): eui.BasicLayout;

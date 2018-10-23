@@ -1,15 +1,3 @@
-/**
- * 该组件包含的功能
- * 1、支持四种布局：上/下、下/上、左/右、右/上、左
- * 2、拖拽功能
- * 3、图片复位功能：未入框则恢复到初始的位置
- * 4、一框一图功能：一个框不能放置多张图片
- * 5、调整拖拽图片的层级：被拖拽的图片层级永远最高
- * 6、支持选择图片放置在框中的位置：TOP/MIDDLE/BOTTOM
- * 7、支持占位图功能
- * 8、支持图片可选状态的开启与关闭
- * 9、支持背景图的设置
- */
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
@@ -20,26 +8,57 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var ClickImageBox = (function (_super) {
-    __extends(ClickImageBox, _super);
-    function ClickImageBox(props) {
+var LayoutType;
+(function (LayoutType) {
+    LayoutType[LayoutType["HLayout"] = 1] = "HLayout";
+    LayoutType[LayoutType["VLayout"] = 2] = "VLayout";
+    LayoutType[LayoutType["TLayout"] = 3] = "TLayout";
+})(LayoutType || (LayoutType = {}));
+var GapType;
+(function (GapType) {
+    GapType[GapType["Small"] = 1] = "Small";
+    GapType[GapType["Middle"] = 2] = "Middle";
+    GapType[GapType["Big"] = 3] = "Big";
+})(GapType || (GapType = {}));
+var ImagePosition;
+(function (ImagePosition) {
+    ImagePosition[ImagePosition["TOP"] = 1] = "TOP";
+    ImagePosition[ImagePosition["MIDDLE"] = 2] = "MIDDLE";
+    ImagePosition[ImagePosition["BOTTOM"] = 3] = "BOTTOM";
+})(ImagePosition || (ImagePosition = {}));
+var ClickMode;
+(function (ClickMode) {
+    ClickMode[ClickMode["MuchToMuch"] = 1] = "MuchToMuch";
+    ClickMode[ClickMode["MuchToOne"] = 2] = "MuchToOne";
+})(ClickMode || (ClickMode = {}));
+var ResourceType;
+(function (ResourceType) {
+    ResourceType[ResourceType["Text"] = 1] = "Text";
+    ResourceType[ResourceType["Image"] = 2] = "Image";
+})(ResourceType || (ResourceType = {}));
+var MapEleBoxFactory = (function (_super) {
+    __extends(MapEleBoxFactory, _super);
+    function MapEleBoxFactory(props) {
         var _this = _super.call(this) || this;
         // props
         _this.award = []; // 图片列表
-        _this.layoutType = 1; // 布局方式
-        _this.gap = GapType.Middle;
-        _this.columnCount = 3;
+        _this.layoutSet = {
+            layoutType: 1,
+            gap: 2,
+            columnCount: 3,
+        };
         _this.imagePosition = ImagePosition.MIDDLE; // 拖拽图在边框图中放置的位置：TOP/MIDDLE/BOTTOM
-        _this.placeholder = false; // 是否带占位图
-        _this.hasBorder = false; // 是否带背景图
+        _this.placeholder = true; // 是否带占位图
+        _this.hasBorder = true; // 是否带背景图
         _this.isRestore = true; // 是否开启图片复位功能
-        _this.clickMode = ClickMode.MuchToMuch; // 点击模式 多对多/多对一
         _this.resourceType = ResourceType.Text; // 资源类型 文字/图片
         // other
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
         _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
-        _this.selectedImage = null; // 多对一模式 框内的dragImage
-        _this.isTweening = false; // 多对一模式 动画是否正在进行的标记
+        // layout 
+        _this.layoutType = 1; // 布局方式
+        _this.gap = GapType.Middle;
+        _this.columnCount = 3;
         if (props.layoutSet.layoutType) {
             _this.layoutType = props.layoutSet.layoutType;
         }
@@ -58,9 +77,6 @@ var ClickImageBox = (function (_super) {
         if (props.resourceType) {
             _this.resourceType = props.resourceType;
         }
-        if (props.clickMode) {
-            _this.clickMode = props.clickMode;
-        }
         _this.award = props.award;
         _this.renderUI();
         _this.listenEvent();
@@ -68,7 +84,7 @@ var ClickImageBox = (function (_super) {
         return _this;
     }
     // 初始化UI
-    ClickImageBox.prototype.renderUI = function () {
+    MapEleBoxFactory.prototype.renderUI = function () {
         this.imageBox = this.createTotalGroupBox();
         this.width = this.imageBox.width;
         this.height = this.imageBox.height;
@@ -78,17 +94,8 @@ var ClickImageBox = (function (_super) {
         }
         this.topImage = this.imageBox.getChildAt(this.imageBox.numChildren - 1);
     };
-    // 监听事件
-    ClickImageBox.prototype.listenEvent = function () {
-        if (this.clickMode == 1) {
-            this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.downForClickMode1, this);
-        }
-        else {
-            this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.downForClickMode2, this);
-        }
-    };
     // 获取对应的匹配框组件
-    ClickImageBox.prototype.getDragBorderBox = function () {
+    MapEleBoxFactory.prototype.getDragBorderBox = function () {
         var parent = this.parent;
         for (var i = 0; i < parent.numChildren; i++) {
             if (parent.getChildAt(i) instanceof DragBorderBox) {
@@ -97,7 +104,7 @@ var ClickImageBox = (function (_super) {
         }
     };
     // 创建最外层的容器
-    ClickImageBox.prototype.createTotalGroupBox = function () {
+    MapEleBoxFactory.prototype.createTotalGroupBox = function () {
         // 每个item的容器的尺寸 及 内部目标元素的尺寸与位置
         var groupWidth = 240;
         var groupHeight = 240;
@@ -145,7 +152,7 @@ var ClickImageBox = (function (_super) {
         LayoutBaseFactory.main(imageGroupBox, imageGroupArr, this.layoutType, this.gap, this.columnCount);
         return imageGroupBox;
     };
-    ClickImageBox.prototype.createPlaceholderImage = function (url) {
+    MapEleBoxFactory.prototype.createPlaceholderImage = function (url) {
         var img = new UUImage();
         img.isDraw = false;
         img.source = url;
@@ -154,7 +161,7 @@ var ClickImageBox = (function (_super) {
         img.filters = [FilterFactory.createShadowFilter()];
         return img;
     };
-    ClickImageBox.prototype.createImage = function (item) {
+    MapEleBoxFactory.prototype.createImage = function (item) {
         var img = new UUImage();
         img.isDraw = true;
         img.source = item.url;
@@ -164,7 +171,7 @@ var ClickImageBox = (function (_super) {
         img.filters = [FilterFactory.createGlodFilter()];
         return img;
     };
-    ClickImageBox.prototype.createText = function (item) {
+    MapEleBoxFactory.prototype.createText = function (item) {
         var label = new UULabel();
         label.isDraw = true;
         label.name = item.id.toString();
@@ -176,7 +183,7 @@ var ClickImageBox = (function (_super) {
         label.filters = [FilterFactory.createGlodFilterForText()];
         return label;
     };
-    ClickImageBox.prototype.getImageDefaultPosition = function () {
+    MapEleBoxFactory.prototype.getImageDefaultPosition = function () {
         for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
             var group = this.imageBox.getChildAt(i);
             var imageItem = group.getChildAt(group.numChildren - 1);
@@ -184,46 +191,8 @@ var ClickImageBox = (function (_super) {
         }
         console.log(this.imageDefaultPosition);
     };
-    // 多对多模式的事件监听
-    ClickImageBox.prototype.downForClickMode1 = function (evt) {
-        evt.preventDefault();
-        var target = evt.target;
-        var isDraw = target.isDraw;
-        if (this.judgeBorderisFull())
-            return;
-        if (isDraw) {
-            this.drawTarget = target;
-            this.mapBorder();
-        }
-    };
-    // 多对一模式的事件监听
-    ClickImageBox.prototype.downForClickMode2 = function (evt) {
-        var _this = this;
-        evt.preventDefault();
-        var borderItem = this.dragBorderBox.getChildAt(0);
-        var target = evt.target;
-        if (!target.isDraw)
-            return;
-        if (this.isTweening)
-            return;
-        this.drawTarget = target;
-        this.swapImageIndex(target);
-        if (this.selectedImage) {
-            this.recoverPosition(this.selectedImage);
-            this.addMapState(this.selectedImage);
-        }
-        var point = this.getDrawTargetPointToparent(borderItem);
-        this.isTweening = true;
-        egret.Tween.get(target)
-            .to({ x: point.x, y: point.y }, 1000)
-            .call(function () {
-            _this.isTweening = false;
-            _this.selectedImage = target;
-            _this.removeMapState(target);
-        });
-    };
     // 将匹配元素与匹配框进行匹配
-    ClickImageBox.prototype.mapBorder = function () {
+    MapEleBoxFactory.prototype.mapBorder = function () {
         var borderIndex = this.mapArr.length;
         var borderItem = this.dragBorderBox.getChildAt(borderIndex);
         var borderId = borderItem.name;
@@ -238,7 +207,7 @@ var ClickImageBox = (function (_super) {
         this.drawTarget.y = point.y;
     };
     // 匹配元素在匹配框中的位置
-    ClickImageBox.prototype.getDrawTargetPointToparent = function (borderItem) {
+    MapEleBoxFactory.prototype.getDrawTargetPointToparent = function (borderItem) {
         var borderScaleX = this.dragBorderBox.scaleX;
         var borderScaleY = this.dragBorderBox.scaleY;
         var imageScaleX = this.scaleY;
@@ -270,11 +239,11 @@ var ClickImageBox = (function (_super) {
         return localPoint;
     };
     // 判断匹配框是否已经满了
-    ClickImageBox.prototype.judgeBorderisFull = function () {
+    MapEleBoxFactory.prototype.judgeBorderisFull = function () {
         return this.mapArr.length === this.dragBorderBox.numChildren;
     };
     // 移除所有匹配元素的可点击状态
-    ClickImageBox.prototype.removeAllEleClickState = function () {
+    MapEleBoxFactory.prototype.removeAllEleClickState = function () {
         for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
             var group = this.imageBox.getChildAt(i);
             var dragImg = group.getChildAt(group.numChildren - 1);
@@ -282,12 +251,12 @@ var ClickImageBox = (function (_super) {
         }
     };
     // 移除某个匹配元素的可匹配状态
-    ClickImageBox.prototype.removeMapState = function (target) {
+    MapEleBoxFactory.prototype.removeMapState = function (target) {
         target.isDraw = false;
         target.filters = [];
     };
     // 添加某个匹配元素的可匹配状态
-    ClickImageBox.prototype.addMapState = function (target) {
+    MapEleBoxFactory.prototype.addMapState = function (target) {
         target.isDraw = true;
         if (this.resourceType == 1) {
             target.filters = [FilterFactory.createGlodFilterForText()];
@@ -297,17 +266,16 @@ var ClickImageBox = (function (_super) {
         }
     };
     // 复原某个匹配元素的位置
-    ClickImageBox.prototype.recoverPosition = function (target) {
+    MapEleBoxFactory.prototype.recoverPosition = function (target) {
         var defaultPosition = this.imageDefaultPosition[target.name];
         target.x = defaultPosition[0];
         target.y = defaultPosition[1];
     };
     // 转换匹配元素的层级
-    ClickImageBox.prototype.swapImageIndex = function (target) {
+    MapEleBoxFactory.prototype.swapImageIndex = function (target) {
         this.imageBox.swapChildren(target.parent, this.topImage);
         this.topImage = target.parent;
     };
-    ClickImageBox.uuType = UUType.CLICK_IMAGE_BOX;
-    return ClickImageBox;
+    return MapEleBoxFactory;
 }(eui.Group));
-__reflect(ClickImageBox.prototype, "ClickImageBox");
+__reflect(MapEleBoxFactory.prototype, "MapEleBoxFactory", ["MapElmBox", "IMapEle"]);

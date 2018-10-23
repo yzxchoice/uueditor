@@ -70,22 +70,26 @@
                     },
                     "props": {
                         "imagePosition": 3,
-                        "placeholder": true,
+                        "placeholder": false,
                         "hasBorder": true,
                         "isRestore": true,
                         "clickMode": 2,
+                        "resourceType": 1,
                         "award": [
                             {
                                 "id": 1,
-                                "url": "resource/assets/Pic/1.png"
+                                "url": "resource/assets/Pic/1.png",
+                                "text": "l"
                             },
                             {
                                 "id": 2,                                
-                                "url": "resource/assets/Pic/2.png"
+                                "url": "resource/assets/Pic/2.png",
+                                "text": "b"
                             },
                             {
                                 "id": 3,                                                                
-                                "url": "resource/assets/Pic/3.png"
+                                "url": "resource/assets/Pic/3.png",
+                                "text": "y"
                             }
                         ],
                         "layoutSet": {

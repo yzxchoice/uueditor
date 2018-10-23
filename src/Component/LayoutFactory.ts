@@ -1,14 +1,4 @@
-enum LayoutType {
-    HLayout = 1,
-    VLayout = 2,
-    TLayout = 3,
-}
 
-enum GapType {
-    Small = 1,
-    Middle = 2,
-    Big = 3,
-}
 
 class LayoutFactory {
     private static padding: number = 10;
