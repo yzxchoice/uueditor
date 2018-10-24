@@ -86,6 +86,7 @@ declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, 
     }[];
     topImage: eui.Group;
     observer: Observer;
+    hasAnswer: boolean;
     private layoutType;
     private gap;
     private columnCount;

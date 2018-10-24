@@ -94,6 +94,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, Function
     mapArr: {borderId: string, imageId: string}[] = []; // 记录框、图匹配关系 用于一框一图功能
     topImage: eui.Group; // 指向层级最高的image 用于 调整拖拽图片的层级功能
     observer: Observer = Observer.getInstance(); // 观察者
+    hasAnswer: boolean = false; // 是否已经answer
 
     // layout 
     private layoutType: LayoutType = 1; // 布局方式
@@ -380,13 +381,33 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, Function
     // 重置功能
     reset(): void {
         this.removeChildren();
-        this.renderUI();
         this.imageDefaultPosition = [];
         this.mapArr = [];
+        this.hasAnswer = false;
+        this.renderUI();        
     }
 
     // answer功能
     answer(): void {
-        console.log('mapFactory answer...');
+        console.log('answer MapFactory...');
+        if(this.hasAnswer) return;
+        this.hasAnswer = true;
+        for(let i = 0, len = this.imageBox.numChildren; i < len; i++) {
+            let imageItem = <eui.Group>this.imageBox.getChildAt(i);
+            let mapItem = imageItem.getChildAt(imageItem.numChildren - 1);
+            let mapItemId = mapItem.name;
+            console.log('mapItemId = ' + mapItemId);
+            let answer: boolean = this.award.filter(item => item.id == mapItemId)[0].answer;
+            let params = {
+                groupWidth: mapItem.width,
+                groupHeight: mapItem.height,
+                judge: answer,
+                itemPosition: AnswerJudgePosition.BottomRight,
+            }
+            let anserJudge = new AnswerJudge(params);
+            anserJudge.x = mapItem.x;
+            anserJudge.y = mapItem.y;
+            imageItem.addChild(anserJudge);
+        }
     }
 }

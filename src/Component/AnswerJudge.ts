@@ -21,6 +21,7 @@ class AnswerJudge extends eui.Group {
         for(let key in params) {
             this[key] = params[key];
         }
+        this.createUI();
     }
 
     private createUI(): void {
@@ -61,20 +62,20 @@ class AnswerJudge extends eui.Group {
         let y: number;
         switch(positionType) {
             case AnswerJudgePosition.TopLeft:
-                x = -item.width
-                y = -item.height
+                x = 0
+                y = 0
                 break;
             case AnswerJudgePosition.TopLeft:
-                x = this.groupWidth
-                y = -item.height
+                x = this.groupWidth - item.width
+                y = 0
                 break;
             case AnswerJudgePosition.BottomLeft:
-                x = -item.width
-                y = this.groupHeight
+                x = 0
+                y = this.groupHeight - item.height
                 break;
             case AnswerJudgePosition.BottomRight:
-                x = this.groupWidth;
-                y = this.groupHeight;
+                x = this.groupWidth - item.width;
+                y = this.groupHeight - item.height;
                 break;
             case AnswerJudgePosition.Center:
                 x = (this.groupWidth - item.width) / 2;

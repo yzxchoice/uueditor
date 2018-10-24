@@ -150,6 +150,7 @@ interface IResource {
      * 图片地址
      */
     url?: string;
+    answer?: boolean;
 }
 /**
  * 自定义组件绑定数据实体

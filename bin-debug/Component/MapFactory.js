@@ -64,6 +64,7 @@ var MapEleBoxFactory = (function (_super) {
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
         _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
         _this.observer = Observer.getInstance(); // 观察者
+        _this.hasAnswer = false; // 是否已经answer
         // layout 
         _this.layoutType = 1; // 布局方式
         _this.gap = GapType.Middle;
@@ -321,13 +322,38 @@ var MapEleBoxFactory = (function (_super) {
     // 重置功能
     MapEleBoxFactory.prototype.reset = function () {
         this.removeChildren();
-        this.renderUI();
         this.imageDefaultPosition = [];
         this.mapArr = [];
+        this.hasAnswer = false;
+        this.renderUI();
     };
     // answer功能
     MapEleBoxFactory.prototype.answer = function () {
-        console.log('mapFactory answer...');
+        console.log('answer MapFactory...');
+        if (this.hasAnswer)
+            return;
+        this.hasAnswer = true;
+        var _loop_1 = function (i, len) {
+            var imageItem = this_1.imageBox.getChildAt(i);
+            var mapItem = imageItem.getChildAt(imageItem.numChildren - 1);
+            var mapItemId = mapItem.name;
+            console.log('mapItemId = ' + mapItemId);
+            var answer = this_1.award.filter(function (item) { return item.id == mapItemId; })[0].answer;
+            var params = {
+                groupWidth: mapItem.width,
+                groupHeight: mapItem.height,
+                judge: answer,
+                itemPosition: AnswerJudgePosition.BottomRight,
+            };
+            var anserJudge = new AnswerJudge(params);
+            anserJudge.x = mapItem.x;
+            anserJudge.y = mapItem.y;
+            imageItem.addChild(anserJudge);
+        };
+        var this_1 = this;
+        for (var i = 0, len = this.imageBox.numChildren; i < len; i++) {
+            _loop_1(i, len);
+        }
     };
     return MapEleBoxFactory;
 }(eui.Group));

@@ -28,6 +28,7 @@ var AnswerJudge = (function (_super) {
         for (var key in params) {
             _this[key] = params[key];
         }
+        _this.createUI();
         return _this;
     }
     AnswerJudge.prototype.createUI = function () {
@@ -65,20 +66,20 @@ var AnswerJudge = (function (_super) {
         var y;
         switch (positionType) {
             case AnswerJudgePosition.TopLeft:
-                x = -item.width;
-                y = -item.height;
+                x = 0;
+                y = 0;
                 break;
             case AnswerJudgePosition.TopLeft:
-                x = this.groupWidth;
-                y = -item.height;
+                x = this.groupWidth - item.width;
+                y = 0;
                 break;
             case AnswerJudgePosition.BottomLeft:
-                x = -item.width;
-                y = this.groupHeight;
+                x = 0;
+                y = this.groupHeight - item.height;
                 break;
             case AnswerJudgePosition.BottomRight:
-                x = this.groupWidth;
-                y = this.groupHeight;
+                x = this.groupWidth - item.width;
+                y = this.groupHeight - item.height;
                 break;
             case AnswerJudgePosition.Center:
                 x = (this.groupWidth - item.width) / 2;

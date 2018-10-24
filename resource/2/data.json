@@ -43,6 +43,27 @@
                     "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 },
+                 {
+                    "id": 90012,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 9001,
+                     "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 600,
+                        "y": 0
+                    },
+                    "props": {
+                        "text": "answer",
+                        "bgUrl": "resource/assets/Pic/border2.png",
+                        "functionType": 2
+                    },
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                },
                 {
                     "id": 3001,
                     "name": "scene_33_jpg",
@@ -63,6 +84,14 @@
                             {
                                 "id": 1,
                                 "url": "resource/assets/Pic/border1.png"
+                            },
+                            {
+                                "id": 2,
+                                "url": "resource/assets/Pic/border1.png"
+                            },
+                            {
+                                "id": 3,
+                                "url": "resource/assets/Pic/border1.png"
                             }
                         ],
                         "layoutSet": {
@@ -78,7 +107,7 @@
                     "id": 3003,
                     "name": "scene_23_jpg",
                     "pageId": 2018073110588,
-                    "type": 3002,
+                    "type": 3003,
                     "matrix": {
                         "a": 1,
                         "b": 0,
@@ -101,13 +130,26 @@
                         "placeholder": false,
                         "hasBorder": false,
                         "isRestore": true,
-                        "clickMode": 2,
+                        "clickMode": 1,
                         "functions": [1,2],
                         "award": [
                             {
                                 "id": 1,
                                 "url": "resource/assets/Pic/1.png",
-                                "text": "l"
+                                "text": "l",
+                                "answer": true
+                            },
+                             {
+                                "id": 2,
+                                "url": "resource/assets/Pic/2.png",
+                                "text": "l",
+                                "answer": false                                
+                            },
+                             {
+                                "id": 3,
+                                "url": "resource/assets/Pic/3.png",
+                                "text": "l",
+                                "answer": true                                
                             }
                         ],
                         "layoutSet": {
