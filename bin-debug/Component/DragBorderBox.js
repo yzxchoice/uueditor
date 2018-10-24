@@ -19,6 +19,8 @@ var DragBorderBox = (function (_super) {
         _this.layoutType = 1; // 布局方式
         _this.gap = GapType.Middle;
         _this.columnCount = 3;
+        // other
+        _this.globalState = GlobalState.getInstance();
         for (var key in props) {
             if (props[key] !== undefined) {
                 _this[key] = props[key];
@@ -41,12 +43,22 @@ var DragBorderBox = (function (_super) {
     };
     DragBorderBox.prototype.createBorderBox = function () {
         for (var i = 0, len = this.toAward.length; i < len; i++) {
-            var img = UIFactory.createImage(this.toAward[i].url);
-            img.width = this.bgWidth;
-            img.height = this.bgHeight;
-            var imgGroup = UIFactory.createGroup(img.width, img.height);
+            var imgGroup = UIFactory.createGroup(this.bgWidth, this.bgHeight);
             imgGroup.name = this.toAward[i].id.toString();
-            imgGroup.addChild(img);
+            if (this.toAward[i].url) {
+                var img = UIFactory.createImage(this.toAward[i].url);
+                img.width = this.bgWidth;
+                img.height = this.bgHeight;
+                imgGroup.addChild(img);
+            }
+            else {
+                var alpha = this.globalState.getShowState() == 1 ? 1 : 0;
+                var shape = new egret.Shape();
+                shape.graphics.beginFill(0x0000ff, alpha);
+                shape.graphics.drawRect(0, 0, this.bgWidth, this.bgHeight);
+                shape.graphics.endFill();
+                imgGroup.addChild(shape);
+            }
             this.addChild(imgGroup);
         }
     };

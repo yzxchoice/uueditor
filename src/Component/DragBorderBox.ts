@@ -10,6 +10,8 @@ class DragBorderBox extends eui.Group {
     private gap: GapType = GapType.Middle;
     private columnCount: number = 3;
 
+    // other
+    private globalState: GlobalState = GlobalState.getInstance();
      constructor(props) {
          super();
          for(let key in props) {
@@ -35,12 +37,21 @@ class DragBorderBox extends eui.Group {
 
      private createBorderBox(): void {
          for(let i = 0, len = this.toAward.length; i < len; i++) {
-             let img = <eui.Image>UIFactory.createImage(this.toAward[i].url);
-             img.width = this.bgWidth;
-             img.height = this.bgHeight;
-             let imgGroup = UIFactory.createGroup(img.width, img.height);
-             imgGroup.name = this.toAward[i].id.toString();             
-             imgGroup.addChild(img);
+             let imgGroup = UIFactory.createGroup(this.bgWidth, this.bgHeight);
+             imgGroup.name = this.toAward[i].id.toString();  
+             if(this.toAward[i].url) {
+                let img = <eui.Image>UIFactory.createImage(this.toAward[i].url);
+                img.width = this.bgWidth;
+                img.height = this.bgHeight;
+                imgGroup.addChild(img);
+             } else {
+                 let alpha: number = this.globalState.getShowState() == 1 ? 1 : 0;
+                 let shape = new egret.Shape();
+                 shape.graphics.beginFill(0x0000ff, alpha);
+                 shape.graphics.drawRect(0, 0, this.bgWidth, this.bgHeight);
+                 shape.graphics.endFill();
+                 imgGroup.addChild(shape);
+             }
              this.addChild(imgGroup);
          }
      }

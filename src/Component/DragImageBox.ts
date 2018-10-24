@@ -86,8 +86,6 @@ class DragImageBox extends MapEleBoxFactory {
                 let borderItem = <eui.Group>this.dragBorderBox[j].getChildAt(i);
                 let isHit:boolean = borderItem.hitTestPoint( drawTargeGlobalCenterX, drawTargeGlobalCenterY );
                 if(isHit) {
-                    console.log('borderItem........');
-                    console.log(borderItem);
                     // 排斥校验
                     let borderId = borderItem.name;                
                     let imageId = this.drawTarget.name;   
@@ -122,6 +120,7 @@ class DragImageBox extends MapEleBoxFactory {
         this.stage.removeEventListener(Mouse.END, this.up, this);
         evt.preventDefault();                
     }
+
     // 检查目标image是否在mapArr中，是则从mapArr中删除
     private checkoutImage(imageId: string) {
         if(this.mapArr.some(item => item.imageId == imageId)) {

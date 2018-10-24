@@ -23,6 +23,27 @@
                     "sceneId": 1001
                 },
                 {
+                    "id": 9001,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 9001,
+                     "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "text": "reset",
+                        "bgUrl": "resource/assets/Pic/border2.png",
+                        "functionType": 1
+                    },
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                },
+                {
                     "id": 3001,
                     "name": "scene_33_jpg",
                     "pageId": 2018073110432,
@@ -36,57 +57,14 @@
                         "y": 0
                     },
                     "props": {
-                        "bgWidth": 280,
-                        "bgHeight": 280,
+                        "bgWidth": 300,
+                        "bgHeight": 300,
                         "toAward": [
                             {
                                 "id": 1,
                                 "url": "resource/assets/Pic/border1.png"
-                            },
-                            {
-                                "id": 2,                                
-                                "url": "resource/assets/Pic/border2.png"
-                            },
-                            {
-                                "id": 3,                                
-                                "url": "resource/assets/Pic/border2.png"
-                            },
-                            {
-                                "id": 4,                                
-                                "url": "resource/assets/Pic/border2.png"
                             }
-                          ],
-                        "layoutSet": {
-                            "layoutType": 3,
-                            "gap": 3,
-                            "columnCount": 2
-                        }
-                    },
-                    "src": "assets/bg/scene_3.jpg",
-                    "sceneId": 1001
-                },
-                {
-                    "id": 30011,
-                    "name": "scene_33_jpg",
-                    "pageId": 2018073110432,
-                    "type": 3001,
-                    "matrix": {
-                        "a": 1,
-                        "b": 0,
-                        "c": 0,
-                        "d": 1,
-                        "x": 0,
-                        "y": 0
-                    },
-                    "props": {
-                        "bgWidth": 280,
-                        "bgHeight": 280,
-                        "toAward": [
-                            {
-                                "id": 5,                                
-                                "url": "resource/assets/Pic/border2.png"
-                            }
-                          ],
+                        ],
                         "layoutSet": {
                             "layoutType": 1,
                             "gap": 3,
@@ -110,54 +88,30 @@
                         "y": 0
                     },
                     "props": {
-                        "resourceType": 1,
-                        "bgWidth": 280,
-                        "bgHeight": 280,
-                        "imgWidth": 220,
-                        "imgHeight": 220,
+                        "resourceType": 2,
+                        "bgWidth": 300,
+                        "bgHeight": 300,
+                        "imgWidth": 240,
+                        "imgHeight": 240,
                         "fontStyle": {
                             "textColor": "0x00000",
                             "size": 80
                         },
                         "imagePosition": 2,
                         "placeholder": false,
-                        "hasBorder": true,
+                        "hasBorder": false,
                         "isRestore": true,
-                        "clickMode": 1,
+                        "clickMode": 2,
+                        "functions": [1,2],
                         "award": [
                             {
                                 "id": 1,
                                 "url": "resource/assets/Pic/1.png",
                                 "text": "l"
-                            },
-                            {
-                                "id": 2,                                
-                                "url": "resource/assets/Pic/2.png",
-                                "text": "b"
-                            },
-                            {
-                                "id": 3,                                                                
-                                "url": "resource/assets/Pic/3.png",
-                                "text": "y"
-                            },
-                            {
-                                "id": 4,
-                                "url": "resource/assets/Pic/1.png",
-                                "text": "l"
-                            },
-                            {
-                                "id": 5,                                
-                                "url": "resource/assets/Pic/2.png",
-                                "text": "b"
-                            },
-                            {
-                                "id": 6,                                                                
-                                "url": "resource/assets/Pic/3.png",
-                                "text": "y"
                             }
                         ],
                         "layoutSet": {
-                            "layoutType": 3,
+                            "layoutType": 1,
                             "gap": 3,
                             "columnCount": 3
                         }
@@ -169,6 +123,28 @@
             "properties": {
                 "triggerGroup": []
             }
+        },
+         {
+            "id": 201807311009,
+            "elements": [
+                {
+                    "id": 7401,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 99,
+                    "matrix": {
+                        "a": 1.171875,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1.171875,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {},
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                }
+            ]
         }
     ]
 }

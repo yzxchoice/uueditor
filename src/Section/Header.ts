@@ -147,6 +147,9 @@ class Header extends eui.Group implements IUUContainer {
     
     preview (event: egret.TouchEvent) {
         // callJsFunc("ts call js");
+        let globalState: GlobalState = GlobalState.getInstance(); // 全局状态管理
+        globalState.changeShowStateToPreview();
+        Observer.getInstance().clear();
         var g: Game = this.parent as Game;
         var pb: PreviewBox = new PreviewBox();
         pb.draw(g);

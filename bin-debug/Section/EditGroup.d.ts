@@ -9,6 +9,7 @@ declare class EditGroup extends eui.Group {
     private siderbar;
     uutween: UUTween;
     tweenControl: TweenControl;
+    private globalState;
     constructor();
     protected createChildren(): void;
     private onAddToStage(event);

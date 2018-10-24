@@ -309,6 +309,10 @@ var UUType;
      * 点击组件 image盒组件
      */
     UUType[UUType["CLICK_IMAGE_BOX"] = 3003] = "CLICK_IMAGE_BOX";
+    /**
+    * 功能按钮
+    */
+    UUType[UUType["FUNCTION_BUTTON"] = 9001] = "FUNCTION_BUTTON";
 })(UUType || (UUType = {}));
 /**
  * 动画类型
@@ -2183,7 +2187,7 @@ var Utils = (function () {
     function Utils() {
     }
     Utils.getComs = function () {
-        return [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground, Slideshow, SlotMachine, CardAlert, SelectImage, DrawOne, DragBorderBox, DragImageBox, ClickImageBox];
+        return [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground, Slideshow, SlotMachine, CardAlert, SelectImage, DrawOne, DragBorderBox, DragImageBox, ClickImageBox, FunctionButton];
     };
     Utils.getTexture = function (url) {
         var _this = this;

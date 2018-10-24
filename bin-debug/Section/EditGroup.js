@@ -56,7 +56,9 @@ var EditGroup = (function (_super) {
         _this.displayGroup = new eui.Group();
         _this.siderbar = Siderbar.getInstance();
         _this.tweenControl = new TweenControl();
+        _this.globalState = GlobalState.getInstance(); // 全局状态管理
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
+        _this.globalState.changeShowStateToEdit();
         return _this;
     }
     EditGroup.prototype.createChildren = function () {
@@ -396,6 +398,7 @@ var EditGroup = (function (_super) {
         }
     };
     EditGroup.prototype.go = function (event) {
+        Observer.getInstance().clear();
         this.reset();
         this.pageIndex = event.data.pageIndex;
         this.renderResources(this.pageIndex);

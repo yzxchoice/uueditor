@@ -78,8 +78,6 @@ var DragImageBox = (function (_super) {
                 var borderItem = this_1.dragBorderBox[j].getChildAt(i);
                 var isHit = borderItem.hitTestPoint(drawTargeGlobalCenterX, drawTargeGlobalCenterY);
                 if (isHit) {
-                    console.log('borderItem........');
-                    console.log(borderItem);
                     // 排斥校验
                     var borderId_1 = borderItem.name;
                     var imageId_1 = this_1.drawTarget.name;

@@ -184,6 +184,9 @@ var Header = (function (_super) {
     };
     Header.prototype.preview = function (event) {
         // callJsFunc("ts call js");
+        var globalState = GlobalState.getInstance(); // 全局状态管理
+        globalState.changeShowStateToPreview();
+        Observer.getInstance().clear();
         var g = this.parent;
         var pb = new PreviewBox();
         pb.draw(g);

@@ -58,7 +58,7 @@ interface MapElmBox extends IMapEle {
     selectedImage?: UUImage | null;
     isTweening?: boolean;
 }
-declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
+declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, FunctionForReset {
     award: IResource[];
     resourceType: ResourceType;
     bgWidth: number;
@@ -74,6 +74,7 @@ declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     placeholder: boolean;
     hasBorder: boolean;
     isRestore: boolean;
+    functions: FunctionType[];
     dragBorderBox: DragBorderBox[];
     dragBorderBoxIndex: number;
     imageBox: eui.Group;
@@ -84,11 +85,14 @@ declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
         imageId: string;
     }[];
     topImage: eui.Group;
+    observer: Observer;
     private layoutType;
     private gap;
     private columnCount;
     constructor(props: any);
     protected renderUI(): void;
+    protected openFunctions(): void;
+    private getEmitName(functionType);
     protected getDragBorderBox(): void;
     protected createTotalGroupBox(): eui.Group;
     protected createPlaceholderImage(url: string): UUImage;
@@ -104,4 +108,6 @@ declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     protected addMapState(target: UUImage | UULabel): void;
     protected recoverPosition(target: UUImage | UULabel): void;
     protected swapImageIndex(target: UUImage): void;
+    reset(): void;
+    answer(): void;
 }

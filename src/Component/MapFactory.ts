@@ -63,7 +63,7 @@ interface MapElmBox extends IMapEle {
     isTweening?: boolean,
 }
 
-abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
+abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, FunctionForReset {
      // props
     award: IResource[] = []; // 图片列表
     resourceType: ResourceType = ResourceType.Text; // 资源类型 文字/图片
@@ -81,6 +81,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     placeholder: boolean = true; // 是否带占位图
     hasBorder: boolean = true; // 是否带背景图
     isRestore: boolean = true; // 是否开启图片复位功能
+    functions: FunctionType[] = [1]; // 需要开启的功能，例如：reset、answer
 
     dragBorderBox: DragBorderBox[] = []; // 框图片盒
     dragBorderBoxIndex: number = 0;
@@ -92,6 +93,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     imageDefaultPosition: [number, number][] = []; // 图片初始位置，用于图片复位功能
     mapArr: {borderId: string, imageId: string}[] = []; // 记录框、图匹配关系 用于一框一图功能
     topImage: eui.Group; // 指向层级最高的image 用于 调整拖拽图片的层级功能
+    observer: Observer = Observer.getInstance(); // 观察者
 
     // layout 
     private layoutType: LayoutType = 1; // 布局方式
@@ -111,6 +113,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
              }
          }
          this.renderUI();
+         this.openFunctions();
      }
 
      // 初始化UI
@@ -124,6 +127,31 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
              this.getImageDefaultPosition();
          }
          this.topImage = <eui.Group>this.imageBox.getChildAt(this.imageBox.numChildren - 1);
+     }
+
+     // 开启组件功能
+     protected openFunctions(): void {
+         for(let i = 0, len = this.functions.length; i < len; i++) {
+             let functionType = <FunctionType>this.functions[i];
+             let functionName = this.getEmitName(functionType);
+             this.observer.register(functionName, this[functionName].bind(this));
+         }
+     }
+
+     private getEmitName(functionType: FunctionType): string {
+        let emitName: string;
+        switch(functionType) {
+            case FunctionType.RESET:
+                emitName = 'reset';
+                break;
+            case FunctionType.ANSWER:
+                emitName = 'answer';
+                break;
+            case FunctionType.START:
+                emitName = 'start';
+                break;
+        }
+        return emitName;
      }
 
      // 获取对应的匹配框组件
@@ -347,5 +375,18 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox {
     protected swapImageIndex(target: UUImage) {
         this.imageBox.swapChildren(target.parent, this.topImage);
         this.topImage = <eui.Group>target.parent;
+    }
+
+    // 重置功能
+    reset(): void {
+        this.removeChildren();
+        this.renderUI();
+        this.imageDefaultPosition = [];
+        this.mapArr = [];
+    }
+
+    // answer功能
+    answer(): void {
+        console.log('mapFactory answer...');
     }
 }

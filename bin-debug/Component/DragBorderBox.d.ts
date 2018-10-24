@@ -6,6 +6,7 @@ declare class DragBorderBox extends eui.Group {
     private layoutType;
     private gap;
     private columnCount;
+    private globalState;
     constructor(props: any);
     private init();
     private createBorderBox();

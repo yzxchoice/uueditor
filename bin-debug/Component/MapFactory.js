@@ -57,11 +57,13 @@ var MapEleBoxFactory = (function (_super) {
         _this.placeholder = true; // 是否带占位图
         _this.hasBorder = true; // 是否带背景图
         _this.isRestore = true; // 是否开启图片复位功能
+        _this.functions = [1]; // 需要开启的功能，例如：reset、answer
         _this.dragBorderBox = []; // 框图片盒
         _this.dragBorderBoxIndex = 0;
         // other
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
         _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
+        _this.observer = Observer.getInstance(); // 观察者
         // layout 
         _this.layoutType = 1; // 布局方式
         _this.gap = GapType.Middle;
@@ -77,6 +79,7 @@ var MapEleBoxFactory = (function (_super) {
             }
         }
         _this.renderUI();
+        _this.openFunctions();
         return _this;
     }
     // 初始化UI
@@ -89,6 +92,29 @@ var MapEleBoxFactory = (function (_super) {
             this.getImageDefaultPosition();
         }
         this.topImage = this.imageBox.getChildAt(this.imageBox.numChildren - 1);
+    };
+    // 开启组件功能
+    MapEleBoxFactory.prototype.openFunctions = function () {
+        for (var i = 0, len = this.functions.length; i < len; i++) {
+            var functionType = this.functions[i];
+            var functionName = this.getEmitName(functionType);
+            this.observer.register(functionName, this[functionName].bind(this));
+        }
+    };
+    MapEleBoxFactory.prototype.getEmitName = function (functionType) {
+        var emitName;
+        switch (functionType) {
+            case FunctionType.RESET:
+                emitName = 'reset';
+                break;
+            case FunctionType.ANSWER:
+                emitName = 'answer';
+                break;
+            case FunctionType.START:
+                emitName = 'start';
+                break;
+        }
+        return emitName;
     };
     // 获取对应的匹配框组件
     MapEleBoxFactory.prototype.getDragBorderBox = function () {
@@ -292,6 +318,17 @@ var MapEleBoxFactory = (function (_super) {
         this.imageBox.swapChildren(target.parent, this.topImage);
         this.topImage = target.parent;
     };
+    // 重置功能
+    MapEleBoxFactory.prototype.reset = function () {
+        this.removeChildren();
+        this.renderUI();
+        this.imageDefaultPosition = [];
+        this.mapArr = [];
+    };
+    // answer功能
+    MapEleBoxFactory.prototype.answer = function () {
+        console.log('mapFactory answer...');
+    };
     return MapEleBoxFactory;
 }(eui.Group));
-__reflect(MapEleBoxFactory.prototype, "MapEleBoxFactory", ["MapElmBox", "IMapEle"]);
+__reflect(MapEleBoxFactory.prototype, "MapEleBoxFactory", ["MapElmBox", "IMapEle", "FunctionForReset"]);

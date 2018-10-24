@@ -11,9 +11,12 @@ class EditGroup extends eui.Group {
     private siderbar: Siderbar = Siderbar.getInstance();
     public uutween: UUTween;
     public tweenControl: TweenControl = new TweenControl();
+
+    private globalState: GlobalState = GlobalState.getInstance(); // 全局状态管理
     public constructor () {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        this.globalState.changeShowStateToEdit();
     }
 
     protected createChildren() {
@@ -395,6 +398,7 @@ class EditGroup extends eui.Group {
     }
 
     go (event: PageEvent) {
+        Observer.getInstance().clear();
         this.reset();
         this.pageIndex = event.data.pageIndex;
         this.renderResources(this.pageIndex);

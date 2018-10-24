@@ -117,6 +117,10 @@ declare enum UUType {
      * 点击组件 image盒组件
      */
     CLICK_IMAGE_BOX = 3003,
+    /**
+    * 功能按钮
+    */
+    FUNCTION_BUTTON = 9001,
 }
 /**
  * 动画类型
