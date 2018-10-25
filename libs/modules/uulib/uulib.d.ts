@@ -85,6 +85,10 @@ declare enum UUType {
      */
     FRAME = 102,
     /**
+     * Group
+     */
+    GROUP = 103,
+    /**
      * 轮播图组件
      */
     SLIDESHOW = 103,
@@ -151,6 +155,7 @@ interface IResource {
      */
     url?: string;
     answer?: boolean;
+    rightAnswer?: ILabel;
 }
 /**
  * 自定义组件绑定数据实体
@@ -177,15 +182,27 @@ interface IUUBase {
      * 资源类组件
      */
     texture?: any;
+    /**
+     * 是否可拖动
+     */
+    isDraw?: boolean;
     getProps?: () => any;
 }
+interface ISize {
+    width: number;
+    height: number;
+}
 interface ILabel {
-    text: string;
+    text?: string;
     textColor?: number;
     size?: number;
     fontFamily?: string;
     textAlign?: string;
     lineSpacing?: number;
+}
+interface IImage extends IResource, ISize {
+}
+interface IGroup extends ISize {
 }
 interface IQuestions {
     items: Array<IQuestion>;
@@ -693,34 +710,41 @@ declare class UUContainer extends eui.Group implements IUUBase {
         height: number;
     };
 }
+declare class UUGroup extends eui.Group implements IUUBase, IGroup {
+    static uuType: UUType;
+    name: string;
+    data: UUData<IGroup>;
+    layerName: string;
+    isDraw: boolean;
+    width: number;
+    height: number;
+    constructor(props: any);
+}
 /**
  * 图片组件
  */
-declare class UUImage extends eui.Image implements IUUBase {
+declare class UUImage extends eui.Image implements IUUBase, IImage {
+    static uuType: UUType;
     data: UUData<IResource>;
     layerName: string;
-    static uuType: UUType;
-    isDraw?: boolean;
+    isDraw: boolean;
 }
 /**
  * 文字组件
  */
-declare class UULabel extends eui.Label implements IUUBase {
+declare class UULabel extends eui.Label implements IUUBase, ILabel {
+    static uuType: UUType;
+    name: string;
     data: UUData<ILabel>;
     layerName: string;
+    isDraw: boolean;
     text: string;
     textColor: number;
     size: number;
     fontFamily: string;
     lineSpacing: 12;
     textAlign: string;
-    name: string;
-    isDraw?: boolean;
-    static uuType: UUType;
-    constructor();
-    getProps(): ILabel;
-    setProps(props: ILabel): void;
-    redraw(): void;
+    constructor(props?: {});
 }
 /**
  * 轮播图组件

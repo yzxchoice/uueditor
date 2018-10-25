@@ -10,11 +10,6 @@ interface FunctionForStart {
     start(): void;
 }
 
-enum FunctionType {
-    RESET = 1,
-    ANSWER = 2,
-    START = 3,
-}
 
 interface IFunctionBtn {
     width: number,
@@ -51,7 +46,7 @@ class FunctionButton extends eui.Group implements IFunctionBtn {
         bgImg.source = this.bgUrl;
         bgImg.width = this.width;
         bgImg.height = this.height;
-        let label = new UULabel;
+        let label = new eui.Label();
         label.text = this.text;
         label.width = this.width;
         label.height = this.height;
@@ -67,23 +62,6 @@ class FunctionButton extends eui.Group implements IFunctionBtn {
     }
 
     private emitObserver(): void {
-        console.log('emit = ' + this.getEmitName(this.functionType));
-        this.observer.emit(this.getEmitName(this.functionType));
-    }
-
-    private getEmitName(functionType: FunctionType): string {
-        let emitName: string;
-        switch(functionType) {
-            case FunctionType.RESET:
-                emitName = 'reset';
-                break;
-            case FunctionType.ANSWER:
-                emitName = 'answer';
-                break;
-            case FunctionType.START:
-                emitName = 'start';
-                break;
-        }
-        return emitName;
+        this.observer.emit(SwitchState.switchFunctionType(this.functionType));
     }
 }

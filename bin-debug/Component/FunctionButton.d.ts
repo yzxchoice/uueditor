@@ -7,11 +7,6 @@ interface FunctionForAnswer {
 interface FunctionForStart {
     start(): void;
 }
-declare enum FunctionType {
-    RESET = 1,
-    ANSWER = 2,
-    START = 3,
-}
 interface IFunctionBtn {
     width: number;
     height: number;
@@ -31,5 +26,4 @@ declare class FunctionButton extends eui.Group implements IFunctionBtn {
     private createUI();
     private listenEvent();
     private emitObserver();
-    private getEmitName(functionType);
 }

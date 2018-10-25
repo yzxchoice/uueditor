@@ -16,7 +16,6 @@
 class DragImageBox extends MapEleBoxFactory {
 
     static uuType = UUType.DRAG_IMAGE_BOX;
-    // props
     // draw event 
     private distanceX: number; // 拖拽时 鼠标位置到被拖拽图片的X距离
     private distanceY: number; // 拖拽时 鼠标位置到被拖拽图片的Y距离
@@ -110,7 +109,7 @@ class DragImageBox extends MapEleBoxFactory {
         }
       
 
-        if(!flag && this.isRestore) {
+        if(!flag) {
             let index = this.drawTarget.name;
             this.recoverPosition(this.drawTarget);
             this.checkoutImage(index);

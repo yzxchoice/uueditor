@@ -7,6 +7,7 @@ enum AnswerJudgePosition {
 }
 
 class AnswerJudge extends eui.Group {
+    // props
     groupWidth: number; // 容器宽度 由挂载元素决定
     groupHeight: number; // 容器高度 由挂载元素决定
     itemWidth: number = 40;
@@ -15,6 +16,8 @@ class AnswerJudge extends eui.Group {
     itemPosition: AnswerJudgePosition = AnswerJudgePosition.Center;
     rightAnswerPostion: AnswerJudgePosition = AnswerJudgePosition.TopRight;
     rightAnswer: UULabel;
+
+    private timer;
 
     constructor(params) {
         super();
@@ -30,23 +33,20 @@ class AnswerJudge extends eui.Group {
         let item = this.createItem();
         this.setItemPosition(item, this.itemPosition);
         this.addChild(item);
+        console.log('this.rightAnswer...');
+        console.log(this.rightAnswer);
         if(this.rightAnswer) {
-            this.setRightAnswerPosition(this.rightAnswer, this.rightAnswerPostion)
+            this.setRightAnswerPosition(this.rightAnswer, this.rightAnswerPostion);
+            this.addChild(this.rightAnswer);
         }
     }
 
     private createItem(): eui.Group {
-        let group = UIFactory.createGroup(this.itemWidth, this.itemHeight);
-        let img = new eui.Image();
-        img.width = this.itemWidth;
-        img.height = this.itemHeight;
         if(this.judge) {
-            img.source = 'resource/assets/Pic/radio/select.png';
+            return this.addRightJudge();
         }else {
-            img.source = 'resource/assets/Pic/radio/empty.png';            
+            return this.addErrorJudge();         
         }
-        group.addChild(img);
-        return group;
     }
 
     private setItemPosition(item: eui.Group, positionType: AnswerJudgePosition): void {
@@ -84,5 +84,67 @@ class AnswerJudge extends eui.Group {
         }
         item.x = x;
         item.y = y;
+    }
+
+    // 错误判断动态效果
+    private addErrorJudge(): eui.Group {
+        let textTureGroup = new eui.Group();
+        textTureGroup.width = this.itemWidth;
+        textTureGroup.height = this.itemWidth;
+
+        let index = 0;
+        let textTureNames = ['error_tex_r5_c2', 'error_tex_r4_c2', 'error_tex_r3_c2', 'error_tex_r2_c2', 'error_tex_r1_c5', 'error_tex_r1_c6', 'error_tex_r1_c1'];
+        const cb = () => {
+            this.timer = setInterval(() => {
+
+                var txtr:egret.Texture = RES.getRes( `error_json#${textTureNames[index]}` );
+                var img:egret.Bitmap = new egret.Bitmap( txtr );
+                img.x = 0;
+                img.y = 0;
+                textTureGroup.removeChildren();
+                textTureGroup.addChild(img);
+
+                index ++;
+                
+                if(index >= textTureNames.length){
+                    clearInterval(this.timer);
+                    return;
+                }
+
+            }, 50);
+        };
+        cb();
+        return textTureGroup;
+    }
+
+    // 正确判断动态效果
+    addRightJudge(): eui.Group {
+        let textTureGroup = new eui.Group();
+        textTureGroup.width = this.itemWidth;
+        textTureGroup.height = this.itemWidth;
+
+        let index = 0;
+        let textTureNames = ['right_tex_r4_c2', 'right_tex_r4_c1', 'right_tex_r3_c8', 'right_tex_r1_c8', 'right_tex_r1_c5', 'right_tex_r1_c3', 'right_tex_r1_c1'];
+        const cb = () => {
+            this.timer = setInterval(() => {
+
+                var txtr:egret.Texture = RES.getRes( `right_json#${textTureNames[index]}` );
+                var img:egret.Bitmap = new egret.Bitmap( txtr );
+                img.x = 0;
+                img.y = textTureGroup.width - img.width;;
+                textTureGroup.removeChildren();
+                textTureGroup.addChild(img);
+
+                index ++;
+                
+                if(index >= textTureNames.length){
+                    clearInterval(this.timer);
+                    return;
+                }
+
+            }, 50);
+        };
+        cb();
+        return textTureGroup;
     }
 }

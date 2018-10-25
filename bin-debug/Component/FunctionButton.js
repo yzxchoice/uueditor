@@ -8,12 +8,6 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var FunctionType;
-(function (FunctionType) {
-    FunctionType[FunctionType["RESET"] = 1] = "RESET";
-    FunctionType[FunctionType["ANSWER"] = 2] = "ANSWER";
-    FunctionType[FunctionType["START"] = 3] = "START";
-})(FunctionType || (FunctionType = {}));
 var FunctionButton = (function (_super) {
     __extends(FunctionButton, _super);
     function FunctionButton(props) {
@@ -37,7 +31,7 @@ var FunctionButton = (function (_super) {
         bgImg.source = this.bgUrl;
         bgImg.width = this.width;
         bgImg.height = this.height;
-        var label = new UULabel;
+        var label = new eui.Label();
         label.text = this.text;
         label.width = this.width;
         label.height = this.height;
@@ -51,23 +45,7 @@ var FunctionButton = (function (_super) {
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.emitObserver, this);
     };
     FunctionButton.prototype.emitObserver = function () {
-        console.log('emit = ' + this.getEmitName(this.functionType));
-        this.observer.emit(this.getEmitName(this.functionType));
-    };
-    FunctionButton.prototype.getEmitName = function (functionType) {
-        var emitName;
-        switch (functionType) {
-            case FunctionType.RESET:
-                emitName = 'reset';
-                break;
-            case FunctionType.ANSWER:
-                emitName = 'answer';
-                break;
-            case FunctionType.START:
-                emitName = 'start';
-                break;
-        }
-        return emitName;
+        this.observer.emit(SwitchState.switchFunctionType(this.functionType));
     };
     FunctionButton.uuType = UUType.FUNCTION_BUTTON;
     return FunctionButton;

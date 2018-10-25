@@ -37,23 +37,20 @@ var AnswerJudge = (function (_super) {
         var item = this.createItem();
         this.setItemPosition(item, this.itemPosition);
         this.addChild(item);
+        console.log('this.rightAnswer...');
+        console.log(this.rightAnswer);
         if (this.rightAnswer) {
             this.setRightAnswerPosition(this.rightAnswer, this.rightAnswerPostion);
+            this.addChild(this.rightAnswer);
         }
     };
     AnswerJudge.prototype.createItem = function () {
-        var group = UIFactory.createGroup(this.itemWidth, this.itemHeight);
-        var img = new eui.Image();
-        img.width = this.itemWidth;
-        img.height = this.itemHeight;
         if (this.judge) {
-            img.source = 'resource/assets/Pic/radio/select.png';
+            return this.addRightJudge();
         }
         else {
-            img.source = 'resource/assets/Pic/radio/empty.png';
+            return this.addErrorJudge();
         }
-        group.addChild(img);
-        return group;
     };
     AnswerJudge.prototype.setItemPosition = function (item, positionType) {
         this.setPostion(item, positionType);
@@ -88,6 +85,59 @@ var AnswerJudge = (function (_super) {
         }
         item.x = x;
         item.y = y;
+    };
+    // 错误判断动态效果
+    AnswerJudge.prototype.addErrorJudge = function () {
+        var _this = this;
+        var textTureGroup = new eui.Group();
+        textTureGroup.width = this.itemWidth;
+        textTureGroup.height = this.itemWidth;
+        var index = 0;
+        var textTureNames = ['error_tex_r5_c2', 'error_tex_r4_c2', 'error_tex_r3_c2', 'error_tex_r2_c2', 'error_tex_r1_c5', 'error_tex_r1_c6', 'error_tex_r1_c1'];
+        var cb = function () {
+            _this.timer = setInterval(function () {
+                var txtr = RES.getRes("error_json#" + textTureNames[index]);
+                var img = new egret.Bitmap(txtr);
+                img.x = 0;
+                img.y = 0;
+                textTureGroup.removeChildren();
+                textTureGroup.addChild(img);
+                index++;
+                if (index >= textTureNames.length) {
+                    clearInterval(_this.timer);
+                    return;
+                }
+            }, 50);
+        };
+        cb();
+        return textTureGroup;
+    };
+    // 正确判断动态效果
+    AnswerJudge.prototype.addRightJudge = function () {
+        var _this = this;
+        var textTureGroup = new eui.Group();
+        textTureGroup.width = this.itemWidth;
+        textTureGroup.height = this.itemWidth;
+        var index = 0;
+        var textTureNames = ['right_tex_r4_c2', 'right_tex_r4_c1', 'right_tex_r3_c8', 'right_tex_r1_c8', 'right_tex_r1_c5', 'right_tex_r1_c3', 'right_tex_r1_c1'];
+        var cb = function () {
+            _this.timer = setInterval(function () {
+                var txtr = RES.getRes("right_json#" + textTureNames[index]);
+                var img = new egret.Bitmap(txtr);
+                img.x = 0;
+                img.y = textTureGroup.width - img.width;
+                ;
+                textTureGroup.removeChildren();
+                textTureGroup.addChild(img);
+                index++;
+                if (index >= textTureNames.length) {
+                    clearInterval(_this.timer);
+                    return;
+                }
+            }, 50);
+        };
+        cb();
+        return textTureGroup;
     };
     return AnswerJudge;
 }(eui.Group));

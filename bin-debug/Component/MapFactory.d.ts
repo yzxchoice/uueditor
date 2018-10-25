@@ -1,13 +1,3 @@
-declare enum LayoutType {
-    HLayout = 1,
-    VLayout = 2,
-    TLayout = 3,
-}
-declare enum GapType {
-    Small = 1,
-    Middle = 2,
-    Big = 3,
-}
 declare enum ImagePosition {
     TOP = 1,
     MIDDLE = 2,
@@ -21,60 +11,36 @@ declare enum ResourceType {
     Text = 1,
     Image = 2,
 }
-interface ILayout {
-    layoutType: LayoutType;
-    gap: GapType;
-    columnCount?: number;
-}
 interface IMapEle {
     award: IResource[];
+    layoutSet: ILayout;
     resourceType: ResourceType;
-    bgWidth: number;
-    bgHeight: number;
     imgWidth: number;
     imgHeight: number;
-    fontStyle: {
-        textColor: string;
-        size: number;
-    };
-    layoutSet: ILayout;
     imagePosition: ImagePosition;
     placeholder: boolean;
-    hasBorder: boolean;
-    isRestore: boolean;
-    clickMode?: ClickMode;
-}
-interface MapElmBox extends IMapEle {
-    dragBorderBox: DragBorderBox[];
-    imageBox: eui.Group;
-    drawTarget: UUImage | UULabel;
-    imageDefaultPosition: [number, number][];
-    mapArr: {
-        borderId: string;
-        imageId: string;
-    }[];
-    topImage: eui.Group;
-    timer?: any;
-    selectedImage?: UUImage | null;
-    isTweening?: boolean;
-}
-declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, FunctionForReset {
-    award: IResource[];
-    resourceType: ResourceType;
-    bgWidth: number;
-    bgHeight: number;
-    imgWidth: number;
-    imgHeight: number;
-    fontStyle: {
-        textColor: string;
-        size: number;
-    };
-    layoutSet: ILayout;
-    imagePosition: ImagePosition;
-    placeholder: boolean;
-    hasBorder: boolean;
-    isRestore: boolean;
     functions: FunctionType[];
+    hasBorder: boolean;
+    bgWidth?: number;
+    bgHeight?: number;
+    clickMode?: ClickMode;
+    answerJudgePosition?: AnswerJudgePosition;
+    fontStyle?: ILabel;
+}
+declare abstract class MapEleBoxFactory extends eui.Group implements IMapEle, ILayout, FunctionForReset, FunctionForAnswer {
+    award: IResource[];
+    layoutSet: ILayout;
+    resourceType: ResourceType;
+    imgWidth: number;
+    imgHeight: number;
+    imagePosition: ImagePosition;
+    placeholder: boolean;
+    functions: FunctionType[];
+    hasBorder: boolean;
+    bgWidth: number;
+    bgHeight: number;
+    answerJudgePosition: AnswerJudgePosition;
+    fontStyle: ILabel;
     dragBorderBox: DragBorderBox[];
     dragBorderBoxIndex: number;
     imageBox: eui.Group;
@@ -87,13 +53,12 @@ declare abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, 
     topImage: eui.Group;
     observer: Observer;
     hasAnswer: boolean;
-    private layoutType;
-    private gap;
-    private columnCount;
+    layoutType: LayoutType;
+    gap: GapType;
+    columnCount: number;
     constructor(props: any);
     protected renderUI(): void;
     protected openFunctions(): void;
-    private getEmitName(functionType);
     protected getDragBorderBox(): void;
     protected createTotalGroupBox(): eui.Group;
     protected createPlaceholderImage(url: string): UUImage;

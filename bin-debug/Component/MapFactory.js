@@ -8,18 +8,6 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-var LayoutType;
-(function (LayoutType) {
-    LayoutType[LayoutType["HLayout"] = 1] = "HLayout";
-    LayoutType[LayoutType["VLayout"] = 2] = "VLayout";
-    LayoutType[LayoutType["TLayout"] = 3] = "TLayout";
-})(LayoutType || (LayoutType = {}));
-var GapType;
-(function (GapType) {
-    GapType[GapType["Small"] = 1] = "Small";
-    GapType[GapType["Middle"] = 2] = "Middle";
-    GapType[GapType["Big"] = 3] = "Big";
-})(GapType || (GapType = {}));
 var ImagePosition;
 (function (ImagePosition) {
     ImagePosition[ImagePosition["TOP"] = 1] = "TOP";
@@ -41,26 +29,21 @@ var MapEleBoxFactory = (function (_super) {
     function MapEleBoxFactory(props) {
         var _this = _super.call(this) || this;
         // props
-        _this.award = []; // 图片列表
-        _this.resourceType = ResourceType.Text; // 资源类型 文字/图片
-        _this.bgWidth = 300;
-        _this.bgHeight = 300;
+        _this.award = [];
+        _this.resourceType = ResourceType.Text;
         _this.imgWidth = 240;
         _this.imgHeight = 240;
-        _this.fontStyle = { textColor: '0x000000', size: 40 };
-        _this.layoutSet = {
-            layoutType: 1,
-            gap: 2,
-            columnCount: 3,
-        };
-        _this.imagePosition = ImagePosition.MIDDLE; // 拖拽图在边框图中放置的位置：TOP/MIDDLE/BOTTOM
-        _this.placeholder = true; // 是否带占位图
-        _this.hasBorder = true; // 是否带背景图
-        _this.isRestore = true; // 是否开启图片复位功能
-        _this.functions = [1]; // 需要开启的功能，例如：reset、answer
-        _this.dragBorderBox = []; // 框图片盒
-        _this.dragBorderBoxIndex = 0;
-        // other
+        _this.imagePosition = ImagePosition.MIDDLE;
+        _this.placeholder = true;
+        _this.functions = [];
+        _this.hasBorder = true;
+        _this.bgWidth = 300;
+        _this.bgHeight = 300;
+        _this.answerJudgePosition = AnswerJudgePosition.Center;
+        _this.fontStyle = {};
+        // other    
+        _this.dragBorderBox = []; // 匹配框组
+        _this.dragBorderBoxIndex = 0; // 某个匹配框的索引
         _this.imageDefaultPosition = []; // 图片初始位置，用于图片复位功能
         _this.mapArr = []; // 记录框、图匹配关系 用于一框一图功能
         _this.observer = Observer.getInstance(); // 观察者
@@ -89,33 +72,16 @@ var MapEleBoxFactory = (function (_super) {
         this.width = this.imageBox.width;
         this.height = this.imageBox.height;
         this.addChild(this.imageBox);
-        if (this.isRestore) {
-            this.getImageDefaultPosition();
-        }
+        this.getImageDefaultPosition();
         this.topImage = this.imageBox.getChildAt(this.imageBox.numChildren - 1);
     };
     // 开启组件功能
     MapEleBoxFactory.prototype.openFunctions = function () {
         for (var i = 0, len = this.functions.length; i < len; i++) {
             var functionType = this.functions[i];
-            var functionName = this.getEmitName(functionType);
+            var functionName = SwitchState.switchFunctionType(functionType);
             this.observer.register(functionName, this[functionName].bind(this));
         }
-    };
-    MapEleBoxFactory.prototype.getEmitName = function (functionType) {
-        var emitName;
-        switch (functionType) {
-            case FunctionType.RESET:
-                emitName = 'reset';
-                break;
-            case FunctionType.ANSWER:
-                emitName = 'answer';
-                break;
-            case FunctionType.START:
-                emitName = 'start';
-                break;
-        }
-        return emitName;
     };
     // 获取对应的匹配框组件
     MapEleBoxFactory.prototype.getDragBorderBox = function () {
@@ -195,11 +161,10 @@ var MapEleBoxFactory = (function (_super) {
         return img;
     };
     MapEleBoxFactory.prototype.createText = function (item) {
-        var label = new UULabel();
+        var label = new UULabel(this.fontStyle);
         label.isDraw = true;
         label.name = item.id.toString();
         label.text = item.text;
-        label.size = this.fontStyle.size;
         label.width = this.imgWidth;
         label.height = this.imgHeight;
         label.textAlign = 'center';
@@ -337,13 +302,12 @@ var MapEleBoxFactory = (function (_super) {
             var imageItem = this_1.imageBox.getChildAt(i);
             var mapItem = imageItem.getChildAt(imageItem.numChildren - 1);
             var mapItemId = mapItem.name;
-            console.log('mapItemId = ' + mapItemId);
             var answer = this_1.award.filter(function (item) { return item.id == mapItemId; })[0].answer;
             var params = {
                 groupWidth: mapItem.width,
                 groupHeight: mapItem.height,
                 judge: answer,
-                itemPosition: AnswerJudgePosition.BottomRight,
+                itemPosition: this_1.answerJudgePosition,
             };
             var anserJudge = new AnswerJudge(params);
             anserJudge.x = mapItem.x;
@@ -357,4 +321,4 @@ var MapEleBoxFactory = (function (_super) {
     };
     return MapEleBoxFactory;
 }(eui.Group));
-__reflect(MapEleBoxFactory.prototype, "MapEleBoxFactory", ["MapElmBox", "IMapEle", "FunctionForReset"]);
+__reflect(MapEleBoxFactory.prototype, "MapEleBoxFactory", ["IMapEle", "ILayout", "FunctionForReset", "FunctionForAnswer"]);

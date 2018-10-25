@@ -1,14 +1,3 @@
-enum LayoutType {
-    HLayout = 1,
-    VLayout = 2,
-    TLayout = 3,
-}
-
-enum GapType {
-    Small = 1,
-    Middle = 2,
-    Big = 3,
-}
 
 enum ImagePosition {
     TOP = 1,
@@ -26,70 +15,44 @@ enum ResourceType {
     Image = 2,
 }
 
-interface ILayout {
-    layoutType: LayoutType,
-    gap: GapType,
-    columnCount?: number,
-}
-
 interface IMapEle {
-    award: IResource[],
-    resourceType: ResourceType,
-    bgWidth: number,
-    bgHeight: number,
-    imgWidth: number,
-    imgHeight: number,
-    fontStyle: {
-        textColor: string,
-        size: number,
-    }
-    layoutSet: ILayout,
-    imagePosition: ImagePosition,
-    placeholder: boolean,
-    hasBorder: boolean,
-    isRestore: boolean,
-    clickMode?: ClickMode,
+    award: IResource[], // 匹配元素数据列表
+    layoutSet: ILayout, // 布局方式    
+    resourceType: ResourceType, // 匹配元素类型，文字/图片
+    imgWidth: number, // 匹配元素宽度
+    imgHeight: number, // 匹配元素高度
+    imagePosition: ImagePosition, // 匹配元素在匹配框中的位置 top/center/bottom
+    placeholder: boolean, // 是否有占位图
+    functions: FunctionType[], // 需要开启的功能，例如：reset、answer    
+    hasBorder: boolean, // 是否有背景图
+    bgWidth?: number, // 背景图宽度
+    bgHeight?: number, // 背景图高度
+    clickMode?: ClickMode, // 点击匹配的模式 多对多/多对一
+    answerJudgePosition?: AnswerJudgePosition, // 判断效果的显示位置
+    fontStyle?: ILabel // 文字样式
 }
 
-interface MapElmBox extends IMapEle {
-    dragBorderBox: DragBorderBox[],
-    imageBox: eui.Group,
-    drawTarget: UUImage | UULabel,
-    imageDefaultPosition: [number, number][],
-    mapArr: {borderId: string, imageId: string}[],
-    topImage: eui.Group,
-    timer?: any,
-    selectedImage?: UUImage | null,
-    isTweening?: boolean,
-}
-
-abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, FunctionForReset {
-     // props
-    award: IResource[] = []; // 图片列表
-    resourceType: ResourceType = ResourceType.Text; // 资源类型 文字/图片
-    bgWidth: number = 300;     
-    bgHeight: number = 300;     
+abstract class MapEleBoxFactory extends eui.Group implements IMapEle, ILayout, FunctionForReset, FunctionForAnswer {
+    // props
+    award: IResource[] = []; 
+    layoutSet: ILayout;      
+    resourceType: ResourceType = ResourceType.Text; 
     imgWidth: number = 240;     
     imgHeight: number = 240;     
-    fontStyle: { textColor: string, size: number } = { textColor: '0x000000', size: 40 };
-    layoutSet: ILayout = {
-        layoutType: 1,
-        gap: 2,
-        columnCount: 3,
-    };  
-    imagePosition: ImagePosition = ImagePosition.MIDDLE; // 拖拽图在边框图中放置的位置：TOP/MIDDLE/BOTTOM
-    placeholder: boolean = true; // 是否带占位图
-    hasBorder: boolean = true; // 是否带背景图
-    isRestore: boolean = true; // 是否开启图片复位功能
-    functions: FunctionType[] = [1]; // 需要开启的功能，例如：reset、answer
+    imagePosition: ImagePosition = ImagePosition.MIDDLE; 
+    placeholder: boolean = true; 
+    functions: FunctionType[] = [];     
+    hasBorder: boolean = true; 
+    bgWidth: number = 300;     
+    bgHeight: number = 300;     
+    answerJudgePosition: AnswerJudgePosition =  AnswerJudgePosition.Center; 
+    fontStyle: ILabel = {};    
 
-    dragBorderBox: DragBorderBox[] = []; // 框图片盒
-    dragBorderBoxIndex: number = 0;
-    imageBox: eui.Group; // 拖拽图片盒
-    // draw event 
-    drawTarget; // 被拖拽的图片
-
-    // other
+    // other    
+    dragBorderBox: DragBorderBox[] = []; // 匹配框组
+    dragBorderBoxIndex: number = 0; // 某个匹配框的索引
+    imageBox: eui.Group; // 匹配元素盒
+    drawTarget; // 被匹配的图片
     imageDefaultPosition: [number, number][] = []; // 图片初始位置，用于图片复位功能
     mapArr: {borderId: string, imageId: string}[] = []; // 记录框、图匹配关系 用于一框一图功能
     topImage: eui.Group; // 指向层级最高的image 用于 调整拖拽图片的层级功能
@@ -97,9 +60,9 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, Function
     hasAnswer: boolean = false; // 是否已经answer
 
     // layout 
-    private layoutType: LayoutType = 1; // 布局方式
-    private gap: GapType = GapType.Middle;
-    private columnCount: number = 3;
+    layoutType: LayoutType = 1; // 布局方式
+    gap: GapType = GapType.Middle;
+    columnCount: number = 3;
 
     constructor(props) {
          super();
@@ -124,9 +87,7 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, Function
          this.height = this.imageBox.height;
          this.addChild(this.imageBox);
 
-         if(this.isRestore) {
-             this.getImageDefaultPosition();
-         }
+         this.getImageDefaultPosition();
          this.topImage = <eui.Group>this.imageBox.getChildAt(this.imageBox.numChildren - 1);
      }
 
@@ -134,25 +95,9 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, Function
      protected openFunctions(): void {
          for(let i = 0, len = this.functions.length; i < len; i++) {
              let functionType = <FunctionType>this.functions[i];
-             let functionName = this.getEmitName(functionType);
+             let functionName = SwitchState.switchFunctionType(functionType);
              this.observer.register(functionName, this[functionName].bind(this));
          }
-     }
-
-     private getEmitName(functionType: FunctionType): string {
-        let emitName: string;
-        switch(functionType) {
-            case FunctionType.RESET:
-                emitName = 'reset';
-                break;
-            case FunctionType.ANSWER:
-                emitName = 'answer';
-                break;
-            case FunctionType.START:
-                emitName = 'start';
-                break;
-        }
-        return emitName;
      }
 
      // 获取对应的匹配框组件
@@ -241,11 +186,10 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, Function
      }
 
      protected createText(item: IResource): UULabel {
-         let label = new UULabel();
+         let label = new UULabel(this.fontStyle);
          label.isDraw = true;
          label.name = item.id.toString();         
          label.text = item.text;
-         label.size = this.fontStyle.size;
          label.width = this.imgWidth;
          label.height = this.imgHeight;
          label.textAlign = 'center';
@@ -396,13 +340,12 @@ abstract class MapEleBoxFactory extends eui.Group implements MapElmBox, Function
             let imageItem = <eui.Group>this.imageBox.getChildAt(i);
             let mapItem = imageItem.getChildAt(imageItem.numChildren - 1);
             let mapItemId = mapItem.name;
-            console.log('mapItemId = ' + mapItemId);
             let answer: boolean = this.award.filter(item => item.id == mapItemId)[0].answer;
             let params = {
                 groupWidth: mapItem.width,
                 groupHeight: mapItem.height,
                 judge: answer,
-                itemPosition: AnswerJudgePosition.BottomRight,
+                itemPosition: this.answerJudgePosition,
             }
             let anserJudge = new AnswerJudge(params);
             anserJudge.x = mapItem.x;

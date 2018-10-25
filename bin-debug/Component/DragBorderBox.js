@@ -15,12 +15,18 @@ var DragBorderBox = (function (_super) {
         // props
         _this.bgWidth = 300;
         _this.bgHeight = 300;
-        _this.toAward = []; // 框图片列表
+        _this.toAward = [];
+        _this.functions = [];
+        _this.answerJudgePosition = AnswerJudgePosition.Center;
+        _this.rightAnswerPostion = AnswerJudgePosition.BottomRight;
+        // layout
         _this.layoutType = 1; // 布局方式
         _this.gap = GapType.Middle;
         _this.columnCount = 3;
         // other
         _this.globalState = GlobalState.getInstance();
+        _this.hasAnswer = false; // 是否已经answer
+        _this.observer = Observer.getInstance(); // 观察者
         for (var key in props) {
             if (props[key] !== undefined) {
                 _this[key] = props[key];
@@ -40,6 +46,15 @@ var DragBorderBox = (function (_super) {
         this.width = size.width;
         this.height = size.height;
         this.createBorderBox();
+        this.openFunctions();
+    };
+    // 开启组件功能
+    DragBorderBox.prototype.openFunctions = function () {
+        for (var i = 0, len = this.functions.length; i < len; i++) {
+            var functionType = this.functions[i];
+            var functionName = SwitchState.switchFunctionType(functionType);
+            this.observer.register(functionName, this[functionName].bind(this));
+        }
     };
     DragBorderBox.prototype.createBorderBox = function () {
         for (var i = 0, len = this.toAward.length; i < len; i++) {
@@ -62,7 +77,39 @@ var DragBorderBox = (function (_super) {
             this.addChild(imgGroup);
         }
     };
+    // 重置
+    DragBorderBox.prototype.reset = function () {
+        this.removeChildren();
+        this.init();
+    };
+    // answer功能
+    DragBorderBox.prototype.answer = function () {
+        console.log('answer DragBorderBox...');
+        if (this.hasAnswer)
+            return;
+        this.hasAnswer = true;
+        var _loop_1 = function (i, len) {
+            var imageItem = this_1.getChildAt(i);
+            var itemId = imageItem.name;
+            var answer = this_1.toAward.filter(function (item) { return item.id == itemId; })[0].answer;
+            var rightAnswer = this_1.toAward.filter(function (item) { return item.id == itemId; })[0].rightAnswer;
+            var params = {
+                groupWidth: imageItem.width,
+                groupHeight: imageItem.height,
+                judge: answer,
+                itemPosition: AnswerJudgePosition.Center,
+                rightAnswerPostion: this_1.rightAnswerPostion,
+                rightAnswer: new UULabel(rightAnswer),
+            };
+            var anserJudge = new AnswerJudge(params);
+            imageItem.addChild(anserJudge);
+        };
+        var this_1 = this;
+        for (var i = 0, len = this.numChildren; i < len; i++) {
+            _loop_1(i, len);
+        }
+    };
     DragBorderBox.uuType = UUType.DRAG_BORDER_BOX;
     return DragBorderBox;
 }(eui.Group));
-__reflect(DragBorderBox.prototype, "DragBorderBox");
+__reflect(DragBorderBox.prototype, "DragBorderBox", ["IDragBorderBox", "ILayout", "FunctionForReset", "FunctionForAnswer"]);

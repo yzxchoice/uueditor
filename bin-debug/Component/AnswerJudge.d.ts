@@ -14,10 +14,13 @@ declare class AnswerJudge extends eui.Group {
     itemPosition: AnswerJudgePosition;
     rightAnswerPostion: AnswerJudgePosition;
     rightAnswer: UULabel;
+    private timer;
     constructor(params: any);
     private createUI();
     private createItem();
     private setItemPosition(item, positionType);
     private setRightAnswerPosition(label, positionType);
     private setPostion(item, positionType);
+    private addErrorJudge();
+    addRightJudge(): eui.Group;
 }

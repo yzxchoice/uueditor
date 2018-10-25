@@ -106,7 +106,7 @@ var DragImageBox = (function (_super) {
                 }
             }
         }
-        if (!flag && this.isRestore) {
+        if (!flag) {
             var index = this.drawTarget.name;
             this.recoverPosition(this.drawTarget);
             this.checkoutImage(index);

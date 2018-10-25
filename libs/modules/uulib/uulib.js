@@ -277,6 +277,10 @@ var UUType;
      */
     UUType[UUType["FRAME"] = 102] = "FRAME";
     /**
+     * Group
+     */
+    UUType[UUType["GROUP"] = 103] = "GROUP";
+    /**
      * 轮播图组件
      */
     UUType[UUType["SLIDESHOW"] = 103] = "SLIDESHOW";
@@ -2187,7 +2191,7 @@ var Utils = (function () {
     function Utils() {
     }
     Utils.getComs = function () {
-        return [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground, Slideshow, SlotMachine, CardAlert, SelectImage, DrawOne, DragBorderBox, DragImageBox, ClickImageBox, FunctionButton];
+        return [UULabel, UUImage, UUContainer, SoundButton, CircleSector, UUBackground, Slideshow, SlotMachine, UUGroup, CardAlert, SelectImage, DrawOne, DragBorderBox, DragImageBox, ClickImageBox, FunctionButton];
     };
     Utils.getTexture = function (url) {
         var _this = this;
@@ -2311,6 +2315,26 @@ var UUContainer = (function (_super) {
     return UUContainer;
 }(eui.Group));
 __reflect(UUContainer.prototype, "UUContainer", ["IUUBase"]);
+var UUGroup = (function (_super) {
+    __extends(UUGroup, _super);
+    function UUGroup(props) {
+        var _this = _super.call(this) || this;
+        // base 
+        _this.name = '';
+        _this.layerName = '容器';
+        _this.isDraw = false;
+        // props默认值
+        _this.width = 200;
+        _this.height = 200;
+        for (var key in props) {
+            _this[key] = props[key];
+        }
+        return _this;
+    }
+    UUGroup.uuType = UUType.GROUP;
+    return UUGroup;
+}(eui.Group));
+__reflect(UUGroup.prototype, "UUGroup", ["IUUBase", "IGroup", "ISize"]);
 // TypeScript file
 /**
  * 图片组件
@@ -2320,51 +2344,41 @@ var UUImage = (function (_super) {
     function UUImage() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.layerName = '图片';
+        _this.isDraw = false;
         return _this;
     }
     UUImage.uuType = UUType.IMAGE;
     return UUImage;
 }(eui.Image));
-__reflect(UUImage.prototype, "UUImage", ["IUUBase"]);
+__reflect(UUImage.prototype, "UUImage", ["IUUBase", "IImage", "IResource", "ISize"]);
 // TypeScript file
 /**
  * 文字组件
  */
 var UULabel = (function (_super) {
     __extends(UULabel, _super);
-    function UULabel() {
+    function UULabel(props) {
+        if (props === void 0) { props = {}; }
         var _this = _super.call(this) || this;
+        // base
+        _this.name = '';
         _this.layerName = '文字';
+        _this.isDraw = false;
+        // props默认值
         _this.text = '请输入文本';
         _this.textColor = 0x000000;
         _this.size = 40;
         _this.fontFamily = 'Arial';
         _this.textAlign = egret.HorizontalAlign.JUSTIFY;
-        _this.name = '';
+        for (var key in props) {
+            _this[key] = props[key];
+        }
         return _this;
     }
-    UULabel.prototype.getProps = function () {
-        return {
-            text: this.text,
-            textColor: this.textColor,
-            size: this.size,
-            fontFamily: this.fontFamily
-            // textAlign: this.textAlign,
-            // lineSpacing: this.lineSpacing
-        };
-    };
-    UULabel.prototype.setProps = function (props) {
-        this.text = props.text;
-        this.textColor = props.textColor;
-        this.size = props.size;
-        this.fontFamily = props.fontFamily;
-    };
-    UULabel.prototype.redraw = function () {
-    };
     UULabel.uuType = UUType.TEXT;
     return UULabel;
 }(eui.Label));
-__reflect(UULabel.prototype, "UULabel", ["IUUBase"]);
+__reflect(UULabel.prototype, "UULabel", ["IUUBase", "ILabel"]);
 // TypeScript file
 /**
  * 轮播图组件

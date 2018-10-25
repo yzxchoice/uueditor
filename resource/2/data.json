@@ -80,18 +80,27 @@
                     "props": {
                         "bgWidth": 300,
                         "bgHeight": 300,
+                        "functions": [1],    
+                        "answerJudgePosition": 5,                                            
+                        "rightAnswerPostion": 4,                                           
                         "toAward": [
                             {
                                 "id": 1,
-                                "url": "resource/assets/Pic/border1.png"
+                                "url": "resource/assets/Pic/border1.png",
+                                "answer": true,
+                                "rightAnswer": {
+                                    "text": "hello"
+                                }                               
                             },
                             {
                                 "id": 2,
-                                "url": "resource/assets/Pic/border1.png"
-                            },
-                            {
-                                "id": 3,
-                                "url": "resource/assets/Pic/border1.png"
+                                "url": "resource/assets/Pic/border1.png",
+                                "answer": false,
+                                "rightAnswer": {
+                                    "text": "well",
+                                    "size": 80,
+                                    "textColor": "0xff00ff"
+                                }                                 
                             }
                         ],
                         "layoutSet": {
@@ -107,7 +116,7 @@
                     "id": 3003,
                     "name": "scene_23_jpg",
                     "pageId": 2018073110588,
-                    "type": 3003,
+                    "type": 3002,
                     "matrix": {
                         "a": 1,
                         "b": 0,
@@ -129,9 +138,9 @@
                         "imagePosition": 2,
                         "placeholder": false,
                         "hasBorder": false,
-                        "isRestore": true,
                         "clickMode": 1,
-                        "functions": [1,2],
+                        "functions": [1],
+                        "answerJudgePosition": 5,
                         "award": [
                             {
                                 "id": 1,
