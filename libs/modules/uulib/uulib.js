@@ -1463,27 +1463,6 @@ var Card = (function (_super) {
     return Card;
 }(eui.Group));
 __reflect(Card.prototype, "Card", ["IUUBase", "IUUContainer"]);
-/**
- * 声音组件
- */
-var SoundButton = (function (_super) {
-    __extends(SoundButton, _super);
-    function SoundButton() {
-        var _this = _super.call(this) || this;
-        _this.layerName = '声音';
-        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
-        return _this;
-    }
-    SoundButton.prototype.onAddToStage = function (event) {
-        this.init();
-        // this.bindHandler();
-    };
-    SoundButton.prototype.init = function () {
-    };
-    SoundButton.uuType = UUType.SOUND;
-    return SoundButton;
-}(eui.Button));
-__reflect(SoundButton.prototype, "SoundButton", ["IUUBase"]);
 var Transformable = (function () {
     function Transformable(width, height, matrix, owner) {
         this.width = 0;
@@ -2379,252 +2358,24 @@ var UULabel = (function (_super) {
     return UULabel;
 }(eui.Label));
 __reflect(UULabel.prototype, "UULabel", ["IUUBase", "ILabel"]);
-// TypeScript file
 /**
- * 轮播图组件
+ * 声音组件
  */
-var SlotMachine = (function (_super) {
-    __extends(SlotMachine, _super);
-    function SlotMachine(props) {
+var SoundButton = (function (_super) {
+    __extends(SoundButton, _super);
+    function SoundButton() {
         var _this = _super.call(this) || this;
-        _this.layerName = '老虎机';
-        _this.isAnimating = false;
-        _this.itemWidth = 250;
-        _this.itemHeight = 250;
-        _this.gap = 10;
-        _this.tweenFlag = 3; // 动画标记
-        // 组件宽、高固定
-        _this.width = 800;
-        _this.height = 400;
-        // props中用到的参数
-        _this.bgColor = '0x666699';
-        _this.bdUrl = '/assets/pic/draw_card_bg.png';
-        _this.awardsTotal = [];
-        _this._awards = [];
-        _this.awards = props.awards;
-        _this.bgColor = props.bgColor;
-        _this.bdUrl = props.bdUrl;
-        _this.touchEnabled = false;
+        _this.layerName = '声音';
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
-        _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.onRemoveFromStage, _this);
         return _this;
     }
-    Object.defineProperty(SlotMachine.prototype, "awards", {
-        get: function () {
-            return this._awards;
-        },
-        set: function (v) {
-            this._awards = v;
-            var firstItem = v.slice(0, 1);
-            this.awardsTotal = v.concat(firstItem);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    SlotMachine.prototype.onAddToStage = function (event) {
+    SoundButton.prototype.onAddToStage = function (event) {
         this.init();
+        // this.bindHandler();
     };
-    SlotMachine.prototype.onRemoveFromStage = function (event) {
+    SoundButton.prototype.init = function () {
     };
-    SlotMachine.prototype.init = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var vLayout, mainBox, btn;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        vLayout = new eui.VerticalLayout();
-                        vLayout.horizontalAlign = 'center';
-                        this.layout = vLayout;
-                        return [4 /*yield*/, this.createMainBox()];
-                    case 1:
-                        mainBox = _a.sent();
-                        btn = this.createStartBtn();
-                        this.addChild(mainBox);
-                        this.addChild(btn);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    SlotMachine.prototype.createMainBox = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var group, shape, itemGroup, i, len, itemBox;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        group = new eui.Group();
-                        group.width = this.width;
-                        group.height = this.itemHeight + 2 * this.gap;
-                        shape = new egret.Shape();
-                        shape.graphics.beginFill(this.bgColor, 1);
-                        shape.graphics.drawRect(0, 0, group.width, group.height);
-                        shape.graphics.endFill();
-                        itemGroup = new eui.Group();
-                        itemGroup.width = this.width;
-                        itemGroup.height = group.height;
-                        this.itemGroup = itemGroup;
-                        itemGroup.mask = new egret.Rectangle(0, 0, itemGroup.width, itemGroup.height);
-                        i = 0, len = 3;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < len)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.createItemBox()];
-                    case 2:
-                        itemBox = _a.sent();
-                        itemBox.x = (12 + this.itemWidth) * i + 12;
-                        itemBox.y = this.gap;
-                        itemGroup.addChild(itemBox);
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4:
-                        ;
-                        group.addChild(shape);
-                        group.addChild(itemGroup);
-                        return [2 /*return*/, group];
-                }
-            });
-        });
-    };
-    // 竖向轮播图容器
-    SlotMachine.prototype.createItemBox = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var group, vLayout, promiseArr, i, len;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        group = new eui.Group();
-                        group.width = this.itemWidth;
-                        group.height = (this.itemWidth + this.gap) * this.awardsTotal.length - this.gap;
-                        vLayout = new eui.VerticalLayout();
-                        vLayout.gap = this.gap;
-                        vLayout.paddingTop = 0;
-                        group.layout = vLayout;
-                        promiseArr = [];
-                        for (i = 0, len = this.awardsTotal.length; i < len; i++) {
-                            promiseArr.push(this.createItem(this.awardsTotal[i].url));
-                        }
-                        ;
-                        return [4 /*yield*/, Promise.all(promiseArr).then(function (itemArr) {
-                                for (var i = 0, len = itemArr.length; i < len; i++) {
-                                    var item = itemArr[i];
-                                    group.addChild(item);
-                                }
-                            })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, group];
-                }
-            });
-        });
-    };
-    SlotMachine.prototype.createItem = function (url) {
-        return __awaiter(this, void 0, void 0, function () {
-            var group, bg, img;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        group = new eui.Group();
-                        group.width = this.itemWidth;
-                        group.height = this.itemHeight;
-                        return [4 /*yield*/, this.createImg(this.bdUrl)];
-                    case 1:
-                        bg = _a.sent();
-                        return [4 /*yield*/, this.createImg(url)];
-                    case 2:
-                        img = _a.sent();
-                        group.addChild(bg);
-                        group.addChild(img);
-                        return [2 /*return*/, group];
-                }
-            });
-        });
-    };
-    SlotMachine.prototype.createImg = function (url) {
-        return __awaiter(this, void 0, void 0, function () {
-            var img, t;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        img = new egret.Bitmap();
-                        return [4 /*yield*/, Utils.getTexture("resource/" + url)];
-                    case 1:
-                        t = _a.sent();
-                        img.width = this.itemWidth;
-                        img.height = this.itemHeight;
-                        img.texture = t;
-                        return [2 /*return*/, img];
-                }
-            });
-        });
-    };
-    SlotMachine.prototype.createStartBtn = function () {
-        var btn = new eui.Button();
-        btn.label = '开始';
-        btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
-        return btn;
-    };
-    SlotMachine.prototype.onClick = function (evt) {
-        evt.stopPropagation();
-        evt.stopImmediatePropagation();
-        if (this.tweenFlag !== 3)
-            return;
-        this.tweenFlag = 0;
-        var stepRandomMax = this.awardsTotal.length - 1;
-        var stepRandomMIn = 4;
-        var step1 = Math.floor(Math.random() * stepRandomMax) + stepRandomMIn;
-        var step2 = Math.floor(Math.random() * stepRandomMax) + stepRandomMIn;
-        var step3 = Math.floor(Math.random() * stepRandomMax) + stepRandomMIn;
-        var timeRandomMax = (this.awardsTotal.length - 1) * 200;
-        var timeRandomMIn = 1000;
-        var time1 = Math.floor(Math.random() * timeRandomMax) + timeRandomMIn;
-        var time2 = Math.floor(Math.random() * timeRandomMax) + timeRandomMIn;
-        var time3 = Math.floor(Math.random() * timeRandomMax) + timeRandomMIn;
-        var firstBox = this.itemGroup.getChildAt(0);
-        var secondBox = this.itemGroup.getChildAt(1);
-        var thirdBox = this.itemGroup.getChildAt(2);
-        this.tween(firstBox, step1, time1);
-        this.tween(secondBox, step2, time2);
-        this.tween(thirdBox, step3, time3);
-    };
-    SlotMachine.prototype.tween = function (item, step, duration) {
-        var _this = this;
-        if (duration === void 0) { duration = 500; }
-        var initY = item.y;
-        var addY = -(this.itemHeight + this.gap) * step;
-        var totalY = initY + addY;
-        var maxY = -(this.itemHeight + this.gap) * (this.awardsTotal.length - 1) + this.gap;
-        if (totalY < maxY) {
-            var oneStepTime = duration / step;
-            var step1 = (maxY - initY) / -(this.itemHeight + this.gap);
-            var step2_1 = step - step1;
-            var time1 = step1 * oneStepTime;
-            var time2_1 = duration - time1;
-            var t = egret.Tween.get(item);
-            t.to({ y: maxY }, time1)
-                .call(function () {
-                item.y = 10;
-                _this.tween(item, step2_1, time2_1);
-            });
-        }
-        else if (totalY > maxY) {
-            egret.Tween.get(item)
-                .to({ y: totalY }, duration)
-                .call(function () {
-                _this.tweenFlag += 1;
-            });
-        }
-        else if (totalY == maxY) {
-            egret.Tween.get(item)
-                .to({ y: totalY }, duration)
-                .call(function () {
-                item.y = 10;
-                _this.tweenFlag += 1;
-            });
-        }
-    };
-    SlotMachine.uuType = UUType.SLOT_MACHINE;
-    return SlotMachine;
-}(eui.Group));
-__reflect(SlotMachine.prototype, "SlotMachine", ["IUUBase"]);
+    SoundButton.uuType = UUType.SOUND;
+    return SoundButton;
+}(eui.Button));
+__reflect(SoundButton.prototype, "SoundButton", ["IUUBase"]);

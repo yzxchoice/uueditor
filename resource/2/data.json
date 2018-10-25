@@ -64,112 +64,39 @@
                     "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 },
-                {
-                    "id": 3001,
-                    "name": "scene_33_jpg",
-                    "pageId": 2018073110432,
-                    "type": 3001,
-                    "matrix": {
+                 {
+                    "id": 104,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 104,
+                     "matrix": {
                         "a": 1,
                         "b": 0,
                         "c": 0,
                         "d": 1,
-                        "x": 0,
-                        "y": 0
+                        "x": 200,
+                        "y": 200
                     },
                     "props": {
-                        "bgWidth": 300,
-                        "bgHeight": 300,
-                        "functions": [1],    
-                        "answerJudgePosition": 5,                                            
-                        "rightAnswerPostion": 4,                                           
-                        "toAward": [
-                            {
-                                "id": 1,
-                                "url": "resource/assets/Pic/border1.png",
-                                "answer": true,
-                                "rightAnswer": {
-                                    "text": "hello"
-                                }                               
-                            },
-                            {
-                                "id": 2,
-                                "url": "resource/assets/Pic/border1.png",
-                                "answer": false,
-                                "rightAnswer": {
-                                    "text": "well",
-                                    "size": 80,
-                                    "textColor": "0xff00ff"
-                                }                                 
-                            }
-                        ],
-                        "layoutSet": {
-                            "layoutType": 1,
-                            "gap": 3,
-                            "columnCount": 2
-                        }
-                    },
-                    "src": "assets/bg/scene_3.jpg",
-                    "sceneId": 1001
-                },
-                {
-                    "id": 3003,
-                    "name": "scene_23_jpg",
-                    "pageId": 2018073110588,
-                    "type": 3002,
-                    "matrix": {
-                        "a": 1,
-                        "b": 0,
-                        "c": 0,
-                        "d": 1,
-                        "x": 0,
-                        "y": 0
-                    },
-                    "props": {
-                        "resourceType": 2,
-                        "bgWidth": 300,
-                        "bgHeight": 300,
-                        "imgWidth": 240,
-                        "imgHeight": 240,
-                        "fontStyle": {
-                            "textColor": "0x00000",
-                            "size": 80
-                        },
-                        "imagePosition": 2,
-                        "placeholder": false,
-                        "hasBorder": false,
-                        "clickMode": 1,
-                        "functions": [1],
-                        "answerJudgePosition": 5,
                         "award": [
                             {
                                 "id": 1,
-                                "url": "resource/assets/Pic/1.png",
-                                "text": "l",
-                                "answer": true
+                                "url": "resource/assets/Pic/1.png"
                             },
-                             {
+                            {
                                 "id": 2,
-                                "url": "resource/assets/Pic/2.png",
-                                "text": "l",
-                                "answer": false                                
+                                "url": "resource/assets/Pic/2.png"
                             },
-                             {
+                            {
                                 "id": 3,
-                                "url": "resource/assets/Pic/3.png",
-                                "text": "l",
-                                "answer": true                                
+                                "url": "resource/assets/Pic/3.png"
                             }
-                        ],
-                        "layoutSet": {
-                            "layoutType": 1,
-                            "gap": 3,
-                            "columnCount": 3
-                        }
+                        ]
                     },
-                    "src": "assets/bg/scene_3.jpg",
+                    "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 }
+                
             ],
             "properties": {
                 "triggerGroup": []

@@ -1,6 +1,6 @@
 declare class Utils2 {
     constructor();
-    static getComs(): (typeof Slideshow | typeof SoundButton | typeof CircleSector | typeof UUBackground | typeof UUContainer | typeof UULabel | typeof SlotMachine | typeof CardAlert)[];
+    static getComs(): (typeof Slideshow | typeof CircleSector | typeof UUBackground | typeof UUContainer | typeof UULabel | typeof SoundButton | typeof CardAlert | typeof SlotMachine)[];
     static getTexture(url: string): Promise<{}>;
     static getSound(url: string): Promise<{}>;
     static trans(arr: Array<any>, templateId: number): {

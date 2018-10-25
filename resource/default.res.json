@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "thumb_png,track_png,tracklight_png,track_sb_png,button_down_png,button_up_png,border_png,header_png,gameEui_json,test_mp3,test2_mp3,4_png,3_png,5_png,1_png,2_png,handle_png,off_png,on_png,checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,animation_json,animation_png,description_json,animation2_json,animation2_png,roundthumb_png,jt2_png,jt22_png,bg3_jpg,PreLoadingBg_png,scene_1_jpg,scene_2_jpg,scene_4_jpg,start_bg_png,start_f_bg_png,btn_close_png,post_item_148_png,text1_png,text2_png,text3_png,text4_png,select_png,empty_png,error_json,right_json",
+			"keys": "thumb_png,track_png,tracklight_png,track_sb_png,button_down_png,button_up_png,border_png,header_png,gameEui_json,test_mp3,test2_mp3,4_png,3_png,5_png,1_png,2_png,handle_png,off_png,on_png,checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,animation_json,animation_png,description_json,animation2_json,animation2_png,roundthumb_png,jt2_png,jt22_png,bg3_jpg,PreLoadingBg_png,scene_1_jpg,scene_2_jpg,scene_4_jpg,start_bg_png,start_f_bg_png,btn_close_png,post_item_148_png,text1_png,text2_png,text3_png,text4_png,select_png,empty_png,error_json,right_json,preload_json,slots_bg_png",
 			"name": "preload"
 		}
 	],
@@ -272,6 +272,17 @@
 			"type": "sheet",
 			"url": "assets/Texture/right.json",
 			"subkeys": "right_tex_r1_c1,right_tex_r1_c3,right_tex_r1_c5,right_tex_r1_c8,right_tex_r3_c8,right_tex_r4_c1,right_tex_r4_c2"
+		},
+		{
+			"name": "preload_json",
+			"type": "sheet",
+			"url": "assets/Texture/preload.json",
+			"subkeys": "preload_r11_c5,preload_r11_c8,preload_r2_c12,preload_r2_c15,preload_r3_c3,preload_r4_c6,preload_r5_c1,preload_r8_c11"
+		},
+		{
+			"name": "slots_bg_png",
+			"type": "image",
+			"url": "assets/Pic/components/slots_bg.png"
 		}
 	]
 }

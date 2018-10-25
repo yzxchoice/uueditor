@@ -534,22 +534,6 @@ declare class Card extends eui.Group implements IUUBase, IUUContainer {
     reset(): void;
     dispose(): void;
 }
-interface uiData {
-    id: string;
-    name: string;
-    url?: string;
-}
-/**
- * 声音组件
- */
-declare class SoundButton extends eui.Button implements IUUBase {
-    data: uiData;
-    layerName: string;
-    static uuType: UUType;
-    constructor();
-    private onAddToStage(event);
-    private init();
-}
 declare class Transformable {
     width: number;
     height: number;
@@ -746,37 +730,19 @@ declare class UULabel extends eui.Label implements IUUBase, ILabel {
     textAlign: string;
     constructor(props?: {});
 }
+interface uiData {
+    id: string;
+    name: string;
+    url?: string;
+}
 /**
- * 轮播图组件
+ * 声音组件
  */
-declare class SlotMachine extends eui.Group implements IUUBase {
-    data: any;
+declare class SoundButton extends eui.Button implements IUUBase {
+    data: uiData;
     layerName: string;
-    container: any;
     static uuType: UUType;
-    private btn_start;
-    private isAnimating;
-    private itemWidth;
-    private itemHeight;
-    private gap;
-    private tweenFlag;
-    width: number;
-    height: number;
-    bgColor: string | number;
-    bdUrl: string;
-    private awardsTotal;
-    private _awards;
-    awards: Array<SlideshowItem>;
-    private itemGroup;
-    constructor(props: any);
+    constructor();
     private onAddToStage(event);
-    private onRemoveFromStage(event);
     private init();
-    private createMainBox();
-    private createItemBox();
-    private createItem(url);
-    private createImg(url);
-    private createStartBtn();
-    private onClick(evt);
-    private tween(item, step, duration?);
 }

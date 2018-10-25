@@ -79,6 +79,7 @@ var DragBorderBox = (function (_super) {
     };
     // 重置
     DragBorderBox.prototype.reset = function () {
+        this.hasAnswer = false;
         this.removeChildren();
         this.init();
     };

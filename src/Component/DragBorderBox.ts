@@ -88,6 +88,7 @@ class DragBorderBox extends eui.Group implements IDragBorderBox, ILayout, Functi
     
     // 重置
     reset(): void {
+        this.hasAnswer = false;
         this.removeChildren();
         this.init();        
     }  
