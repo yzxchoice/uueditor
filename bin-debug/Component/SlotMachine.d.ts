@@ -1,32 +1,46 @@
 /**
- * 轮播图组件
+ * 老虎机组件
  */
-declare class SlotMachine extends eui.Group implements IUUBase {
-    data: any;
-    layerName: string;
-    container: any;
+interface ISlotMachine {
+    awards: IResource[];
+    bdUrl: string;
+    skinUrl: string;
+    skinSize: ISize;
+    startBtnUrl: string;
+    startBtnMessage: IBaseMessage;
+    coreAraeMessage: IBaseMessage;
+}
+declare class SlotMachine extends eui.Group implements IUUBase, ISlotMachine {
     static uuType: UUType;
-    private btn_start;
-    private isAnimating;
+    layerName: string;
+    bdUrl: string;
+    skinUrl: string;
+    skinSize: ISize;
+    startBtnUrl: string;
+    startBtnMessage: IBaseMessage;
+    coreAraeMessage: IBaseMessage;
+    private gap;
     private itemWidth;
     private itemHeight;
-    private gap;
+    private imgPercentWidth;
+    private imgPercentHeight;
+    private itemGroup;
+    private btn_start;
     private tweenFlag;
-    width: number;
-    height: number;
-    bdUrl: string;
+    private isAnimating;
     private awardsTotal;
     private _awards;
-    awards: Array<SlideshowItem>;
-    private itemGroup;
+    awards: IResource[];
     constructor(props: any);
-    private onAddToStage(event);
-    private onRemoveFromStage(event);
+    private forEachProps(props, target?);
     private init();
+    private getItemSize();
     private createGroupBox();
+    private createSkin();
     private createMainBox();
     private createItemBox();
     private createItem(url);
+    private createBd(url);
     private createImg(url);
     private createStartBtn();
     private onClick(evt);

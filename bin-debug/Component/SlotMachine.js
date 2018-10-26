@@ -1,3 +1,7 @@
+// TypeScript file
+/**
+ * 老虎机组件
+ */
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
@@ -43,32 +47,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// TypeScript file
-/**
- * 轮播图组件
- */
 var SlotMachine = (function (_super) {
     __extends(SlotMachine, _super);
     function SlotMachine(props) {
         var _this = _super.call(this) || this;
         _this.layerName = '老虎机';
-        _this.isAnimating = false;
-        _this.itemWidth = 250;
-        _this.itemHeight = 250;
-        _this.gap = 10;
-        _this.tweenFlag = 3; // 动画标记
-        // 组件宽、高固定
-        _this.width = 856;
-        _this.height = 388;
         // props中用到的参数
         _this.bdUrl = 'resource/assets/pic/draw_card_bg.png';
+        _this.skinUrl = 'resource/assets/Pic/components/slots_bg.png';
+        _this.skinSize = {
+            width: 856,
+            height: 388,
+        };
+        _this.startBtnUrl = 'preload_json#preload_r2_c12';
+        _this.startBtnMessage = {
+            x: 0,
+            y: 0,
+            width: 120,
+            height: 56,
+        };
+        _this.coreAraeMessage = {
+            x: 368,
+            y: 322,
+            width: 790,
+            height: 270,
+        };
+        // 每项Item的间隔
+        _this.gap = 10;
+        // 每项Item的位置、尺寸信息
+        _this.itemWidth = 250;
+        _this.itemHeight = 250;
+        // 图片的尺寸
+        _this.imgPercentWidth = 80;
+        _this.imgPercentHeight = 80;
+        _this.tweenFlag = 3; // 动画标记	
+        _this.isAnimating = false;
         _this.awardsTotal = [];
         _this._awards = [];
-        _this.awards = props.award;
-        // this.bdUrl = props.bdUrl;
+        _this.forEachProps(props, _this);
+        _this.init();
         _this.touchEnabled = false;
-        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
-        _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.onRemoveFromStage, _this);
         return _this;
     }
     Object.defineProperty(SlotMachine.prototype, "awards", {
@@ -83,62 +101,73 @@ var SlotMachine = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    SlotMachine.prototype.onAddToStage = function (event) {
-        this.init();
-    };
-    SlotMachine.prototype.onRemoveFromStage = function (event) {
+    SlotMachine.prototype.forEachProps = function (props, target) {
+        for (var key in props) {
+            if ((typeof props[key] == 'object') && !(props[key] instanceof Array)) {
+                this.forEachProps(props[key], target[key]);
+            }
+            target[key] = props[key];
+        }
     };
     SlotMachine.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             var mainBox;
             return __generator(this, function (_a) {
+                this.getItemSize();
                 mainBox = this.createGroupBox();
+                this.width = mainBox.width;
+                this.height = mainBox.height;
                 this.addChild(mainBox);
                 return [2 /*return*/];
             });
         });
     };
+    // 获取每项Item的尺寸
+    SlotMachine.prototype.getItemSize = function () {
+        this.itemWidth = (this.coreAraeMessage.width - 4 * this.gap) / 3;
+        this.itemHeight = this.coreAraeMessage.height - 2 * this.gap;
+    };
+    // 创建UI
     SlotMachine.prototype.createGroupBox = function () {
-        var groupWidth = 856;
-        var groupHeight = 388;
-        var group = UIFactory.createGroup(groupWidth, groupHeight);
-        var img = new eui.Image();
-        img.source = 'resource/assets/Pic/components/slots_bg.png';
-        img.width = groupWidth;
-        img.height = groupHeight;
-        group.addChild(img);
+        // 组件容器
+        var group = UIFactory.createGroup(this.skinSize.width, this.skinSize.height);
+        // 皮肤
+        var skin = this.createSkin();
+        group.addChild(skin);
+        // 核心容器
         var mainBox = this.createMainBox();
-        mainBox.x = 30;
-        mainBox.y = 34;
         group.addChild(mainBox);
+        // start 按钮
         var btn = this.createStartBtn();
-        btn.horizontalCenter = 0;
-        btn.bottom = 10;
-        console.log('btn....');
-        console.log(btn);
         group.addChild(btn);
         return group;
     };
+    // 创建皮肤
+    SlotMachine.prototype.createSkin = function () {
+        var img = new eui.Image();
+        img.source = this.skinUrl;
+        img.width = this.skinSize.width;
+        img.height = this.skinSize.height;
+        return img;
+    };
+    // 创建核心容器
     SlotMachine.prototype.createMainBox = function () {
-        var group = new eui.Group();
-        group.width = this.width;
-        group.height = this.itemHeight + 2 * this.gap;
-        // 主容器
         var itemGroup = new eui.Group();
-        itemGroup.width = this.width;
-        itemGroup.height = group.height;
+        itemGroup.width = this.coreAraeMessage.width;
+        itemGroup.height = this.coreAraeMessage.height;
         this.itemGroup = itemGroup;
-        itemGroup.mask = new egret.Rectangle(0, 0, itemGroup.width, itemGroup.height);
+        itemGroup.mask = new egret.Rectangle(0, 0, this.coreAraeMessage.width, this.coreAraeMessage.height);
         // 生成3项竖向轮播图容器
         for (var i = 0, len = 3; i < len; i++) {
             var itemBox = this.createItemBox();
-            itemBox.x = (12 + this.itemWidth) * i + 12;
+            itemBox.x = (this.gap + this.itemWidth) * i + this.gap;
             itemBox.y = this.gap;
             itemGroup.addChild(itemBox);
         }
         ;
-        group.addChild(itemGroup);
-        return group;
+        itemGroup.x = this.coreAraeMessage.x;
+        itemGroup.y = this.coreAraeMessage.y;
+        return itemGroup;
     };
     // 竖向轮播图容器
     SlotMachine.prototype.createItemBox = function () {
@@ -157,35 +186,50 @@ var SlotMachine = (function (_super) {
         ;
         return group;
     };
+    // 创建每一项（图片框 + 图片）
     SlotMachine.prototype.createItem = function (url) {
         var group = new eui.Group();
         group.width = this.itemWidth;
         group.height = this.itemHeight;
-        var bg = this.createImg(this.bdUrl);
+        var bg = this.createBd(this.bdUrl);
         var img = this.createImg(url);
         group.addChild(bg);
         group.addChild(img);
         return group;
     };
-    SlotMachine.prototype.createImg = function (url) {
+    // 创建框
+    SlotMachine.prototype.createBd = function (url) {
         var img = new eui.Image(url);
-        img.width = this.itemWidth;
-        img.height = this.itemHeight;
+        img.percentWidth = 100;
+        img.percentHeight = 100;
         return img;
     };
+    // 创建图片
+    SlotMachine.prototype.createImg = function (url) {
+        var img = new eui.Image(url);
+        img.percentWidth = this.imgPercentWidth;
+        img.percentHeight = this.imgPercentHeight;
+        img.verticalCenter = 0;
+        img.horizontalCenter = 0;
+        return img;
+    };
+    // 创建start按钮
     SlotMachine.prototype.createStartBtn = function () {
         var txtr = RES.getRes('preload_json#preload_r2_c12');
         var img = new egret.Bitmap(txtr);
-        img.width = 120;
-        img.height = 56;
+        img.width = this.startBtnMessage.width;
+        img.height = this.startBtnMessage.height;
         img.touchEnabled = true;
         img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
-        var group = UIFactory.createGroup(120, 56);
+        var group = UIFactory.createGroup(img.width, img.height);
         this.btn_start = group;
         group.addChild(img);
+        group.x = this.startBtnMessage.x;
+        group.y = this.startBtnMessage.y;
         this.addClickState();
         return group;
     };
+    // 点击start的处理程序
     SlotMachine.prototype.onClick = function (evt) {
         evt.stopPropagation();
         evt.stopImmediatePropagation();
@@ -212,6 +256,7 @@ var SlotMachine = (function (_super) {
         this.tween(secondBox, step2, time2);
         this.tween(thirdBox, step3, time3);
     };
+    // 动画效果
     SlotMachine.prototype.tween = function (item, step, duration) {
         var _this = this;
         if (duration === void 0) { duration = 500; }
@@ -254,10 +299,12 @@ var SlotMachine = (function (_super) {
             });
         }
     };
+    // 为start按钮添加可点击状态
     SlotMachine.prototype.addClickState = function () {
         this.btn_start.filters = [FilterFactory.createGlodFilter()];
         this.isAnimating = false;
     };
+    // 移除start按钮可点击状态
     SlotMachine.prototype.removeClickState = function () {
         this.btn_start.filters = [FilterFactory.createShadowFilter()];
         this.isAnimating = true;
@@ -265,4 +312,4 @@ var SlotMachine = (function (_super) {
     SlotMachine.uuType = UUType.SLOT_MACHINE;
     return SlotMachine;
 }(eui.Group));
-__reflect(SlotMachine.prototype, "SlotMachine", ["IUUBase"]);
+__reflect(SlotMachine.prototype, "SlotMachine", ["IUUBase", "ISlotMachine"]);

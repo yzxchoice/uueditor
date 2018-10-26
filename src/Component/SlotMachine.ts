@@ -1,103 +1,145 @@
 // TypeScript file
 /**
- * 轮播图组件
+ * 老虎机组件
  */
-class SlotMachine extends eui.Group implements IUUBase {
-    data: any;
-    layerName:string = '老虎机'
-    container: any;
-  
-    static uuType = UUType.SLOT_MACHINE;
-    
-    private btn_start: eui.Group;
-    private isAnimating: boolean = false;
 
+// 通常只需要改变awards、bdUrl，
+// 当需要修改皮肤时，需要改变所有选项
+// 只支持3项
+interface ISlotMachine {
+	awards: IResource[], // 图片列表
+	bdUrl: string, // 图片框url	
+	skinUrl: string, // 皮肤url
+	skinSize: ISize, // 皮肤尺寸
+	startBtnUrl: string, // 按钮皮肤url
+	startBtnMessage: IBaseMessage, // 按钮的位置与尺寸
+	coreAraeMessage: IBaseMessage, // 核心区域的位置与尺寸
+}
+
+class SlotMachine extends eui.Group implements IUUBase, ISlotMachine {
+    static uuType = UUType.SLOT_MACHINE;
+	
+    layerName:string = '老虎机'
+
+	// props中用到的参数
+	bdUrl: string = 'resource/assets/pic/draw_card_bg.png';	
+	skinUrl: string = 'resource/assets/Pic/components/slots_bg.png';
+	skinSize: ISize = {
+		width: 856,
+		height: 388,
+	}
+	startBtnUrl: string = 'preload_json#preload_r2_c12';
+	startBtnMessage: IBaseMessage = {
+		x: 0,
+		y: 0,
+		width: 120,
+		height: 56,
+	};
+	coreAraeMessage: IBaseMessage = {
+		x: 368,
+		y: 322,
+		width: 790,
+		height: 270,
+	}
+
+	// 每项Item的间隔
+	private gap: number = 10;	
+	// 每项Item的位置、尺寸信息
 	private itemWidth: number = 250;
 	private itemHeight: number = 250;
-	private gap: number = 10;
-	private tweenFlag: number = 3; // 动画标记
-	// 组件宽、高固定
-	width: number = 856;
-	height: number = 388;
-	// props中用到的参数
-	bdUrl: string = 'resource/assets/pic/draw_card_bg.png';
-	
-	private awardsTotal: Array<SlideshowItem> = [];
-	private _awards : Array<SlideshowItem> = [];
-	public get awards() : Array<SlideshowItem> {
+	// 图片的尺寸
+	private imgPercentWidth: number = 80;
+	private imgPercentHeight: number = 80;
+
+	// other
+    private itemGroup: eui.Group;	
+    private btn_start: eui.Group;
+	private tweenFlag: number = 3; // 动画标记	
+    private isAnimating: boolean = false; 
+
+	private awardsTotal: IResource[] = [];
+	private _awards : IResource[] = [];
+	public get awards() : IResource[] {
 		return this._awards;
 	}
-	public set awards(v : Array<SlideshowItem>) {
+	public set awards(v : IResource[]) {
 		this._awards = v;
 		let firstItem = v.slice(0,1);
 		this.awardsTotal = [...v,...firstItem];
 	}
 	
-    private itemGroup: eui.Group;
     constructor (props) {
         super();
-		this.awards = props.award;
-		// this.bdUrl = props.bdUrl;
-        this.touchEnabled = false;
-        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
-        this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.onRemoveFromStage, this);
+		this.forEachProps(props, this);
+		this.init();
+        this.touchEnabled = false;		
     }
 
-    private onAddToStage (event:egret.Event) {
-		this.init()
-    }
-
-    private onRemoveFromStage (event: egret.Event) {
-
-    }
+	private forEachProps(props, target?: Object): void {
+		for(let key in props) {
+			if((typeof props[key] == 'object') && !(props[key] instanceof Array)) {
+				this.forEachProps(props[key], target[key]);
+			}
+			target[key] = props[key];
+		}
+	}
 
 	private async init(){
+		this.getItemSize();
         let mainBox = this.createGroupBox();
+		this.width = mainBox.width;
+		this.height = mainBox.height;
 		this.addChild(mainBox);
 	}
 
-	private createGroupBox() {
-		let groupWidth = 856;
-		let groupHeight = 388;
-		let group = UIFactory.createGroup(groupWidth, groupHeight);
-		let img = new eui.Image();
-		img.source = 'resource/assets/Pic/components/slots_bg.png';
-		img.width = groupWidth;
-		img.height = groupHeight;
-		group.addChild(img);
-		let mainBox = this.createMainBox();
-		mainBox.x = 30;
-		mainBox.y = 34;
-		group.addChild(mainBox);
+	// 获取每项Item的尺寸
+	private getItemSize(): void {
+		this.itemWidth = (this.coreAraeMessage.width - 4 * this.gap) / 3;
+		this.itemHeight = this.coreAraeMessage.height - 2 * this.gap
+	}
 
+	// 创建UI
+	private createGroupBox() {
+		// 组件容器
+		let group = UIFactory.createGroup(this.skinSize.width, this.skinSize.height);
+		// 皮肤
+		let skin = this.createSkin();
+		group.addChild(skin);
+		// 核心容器
+		let mainBox = this.createMainBox();
+		group.addChild(mainBox);
+		// start 按钮
 		let btn = this.createStartBtn();
-		btn.horizontalCenter = 0;
-		btn.bottom = 10;
-		console.log('btn....');
-		console.log(btn);
 		group.addChild(btn);		
 		return group;
 	}
 
+	// 创建皮肤
+	private createSkin(): eui.Image {
+		let img = new eui.Image();
+		img.source = this.skinUrl;
+		img.width = this.skinSize.width;
+		img.height = this.skinSize.height;
+		return img;
+	}
+
+	// 创建核心容器
 	private createMainBox(){
-		let group = new eui.Group();
-		group.width = this.width;
-		group.height = this.itemHeight + 2 * this.gap;
-		// 主容器
 		let itemGroup = new eui.Group();
-		itemGroup.width = this.width;
-		itemGroup.height = group.height;
+		itemGroup.width = this.coreAraeMessage.width;
+		itemGroup.height = this.coreAraeMessage.height;
 		this.itemGroup = itemGroup;
-		itemGroup.mask = new egret.Rectangle(0,0,itemGroup.width,itemGroup.height);
+		itemGroup.mask = new egret.Rectangle(0,0,this.coreAraeMessage.width,this.coreAraeMessage.height);
 		// 生成3项竖向轮播图容器
 		for(let i = 0, len = 3; i < len; i++){
 			let itemBox = this.createItemBox();
-			itemBox.x = (12 + this.itemWidth) * i + 12;
+			itemBox.x = (this.gap + this.itemWidth) * i + this.gap;
 			itemBox.y = this.gap;			
 			itemGroup.addChild(itemBox);
 		};
-		group.addChild(itemGroup);
-		return group;
+		itemGroup.x = this.coreAraeMessage.x;
+		itemGroup.y = this.coreAraeMessage.y;
+		return itemGroup;
 	}
 	// 竖向轮播图容器
 	private createItemBox(){
@@ -115,39 +157,50 @@ class SlotMachine extends eui.Group implements IUUBase {
 		};
 		return group;
 	}
-
+	// 创建每一项（图片框 + 图片）
 	private createItem(url){
 		let group = new eui.Group();
 		group.width = this.itemWidth;
 		group.height = this.itemHeight;
-		let bg = this.createImg(this.bdUrl);
+		let bg = this.createBd(this.bdUrl);
 		let img = this.createImg(url);
 		group.addChild(bg);
 		group.addChild(img);
 		return group;
 	}
-
+	// 创建框
+	private createBd(url): eui.Image {
+		let img = new eui.Image(url);
+		img.percentWidth = 100;
+		img.percentHeight = 100; 
+		return img
+	}
+	// 创建图片
 	private createImg(url){
 		let img = new eui.Image(url);
-		img.width = this.itemWidth
-		img.height = this.itemHeight;            
+		img.percentWidth = this.imgPercentWidth;
+		img.percentHeight = this.imgPercentHeight; 
+		img.verticalCenter = 0;
+		img.horizontalCenter = 0;           
 		return img;
 	}
-
+	// 创建start按钮
 	private createStartBtn(){
 		var txtr:egret.Texture = RES.getRes( 'preload_json#preload_r2_c12' );
 		var img:egret.Bitmap = new egret.Bitmap( txtr );
-		img.width = 120;
-		img.height = 56;
+		img.width = this.startBtnMessage.width;
+		img.height = this.startBtnMessage.height;
 		img.touchEnabled = true;
 		img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
-		let group = UIFactory.createGroup(120, 56);
+		let group = UIFactory.createGroup(img.width, img.height);
 		this.btn_start = group;
 		group.addChild(img);
+		group.x = this.startBtnMessage.x;
+		group.y = this.startBtnMessage.y;
 		this.addClickState();
 		return group;
 	}
-
+	// 点击start的处理程序
 	private onClick(evt: TouchEvent){
 		evt.stopPropagation();
 		evt.stopImmediatePropagation();
@@ -176,7 +229,7 @@ class SlotMachine extends eui.Group implements IUUBase {
 		this.tween(thirdBox, step3, time3);
 		
 	}
-
+	// 动画效果
 	private tween(item:eui.Group, step: number, duration: number = 500){
 		let initY = item.y;
 		let addY = -(this.itemHeight + this.gap) * step;
@@ -218,12 +271,12 @@ class SlotMachine extends eui.Group implements IUUBase {
 				})
 		}
 	}
-
+	// 为start按钮添加可点击状态
 	private addClickState(): void {
 		this.btn_start.filters = [ FilterFactory.createGlodFilter() ];
 		this.isAnimating = false;
 	}
-
+	// 移除start按钮可点击状态
 	private removeClickState(): void {
 		this.btn_start.filters = [ FilterFactory.createShadowFilter() ];
 		this.isAnimating = true;
