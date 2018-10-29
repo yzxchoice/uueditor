@@ -6,6 +6,7 @@
 interface ICircleSector2 {
     skinUrl: string,
     awards: IResource[],
+    arrowUrl: string,
 }
 
 class CircleSector extends eui.Group implements IUUBase {
@@ -15,6 +16,7 @@ class CircleSector extends eui.Group implements IUUBase {
     // props 
     awards: Array<IResource> = [];
     skinUrl: string = 'resource/assets/Pic/components/circleSector/turnplate.png';
+    arrowUrl: string = 'preload_json#preload_r2_c15';
 
     // other
 
@@ -43,15 +45,18 @@ class CircleSector extends eui.Group implements IUUBase {
 	}
     
     private init () {
-       this.main = this.createMianBox();
-
+        // 核心区域
+        this.main = this.createMianBox();
         let skin = this.createSkin();
         skin.width = this.main.width;
         skin.height = this.main.height;
         this.main.addChild(skin);
-
         this.main.touchEnabled = false;
+        // 箭头
+        let arrow: eui.Group = this.createArrow();
         this.addChild(this.main);
+        this.addChild(arrow);
+        
     }
 
     private createMianBox(): eui.Group {
@@ -74,14 +79,12 @@ class CircleSector extends eui.Group implements IUUBase {
         
         var arc = 360 / this.awards.length;
         var lastAngle = 0;
-        var r = 200;
+        var r = this.width / 2;
 
         for (var i = 0; i< this.awards.length; i++){
             lastAngle = i * arc;
 
-            this.drawArc(shape,r,r,r,arc,lastAngle);
-
-
+            // this.drawArc(shape,r,r,r,arc,lastAngle);
             var g: eui.Group = new eui.Group();
             g.width = 2 * r * Math.sin(arc * 2 * Math.PI/ 360/2);
             g.height = r;
@@ -112,14 +115,20 @@ class CircleSector extends eui.Group implements IUUBase {
             this.main.addChild(g);
         }
 
-        var jt: eui.Image = new eui.Image();
-        var texture:egret.Texture = RES.getRes("jt2_png");
-        jt.texture = texture;
-        jt.horizontalCenter = 0;
-        jt.verticalCenter = 0;
-        jt.addEventListener(Mouse.START, this.down, this);
-        this.addChild(jt);
+    }
 
+    private createArrow(): eui.Group {
+        let txtr:egret.Texture = RES.getRes( this.arrowUrl );
+		let img:egret.Bitmap = new egret.Bitmap( txtr );
+		img.width = 68;
+		img.height = 118;
+		img.touchEnabled = true;
+		img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.down, this);
+		let group = UIFactory.createGroup(img.width, img.height);
+		group.addChild(img);
+        group.horizontalCenter = 0;
+        group.verticalCenter = -20;
+		return group;
     }
 
     private down (event: egret.TouchEvent) {
@@ -157,29 +166,29 @@ class CircleSector extends eui.Group implements IUUBase {
     /**
      * 画弧形方法
      */
-    drawArc(mc:egret.Shape, x:number=200, y:number=200, r:number=100, angle:number=27, startFrom:number=270, color:number=0xff0000):void {
-        mc.graphics.beginFill(color,0);
-        mc.graphics.lineStyle(0,color);   
-        mc.graphics.moveTo(x,y);
-        angle=(Math.abs(angle)>360)?360:angle;
-        var n:number=Math.ceil(Math.abs(angle)/45);
-        var angleA:number=angle/n;
-        angleA=angleA*Math.PI/180;
-        startFrom=startFrom*Math.PI/180;
-        mc.graphics.lineTo(x+r*Math.cos(startFrom),y+r*Math.sin(startFrom));
-        for (var i=1; i<=n; i++) {
-            startFrom+=angleA;
-            var angleMid=startFrom-angleA/2;
-            var bx=x+r/Math.cos(angleA/2)*Math.cos(angleMid);
-            var by=y+r/Math.cos(angleA/2)*Math.sin(angleMid);
-            var cx=x+r*Math.cos(startFrom);
-            var cy=y+r*Math.sin(startFrom);
-            mc.graphics.curveTo(bx,by,cx,cy);
-        }
-        if (angle!=360) {
-            mc.graphics.lineTo(x,y);
-        }
-        mc.graphics.endFill();
-    }
+    // drawArc(mc:egret.Shape, x:number=200, y:number=200, r:number=100, angle:number=27, startFrom:number=270, color:number=0xff0000):void {
+    //     mc.graphics.beginFill(color,0);
+    //     mc.graphics.lineStyle(0,color);   
+    //     mc.graphics.moveTo(x,y);
+    //     angle=(Math.abs(angle)>360)?360:angle;
+    //     var n:number=Math.ceil(Math.abs(angle)/45);
+    //     var angleA:number=angle/n;
+    //     angleA=angleA*Math.PI/180;
+    //     startFrom=startFrom*Math.PI/180;
+    //     mc.graphics.lineTo(x+r*Math.cos(startFrom),y+r*Math.sin(startFrom));
+    //     for (var i=1; i<=n; i++) {
+    //         startFrom+=angleA;
+    //         var angleMid=startFrom-angleA/2;
+    //         var bx=x+r/Math.cos(angleA/2)*Math.cos(angleMid);
+    //         var by=y+r/Math.cos(angleA/2)*Math.sin(angleMid);
+    //         var cx=x+r*Math.cos(startFrom);
+    //         var cy=y+r*Math.sin(startFrom);
+    //         mc.graphics.curveTo(bx,by,cx,cy);
+    //     }
+    //     if (angle!=360) {
+    //         mc.graphics.lineTo(x,y);
+    //     }
+    //     mc.graphics.endFill();
+    // }
 
 }

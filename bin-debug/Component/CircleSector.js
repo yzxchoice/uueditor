@@ -55,6 +55,7 @@ var CircleSector = (function (_super) {
         // props 
         _this.awards = [];
         _this.skinUrl = 'resource/assets/Pic/components/circleSector/turnplate.png';
+        _this.arrowUrl = 'preload_json#preload_r2_c15';
         // other
         _this.main = new eui.Group();
         _this.isAnimating = false;
@@ -76,13 +77,17 @@ var CircleSector = (function (_super) {
         }
     };
     CircleSector.prototype.init = function () {
+        // 核心区域
         this.main = this.createMianBox();
         var skin = this.createSkin();
         skin.width = this.main.width;
         skin.height = this.main.height;
         this.main.addChild(skin);
         this.main.touchEnabled = false;
+        // 箭头
+        var arrow = this.createArrow();
         this.addChild(this.main);
+        this.addChild(arrow);
     };
     CircleSector.prototype.createMianBox = function () {
         var group = UIFactory.createGroup(this.width, this.height);
@@ -97,17 +102,16 @@ var CircleSector = (function (_super) {
     };
     CircleSector.prototype.drawSector = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var shape, arc, lastAngle, r, i, g, label, smallImg, bigImg, jt, texture;
+            var shape, arc, lastAngle, r, i, g, label, smallImg, bigImg;
             return __generator(this, function (_a) {
                 shape = new egret.Shape();
                 shape.touchEnabled = true;
                 this.main.addChild(shape);
                 arc = 360 / this.awards.length;
                 lastAngle = 0;
-                r = 200;
+                r = this.width / 2;
                 for (i = 0; i < this.awards.length; i++) {
                     lastAngle = i * arc;
-                    this.drawArc(shape, r, r, r, arc, lastAngle);
                     g = new eui.Group();
                     g.width = 2 * r * Math.sin(arc * 2 * Math.PI / 360 / 2);
                     g.height = r;
@@ -133,16 +137,22 @@ var CircleSector = (function (_super) {
                     g.addChild(bigImg);
                     this.main.addChild(g);
                 }
-                jt = new eui.Image();
-                texture = RES.getRes("jt2_png");
-                jt.texture = texture;
-                jt.horizontalCenter = 0;
-                jt.verticalCenter = 0;
-                jt.addEventListener(Mouse.START, this.down, this);
-                this.addChild(jt);
                 return [2 /*return*/];
             });
         });
+    };
+    CircleSector.prototype.createArrow = function () {
+        var txtr = RES.getRes(this.arrowUrl);
+        var img = new egret.Bitmap(txtr);
+        img.width = 68;
+        img.height = 118;
+        img.touchEnabled = true;
+        img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.down, this);
+        var group = UIFactory.createGroup(img.width, img.height);
+        group.addChild(img);
+        group.horizontalCenter = 0;
+        group.verticalCenter = -20;
+        return group;
     };
     CircleSector.prototype.down = function (event) {
         if (this.isAnimating)
@@ -174,39 +184,6 @@ var CircleSector = (function (_super) {
             console.log(_this.main.getChildIndex(item));
             item.getChildAt(item.numChildren - 1).visible = true;
         });
-    };
-    /**
-     * 画弧形方法
-     */
-    CircleSector.prototype.drawArc = function (mc, x, y, r, angle, startFrom, color) {
-        if (x === void 0) { x = 200; }
-        if (y === void 0) { y = 200; }
-        if (r === void 0) { r = 100; }
-        if (angle === void 0) { angle = 27; }
-        if (startFrom === void 0) { startFrom = 270; }
-        if (color === void 0) { color = 0xff0000; }
-        mc.graphics.beginFill(color, 0);
-        mc.graphics.lineStyle(0, color);
-        mc.graphics.moveTo(x, y);
-        angle = (Math.abs(angle) > 360) ? 360 : angle;
-        var n = Math.ceil(Math.abs(angle) / 45);
-        var angleA = angle / n;
-        angleA = angleA * Math.PI / 180;
-        startFrom = startFrom * Math.PI / 180;
-        mc.graphics.lineTo(x + r * Math.cos(startFrom), y + r * Math.sin(startFrom));
-        for (var i = 1; i <= n; i++) {
-            startFrom += angleA;
-            var angleMid = startFrom - angleA / 2;
-            var bx = x + r / Math.cos(angleA / 2) * Math.cos(angleMid);
-            var by = y + r / Math.cos(angleA / 2) * Math.sin(angleMid);
-            var cx = x + r * Math.cos(startFrom);
-            var cy = y + r * Math.sin(startFrom);
-            mc.graphics.curveTo(bx, by, cx, cy);
-        }
-        if (angle != 360) {
-            mc.graphics.lineTo(x, y);
-        }
-        mc.graphics.endFill();
     };
     CircleSector.uuType = UUType.CIRCLE_SECTOR;
     return CircleSector;
