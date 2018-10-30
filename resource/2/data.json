@@ -94,15 +94,8 @@
                             {
                                 "url": "resource/assets/Pic/components/slideshow/post_item_138.png",
                                 "text": "carrots"
-                            },
-                            {
-                                "url": "resource/assets/Pic/components/slideshow/post_item_141.png",
-                                "text": "cucumbers"
-                            },
-                            {
-                                "url": "resource/assets/Pic/components/slideshow/post_item_142.png",
-                                "text": "beans"
                             }
+                        
                         ]
                     },
                     "src": "assets/bg/scene_1.jpg",

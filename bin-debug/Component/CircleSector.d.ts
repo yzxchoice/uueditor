@@ -13,6 +13,7 @@ declare class CircleSector extends eui.Group implements IUUBase {
     skinUrl: string;
     arrowUrl: string;
     private main;
+    private mainItemGroup;
     private isAnimating;
     private itemIndex;
     width: number;
@@ -20,11 +21,17 @@ declare class CircleSector extends eui.Group implements IUUBase {
     constructor(props: any);
     private forEachProps(props, target?);
     private init();
+    private adjuctInitRotate(mian);
     private createMianBox();
     private createSkin();
-    drawSector(): Promise<void>;
+    private createMainItemGroup();
     private createArrow();
     private down(event);
     private rnd();
-    rotateFn(random: number): void;
+    private rotateFn(random);
+    private reset();
+    /**
+     * 画弧形方法
+     */
+    drawArc(mc: egret.Shape, x?: number, y?: number, r?: number, angle?: number, startFrom?: number, color?: number): void;
 }
