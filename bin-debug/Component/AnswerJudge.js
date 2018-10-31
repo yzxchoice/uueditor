@@ -16,15 +16,21 @@ var AnswerJudgePosition;
     AnswerJudgePosition[AnswerJudgePosition["BottomRight"] = 4] = "BottomRight";
     AnswerJudgePosition[AnswerJudgePosition["Center"] = 5] = "Center";
 })(AnswerJudgePosition || (AnswerJudgePosition = {}));
+/**
+ * 用于对错判断的类，功能包含
+ * 1、正确、错误的帧动画效果
+ * 2、可以设置正确答案及样式
+ * 3、可以设置正确答案/判断效果的位置
+ */
 var AnswerJudge = (function (_super) {
     __extends(AnswerJudge, _super);
     function AnswerJudge(params) {
         var _this = _super.call(this) || this;
-        _this.itemWidth = 40;
-        _this.itemHeight = 40;
+        _this.itemWidth = 40; // 动态判断效果的宽度
+        _this.itemHeight = 40; // 动态判断效果的高度
         _this.judge = true; // 对错判断
-        _this.itemPosition = AnswerJudgePosition.Center;
-        _this.rightAnswerPostion = AnswerJudgePosition.TopRight;
+        _this.itemPosition = AnswerJudgePosition.Center; // 动态判断效果的位置
+        _this.rightAnswerPostion = AnswerJudgePosition.TopRight; // 正确答案的位置
         for (var key in params) {
             _this[key] = params[key];
         }

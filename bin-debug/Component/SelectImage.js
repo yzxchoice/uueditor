@@ -14,93 +14,63 @@ var SelectImage = (function (_super) {
         var _this = _super.call(this) || this;
         // props
         _this.award = [];
-        // props layout
-        _this.layoutType = LayoutType.HLayout;
-        _this.gap = GapType.Small;
-        // award changeData
-        _this.awardChangeData = [];
-        // item data 
-        _this.itemHeight = 220;
-        _this.itemWidth = 150;
-        _this.radioWidth = 50;
-        _this.radioHeight = 50;
-        console.log('selectImg...');
+        _this.radioBorderColor = '0x000000';
+        _this.radioCenterColor = '0x000000';
         _this.award = props.award;
-        _this.notSelectState = props.notSelectState;
-        _this.selectState = props.selectState;
-        if (props.layoutSet.layoutType) {
-            _this.layoutType = props.layoutSet.layoutType;
+        if (props.radioBorderColor) {
+            _this.radioBorderColor = props.radioBorderColor;
         }
-        if (props.layoutSet.gap) {
-            _this.gap = props.layoutSet.gap;
-        }
-        if (props.layoutSet.columnCount) {
-            _this.columnCount = props.layoutSet.columnCount;
+        if (props.radioCenterColor) {
+            _this.radioCenterColor = props.radioCenterColor;
         }
         _this.touchEnabled = false;
-        _this.init();
+        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
+        _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.onRemoveFromStage, _this);
         return _this;
     }
-    SelectImage.prototype.init = function () {
-        this.changeAward();
-        this.addChild(this.createMian());
-        this.setGroupSize();
+    SelectImage.prototype.onAddToStage = function (event) {
+        this.init();
     };
-    SelectImage.prototype.changeAward = function () {
-        this.awardChangeData = this.award.slice();
-        for (var i = 0, len = this.awardChangeData.length; i < len; i++) {
-            this.awardChangeData[i].isSelected = false;
-        }
+    SelectImage.prototype.onRemoveFromStage = function (event) {
+    };
+    SelectImage.prototype.init = function () {
+        this.addChild(this.createMian());
     };
     SelectImage.prototype.createMian = function () {
         var group = UIFactory.createGroup(720, 360);
         group.layout = this.createLayout();
-        for (var i = 0, len = this.awardChangeData.length; i < len; i++) {
-            var item = this.createItem(this.awardChangeData[i].url, this.awardChangeData[i].isSelected);
-            item.name = i.toString();
-            group.addChild(item);
+        for (var i = 0, len = this.award.length; i < len; i++) {
+            group.addChild(this.createItem(this.award[i].url));
         }
         return group;
     };
-    SelectImage.prototype.createItem = function (imgUrl, isSelected) {
-        var group = UIFactory.createGroup(this.itemWidth, this.itemHeight);
-        var img = UIFactory.createImage(imgUrl, this.itemWidth, this.itemWidth);
-        img.horizontalCenter = 0;
-        img.top = 0;
-        var radio = this.createRadio(isSelected);
-        radio.horizontalCenter = 0;
-        radio.bottom = 0;
+    SelectImage.prototype.createItem = function (imgUrl) {
+        var group = UIFactory.createGroup(150, 220);
+        group.layout = UIFactory.createVLayout(10, egret.VerticalAlign.JUSTIFY);
+        var img = UIFactory.createImage(imgUrl, 150, 150);
         group.addChild(img);
-        group.addChild(radio);
-        group.addEventListener(egret.TouchEvent.TOUCH_TAP, this.selectItem, this);
+        group.addChild(this.createRadio());
         return group;
     };
-    SelectImage.prototype.createRadio = function (isSelected) {
-        var radioImage;
-        if (isSelected) {
-            radioImage = UIFactory.createImage(this.selectState, this.radioWidth, this.radioHeight);
-        }
-        else {
-            radioImage = UIFactory.createImage(this.notSelectState, this.radioWidth, this.radioHeight);
-        }
-        return radioImage;
+    SelectImage.prototype.createRadio = function () {
+        var group = UIFactory.createGroup(50, 50);
+        var border = new egret.Shape();
+        border.graphics.lineStyle(2, Number(this.radioBorderColor));
+        border.graphics.beginFill(0xff0000, 0);
+        border.graphics.drawCircle(0, 0, 50);
+        border.graphics.endFill();
+        var center = new egret.Shape();
+        center.graphics.beginFill(Number(this.radioCenterColor));
+        border.graphics.drawCircle(0, 0, 40);
+        border.graphics.endFill();
+        group.addChild(border);
+        group.addChild(center);
+        return group;
     };
     SelectImage.prototype.createLayout = function () {
-        return LayoutFactory.main(this.layoutType, this.gap, this.columnCount);
-    };
-    SelectImage.prototype.setGroupSize = function () {
-        var obj = LayoutFactory.setGroupSize(this.award.length, this.itemWidth, this.itemHeight, this.layoutType, this.gap, this.columnCount);
-        this.width = obj.width;
-        this.height = obj.height;
-    };
-    SelectImage.prototype.selectItem = function (evt) {
-        console.log(evt.currentTarget);
-        var item = evt.currentTarget;
-        var index = Number(item.name);
-        this.awardChangeData.forEach(function (item) { return item.isSelected = false; });
-        this.awardChangeData[index].isSelected = true;
-        this.removeChildren();
-        this.addChild(this.createMian());
+        var layout;
+        layout = UIFactory.createLayoutByNum(3, this.award.length);
+        return layout;
     };
     SelectImage.uuType = UUType.SELECT_IMAGE;
     return SelectImage;

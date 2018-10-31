@@ -64,6 +64,27 @@
                     "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 },
+                 {
+                    "id": 90013,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 9001,
+                     "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 900,
+                        "y": 0
+                    },
+                    "props": {
+                        "text": "start",
+                        "bgUrl": "resource/assets/Pic/border2.png",
+                        "functionType": 3
+                    },
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                },
                 {
                     "id": 101,
                     "name": "scene_1_jpg",
@@ -78,6 +99,9 @@
                         "y": 0
                     },
                     "props": {
+                        "skinUrl": "resource/assets/Pic/components/circleSector/turnplate.png",
+                        "arrowUrl": "preload_json#preload_r2_c15",
+                        "functions": [3],
                         "awards": [
                             {
                                 "url": "resource/assets/Pic/components/slideshow/post_item_139.png",
@@ -92,10 +116,17 @@
                                 "text": "fruits"
                             },
                             {
-                                "url": "resource/assets/Pic/components/slideshow/post_item_138.png",
-                                "text": "carrots"
+                                "url": "resource/assets/Pic/components/slideshow/post_item_137.png",
+                                "text": "fruits"
+                            },
+                            {
+                                "url": "resource/assets/Pic/components/slideshow/post_item_137.png",
+                                "text": "fruits"
+                            },
+                            {
+                                "url": "resource/assets/Pic/components/slideshow/post_item_137.png",
+                                "text": "fruits"
                             }
-                        
                         ]
                     },
                     "src": "assets/bg/scene_1.jpg",

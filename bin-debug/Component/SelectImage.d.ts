@@ -1,23 +1,14 @@
 declare class SelectImage extends eui.Group {
     static uuType: UUType;
     private award;
-    private notSelectState;
-    private selectState;
-    private layoutType;
-    private gap;
-    private columnCount;
-    private awardChangeData;
-    private itemHeight;
-    private itemWidth;
-    private radioWidth;
-    private radioHeight;
+    private radioBorderColor;
+    private radioCenterColor;
     constructor(props: any);
+    private onAddToStage(event);
+    private onRemoveFromStage(event);
     private init();
-    private changeAward();
     private createMian();
-    private createItem(imgUrl, isSelected);
-    private createRadio(isSelected);
+    private createItem(imgUrl);
+    private createRadio();
     private createLayout();
-    private setGroupSize();
-    private selectItem(evt);
 }

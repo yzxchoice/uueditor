@@ -22,9 +22,9 @@ var Slideshow = (function (_super) {
         // other
         _this.width = 1100;
         _this.height = 900;
-        _this.itemWidth = 800;
+        _this.itemWidth = 800; // item的宽度
         _this.itemHeight = 560;
-        _this.imgPercentWidth = 80;
+        _this.imgPercentWidth = 80; // 框内图片的百分比宽度
         _this.imgPercentHeight = 80;
         _this.arrowWidth = 60;
         _this.arrowHeight = 70;

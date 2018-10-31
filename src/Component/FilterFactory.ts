@@ -1,5 +1,10 @@
-// 滤镜工厂
 
+/**
+ * 滤镜工厂
+ * 1、图片金色滤镜：createGlodFilter
+ * 2、文本金色滤镜：createGlodFilterForText
+ * 3、暗色滤镜：createShadowFilter
+ */
 class FilterFactory {
     static createGlodFilter(): egret.GlowFilter {
         var color:number = 0xFFD700;        /// 光晕的颜色，十六进制，不包含透明度

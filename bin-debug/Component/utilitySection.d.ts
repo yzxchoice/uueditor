@@ -1,3 +1,6 @@
+/**
+ * 用于存放公共接口及方法
+ */
 declare enum LayoutType {
     HLayout = 1,
     VLayout = 2,

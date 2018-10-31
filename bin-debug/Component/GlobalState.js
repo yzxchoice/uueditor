@@ -1,6 +1,9 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
+/**
+ * 全局状态管理
+ */
 var GlobalState = (function () {
     function GlobalState() {
         this.showState = 2; // 显示状态 编辑：1/预览： 2

@@ -1,6 +1,10 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
+/**
+ * 观察者
+ * 1、用于管理组件间的通讯，具体来说即功能按钮与暴露这些功能组件之间的通讯，包括：reset、answer、start
+ */
 var Observer = (function () {
     function Observer() {
         // private subscribers: { subscriberName: string, eventList: Function[] }[] = [];

@@ -1,3 +1,6 @@
+/**
+ * UI工厂类
+ */
 declare class UIFactory {
     static createGroup(width?: number, height?: number): eui.Group;
     static createLabel(text: string, textColor?: number, size?: number): eui.Label;

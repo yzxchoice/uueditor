@@ -1,13 +1,14 @@
 // TypeScript file
 /**
  * 轮播图组件
+ * 1、缺少皮肤props
  */
 interface ISlideshow {
     awards: IResource[], // 图片、文字列表
-    bdUrl: string,
-    fontStyle: ILabel,
-    leftArrowUrl: string,
-    rightArrowUrl: string,
+    bdUrl: string, // 框的url
+    fontStyle: ILabel, // 文字样式
+    leftArrowUrl: string, // 左边箭头的url 有问题 不能用精灵图
+    rightArrowUrl: string, // 右边箭头的url 有问题 不能用精灵图
 }
 
 class Slideshow extends eui.Group implements IUUBase, ISlideshow {
@@ -28,9 +29,9 @@ class Slideshow extends eui.Group implements IUUBase, ISlideshow {
     width:number = 1100;
     height:number = 900;
     private imgBox: eui.Group;    
-    private itemWidth: number = 800;
+    private itemWidth: number = 800; // item的宽度
     private itemHeight: number = 560;
-    private imgPercentWidth: number = 80;
+    private imgPercentWidth: number = 80; // 框内图片的百分比宽度
     private imgPercentHeight: number = 80;
     private arrow_left: egret.Bitmap;
     private arrow_right: egret.Bitmap;

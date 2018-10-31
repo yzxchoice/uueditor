@@ -1,7 +1,12 @@
-// 滤镜工厂
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
+/**
+ * 滤镜工厂
+ * 1、图片金色滤镜：createGlodFilter
+ * 2、文本金色滤镜：createGlodFilterForText
+ * 3、暗色滤镜：createShadowFilter
+ */
 var FilterFactory = (function () {
     function FilterFactory() {
     }

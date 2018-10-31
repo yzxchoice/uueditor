@@ -19,6 +19,10 @@ interface IFunctionBtn {
     functionType: FunctionType,
 }
 
+/**
+ * 功能按钮
+ * 1、提供reset、answer、start三种功能
+ */
 class FunctionButton extends eui.Group implements IFunctionBtn {
     
     static uuType = UUType.FUNCTION_BUTTON;

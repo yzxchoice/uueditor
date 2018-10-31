@@ -1,5 +1,8 @@
 /**
  * 老虎机组件
+ * 1、通常只需要改变awards、bdUrl
+ * 2、当需要修改皮肤时，需要改变所有选项
+ * 3、只支持3列
  */
 interface ISlotMachine {
     awards: IResource[];

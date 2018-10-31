@@ -1,3 +1,7 @@
+
+/**
+ * 全局状态管理
+ */
 class GlobalState {
     static getInstance(): GlobalState {
         if(!this.instance) {

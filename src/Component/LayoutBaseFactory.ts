@@ -1,4 +1,7 @@
 
+/**
+ * 布局工厂，使用绝对定位方式
+ */
 class LayoutBaseFactory {
     private static padding: number = 10;
 

@@ -1,5 +1,7 @@
 
-
+/**
+ * 布局工厂：使用eui三种布局方式
+ */
 class LayoutFactory {
     private static padding: number = 10;
 

@@ -1,25 +1,26 @@
 // TypeScript file
 /**
  * 转盘组件
+ * 1、皮肤、箭头图片可替换
+ * 2、数量可调整
+ * 3、item排列顺序，以X轴正向为起点，顺时针排列
  */
-
-// todo:
-// 1、根据数量调整初始 角度
-// 2、根据数量调整初始 itemIndex
 interface ICircleSector2 {
     skinUrl: string, // 皮肤url
     awards: IResource[], // 列表
     arrowUrl: string, // 箭头url
+    functions: FunctionType[], // 需要开启的功能，例如：start   
 }
 
-class CircleSector extends eui.Group implements IUUBase {
+class CircleSector extends eui.Group implements IUUBase, ICircleSector2, FunctionForStart {
     static uuType = UUType.CIRCLE_SECTOR;
     
     layerName:string = '转盘'
     // props 
     awards: Array<IResource> = [];
     skinUrl: string = 'resource/assets/Pic/components/circleSector/turnplate.png';
-    arrowUrl: string = 'preload_json#preload_r2_c15';
+    arrowUrl: string = 'preload_json#preload_r2_c15'; // 有问题，应该为图片路径，不能使用精灵图
+    functions: FunctionType[] = [];
 
     // other
     private main: eui.Group = new eui.Group(); // 核心区域 用于旋转 包含皮肤和mainItemGroup
@@ -28,11 +29,13 @@ class CircleSector extends eui.Group implements IUUBase {
     private itemIndex = 4; // 箭头指向的item 索引
     width:number = 600;
     height:number = 600;
+    observer: Observer = Observer.getInstance(); // 观察者
 
     constructor (props) {
         super();
         this.forEachProps(props, this);
         this.init();
+        this.openFunctions();
         this.touchEnabled = false;        
     }
 
@@ -44,6 +47,15 @@ class CircleSector extends eui.Group implements IUUBase {
 			target[key] = props[key];
 		}
 	}
+
+     // 开启组件功能
+     protected openFunctions(): void {
+         for(let i = 0, len = this.functions.length; i < len; i++) {
+             let functionType = <FunctionType>this.functions[i];
+             let functionName = SwitchState.switchFunctionType(functionType);
+             this.observer.register(functionName, this[functionName].bind(this));
+         }
+     }
     
     private init () {
         // 核心区域
@@ -55,32 +67,30 @@ class CircleSector extends eui.Group implements IUUBase {
         skin.height = this.height;
         // mainitemGroup
         let mainItemGroup = this.createMainItemGroup();
-        // this.main.addChild(skin);
+        this.main.addChild(skin);
         this.main.addChild(mainItemGroup);
-        this.main.rotation = 45;
+        // 根据item数量的不同设置不同的rotation和itemIndex
+        this.main.rotation = this.adjuctInitRotate();
+        this.itemIndex = this.adjuctInitItemIndex();
         // 箭头
         let arrow: eui.Group = this.createArrow();
         this.addChild(this.main);
         this.addChild(arrow);
     }
 
-    private adjuctInitRotate(mian: eui.Group): void {
+    private adjuctInitRotate(): number {
         let itemLength: number = this.awards.length;
-        let rotation = 0;
-        switch(itemLength) {
-            case 3:
-                rotation = 0;
-                break;
-            case 4: 
-                rotation = 45;
-                break;
-            case 5: 
-                rotation = 0;
-                break;
-            case 6: 
-                rotation = 0;
-                break;
-        }
+        let itemRotation = 360 / itemLength;
+        let rotation = (itemRotation - 90) + itemRotation / 2;
+        return rotation;
+    }
+
+    private adjuctInitItemIndex(): number {
+        let itemLength: number = this.awards.length;
+        let itemRotation = 360 / itemLength;
+        let initRotation: number = this.adjuctInitRotate();
+        let itemIndex = Math.floor((270 - initRotation) / itemRotation);
+        return itemIndex;
     }
 
     private createMianBox(): eui.Group {
@@ -98,9 +108,9 @@ class CircleSector extends eui.Group implements IUUBase {
 
     private createMainItemGroup(): eui.Group {
         let mainItemGroup: eui.Group = UIFactory.createGroup(this.width, this.height);
-        var shape:egret.Shape = new egret.Shape();
-        shape.touchEnabled = true;
-        this.main.addChild(shape);
+        // var shape:egret.Shape = new egret.Shape();
+        // shape.touchEnabled = true;
+        // this.main.addChild(shape);
         
         var arc = 360 / this.awards.length;
         var lastAngle = 0;
@@ -109,7 +119,7 @@ class CircleSector extends eui.Group implements IUUBase {
         for (var i = 0; i< this.awards.length; i++){
             lastAngle = i * arc;
 
-            this.drawArc(shape,r,r,r,arc,lastAngle);
+            // this.drawArc(shape,r,r,r,arc,lastAngle);
             var g: eui.Group = new eui.Group();
             g.width = 2 * r * Math.sin(arc * 2 * Math.PI/ 360/2);
             g.height = r;
@@ -118,10 +128,10 @@ class CircleSector extends eui.Group implements IUUBase {
             g.touchEnabled = false;
             g.rotation = (lastAngle * Math.PI / 180 + arc * Math.PI / 180 / 2 + Math.PI /2 ) * 180 / Math.PI;
             // 文字
-            var label: eui.Label = new eui.Label(i.toString());
-            label.textColor = 0xE5302F;
-            label.size = 30;
-            g.addChild(label);
+            // var label: eui.Label = new eui.Label(i.toString());
+            // label.textColor = 0xE5302F;
+            // label.size = 30;
+            // g.addChild(label);
             // 小图片
             let smallImg = new eui.Image(this.awards[i].url);
             smallImg.width = 120;
@@ -150,21 +160,13 @@ class CircleSector extends eui.Group implements IUUBase {
 		let img:egret.Bitmap = new egret.Bitmap( txtr );
 		img.width = 68;
 		img.height = 118;
-		img.touchEnabled = true;
-		img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.down, this);
+		img.touchEnabled = false;
+		// img.addEventListener(egret.TouchEvent.TOUCH_TAP, this.start, this);
 		let group = UIFactory.createGroup(img.width, img.height);
 		group.addChild(img);
         group.horizontalCenter = 0;
         group.verticalCenter = -20;
 		return group;
-    }
-
-    private down (event: egret.TouchEvent) {
-        if(this.isAnimating) return;
-        this.isAnimating = true;
-        this.reset();
-        let random: number = this.rnd();
-        this.rotateFn(random);
     }
 
     // 生成随机数
@@ -198,32 +200,40 @@ class CircleSector extends eui.Group implements IUUBase {
         }
     }
 
+    start(): void {
+        if(this.isAnimating) return;
+        this.isAnimating = true;
+        this.reset();
+        let random: number = this.rnd();
+        this.rotateFn(random);
+    }
+
     /**
      * 画弧形方法
      */
-    drawArc(mc:egret.Shape, x:number=200, y:number=200, r:number=100, angle:number=27, startFrom:number=270, color:number=0xff0000):void {
-        mc.graphics.beginFill(color,0);
-        mc.graphics.lineStyle(1,color);   
-        mc.graphics.moveTo(x,y);
-        angle=(Math.abs(angle)>360)?360:angle;
-        var n:number=Math.ceil(Math.abs(angle)/45);
-        var angleA:number=angle/n;
-        angleA=angleA*Math.PI/180;
-        startFrom=startFrom*Math.PI/180;
-        mc.graphics.lineTo(x+r*Math.cos(startFrom),y+r*Math.sin(startFrom));
-        for (var i=1; i<=n; i++) {
-            startFrom+=angleA;
-            var angleMid=startFrom-angleA/2;
-            var bx=x+r/Math.cos(angleA/2)*Math.cos(angleMid);
-            var by=y+r/Math.cos(angleA/2)*Math.sin(angleMid);
-            var cx=x+r*Math.cos(startFrom);
-            var cy=y+r*Math.sin(startFrom);
-            mc.graphics.curveTo(bx,by,cx,cy);
-        }
-        if (angle!=360) {
-            mc.graphics.lineTo(x,y);
-        }
-        mc.graphics.endFill();
-    }
+    // drawArc(mc:egret.Shape, x:number=200, y:number=200, r:number=100, angle:number=27, startFrom:number=270, color:number=0xff0000):void {
+    //     mc.graphics.beginFill(color,0);
+    //     mc.graphics.lineStyle(1,color);   
+    //     mc.graphics.moveTo(x,y);
+    //     angle=(Math.abs(angle)>360)?360:angle;
+    //     var n:number=Math.ceil(Math.abs(angle)/45);
+    //     var angleA:number=angle/n;
+    //     angleA=angleA*Math.PI/180;
+    //     startFrom=startFrom*Math.PI/180;
+    //     mc.graphics.lineTo(x+r*Math.cos(startFrom),y+r*Math.sin(startFrom));
+    //     for (var i=1; i<=n; i++) {
+    //         startFrom+=angleA;
+    //         var angleMid=startFrom-angleA/2;
+    //         var bx=x+r/Math.cos(angleA/2)*Math.cos(angleMid);
+    //         var by=y+r/Math.cos(angleA/2)*Math.sin(angleMid);
+    //         var cx=x+r*Math.cos(startFrom);
+    //         var cy=y+r*Math.sin(startFrom);
+    //         mc.graphics.curveTo(bx,by,cx,cy);
+    //     }
+    //     if (angle!=360) {
+    //         mc.graphics.lineTo(x,y);
+    //     }
+    //     mc.graphics.endFill();
+    // }
 
 }

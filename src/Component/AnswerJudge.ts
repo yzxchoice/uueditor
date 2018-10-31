@@ -5,17 +5,23 @@ enum AnswerJudgePosition {
     'BottomRight' = 4,
     'Center' = 5,
 }
+/**
+ * 用于对错判断的类，功能包含
+ * 1、正确、错误的帧动画效果
+ * 2、可以设置正确答案及样式
+ * 3、可以设置正确答案/判断效果的位置
+ */
 
 class AnswerJudge extends eui.Group {
     // props
     groupWidth: number; // 容器宽度 由挂载元素决定
     groupHeight: number; // 容器高度 由挂载元素决定
-    itemWidth: number = 40;
-    itemHeight: number = 40;
+    itemWidth: number = 40; // 动态判断效果的宽度
+    itemHeight: number = 40;  // 动态判断效果的高度
     judge: boolean = true; // 对错判断
-    itemPosition: AnswerJudgePosition = AnswerJudgePosition.Center;
-    rightAnswerPostion: AnswerJudgePosition = AnswerJudgePosition.TopRight;
-    rightAnswer: UULabel;
+    itemPosition: AnswerJudgePosition = AnswerJudgePosition.Center; // 动态判断效果的位置
+    rightAnswerPostion: AnswerJudgePosition = AnswerJudgePosition.TopRight; // 正确答案的位置
+    rightAnswer: UULabel; // 正确答案的样式
 
     private timer;
 

@@ -1,3 +1,7 @@
+
+/**
+ * UI工厂类
+ */
 class UIFactory {
     static createGroup(width?: number, height?: number): eui.Group {
         let group = new eui.Group;

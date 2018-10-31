@@ -1,5 +1,6 @@
 /**
  * 轮播图组件
+ * 1、缺少皮肤props
  */
 interface ISlideshow {
     awards: IResource[];

@@ -8,6 +8,10 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+/**
+ * 功能按钮
+ * 1、提供reset、answer、start三种功能
+ */
 var FunctionButton = (function (_super) {
     __extends(FunctionButton, _super);
     function FunctionButton(props) {

@@ -1,11 +1,11 @@
 // TypeScript file
 /**
  * 老虎机组件
+ * 1、通常只需要改变awards、bdUrl
+ * 2、当需要修改皮肤时，需要改变所有选项
+ * 3、只支持3列
  */
 
-// 通常只需要改变awards、bdUrl，
-// 当需要修改皮肤时，需要改变所有选项
-// 只支持3项
 interface ISlotMachine {
 	awards: IResource[], // 图片列表
 	bdUrl: string, // 图片框url	
@@ -84,7 +84,7 @@ class SlotMachine extends eui.Group implements IUUBase, ISlotMachine {
 		}
 	}
 
-	private async init(){
+	private init(){
 		this.getItemSize();
         let mainBox = this.createGroupBox();
 		this.width = mainBox.width;

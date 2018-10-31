@@ -1,3 +1,6 @@
+/**
+ * 布局工厂：使用eui三种布局方式
+ */
 declare class LayoutFactory {
     private static padding;
     static main(layoutType: LayoutType, gapType: GapType, columnCount?: number): eui.BasicLayout;

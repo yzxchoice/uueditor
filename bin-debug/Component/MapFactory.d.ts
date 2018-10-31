@@ -11,6 +11,12 @@ declare enum ResourceType {
     Text = 1,
     Image = 2,
 }
+/**
+ * 匹配元素类的基类
+ * 1、处理UI层
+ * 2、处理功能列表：reset、answer、start
+ * 3、具体的交互方式由子类实现
+ */
 interface IMapEle {
     award: IResource[];
     layoutSet: ILayout;
