@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "thumb_png,track_png,tracklight_png,track_sb_png,button_down_png,button_up_png,border_png,header_png,gameEui_json,test_mp3,test2_mp3,4_png,3_png,5_png,1_png,2_png,handle_png,off_png,on_png,checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,animation_json,animation_png,description_json,animation2_json,animation2_png,roundthumb_png,jt2_png,jt22_png,bg3_jpg,PreLoadingBg_png,scene_1_jpg,scene_2_jpg,scene_4_jpg,start_bg_png,start_f_bg_png,btn_close_png,post_item_148_png,text1_png,text2_png,text3_png,text4_png,select_png,empty_png,error_json,right_json,preload_json,slots_bg_png,draw_card_bg_png,post_item_137_png,post_item_138_png,post_item_139_png,post_item_140_png,post_item_141_png,post_item_142_png,post_item_27_png,post_item_29_png,post_item_31_png,post_item_21_png,turnplate_png,turnplate_base_png,post_item_29_S_png,post_item_22_S_png,post_item_23_S_png,post_item_27_S_png,post_item_31_S_png,post_item_21_S_png,post_item_22_png,post_item_23_png",
+			"keys": "thumb_png,track_png,tracklight_png,track_sb_png,button_down_png,button_up_png,border_png,header_png,gameEui_json,test_mp3,test2_mp3,4_png,3_png,5_png,1_png,2_png,handle_png,off_png,on_png,checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,animation_json,animation_png,description_json,animation2_json,animation2_png,roundthumb_png,jt2_png,jt22_png,bg3_jpg,PreLoadingBg_png,scene_1_jpg,scene_2_jpg,scene_4_jpg,start_bg_png,start_f_bg_png,btn_close_png,post_item_148_png,text1_png,text2_png,text3_png,text4_png,select_png,empty_png,error_json,right_json,preload_json,slots_bg_png,draw_card_bg_png,post_item_137_png,post_item_138_png,post_item_139_png,post_item_140_png,post_item_141_png,post_item_142_png,post_item_27_png,post_item_29_png,post_item_31_png,post_item_21_png,turnplate_png,turnplate_base_png,post_item_29_S_png,post_item_22_S_png,post_item_23_S_png,post_item_27_S_png,post_item_31_S_png,post_item_21_S_png,post_item_22_png,post_item_23_png,demoData_json,12_png,22_png,32_png,42_png,52_png,6_png,7_png,8_png,9_png,border1_png,border2_png,border3_png,btn_close2_png,post_item_212_png,post_item_21_S2_png,post_item_222_png,post_item_22_S2_png,post_item_232_png,post_item_23_S2_png,post_item_272_png,post_item_27_S2_png,post_item_292_png,post_item_29_S2_png,post_item_312_png,post_item_31_S2_png,turnplate2_png,turnplate_base2_png,draw_card_bg2_png,post_item_1372_png,post_item_1382_png,post_item_1392_png,post_item_1402_png,post_item_1412_png,post_item_1422_png,slots_bg2_png,post_item_1482_png,text12_png,text22_png,text32_png,text42_png,empty2_png,select2_png,error2_json,preload2_json,right2_json",
 			"name": "preload"
 		}
 	],
@@ -388,6 +388,239 @@
 			"name": "post_item_23_png",
 			"type": "image",
 			"url": "assets/Pic/components/circleSector/post_item_23.png"
+		},
+		{
+			"name": "demoData_json",
+			"type": "json",
+			"url": "2/demoData.json"
+		},
+		{
+			"name": "12_png",
+			"type": "image",
+			"url": "assets/Pic/1.png"
+		},
+		{
+			"name": "22_png",
+			"type": "image",
+			"url": "assets/Pic/2.png"
+		},
+		{
+			"name": "32_png",
+			"type": "image",
+			"url": "assets/Pic/3.png"
+		},
+		{
+			"name": "42_png",
+			"type": "image",
+			"url": "assets/Pic/4.png"
+		},
+		{
+			"name": "52_png",
+			"type": "image",
+			"url": "assets/Pic/5.png"
+		},
+		{
+			"name": "6_png",
+			"type": "image",
+			"url": "assets/Pic/6.png"
+		},
+		{
+			"name": "7_png",
+			"type": "image",
+			"url": "assets/Pic/7.png"
+		},
+		{
+			"name": "8_png",
+			"type": "image",
+			"url": "assets/Pic/8.png"
+		},
+		{
+			"name": "9_png",
+			"type": "image",
+			"url": "assets/Pic/9.png"
+		},
+		{
+			"name": "border1_png",
+			"type": "image",
+			"url": "assets/Pic/border1.png"
+		},
+		{
+			"name": "border2_png",
+			"type": "image",
+			"url": "assets/Pic/border2.png"
+		},
+		{
+			"name": "border3_png",
+			"type": "image",
+			"url": "assets/Pic/border3.png"
+		},
+		{
+			"name": "btn_close2_png",
+			"type": "image",
+			"url": "assets/Pic/btn_close.png"
+		},
+		{
+			"name": "post_item_212_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_21.png"
+		},
+		{
+			"name": "post_item_21_S2_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_21_S.png"
+		},
+		{
+			"name": "post_item_222_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_22.png"
+		},
+		{
+			"name": "post_item_22_S2_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_22_S.png"
+		},
+		{
+			"name": "post_item_232_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_23.png"
+		},
+		{
+			"name": "post_item_23_S2_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_23_S.png"
+		},
+		{
+			"name": "post_item_272_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_27.png"
+		},
+		{
+			"name": "post_item_27_S2_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_27_S.png"
+		},
+		{
+			"name": "post_item_292_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_29.png"
+		},
+		{
+			"name": "post_item_29_S2_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_29_S.png"
+		},
+		{
+			"name": "post_item_312_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_31.png"
+		},
+		{
+			"name": "post_item_31_S2_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/post_item_31_S.png"
+		},
+		{
+			"name": "turnplate2_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/turnplate.png"
+		},
+		{
+			"name": "turnplate_base2_png",
+			"type": "image",
+			"url": "assets/Pic/components/circleSector/turnplate_base.png"
+		},
+		{
+			"name": "draw_card_bg2_png",
+			"type": "image",
+			"url": "assets/Pic/components/slideshow/draw_card_bg.png"
+		},
+		{
+			"name": "post_item_1372_png",
+			"type": "image",
+			"url": "assets/Pic/components/slideshow/post_item_137.png"
+		},
+		{
+			"name": "post_item_1382_png",
+			"type": "image",
+			"url": "assets/Pic/components/slideshow/post_item_138.png"
+		},
+		{
+			"name": "post_item_1392_png",
+			"type": "image",
+			"url": "assets/Pic/components/slideshow/post_item_139.png"
+		},
+		{
+			"name": "post_item_1402_png",
+			"type": "image",
+			"url": "assets/Pic/components/slideshow/post_item_140.png"
+		},
+		{
+			"name": "post_item_1412_png",
+			"type": "image",
+			"url": "assets/Pic/components/slideshow/post_item_141.png"
+		},
+		{
+			"name": "post_item_1422_png",
+			"type": "image",
+			"url": "assets/Pic/components/slideshow/post_item_142.png"
+		},
+		{
+			"name": "slots_bg2_png",
+			"type": "image",
+			"url": "assets/Pic/components/slots_bg.png"
+		},
+		{
+			"name": "post_item_1482_png",
+			"type": "image",
+			"url": "assets/Pic/map1/post_item_148.png"
+		},
+		{
+			"name": "text12_png",
+			"type": "image",
+			"url": "assets/Pic/map1/text1.png"
+		},
+		{
+			"name": "text22_png",
+			"type": "image",
+			"url": "assets/Pic/map1/text2.png"
+		},
+		{
+			"name": "text32_png",
+			"type": "image",
+			"url": "assets/Pic/map1/text3.png"
+		},
+		{
+			"name": "text42_png",
+			"type": "image",
+			"url": "assets/Pic/map1/text4.png"
+		},
+		{
+			"name": "empty2_png",
+			"type": "image",
+			"url": "assets/Pic/radio/empty.png"
+		},
+		{
+			"name": "select2_png",
+			"type": "image",
+			"url": "assets/Pic/radio/select.png"
+		},
+		{
+			"name": "error2_json",
+			"type": "sheet",
+			"url": "assets/Texture/error.json",
+			"subkeys": "error_tex_r1_c1,error_tex_r1_c5,error_tex_r1_c6,error_tex_r2_c2,error_tex_r3_c2,error_tex_r4_c2,error_tex_r5_c2"
+		},
+		{
+			"name": "preload2_json",
+			"type": "sheet",
+			"url": "assets/Texture/preload.json",
+			"subkeys": "preload_r11_c5,preload_r11_c8,preload_r2_c12,preload_r2_c15,preload_r3_c3,preload_r4_c6,preload_r5_c1,preload_r8_c11"
+		},
+		{
+			"name": "right2_json",
+			"type": "sheet",
+			"url": "assets/Texture/right.json",
+			"subkeys": "right_tex_r1_c1,right_tex_r1_c3,right_tex_r1_c5,right_tex_r1_c8,right_tex_r3_c8,right_tex_r4_c1,right_tex_r4_c2"
 		}
 	]
 }
