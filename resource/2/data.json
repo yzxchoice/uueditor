@@ -2,8 +2,8 @@
     "code": 200,
     "msg": "success",
     "list": [
-        {
-            "id": 201807311008,
+         {
+            "id": 201807311010,
             "elements": [
                 {
                     "id": 7401,
@@ -22,7 +22,7 @@
                     "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 },
-                {
+                 {
                     "id": 9001,
                     "name": "scene_1_jpg",
                     "pageId": 201807311008,
@@ -61,6 +61,136 @@
                         "bgUrl": "resource/assets/Pic/border2.png",
                         "functionType": 2
                     },
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                },
+                  {
+                    "id": 30012,
+                    "name": "scene_33_jpg",
+                    "pageId": 2018073110432,
+                    "type": 3001,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "bgWidth": 300,
+                        "bgHeight": 300,
+                        "functions": [1],    
+                        "answerJudgePosition": 5,                                            
+                        "rightAnswerPostion": 4,                                           
+                        "toAward": [
+                            {
+                                "id": 1,
+                                "url": "resource/assets/Pic/border1.png",
+                                "answer": false,
+                                "rightAnswer": {
+                                    "text": "well",
+                                    "size": 80,
+                                    "textColor": "0xff00ff"
+                                }                                 
+                            },
+                            {
+                                "id": 2,
+                                "url": "resource/assets/Pic/border1.png",
+                                "answer": false,
+                                "rightAnswer": {
+                                    "text": "well",
+                                    "size": 80,
+                                    "textColor": "0xff00ff"
+                                }                                 
+                            }
+                        ],
+                        "layoutSet": {
+                            "layoutType": 1,
+                            "gap": 3,
+                            "columnCount": 2
+                        }
+                    },
+                    "src": "assets/bg/scene_3.jpg",
+                    "sceneId": 1001
+                },
+                {
+                    "id": 3003,
+                    "name": "scene_23_jpg",
+                    "pageId": 2018073110588,
+                    "type": 3002,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "resourceType": 2,
+                        "bgWidth": 300,
+                        "bgHeight": 300,
+                        "imgWidth": 240,
+                        "imgHeight": 240,
+                        "fontStyle": {
+                            "textColor": "0x0000ff",
+                            "size": 80
+                        },
+                        "imagePosition": 2,
+                        "placeholder": true,
+                        "hasBorder": true,
+                        "clickMode": 1,
+                        "functions": [1,2],
+                        "answerJudgePosition": 5,
+                        "award": [
+                            {
+                                "id": 1,
+                                "url": "resource/assets/Pic/1.png",
+                                "text": "a",
+                                "answer": true
+                            },
+                            {
+                                "id": 2,
+                                "url": "resource/assets/Pic/2.png",
+                                "text": "b",
+                                "answer": false                                
+                            },
+                            {
+                                "id": 3,
+                                "url": "resource/assets/Pic/3.png",
+                                "text": "c",
+                                "answer": true                                
+                            }
+                        ],
+                        "layoutSet": {
+                            "layoutType": 1,
+                            "gap": 3,
+                            "columnCount": 3
+                        }
+                    },
+                    "src": "assets/bg/scene_3.jpg",
+                    "sceneId": 1001
+                }
+            ]
+        },
+        {
+            "id": 201807311008,
+            "elements": [
+                {
+                    "id": 7401,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 99,
+                    "matrix": {
+                        "a": 1.171875,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1.171875,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {},
                     "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 },
@@ -155,6 +285,52 @@
                         "y": 0
                     },
                     "props": {},
+                    "src": "assets/bg/scene_1.jpg",
+                    "sceneId": 1001
+                },
+                 {
+                    "id": 103,
+                    "name": "scene_1_jpg",
+                    "pageId": 201807311008,
+                    "type": 103,
+                    "matrix": {
+                        "a": 1,
+                        "b": 0,
+                        "c": 0,
+                        "d": 1,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "props": {
+                        "bdUrl": "resource/assets/Pic/components/slideshow/draw_card_bg.png",
+                        "fontStyle": {},
+                        "awards": [
+                            {
+                                "url": "resource/assets/Pic/components/slideshow/post_item_137.png",
+                                "text": "fruits"
+                            },
+                            {
+                                "url": "resource/assets/Pic/components/slideshow/post_item_138.png",
+                                "text": "carrots"
+                            },
+                            {
+                                "url": "resource/assets/Pic/components/slideshow/post_item_139.png",
+                                "text": "tomatoes"
+                            },
+                            {
+                                "url": "resource/assets/Pic/components/slideshow/post_item_140.png",
+                                "text": "vegetables"
+                            },
+                            {
+                                "url": "resource/assets/Pic/components/slideshow/post_item_141.png",
+                                "text": "cucumbers"
+                            },
+                            {
+                                "url": "resource/assets/Pic/components/slideshow/post_item_142.png",
+                                "text": "beans"
+                            }
+                        ]
+                    },
                     "src": "assets/bg/scene_1.jpg",
                     "sceneId": 1001
                 }
